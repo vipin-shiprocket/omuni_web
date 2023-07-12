@@ -1,0 +1,60 @@
+@use '../utils' as u;
+
+.register-container {
+  background: url('../../assets/images/bg-image.jpg') rgba(0, 0, 0, 0.7);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-blend-mode: multiply;
+  height: 100vh;
+}
+
+.input-icon-s {
+  position: absolute;
+  z-index: 6;
+  color: u.$color2;
+  top: u.rem(7);
+  left: u.rem(6);
+}
+
+.input-custom {
+  background-color: inherit;
+  width: 100%;
+  font-size: u.rem(14);
+  font-weight: 400;
+  height: auto;
+  padding-bottom: u.rem(7);
+  color: #30373b;
+  border: none;
+  box-shadow: none;
+  border-radius: 0px !important;
+  border-bottom: 1px solid u.$color1 !important;
+
+  &:focus {
+    outline: none !important;
+    box-shadow: unset;
+  }
+}
+
+.pl-2rem {
+  padding-left: 2rem;
+}
+
+.main-form {
+  padding: u.rem(36) u.rem(40);
+}
+
+.form-container {
+  background-color: white;
+  box-shadow: 0px 3px 18px rgba(0, 0, 0, 0.26);
+  border-radius: u.rem(6);
+}
+
+.a-link {
+  color: u.$color3;
+  text-decoration: none;
+
+  &:hover {
+    color: u.$color4;
+    text-decoration: underline;
+  }
+}
