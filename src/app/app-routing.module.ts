@@ -9,6 +9,10 @@ const routes: Routes = [
         (c) => c.LoginComponent,
       ),
   },
+  {
+    path: '**',
+    redirectTo: 'login',
+  },
 ];
 
 @NgModule({

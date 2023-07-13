@@ -1,29 +1,50 @@
-<div class="container-fluid px-0 register-container">
-  <div class="row justify-content-center align-items-center h-100">
-    <div class="col-5 form-container">
-      <div class="text-center pt-5">
+<div class="container-fluid px-0 auth-container">
+  <div class="row login">
+    <div class="col-10 col-md-8 col-lg-5 login-card">
+      <div class="login-logo">
         <img
           ngSrc="../assets/images/logo-big.png"
           alt="logo"
           width="300"
           height="60"
           priority
-          style="height: auto"
         />
       </div>
 
-      <form autocomplete="off" class="main-form">
-        <div class="input-group mb-3 position-relative">
+      <form autocomplete="off" class="login-form">
+        <div class="custom-input-goup mb-3">
           <mat-icon class="fs-5 input-icon-s">mail</mat-icon>
           <input
             type="text"
-            class="form-control input-custom pl-2rem"
+            class="form-control custom-input pl-2rem"
             placeholder="User Name or Email ID*"
           />
         </div>
 
-        <div>
-          <a href="javascript:void(0);" class="a-link">Forgot password ?</a>
+        <div class="custom-input-goup mb-3">
+          <mat-icon class="fs-5 input-icon-s">key</mat-icon>
+          <input
+            type="password"
+            class="form-control custom-input pl-2rem"
+            placeholder="User Name or Email ID*"
+          />
+        </div>
+
+        <div class="mb-3">
+          <a href="javascript:void(0);" class="a-link fs-14"
+            >Forgot password ?</a
+          >
+        </div>
+
+        <div class="d-grid gap-2">
+          <button class="btn login-btn" type="button">Next</button>
+          <button hidden class="btn login-btn" type="button">Log In</button>
+        </div>
+
+        <div class="or-login"><span>OR</span></div>
+        <div class="login-note">
+          If you're not a registered user, please contact
+          <a href="mailto:support@gscmaven.com">support@gscmaven.com</a>
         </div>
       </form>
     </div>

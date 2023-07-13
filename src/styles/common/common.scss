@@ -1,0 +1,54 @@
+@use '../utils' as u;
+
+.custom-input {
+  background-color: inherit;
+  width: 100%;
+  font-size: u.rem(14);
+  font-weight: 400;
+  height: auto;
+  padding-bottom: u.rem(7);
+  color: #30373b;
+  border: none;
+  box-shadow: none;
+  border-radius: 0px !important;
+  border-bottom: 1px solid u.$color1 !important;
+
+  &:focus {
+    outline: none !important;
+    box-shadow: unset;
+  }
+}
+
+.custom-input-goup {
+  position: relative;
+
+  .input-icon-s {
+    position: absolute;
+    z-index: 6;
+    color: u.$color2;
+    top: u.rem(7);
+    left: u.rem(6);
+  }
+
+  input[type='text'] {
+    @extend .custom-input;
+  }
+}
+
+.fs-14 {
+  font-size: u.rem(14);
+}
+
+.pl-2rem {
+  padding-left: 2rem;
+}
+
+.a-link {
+  color: u.$color3;
+  text-decoration: none;
+
+  &:hover {
+    color: u.$color4;
+    text-decoration: underline;
+  }
+}
