@@ -1,0 +1,39 @@
+@use '../../../../styles/utils' as u;
+
+::ng-deep {
+  .maven_checkbox {
+    .mdc-checkbox
+      .mdc-checkbox__native-control:enabled:not(:checked):not(
+        :indeterminate
+      ):not([data-indeterminate='true'])
+      ~ .mdc-checkbox__background {
+      border-color: u.$color5;
+    }
+
+    .mdc-checkbox
+      .mdc-checkbox__native-control:enabled:checked
+      ~ .mdc-checkbox__background {
+      border-color: u.$color5 !important;
+      background-color: u.$color5 !important;
+    }
+
+    .mdc-checkbox
+      .mdc-checkbox__native-control:enabled
+      ~ .mdc-checkbox__background
+      .mdc-checkbox__checkmark {
+      color: white;
+    }
+  }
+
+  .auth-app__checkbox {
+    .maven_checkbox {
+      .mdc-checkbox
+        .mdc-checkbox__native-control:enabled:not(:checked):not(
+          :indeterminate
+        ):not([data-indeterminate='true'])
+        ~ .mdc-checkbox__background {
+        border-color: unset;
+      }
+    }
+  }
+}

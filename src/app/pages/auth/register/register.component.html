@@ -1,0 +1,127 @@
+<div class="container-fluid px-0 auth-container fs-14">
+  <div class="row auth">
+    <div
+      class="col-10 col-md-8 col-lg-6 auth-card position-relative my-5 my-xl-0"
+    >
+      <div class="auth-logo">
+        <img
+          ngSrc="../assets/images/logo-big.png"
+          alt="logo"
+          width="300"
+          height="60"
+          priority
+        />
+      </div>
+
+      <form autocapitalize="off" autocomplete="off" class="auth-form mt-4rem">
+        <div class="auth-app__checkbox">
+          <mat-checkbox class="maven_checkbox">OMS</mat-checkbox>
+          <mat-checkbox class="maven_checkbox ms-3">FMS</mat-checkbox>
+        </div>
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <div class="custom-input-goup mb-3">
+              <mat-icon class="fs-5 input-icon-s">apartment</mat-icon>
+              <input
+                type="text"
+                class="form-control custom-input pl-2rem"
+                placeholder="Company*"
+              />
+            </div>
+          </div>
+          <div class="col-md-6 mb-3">
+            <div class="custom-input-goup mb-3">
+              <mat-icon class="fs-5 input-icon-s">dns</mat-icon>
+              <input
+                type="text"
+                class="form-control custom-input pl-2rem"
+                placeholder="Domain*"
+              />
+            </div>
+          </div>
+          <div class="col-md-6 mb-3">
+            <div class="custom-input-goup mb-3">
+              <mat-icon class="fs-5 input-icon-s">mail</mat-icon>
+              <input
+                type="text"
+                class="form-control custom-input pl-2rem"
+                placeholder="Email ID*"
+              />
+            </div>
+          </div>
+          <div class="col-md-6 mb-3">
+            <div class="custom-input-goup mb-3">
+              <mat-icon class="fs-5 input-icon-s">phone_android</mat-icon>
+              <input
+                type="text"
+                class="form-control custom-input pl-2rem"
+                placeholder="Mobile Number*"
+              />
+            </div>
+          </div>
+          <div class="col-md-6 mb-3">
+            <div class="custom-input-goup mb-3">
+              <mat-icon class="fs-5 input-icon-s">person</mat-icon>
+              <input
+                type="text"
+                class="form-control custom-input pl-2rem"
+                placeholder="First Name*"
+              />
+            </div>
+          </div>
+          <div class="col-md-6 mb-3">
+            <div class="custom-input-goup mb-3">
+              <mat-icon class="fs-5 input-icon-s">person</mat-icon>
+              <input
+                type="text"
+                class="form-control custom-input pl-2rem"
+                placeholder="Last Name*"
+              />
+            </div>
+          </div>
+          <div class="col-md-6 mb-3">
+            <div class="custom-input-goup mb-3">
+              <mat-icon class="fs-5 input-icon-s">key</mat-icon>
+              <input
+                type="password"
+                autocomplete="new-password"
+                class="form-control custom-input pl-2rem"
+                placeholder="Password*"
+              />
+            </div>
+          </div>
+          <div class="col-md-6 mb-3">
+            <div class="custom-input-goup mb-3">
+              <mat-icon class="fs-5 input-icon-s">key</mat-icon>
+              <input
+                type="password"
+                class="form-control custom-input pl-2rem"
+                placeholder="Confirm Password*"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div class="mb-3 auth-ack text-start">
+          <mat-checkbox class="maven_checkbox">
+            I acknowledge that I have read and agree to the
+            <a class="a-link link-blue">Terms of Service</a>
+            and
+            <a class="a-link link-blue">Privacy Policy</a>
+          </mat-checkbox>
+        </div>
+
+        <div class="d-grid gap-2">
+          <button class="btn auth-btn" type="button">Register</button>
+        </div>
+
+        <div class="divider"><span>OR</span></div>
+
+        <div class="auth-note">
+          if you already a registerd user
+          <a routerLink="/login" class="a-link fs-14">Login</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

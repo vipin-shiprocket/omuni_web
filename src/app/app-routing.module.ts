@@ -17,6 +17,13 @@ const routes: Routes = [
       ),
   },
   {
+    path: 'signUp',
+    loadComponent: () =>
+      import('./pages/auth/register/register.component').then(
+        (c) => c.RegisterComponent,
+      ),
+  },
+  {
     path: '**',
     redirectTo: 'login',
   },

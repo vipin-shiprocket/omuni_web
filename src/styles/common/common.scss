@@ -11,9 +11,10 @@
   border: none;
   box-shadow: none;
   border-radius: 0px !important;
-  border-bottom: 1px solid u.$color1 !important;
+  border-bottom: 1px solid u.$color7 !important;
 
   &:focus {
+    border-bottom: 1px solid u.$color1 !important;
     outline: none !important;
     box-shadow: unset;
   }
@@ -63,4 +64,8 @@
 
 .text-maven1 {
   color: u.$color5;
+}
+
+.mt-4rem {
+  margin-top: 4rem;
 }
