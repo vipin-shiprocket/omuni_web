@@ -8,7 +8,7 @@
   height: 100vh;
 }
 
-.login {
+.auth {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -49,7 +49,7 @@
   &-note {
     text-align: center;
     font-weight: 400;
-    color: #908f8f;
+    color: u.$color2;
     font-size: u.rem(14);
 
     a {
@@ -57,9 +57,19 @@
       font-weight: 600;
     }
   }
+
+  &-heading {
+    color: u.$color6;
+    h1 {
+      font-size: u.rem(22);
+      font-weight: 600;
+      margin-bottom: 10px;
+      color: u.$color6;
+    }
+  }
 }
 
-.or-login {
+.divider {
   display: flex;
   justify-content: center;
   position: relative;

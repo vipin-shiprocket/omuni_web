@@ -17,6 +17,10 @@
     outline: none !important;
     box-shadow: unset;
   }
+
+  &::placeholder {
+    color: u.$color2;
+  }
 }
 
 .custom-input-goup {
@@ -55,4 +59,8 @@
   &:hover {
     color: u.$color4;
   }
+}
+
+.text-maven1 {
+  color: u.$color5;
 }
