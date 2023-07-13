@@ -44,11 +44,15 @@
 }
 
 .a-link {
-  color: u.$color3;
   text-decoration: none;
+  &:hover {
+    text-decoration: underline;
+  }
+}
 
+.link-blue {
+  color: u.$color3;
   &:hover {
     color: u.$color4;
-    text-decoration: underline;
   }
 }

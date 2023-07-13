@@ -10,6 +10,13 @@ const routes: Routes = [
       ),
   },
   {
+    path: 'forgotPassword',
+    loadComponent: () =>
+      import('./pages/auth/forgot-password/forgot-password.component').then(
+        (c) => c.ForgotPasswordComponent,
+      ),
+  },
+  {
     path: '**',
     redirectTo: 'login',
   },
