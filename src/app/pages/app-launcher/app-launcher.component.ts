@@ -1,12 +1,11 @@
 import { Component } from '@angular/core';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-app-launcher',
   standalone: true,
-  imports: [CommonModule, NgOptimizedImage, MatIconModule, MatButtonModule],
+  imports: [CommonModule, NgOptimizedImage, MatIconModule],
   templateUrl: './app-launcher.component.html',
   styleUrls: ['./app-launcher.component.scss'],
 })

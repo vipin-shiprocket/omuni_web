@@ -11,20 +11,25 @@
         />
       </div>
 
-      <form autocomplete="off" class="auth-form">
+      <form [formGroup]="userForm" autocomplete="off" class="auth-form">
         <div class="custom-input-goup mb-3 fs-14">
           <mat-icon class="fs-5 input-icon-s">mail</mat-icon>
           <input
             type="text"
+            formControlName="email"
             class="form-control custom-input pl-2rem"
             placeholder="User Name or Email ID*"
           />
         </div>
 
-        <div class="custom-input-goup mb-3">
+        <div
+          class="custom-input-goup mb-3"
+          [hidden]="ctrlByName('password').disabled"
+        >
           <mat-icon class="fs-5 input-icon-s">key</mat-icon>
           <input
             type="password"
+            formControlName="password"
             autocomplete="new-password"
             class="form-control custom-input pl-2rem"
             placeholder="User Name or Email ID*"
@@ -38,7 +43,9 @@
         </div>
 
         <div class="d-grid gap-2">
-          <button class="btn auth-btn" type="button">Next</button>
+          <button class="btn auth-btn" type="button" (click)="isUserVerified()">
+            Next
+          </button>
           <button hidden class="btn auth-btn" type="button">Log In</button>
         </div>
 
