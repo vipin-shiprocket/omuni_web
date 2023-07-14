@@ -1,5 +1,16 @@
 @use '../utils' as u;
 
+:root {
+  --orange-gra: radial-gradient(#efd6a6 10%, #ffa800 100%);
+  --orange-gra-op: radial-gradient(#ffa800 10%, #efd6a6 100%);
+  --pink-gra: radial-gradient(rgba(255, 102, 55, 0.42) 15%, #f0592b 100%);
+  --pink-gra-op: radial-gradient(#f0592b 15%, rgba(255, 102, 55, 0.42) 100%);
+  --light-blue-gra: radial-gradient(#b4e1f1 15%, #18bbf1 100%);
+  --light-blue-gra-op: radial-gradient(#18bbf1 15%, #b4e1f1 100%);
+  --bx-shd: 0px 12px 20px -11px #b4b4b4;
+  --bx-shd-hv: 0px 18px 20px -8px #b4b4b4;
+}
+
 .custom-input {
   background-color: inherit;
   width: 100%;
@@ -68,4 +79,16 @@
 
 .mt-4rem {
   margin-top: 4rem;
+}
+
+.icon-btn1 {
+  height: u.rem(28);
+  width: u.rem(28);
+  background: u.$color9;
+  color: u.$color2;
+  border-radius: 50%;
+}
+
+.cursor {
+  cursor: pointer;
 }

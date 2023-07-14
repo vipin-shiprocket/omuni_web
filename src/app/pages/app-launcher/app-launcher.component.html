@@ -1,0 +1,32 @@
+<nav class="navbar bg-white">
+  <div class="container-fluid">
+    <img src="../../assets/svg/glaucus_logo.svg" alt="logo" width="120" />
+
+    <div class="d-flex mt-4 mt-sm-0">
+      <div class="d-flex align-items-center">
+        <div class="icon-btn1">
+          <mat-icon class="mt-1 ms-1 fs-5">person</mat-icon>
+        </div>
+        <div class="ms-2 text-capitalize">Hi vipin</div>
+      </div>
+      <div class="d-flex align-items-center ms-3 logout-btn cursor">
+        <div class="icon-btn1">
+          <mat-icon class="mt-1 ms-1 fs-5">logout</mat-icon>
+        </div>
+        <div class="ms-2 text-capitalize">Logout</div>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<div class="container-fluid app">
+  <div class="row align-items-center justify-content-center app-row">
+    <ng-container *ngFor="let app of objectvalues(apps)">
+      <div class="card mx-3 app-card {{ app.id }}">
+        <mat-icon>{{ app.logo }}</mat-icon>
+        <h1>{{ app.name }}</h1>
+        <p>{{ app.fullname }}</p>
+      </div>
+    </ng-container>
+  </div>
+</div>

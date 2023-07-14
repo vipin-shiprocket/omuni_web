@@ -24,6 +24,13 @@ const routes: Routes = [
       ),
   },
   {
+    path: 'apps',
+    loadComponent: () =>
+      import('./pages/app-launcher/app-launcher.component').then(
+        (c) => c.AppLauncherComponent,
+      ),
+  },
+  {
     path: '**',
     redirectTo: 'login',
   },
