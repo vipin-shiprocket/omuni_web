@@ -24,12 +24,12 @@ export class HttpService {
     let headers;
     if (newHeaders) {
       headers = new HttpHeaders(newHeaders);
+    } else {
+      headers = new HttpHeaders({
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      });
     }
-
-    headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-    });
 
     return headers;
   }
@@ -56,8 +56,11 @@ export class HttpService {
     return this.httpClient.get(url, { params }) as Observable<T>;
   }
 
-  postByUrl<T>(url: string, body: unknown, params = {}) {
+  postByUrl<T>(url: string, body: unknown, params = {}, headers?: HttpHeaders) {
     params = this.getQueryParam(params);
-    return this.httpClient.post(url, body, { params }) as Observable<T>;
+    return this.httpClient.post(url, body, {
+      params,
+      headers,
+    }) as Observable<T>;
   }
 }

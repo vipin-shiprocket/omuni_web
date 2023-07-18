@@ -2,7 +2,7 @@ export interface IVerifyEmailResp {
   idtableUserId: number;
   isSelf: null | boolean;
   sessionid: null | string;
-  tableClient: null | number;
+  tableClient: null | IFindUser;
   tableFullName: string;
   tableUserContext: number;
   tableUserEmailId: string;
@@ -21,6 +21,8 @@ export interface IVerifyEmailResp {
   tableUserUserId: string;
   userRole: IRole;
 }
+
+export type AuthenticateResp = IVerifyEmailResp;
 
 export type IRole = 'ROLE_API' | 'ADMIN'; // Todo: add other types
 

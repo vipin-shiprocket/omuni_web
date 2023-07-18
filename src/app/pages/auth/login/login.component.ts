@@ -1,4 +1,4 @@
-import { Component, TemplateRef, ViewChild } from '@angular/core';
+import { Component, OnDestroy, TemplateRef, ViewChild } from '@angular/core';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterModule } from '@angular/router';
@@ -16,7 +16,11 @@ import { environment } from 'src/environments/environment';
 import { ToastrService } from 'ngx-toastr';
 import { ReCaptchaV3Service } from 'ng-recaptcha';
 import { firstValueFrom } from 'rxjs';
-import { IVerifyEmailResp, TFindUserResp } from '../auth.model';
+import {
+  AuthenticateResp,
+  IVerifyEmailResp,
+  TFindUserResp,
+} from '../auth.model';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
@@ -44,7 +48,7 @@ interface IUserForm {
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
 })
-export class LoginComponent {
+export class LoginComponent implements OnDestroy {
   @ViewChild('emailError') emailErrorTemplate!: TemplateRef<HTMLElement>;
   private subs = new SubSink();
   userForm: FormGroup<IUserForm>;
@@ -351,5 +355,99 @@ export class LoginComponent {
       }
     }
     return { domain, subdomain };
+  }
+
+  async login() {
+    const baseUrl = environment.apigatewayauth;
+    const endpoint = '/authservice/webapi/login/authenticate';
+    const { email, password } = this.userForm.value;
+    const data = {
+      email,
+      password,
+      token: '',
+    };
+
+    const recaptcha$ = this.recaptchaService.execute('login');
+    const recaptchaToken = await firstValueFrom(recaptcha$);
+    data.token = recaptchaToken;
+
+    const body = new URLSearchParams(data as Record<string, string>).toString();
+    const header = this.http.getHeaders({
+      'Content-Type': 'application/x-www-form-urlencoded',
+    });
+
+    this.subs.sink = this.http
+      .postByUrl<AuthenticateResp>(baseUrl + endpoint, body, {}, header)
+      .subscribe({
+        next: (resp) => {
+          console.log('🚀 ~ this.subs.sink=this.http.postByUrl ~ resp:', resp);
+          // this.$localStorage.set('loggedInUser', JSON.stringify(resp));
+          // $localStorage.loggedInUser = data;
+          // if (data.status == 401) {
+          //   $scope.notify(
+          //     'Your email address or password might be incorrect.',
+          //     'danger',
+          //   );
+          // } else if (data && data.tableUserIsEmailVerified == false) {
+          //   $('#loginError').modal('show');
+          // } else if (
+          //   data &&
+          //   data.tableUserStatusType &&
+          //   data.tableUserStatusType.idtableUserStatusTypeId != 1
+          // ) {
+          //   $scope.notify(
+          //     'Your account is not active. Please contact admin.',
+          //     'danger',
+          //   );
+          // } else if (
+          //   data &&
+          //   data.tableUserStatusType &&
+          //   data.tableUserStatusType.idtableUserStatusTypeId == 1 &&
+          //   data.tableUserIsEmailVerified
+          // ) {
+          //   $cookies.put('username', data.tableUserFirstName);
+          //   $cookies.put('userphone', data.tableUserPhoneNo);
+          //   $cookies.put('userfullname', data.tableFullName);
+          //   $cookies.put('useremail', data.tableUserEmailId);
+          //   $cookies.put('isLoggedIn', true);
+          //   $localStorage.isUserLoggedIn = true;
+          //   data.tableClient
+          //     ? $cookies.put('timezone', data.tableClient.tableClientTimeZone)
+          //     : null;
+          //   /*headerService.getMenuData(function (menu) {
+          //                     $rootScope.menu=menu;
+          //                 });*/
+          //   if (
+          //     $scope.subdomain == 'wms' ||
+          //     $scope.subdomain == 'stagingwms' ||
+          //     $scope.subdomain == 'srfwms'
+          //   ) {
+          //     /**
+          //      * Special case for WMS Multiple Client in one warehouse
+          //      * so we need to send data in below route because data contains
+          //      * tableCommonWarehouseDetails object
+          //      * so set this whole array in cookies as warehouseList
+          //      * and in home.controller
+          //      * @type {string}
+          //      */
+          //     window.location = window.location.origin + '/wms/#/home';
+          //   } else {
+          //     $state.go('/apps');
+          //   }
+          // } else if (data.errorMessage) {
+          //   $scope.notify(data.errorMessage);
+          // } else {
+          //   $scope.notify('Error occurred! Please contact admin.');
+          // }
+        },
+        error: (err) => {
+          console.error(err);
+          this.toastr.error('Error while login in, Please try again', 'Error');
+        },
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.subs.unsubscribe();
   }
 }

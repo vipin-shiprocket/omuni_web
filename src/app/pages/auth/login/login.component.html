@@ -51,7 +51,12 @@
           >
             Next
           </button>
-          <button *ngIf="isClientSelected" class="btn auth-btn" type="button">
+          <button
+            *ngIf="isClientSelected"
+            (click)="login()"
+            class="btn auth-btn"
+            type="button"
+          >
             Log In
           </button>
         </div>
