@@ -1,0 +1,26 @@
+<div mat-dialog-title [ngClass]="data.type ? theme[data.type] : null">
+  <span class="h4">{{ data.title }}</span>
+  <button
+    type="button"
+    class="btn-close float-end mt-3"
+    aria-label="Close"
+    mat-dialog-close
+  ></button>
+</div>
+<div mat-dialog-content>
+  <h1 class="h3 my-3">{{ data.heading }}</h1>
+  <p [innerHTML]="data.subheading"></p>
+</div>
+<div mat-dialog-actions class="justify-content-center mb-3">
+  <ng-container *ngFor="let button of data.buttons">
+    <button
+      cdkFocusInitial
+      mat-stroked-button
+      class="me-3 {{ button.class }}"
+      [routerLink]="button.url"
+      mat-dialog-close
+    >
+      {{ button.name }}
+    </button>
+  </ng-container>
+</div>
