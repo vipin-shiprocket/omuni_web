@@ -5,7 +5,8 @@ import { AuthService } from 'src/app/services/auth.service';
 import { MatButtonModule } from '@angular/material/button';
 import { HttpService } from 'src/app/services/http.service';
 import { SubSink } from 'subsink';
-import { MavenAppConfig } from 'src/app/utils/config';
+import { IUserApp } from './app-launcher.model';
+import { LocalStorageService } from 'src/app/services/local-storage.service';
 
 @Component({
   selector: 'app-app-launcher',
@@ -42,6 +43,7 @@ export class AppLauncherComponent implements OnInit, OnDestroy {
   constructor(
     public auth: AuthService,
     private http: HttpService,
+    private $localStorage: LocalStorageService,
   ) {}
 
   ngOnInit(): void {
@@ -49,18 +51,34 @@ export class AppLauncherComponent implements OnInit, OnDestroy {
   }
 
   getUserApps() {
-    const baseUrl = window.location.origin;
     const endpoint = '/api/auth/authservice/webapi/session/apps';
-    const url = baseUrl + endpoint;
+    this.subs.sink = this.http
+      .requestToEndpoint<IUserApp[]>(endpoint)
+      .subscribe({
+        next: (resp) => {
+          console.log(resp);
+          this.$localStorage.set('userApps', JSON.stringify(resp));
+          if (resp.length === 1) {
+            const currentApp = resp[0].app.name;
+            switch (currentApp) {
+              case 'OMS':
+                break;
 
-    this.subs.sink = this.http.requestByUrl(url).subscribe({
-      next: (resp) => {
-        console.log(resp);
-      },
-      error: (err) => {
-        console.error(err);
-      },
-    });
+              case 'FMS':
+                break;
+
+              case 'WMS':
+                break;
+
+              default:
+                break;
+            }
+          }
+        },
+        error: (err) => {
+          console.error(err);
+        },
+      });
   }
 
   ngOnDestroy(): void {
