@@ -8,7 +8,7 @@ import {
 } from '@angular/forms';
 import { SubSink } from 'subsink';
 import { HttpService } from 'src/app/services/http.service';
-import { environment } from 'src/environments/environment';
+// import { environment } from 'src/environments/environment';
 import { ToastrService } from 'ngx-toastr';
 import { ReCaptchaV3Service } from 'ng-recaptcha';
 import { firstValueFrom } from 'rxjs';
@@ -77,7 +77,7 @@ export class LoginComponent implements OnDestroy {
     }
 
     // hit api request
-    const baseUrl = environment.apigatewayauth;
+    // const baseUrl = environment.apigatewayauth;
     const endpoint = '/authservice/webapi/user';
     const { email } = this.userForm.value;
     const params = {
@@ -90,7 +90,7 @@ export class LoginComponent implements OnDestroy {
     params.token = recaptchaToken;
 
     this.subs.sink = this.http
-      .requestByUrl<IVerifyEmailResp | string>(baseUrl + endpoint, params)
+      .requestToEndpoint<IVerifyEmailResp | string>(endpoint, params)
       .subscribe({
         next: (resp) => {
           console.log('🚀 ~ isUserVerified ~ resp:', resp);
@@ -142,14 +142,14 @@ export class LoginComponent implements OnDestroy {
     this.$localStorage.set('user_Eamil', email ?? '');
     this.$localStorage.set('idtableUserId', idtableUserId.toString());
 
-    const baseUrl = environment.apigatewayauth;
+    // const baseUrl = environment.apigatewayauth;
     const endpoint = '/authservice/webapi/client/find';
     const params = {
       userid: idtableUserId,
     };
 
     this.subs.sink = this.http
-      .requestByUrl<TFindUserResp>(baseUrl + endpoint, params)
+      .requestToEndpoint<TFindUserResp>(endpoint, params)
       .subscribe({
         next: (response) => {
           this.userClientsList = response;
@@ -234,7 +234,7 @@ export class LoginComponent implements OnDestroy {
   }
 
   getMulticlientwarehouses() {
-    const baseUrl = MavenAppConfig.apigatewayauth;
+    // const baseUrl = MavenAppConfig.apigatewayauth;
     const endpoint = '/authservice/webapi/login/multiclientwarehouses';
     const { email } = this.userForm.value;
     const params = {
@@ -242,7 +242,7 @@ export class LoginComponent implements OnDestroy {
     };
 
     this.subs.sink = this.http
-      .requestByUrl<Record<string, unknown>>(baseUrl + endpoint, params)
+      .requestToEndpoint<Record<string, unknown>>(endpoint, params)
       .subscribe({
         next: (result) => {
           if (this.userClientsList?.length) {
@@ -284,42 +284,40 @@ export class LoginComponent implements OnDestroy {
   }
 
   resendActivationLink() {
-    const baseUrl = environment.apigatewayauth;
+    // const baseUrl = environment.apigatewayauth;
     const endpoint = '/authservice/webapi/login/resend';
     const { email } = this.userForm.value;
     const params = {
       emailId: encodeURIComponent(email ?? ''),
     };
 
-    this.subs.sink = this.http
-      .requestByUrl(baseUrl + endpoint, params)
-      .subscribe({
-        next: (response) => {
-          if (response === true) {
-            this.toastr.success(
-              'Activation link has been sent successfully to your email address provided during registration.',
-              'Success',
-            );
-          }
-        },
-        error: (err) => {
-          console.error(err);
-          if (err.status == 400) {
-            this.toastr.error(err.errorMessage, 'Error');
-          } else if (err.status == 401) {
-            this.toastr.error(
-              'Your Email ID or Password might be incorrect.',
-              'Error',
-            );
-          } else {
-            this.toastr.error('Failed to send mail', 'Error');
-          }
-        },
-      });
+    this.subs.sink = this.http.requestToEndpoint(endpoint, params).subscribe({
+      next: (response) => {
+        if (response === true) {
+          this.toastr.success(
+            'Activation link has been sent successfully to your email address provided during registration.',
+            'Success',
+          );
+        }
+      },
+      error: (err) => {
+        console.error(err);
+        if (err.status == 400) {
+          this.toastr.error(err.errorMessage, 'Error');
+        } else if (err.status == 401) {
+          this.toastr.error(
+            'Your Email ID or Password might be incorrect.',
+            'Error',
+          );
+        } else {
+          this.toastr.error('Failed to send mail', 'Error');
+        }
+      },
+    });
   }
 
   async login() {
-    const baseUrl = environment.apigatewayauth;
+    // const baseUrl = environment.apigatewayauth;
     const endpoint = '/authservice/webapi/login/authenticate';
     const { email, password } = this.userForm.value;
     const data = {
@@ -338,12 +336,7 @@ export class LoginComponent implements OnDestroy {
     });
 
     this.subs.sink = this.http
-      .postByUrl<AuthenticateResp | IErrorResp>(
-        baseUrl + endpoint,
-        body,
-        {},
-        header,
-      )
+      .postToEndpint<AuthenticateResp | IErrorResp>(endpoint, body, {}, header)
       .subscribe({
         next: (resp) => {
           console.log('🚀 ~ this.subs.sink=this.http.postByUrl ~ resp:', resp);

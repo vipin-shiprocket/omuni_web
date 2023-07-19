@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './pages/auth/login/login.component';
 import { ForgotPasswordComponent } from './pages/auth/forgot-password/forgot-password.component';
 import { RegisterComponent } from './pages/auth/register/register.component';
+import { authGuard } from './core/auth.guard';
 
 const routes: Routes = [
   {
@@ -29,6 +30,7 @@ const routes: Routes = [
       import('./pages/app-launcher/app-launcher.component').then(
         (c) => c.AppLauncherComponent,
       ),
+    canActivate: [authGuard],
   },
   {
     path: '**',

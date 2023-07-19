@@ -32,9 +32,21 @@ export class AuthService implements OnDestroy {
       : null;
   }
 
+  isLoggedIn(): boolean {
+    let isLoggedIn = false;
+    try {
+      const login = this.cookie.get('isLoggedIn');
+      isLoggedIn = JSON.parse(login);
+    } catch (error) {
+      isLoggedIn = false;
+    }
+
+    return isLoggedIn;
+  }
+
   logout() {
-    const endpoint = '/authservice/webapi/session/logout';
-    const baseUrl = MavenAppConfig.apigatewayauth;
+    const endpoint = '/api/auth/authservice/webapi/session/logout';
+    const baseUrl = window.location.origin;
     this.subs.sink = this.http.postByUrl(baseUrl + endpoint, {}).subscribe({
       next: () => {
         localStorage.clear();

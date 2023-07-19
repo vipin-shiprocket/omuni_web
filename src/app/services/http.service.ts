@@ -36,18 +36,26 @@ export class HttpService {
 
   requestToEndpoint<T>(endpoint: string, params = {}) {
     params = this.getQueryParam(params);
-    const url = `${environment.apigatewayauth}${endpoint}`;
+    const url = `${window.location.origin}/api/auth${endpoint}`;
     return this.httpClient.get(url, { params }) as Observable<T>;
   }
 
-  postToEndpint<T>(endpoint: string, body: unknown, params = {}) {
-    const url = `${environment.apigatewayauth}${endpoint}`;
+  postToEndpint<T>(
+    endpoint: string,
+    body: unknown,
+    params = {},
+    headers?: HttpHeaders,
+  ) {
+    const url = `${window.location.origin}/api/auth${endpoint}`;
     params = this.getQueryParam(params);
-    return this.httpClient.post(url, body, { params }) as Observable<T>;
+    return this.httpClient.post(url, body, {
+      params,
+      headers,
+    }) as Observable<T>;
   }
 
   deleteRequest<T>(endpoint: string) {
-    const url = `${environment.apigatewayauth}${endpoint}`;
+    const url = `${window.location.origin}/api/auth${endpoint}`;
     return this.httpClient.delete(url) as Observable<T>;
   }
 
