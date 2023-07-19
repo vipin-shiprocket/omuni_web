@@ -22,7 +22,7 @@ export interface IVerifyEmailResp {
   userRole: IRole;
 }
 
-export type AuthenticateResp = IVerifyEmailResp;
+export type AuthenticateResp = Partial<IVerifyEmailResp>;
 
 export type IRole = 'ROLE_API' | 'ADMIN'; // Todo: add other types
 
@@ -45,3 +45,7 @@ export interface IFindUser {
 }
 
 export type TFindUserResp = IFindUser[];
+export interface IErrorResp {
+  status: number;
+  errorMessage?: string;
+}
