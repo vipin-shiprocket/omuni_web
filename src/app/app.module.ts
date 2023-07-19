@@ -1,17 +1,17 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { provideAnimations } from '@angular/platform-browser/animations';
-
 import { provideToastr } from 'ngx-toastr';
+import { HttpClientModule } from '@angular/common/http';
+import { RECAPTCHA_V3_SITE_KEY, ReCaptchaV3Service } from 'ng-recaptcha';
 import { environment } from 'src/environments/environment';
-import { RECAPTCHA_V3_SITE_KEY, RecaptchaV3Module } from 'ng-recaptcha';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [AppComponent],
-  imports: [BrowserModule, AppRoutingModule, RecaptchaV3Module],
+  imports: [BrowserModule, AppRoutingModule, HttpClientModule, MatDialogModule],
   providers: [
     provideAnimations(), // required animations providers
     provideToastr(),
@@ -19,6 +19,7 @@ import { RECAPTCHA_V3_SITE_KEY, RecaptchaV3Module } from 'ng-recaptcha';
       provide: RECAPTCHA_V3_SITE_KEY,
       useValue: environment.RECAPTCHA_SITE_KEY,
     },
+    ReCaptchaV3Service,
   ],
   bootstrap: [AppComponent],
 })

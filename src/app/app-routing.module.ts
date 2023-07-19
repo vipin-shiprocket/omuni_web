@@ -1,27 +1,27 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { LoginComponent } from './pages/auth/login/login.component';
+import { ForgotPasswordComponent } from './pages/auth/forgot-password/forgot-password.component';
+import { RegisterComponent } from './pages/auth/register/register.component';
 
 const routes: Routes = [
   {
     path: 'login',
-    loadComponent: () =>
-      import('./pages/auth/login/login.component').then(
-        (c) => c.LoginComponent,
-      ),
+    component: LoginComponent,
+    loadChildren: () =>
+      import('src/app/pages/auth/auth.module').then((m) => m.AuthModule),
   },
   {
     path: 'forgotPassword',
-    loadComponent: () =>
-      import('./pages/auth/forgot-password/forgot-password.component').then(
-        (c) => c.ForgotPasswordComponent,
-      ),
+    component: ForgotPasswordComponent,
+    loadChildren: () =>
+      import('src/app/pages/auth/auth.module').then((m) => m.AuthModule),
   },
   {
     path: 'signUp',
-    loadComponent: () =>
-      import('./pages/auth/register/register.component').then(
-        (c) => c.RegisterComponent,
-      ),
+    component: RegisterComponent,
+    loadChildren: () =>
+      import('src/app/pages/auth/auth.module').then((m) => m.AuthModule),
   },
   {
     path: 'apps',

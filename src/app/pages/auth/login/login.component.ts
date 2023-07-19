@@ -1,17 +1,13 @@
 import { Component, OnDestroy, TemplateRef, ViewChild } from '@angular/core';
-import { CommonModule, NgOptimizedImage } from '@angular/common';
-import { MatIconModule } from '@angular/material/icon';
-import { Router, RouterModule } from '@angular/router';
+import { Router } from '@angular/router';
 import {
   AbstractControl,
   FormControl,
   FormGroup,
-  ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
 import { SubSink } from 'subsink';
 import { HttpService } from 'src/app/services/http.service';
-import { HttpClientModule } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { ToastrService } from 'ngx-toastr';
 import { ReCaptchaV3Service } from 'ng-recaptcha';
@@ -22,8 +18,7 @@ import {
   IVerifyEmailResp,
   TFindUserResp,
 } from '../auth.model';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { MatButtonModule } from '@angular/material/button';
+import { MatDialog } from '@angular/material/dialog';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
 import { MavenAppConfig } from 'src/app/utils/config';
 import { CookieService } from 'ngx-cookie-service';
@@ -35,23 +30,6 @@ interface IUserForm {
 
 @Component({
   selector: 'app-login',
-  standalone: true,
-  imports: [
-    CommonModule,
-    NgOptimizedImage,
-    MatIconModule,
-    RouterModule,
-    ReactiveFormsModule,
-    HttpClientModule,
-    MatDialogModule,
-    MatButtonModule,
-  ],
-  providers: [
-    HttpService,
-    ReCaptchaV3Service,
-    LocalStorageService,
-    CookieService,
-  ],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
 })
