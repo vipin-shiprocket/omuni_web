@@ -2,11 +2,7 @@
 
 .logout-btn {
   &:hover {
-    color: u.$color5 !important;
-    .icon-btn1 {
-      background-color: u.$color5;
-      color: white;
-    }
+    color: u.$color5;
   }
 }
 

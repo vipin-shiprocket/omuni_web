@@ -9,12 +9,11 @@
         </div>
         <div class="ms-2 text-capitalize">Hi vipin</div>
       </div>
-      <div class="d-flex align-items-center ms-3 logout-btn cursor">
-        <div class="icon-btn1">
-          <mat-icon class="mt-1 ms-1 fs-5">logout</mat-icon>
-        </div>
-        <div class="ms-2 text-capitalize">Logout</div>
-      </div>
+
+      <button mat-button class="ms-2 logout-btn" (click)="auth.logout()">
+        <mat-icon>logout</mat-icon>
+        Logout
+      </button>
     </div>
   </div>
 </nav>

@@ -21,7 +21,7 @@ import {
 import { MatDialog } from '@angular/material/dialog';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
 import { MavenAppConfig } from 'src/app/utils/config';
-import { CookieService } from 'ngx-cookie-service';
+import { AuthService } from 'src/app/services/auth.service';
 
 interface IUserForm {
   email: FormControl<string | null>;
@@ -48,7 +48,7 @@ export class LoginComponent implements OnDestroy {
     private recaptchaService: ReCaptchaV3Service,
     private dialog: MatDialog,
     private $localStorage: LocalStorageService,
-    private cookie: CookieService,
+    private authService: AuthService,
     private router: Router,
   ) {
     this.userForm = new FormGroup({
@@ -70,7 +70,7 @@ export class LoginComponent implements OnDestroy {
 
     // check for reCaptcha response
     // check for domains
-    const { subdomain } = this.getDomainNSubdomain();
+    const { subdomain } = this.authService.getDomainNSubdomain();
     if (!subdomain) {
       this.showSubDomainErr();
       return;
@@ -153,7 +153,7 @@ export class LoginComponent implements OnDestroy {
       .subscribe({
         next: (response) => {
           this.userClientsList = response;
-          const { subdomain, domain } = this.getDomainNSubdomain();
+          const { subdomain, domain } = this.authService.getDomainNSubdomain();
           const whiteListSubDomains = ['wms', 'stagingwms', 'srfwms'];
 
           if (subdomain && whiteListSubDomains.includes(subdomain)) {
@@ -318,32 +318,6 @@ export class LoginComponent implements OnDestroy {
       });
   }
 
-  getDomainNSubdomain() {
-    let subdomain = '';
-    let domain = '';
-    const host = window.location.host;
-    const parts = host.split('.');
-    const isWWW = parts[0] === 'www';
-    if (!isWWW) {
-      if (parts.length === 2) {
-        subdomain = '';
-        domain = `${parts[0]}.${parts[1]}`;
-      } else if (parts.length === 3) {
-        subdomain = parts[0];
-        domain = `${parts[1]}.${parts[2]}`;
-      }
-    } else {
-      if (parts.length === 3) {
-        subdomain = '';
-        domain = `${parts[1]}.${parts[2]}`;
-      } else if (parts.length === 4) {
-        subdomain = parts[0];
-        domain = `${parts[2]}.${parts[3]}`;
-      }
-    }
-    return { domain, subdomain };
-  }
-
   async login() {
     const baseUrl = environment.apigatewayauth;
     const endpoint = '/authservice/webapi/login/authenticate';
@@ -399,21 +373,10 @@ export class LoginComponent implements OnDestroy {
             authResponse.tableUserStatusType.idtableUserStatusTypeId === 1 &&
             authResponse.tableUserIsEmailVerified
           ) {
-            this.cookie.set('username', authResponse.tableUserFirstName || '');
-            this.cookie.set('userphone', authResponse?.tableUserPhoneNo || '');
-            this.cookie.set('userfullname', authResponse?.tableFullName || '');
-            this.cookie.set('useremail', authResponse?.tableUserEmailId || '');
-            this.cookie.set('isLoggedIn', 'true');
+            this.authService.setCookies(authResponse);
             this.$localStorage.set('isUserLoggedIn', 'true');
-            authResponse?.tableClient
-              ? this.cookie.set(
-                  'timezone',
-                  authResponse?.tableClient.tableClientTimeZone || '',
-                )
-              : null;
-
             this.$localStorage.set('loggedInUser', JSON.stringify(resp));
-            const { subdomain } = this.getDomainNSubdomain();
+            const { subdomain } = this.authService.getDomainNSubdomain();
             if (['wms', 'stagingwms', 'srfwms'].includes(subdomain)) {
               /**
                * Special case for WMS Multiple Client in one warehouse
