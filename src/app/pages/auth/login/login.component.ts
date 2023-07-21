@@ -138,14 +138,18 @@ export class LoginComponent implements OnDestroy {
     );
   }
 
-  getClients(idtableUserId: number, email: string | null | undefined) {
+  async getClients(idtableUserId: number, email: string | null | undefined) {
     this.$localStorage.set('user_Eamil', email ?? '');
     this.$localStorage.set('idtableUserId', idtableUserId.toString());
+
+    const recaptcha$ = this.recaptchaService.execute('find_id');
+    const recaptchaToken = await firstValueFrom(recaptcha$);
 
     // const baseUrl = environment.apigatewayauth;
     const endpoint = '/authservice/webapi/client/find';
     const params = {
       userid: idtableUserId,
+      token: recaptchaToken,
     };
 
     this.subs.sink = this.http

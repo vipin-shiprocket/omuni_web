@@ -2,8 +2,8 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
 import { AuthenticateResp } from '../pages/auth/auth.model';
 import { HttpService } from './http.service';
-import { MavenAppConfig } from '../utils/config';
 import { SubSink } from 'subsink';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -83,6 +83,46 @@ export class AuthService implements OnDestroy {
       }
     }
     return { domain, subdomain };
+  }
+
+  checkOmsClientFirstTime(email: string) {
+    const encodedEmail = encodeURIComponent(email);
+    const baseUrl = window.location.origin + '/api/oms';
+    const endpoint = '/omsservices/webapi/clients/clientfirsttime';
+    const params = {
+      email: encodedEmail,
+    };
+    return this.http.requestByUrl(baseUrl + endpoint, params);
+  }
+
+  checkOmsUserFirstTime(email: string) {
+    const encodedEmail = encodeURIComponent(email);
+    const baseUrl = window.location.origin + '/api/oms';
+    const endpoint = '/omsservices/webapi/omsusers/checkfirsttime';
+    const params = {
+      emailId: encodedEmail,
+    };
+    return this.http.requestByUrl(baseUrl + endpoint, params);
+  }
+
+  getOMSMenu(): Observable<
+    Record<string, string | number | Record<string, string>[]>[]
+  > {
+    const baseUrl = window.location.origin + '/api/oms';
+    const endpoint = '/omsservices/webapi/omsusers/menu';
+    return this.http.requestByUrl(baseUrl + endpoint);
+  }
+
+  getFMSMenu(): Observable<{
+    data: Record<string, string | number | Record<string, string>[]>[];
+  }> {
+    const baseUrl = window.location.origin + '/api/fms/fms/webapi';
+    const endpoint = '/users/menu';
+    return this.http.requestByUrl(baseUrl + endpoint);
+  }
+
+  getEmail(): string {
+    return this.cookie.get('useremail');
   }
 
   ngOnDestroy(): void {

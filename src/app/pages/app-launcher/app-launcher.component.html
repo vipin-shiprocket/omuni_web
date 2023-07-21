@@ -20,8 +20,14 @@
 
 <div class="container-fluid app">
   <div class="row align-items-center justify-content-center app-row">
-    <ng-container *ngFor="let app of objectvalues(apps)">
-      <div class="card mx-3 app-card {{ app.id }}">
+    <ng-container *ngFor="let app of apps">
+      <div
+        tabindex="-1"
+        class="card mx-3 app-card {{ app.id }}"
+        role="button"
+        (keypress)="onClickApp(app.id)"
+        (click)="onClickApp(app.name)"
+      >
         <mat-icon>{{ app.logo }}</mat-icon>
         <h1>{{ app.name }}</h1>
         <p>{{ app.fullname }}</p>

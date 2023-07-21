@@ -5,8 +5,9 @@ import { AuthService } from 'src/app/services/auth.service';
 import { MatButtonModule } from '@angular/material/button';
 import { HttpService } from 'src/app/services/http.service';
 import { SubSink } from 'subsink';
-import { IUserApp } from './app-launcher.model';
+import { AvailableApp, IAppModal, IUserApp } from './app-launcher.model';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
+import { mergeMap } from 'rxjs';
 
 @Component({
   selector: 'app-app-launcher',
@@ -17,27 +18,7 @@ import { LocalStorageService } from 'src/app/services/local-storage.service';
 })
 export class AppLauncherComponent implements OnInit, OnDestroy {
   private subs = new SubSink();
-  apps = {
-    fms: {
-      id: 'fms',
-      name: 'FMS',
-      fullname: 'Freight Management System',
-      logo: 'local_shipping',
-    },
-    oms: {
-      id: 'oms',
-      name: 'OMS',
-      fullname: 'Order Management System',
-      logo: 'add_shopping_cart',
-    },
-    wms: {
-      id: 'wms',
-      name: 'WMS',
-      fullname: 'Warehouse Management System',
-      logo: 'inventory_2',
-    },
-  };
-
+  apps: IAppModal[] = [];
   objectvalues = Object.values;
 
   constructor(
@@ -51,7 +32,7 @@ export class AppLauncherComponent implements OnInit, OnDestroy {
   }
 
   getUserApps() {
-    const endpoint = '/api/auth/authservice/webapi/session/apps';
+    const endpoint = '/authservice/webapi/session/apps';
     this.subs.sink = this.http
       .requestToEndpoint<IUserApp[]>(endpoint)
       .subscribe({
@@ -62,23 +43,110 @@ export class AppLauncherComponent implements OnInit, OnDestroy {
             const currentApp = resp[0].app.name;
             switch (currentApp) {
               case 'OMS':
+                this.redirectToOMS();
                 break;
 
               case 'FMS':
+                this.redirectToFMS();
                 break;
 
               case 'WMS':
+                this.redirectToWMS();
+                break;
+
+              case 'AMS':
+                this.redirectToAMS();
                 break;
 
               default:
                 break;
             }
+          } else {
+            resp.forEach((menu) => {
+              const name = menu?.app?.name?.toLowerCase();
+              const app = { ...AvailableApp[name] };
+              app.data = menu;
+              this.apps.push(app);
+            });
           }
         },
         error: (err) => {
           console.error(err);
         },
       });
+  }
+
+  redirectToOMS() {
+    const email = this.auth.getEmail();
+    this.subs.sink = this.auth
+      .checkOmsClientFirstTime(email)
+      .pipe(
+        mergeMap(() => this.auth.checkOmsUserFirstTime(email)),
+        mergeMap(() => this.auth.getOMSMenu()),
+      )
+      .subscribe({
+        next: (resp) => {
+          console.log('🚀 ~ redirectToOMS ~ resp:', resp);
+
+          if (resp) {
+            this.$localStorage.set('menu', JSON.stringify(resp));
+            if (resp && resp[0]['href'] !== undefined) {
+              window.location.href = 'oms/#' + resp[0]['href'];
+            } else {
+              const subMenu = resp[0]['subMenu'] as Record<string, string>[];
+              window.location.href = 'oms/#' + subMenu[0]['href'];
+            }
+          }
+        },
+        error(err) {
+          console.error(err);
+        },
+      });
+  }
+
+  redirectToFMS() {
+    this.subs.sink = this.auth.getFMSMenu().subscribe({
+      next: (resp) => {
+        const menu = resp.data;
+        this.$localStorage.set('FMS', JSON.stringify({ menu }));
+        this.$localStorage.set('userdata', '');
+        document.location.href = window.location.origin + '/fms/#/';
+      },
+      error(err) {
+        console.error(err);
+      },
+    });
+  }
+
+  redirectToWMS() {
+    window.location.href = window.location.origin + '/wms/#/home';
+  }
+
+  redirectToAMS() {
+    window.location.href = window.location.origin + '/ams/#/reports';
+  }
+
+  onClickApp(appName: string) {
+    switch (appName) {
+      case 'OMS':
+        this.redirectToOMS();
+        break;
+
+      case 'FMS':
+        this.redirectToFMS();
+        break;
+
+      case 'WMS':
+        this.redirectToWMS();
+        break;
+
+      case 'AMS':
+        this.redirectToAMS();
+        break;
+
+      default:
+        break;
+    }
   }
 
   ngOnDestroy(): void {
