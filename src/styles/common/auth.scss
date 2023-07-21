@@ -41,7 +41,8 @@
     height: u.rem(50);
     background-color: u.$color5;
 
-    &:hover {
+    &:hover,
+    &:focus {
       background-color: white;
       border-color: u.$color5;
       color: u.$color5;

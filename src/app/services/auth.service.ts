@@ -125,6 +125,10 @@ export class AuthService implements OnDestroy {
     return this.cookie.get('useremail');
   }
 
+  getUsername(): string {
+    return this.cookie.get('username');
+  }
+
   ngOnDestroy(): void {
     this.subs.unsubscribe();
   }
