@@ -10,6 +10,7 @@ import { LoginComponent } from './login/login.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { RegisterComponent } from './register/register.component';
+import { FooterComponent } from './footer/footer.component';
 
 @NgModule({
   declarations: [LoginComponent, ForgotPasswordComponent, RegisterComponent],
@@ -23,6 +24,7 @@ import { RegisterComponent } from './register/register.component';
     MatIconModule,
     MatButtonModule,
     MatCheckboxModule,
+    FooterComponent,
   ],
   providers: [],
 })

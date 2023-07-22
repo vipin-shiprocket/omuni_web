@@ -92,3 +92,35 @@
 .cursor {
   cursor: pointer;
 }
+
+.fadeIn {
+  animation: fadeInFromNone 0.7s ease-out;
+}
+
+.slideDown {
+  animation: 0.7s ease-out 0s 1 slideInFromTop;
+}
+
+@keyframes fadeInFromNone {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes slideInFromTop {
+  0% {
+    transform: translateY(-50%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.l-0 {
+  left: 0;
+}

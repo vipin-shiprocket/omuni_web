@@ -23,7 +23,7 @@
     <ng-container *ngFor="let app of apps">
       <div
         tabindex="-1"
-        class="card mx-3 app-card {{ app.id }}"
+        class="card mx-3 app-card slideDown {{ app.id }}"
         role="button"
         (keypress)="onClickApp(app.id)"
         (click)="onClickApp(app.name)"

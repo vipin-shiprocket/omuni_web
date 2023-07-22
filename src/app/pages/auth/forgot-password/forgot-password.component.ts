@@ -21,6 +21,7 @@ interface IUserForm {
 export class ForgotPasswordComponent implements OnDestroy {
   private subs = new SubSink();
   userForm: FormGroup<IUserForm>;
+  hideResetForm = false;
 
   constructor(
     private toastr: ToastrService,
@@ -35,7 +36,7 @@ export class ForgotPasswordComponent implements OnDestroy {
     return this.userForm.get(ctrlName) as AbstractControl;
   }
 
-  resetPassword() {
+  onSubmit() {
     if (this.userForm.invalid) {
       this.toastr.error('Invalid Form');
       return;
@@ -47,11 +48,37 @@ export class ForgotPasswordComponent implements OnDestroy {
       email: this.userForm?.value?.email,
     };
 
+    this.subs.sink = this.http
+      .requestToEndpoint<boolean>(endpoint, params)
+      .subscribe({
+        next: (resp) => {
+          if (resp) {
+            this.hideResetForm = true;
+            this.resetPassword();
+          }
+        },
+        error: (err) => {
+          console.error(err);
+        },
+      });
+  }
+
+  resetPassword() {
+    const endpoint = '/authservice/webapi/login/forgotpassword';
+    const params = {
+      email: this.userForm?.value?.email,
+    };
+
     this.subs.sink = this.http.requestToEndpoint(endpoint, params).subscribe({
-      next(resp) {
+      next: (resp) => {
         console.log(resp);
+        this.hideResetForm = true;
+        this.toastr.success(
+          'Password change link has been sent again',
+          'Success',
+        );
       },
-      error(err) {
+      error: (err) => {
         console.error(err);
       },
     });
