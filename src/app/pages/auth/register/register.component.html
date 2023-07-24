@@ -13,10 +13,20 @@
         />
       </div>
 
-      <form autocapitalize="off" autocomplete="off" class="auth-form mt-4rem">
+      <form
+        [formGroup]="userForm"
+        (submit)="registerCompanyDetails()"
+        autocapitalize="off"
+        autocomplete="off"
+        class="auth-form mt-4rem"
+      >
         <div class="auth-app__checkbox">
-          <mat-checkbox class="maven_checkbox">OMS</mat-checkbox>
-          <mat-checkbox class="maven_checkbox ms-3">FMS</mat-checkbox>
+          <mat-checkbox formControlName="oms" class="maven_checkbox"
+            >OMS</mat-checkbox
+          >
+          <mat-checkbox formControlName="fms" class="maven_checkbox ms-3"
+            >FMS</mat-checkbox
+          >
         </div>
         <div class="row">
           <div class="col-md-6 mb-3">
@@ -24,6 +34,7 @@
               <mat-icon class="fs-5 input-icon-s">apartment</mat-icon>
               <input
                 type="text"
+                formControlName="company"
                 class="form-control custom-input pl-2rem"
                 placeholder="Company*"
               />
@@ -34,6 +45,7 @@
               <mat-icon class="fs-5 input-icon-s">dns</mat-icon>
               <input
                 type="text"
+                formControlName="domain"
                 class="form-control custom-input pl-2rem"
                 placeholder="Domain*"
               />
@@ -43,7 +55,8 @@
             <div class="custom-input-goup mb-3">
               <mat-icon class="fs-5 input-icon-s">mail</mat-icon>
               <input
-                type="text"
+                type="email"
+                formControlName="email"
                 class="form-control custom-input pl-2rem"
                 placeholder="Email ID*"
               />
@@ -53,7 +66,8 @@
             <div class="custom-input-goup mb-3">
               <mat-icon class="fs-5 input-icon-s">phone_android</mat-icon>
               <input
-                type="text"
+                type="tel"
+                formControlName="phone"
                 class="form-control custom-input pl-2rem"
                 placeholder="Mobile Number*"
               />
@@ -64,6 +78,7 @@
               <mat-icon class="fs-5 input-icon-s">person</mat-icon>
               <input
                 type="text"
+                formControlName="fname"
                 class="form-control custom-input pl-2rem"
                 placeholder="First Name*"
               />
@@ -74,6 +89,7 @@
               <mat-icon class="fs-5 input-icon-s">person</mat-icon>
               <input
                 type="text"
+                formControlName="lname"
                 class="form-control custom-input pl-2rem"
                 placeholder="Last Name*"
               />
@@ -84,6 +100,7 @@
               <mat-icon class="fs-5 input-icon-s">key</mat-icon>
               <input
                 type="password"
+                formControlName="password"
                 autocomplete="new-password"
                 class="form-control custom-input pl-2rem"
                 placeholder="Password*"
@@ -95,6 +112,7 @@
               <mat-icon class="fs-5 input-icon-s">key</mat-icon>
               <input
                 type="password"
+                formControlName="confirmPassword"
                 class="form-control custom-input pl-2rem"
                 placeholder="Confirm Password*"
               />
@@ -103,7 +121,7 @@
         </div>
 
         <div class="mb-3 auth-ack text-start">
-          <mat-checkbox class="maven_checkbox">
+          <mat-checkbox formControlName="iAgree" class="maven_checkbox">
             I acknowledge that I have read and agree to the
             <a class="a-link link-blue">Terms of Service</a>
             and
@@ -112,8 +130,10 @@
         </div>
 
         <div class="d-grid gap-2">
-          <button class="btn auth-btn" type="button">Register</button>
+          <button class="btn auth-btn" type="submit">Register</button>
         </div>
+
+        {{ userForm.errors | json }}
 
         <div class="divider"><span>OR</span></div>
 
