@@ -37,3 +37,17 @@
     }
   }
 }
+
+.signup-success {
+  .mat-icon {
+    width: u.rem(56);
+    height: u.rem(56);
+    font-size: u.rem(56);
+    color: u.$color10;
+  }
+
+  h1 {
+    font-size: u.rem(27);
+    color: u.$color10;
+  }
+}

@@ -1,14 +1,12 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
   AbstractControl,
   FormControl,
   FormGroup,
-  ValidationErrors,
-  ValidatorFn,
   Validators,
 } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
-import { firstValueFrom } from 'rxjs';
+import { switchMap } from 'rxjs';
 import { HttpService } from 'src/app/services/http.service';
 import { SubSink } from 'subsink';
 
@@ -26,14 +24,6 @@ interface IUserForm {
   fms: FormControl<boolean | null>;
 }
 
-function notMatched(): ValidatorFn {
-  return (control: AbstractControl): ValidationErrors | null => {
-    const { password, confirmPassword } = control.value;
-    const matched = password && confirmPassword && password !== confirmPassword;
-    return matched ? { notMatched: true } : null;
-  };
-}
-
 const PasswordPattern = new RegExp(
   '^(?=.*[A-Za-z])(?=.*\\d)(?=.*[$@$!%*#?&])[A-Za-z\\d$@$!%*#?&]{8,14}$',
 );
@@ -43,9 +33,10 @@ const PasswordPattern = new RegExp(
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss'],
 })
-export class RegisterComponent implements OnDestroy {
+export class RegisterComponent implements OnInit, OnDestroy {
   private subs = new SubSink();
   userForm: FormGroup<IUserForm>;
+  showRegisterForm = true;
 
   constructor(
     private toastr: ToastrService,
@@ -55,18 +46,31 @@ export class RegisterComponent implements OnDestroy {
       company: new FormControl('', [Validators.required]),
       domain: new FormControl('', [Validators.required]),
       email: new FormControl('', [Validators.required, Validators.email]),
-      phone: new FormControl('', [Validators.required]),
+      phone: new FormControl('', [
+        Validators.required,
+        Validators.pattern(/^\d+$/),
+        Validators.minLength(10),
+      ]),
       fname: new FormControl('', [Validators.required]),
       lname: new FormControl('', [Validators.required]),
       password: new FormControl('', [
         Validators.required,
+        Validators.minLength(8),
         Validators.pattern(PasswordPattern),
       ]),
-      confirmPassword: new FormControl('', [Validators.required, notMatched]),
-      iAgree: new FormControl(false, [Validators.required]),
+      confirmPassword: new FormControl('', [Validators.required]),
+      iAgree: new FormControl(false, [Validators.requiredTrue]),
       oms: new FormControl(false),
       fms: new FormControl(false),
     });
+  }
+
+  ngOnInit(): void {
+    this.subs.sink = this.ctrlByName('confirmPassword').valueChanges.subscribe(
+      () => {
+        this.setErrOnPasswordMismatch();
+      },
+    );
   }
 
   ctrlByName(ctrlName: string): AbstractControl {
@@ -97,10 +101,24 @@ export class RegisterComponent implements OnDestroy {
     return this.http.requestToEndpoint<boolean>(endpoint, params);
   }
 
-  async registerCompanyDetails() {
-    console.log(this.userForm);
+  markAllAsDirty() {
+    const controls = this.userForm.controls;
+    Object.values(controls).forEach((ctrl: FormControl) => ctrl.markAsDirty());
+  }
 
+  setErrOnPasswordMismatch() {
+    const confirmPassword = this.ctrlByName('confirmPassword');
+    const password = this.ctrlByName('password');
+
+    if (confirmPassword.value !== password.value) {
+      confirmPassword.setErrors({ mismatch: true });
+    }
+  }
+
+  async registerCompanyDetails() {
     if (this.userForm.invalid) {
+      this.userForm.markAllAsTouched();
+      this.markAllAsDirty();
       this.toastr.error('Please fill all the mandatory fields', 'Error');
       return;
     }
@@ -125,46 +143,42 @@ export class RegisterComponent implements OnDestroy {
       postData['app'] = apps.join(',');
     }
 
-    const companyExist = await firstValueFrom(
-      this.checkCompanyExist(value.company || ''),
-    );
-
-    if (companyExist) {
-      this.toastr.error('Company already exists', 'Error');
-      return;
-    }
-
-    const emailExist = await firstValueFrom(
-      this.checkEmailExist(value.email || ''),
-    );
-
-    if (emailExist) {
-      this.toastr.error('Email is already registered', 'Error');
-      return;
-    }
-
-    const phoneExist = await firstValueFrom(
-      this.checkPhoneExist(value.phone || ''),
-    );
-
-    if (phoneExist) {
-      this.toastr.error('Phone number already exists', 'Error');
-      return;
-    }
-
     const endpoint = '/authservice/webapi/signup/register';
-    this.subs.sink = this.http.postToEndpint(endpoint, postData).subscribe({
-      next: (resp) => {
-        // Todo: show success ui
-        console.log(
-          '🚀 ~ this.subs.sink=this.http.requestToEndpoint ~ resp:',
-          resp,
-        );
-      },
-      error: (err) => {
-        console.error(err);
-      },
-    });
+
+    this.subs.sink = this.checkCompanyExist(value.company || '')
+      .pipe(
+        switchMap((resp) => {
+          if (resp) {
+            throw new Error('Company already exists');
+          }
+
+          return this.checkEmailExist(value.email || '');
+        }),
+        switchMap((resp) => {
+          if (resp) {
+            throw new Error('Email is already registered');
+          }
+
+          return this.checkPhoneExist(value.phone || '');
+        }),
+        switchMap((resp) => {
+          if (resp) {
+            throw new Error('Phone number already exists');
+          }
+
+          return this.http.postToEndpint(endpoint, postData);
+        }),
+      )
+      .subscribe({
+        next: () => {
+          this.showRegisterForm = false;
+        },
+        error: (err) => {
+          console.error(err);
+          const msg = err?.error?.errorMessage;
+          this.toastr.error(msg || err.message, 'Error');
+        },
+      });
   }
 
   ngOnDestroy(): void {

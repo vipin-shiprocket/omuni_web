@@ -1,6 +1,41 @@
 <div class="container-fluid px-0 auth-container fs-14">
   <div class="row auth">
     <div
+      *ngIf="!showRegisterForm"
+      class="col-8 col-lg-5 auth-card text-center p-5 signup-success position-relative"
+    >
+      <mat-icon>check_circle_outline</mat-icon>
+      <h1 class="mb-3">
+        You have successfully registered
+        <br />
+        Thank you!
+      </h1>
+      <p class="text-muted">
+        You will receive a confirmation email shortly.
+        <br />
+        Take me to
+        <a class="a-link" routerLink="../login"> Login screen </a>
+      </p>
+      <hr />
+      <div class="text-black-50">Questions? Connect with us.</div>
+      <div class="text-black-50 auth-note">
+        Email Support:<a
+          class="fs-14 a-link opacity-100"
+          id="signupSuccessSupport"
+          href="mailto:support@gscmaven.com"
+          >support@gscmaven.com</a
+        >
+      </div>
+      <div
+        class="text-center position-absolute w-100 l-0"
+        style="bottom: -4rem"
+      >
+        <app-footer></app-footer>
+      </div>
+    </div>
+
+    <div
+      *ngIf="showRegisterForm"
       class="col-10 col-md-8 col-lg-6 auth-card position-relative my-5 my-xl-0"
     >
       <div class="auth-logo">
@@ -38,6 +73,14 @@
                 class="form-control custom-input pl-2rem"
                 placeholder="Company*"
               />
+              <small
+                class="text-danger"
+                *ngIf="
+                  ctrlByName('company').dirty &&
+                  ctrlByName('company').hasError('required')
+                "
+                >Company name is required</small
+              >
             </div>
           </div>
           <div class="col-md-6 mb-3">
@@ -49,6 +92,14 @@
                 class="form-control custom-input pl-2rem"
                 placeholder="Domain*"
               />
+              <small
+                class="text-danger"
+                *ngIf="
+                  ctrlByName('domain').dirty &&
+                  ctrlByName('domain').hasError('required')
+                "
+                >Company name is required</small
+              >
             </div>
           </div>
           <div class="col-md-6 mb-3">
@@ -60,6 +111,18 @@
                 class="form-control custom-input pl-2rem"
                 placeholder="Email ID*"
               />
+              <span *ngIf="ctrlByName('email').dirty">
+                <small
+                  class="text-danger"
+                  *ngIf="ctrlByName('email').hasError('email')"
+                  >Email ID is invalid</small
+                >
+                <small
+                  class="text-danger"
+                  *ngIf="ctrlByName('email').hasError('required')"
+                  >Email ID is required</small
+                >
+              </span>
             </div>
           </div>
           <div class="col-md-6 mb-3">
@@ -67,10 +130,28 @@
               <mat-icon class="fs-5 input-icon-s">phone_android</mat-icon>
               <input
                 type="tel"
+                maxlength="10"
                 formControlName="phone"
                 class="form-control custom-input pl-2rem"
                 placeholder="Mobile Number*"
               />
+              <span *ngIf="ctrlByName('phone').dirty">
+                <small
+                  class="text-danger"
+                  *ngIf="ctrlByName('phone').hasError('required')"
+                  >Phone is required</small
+                >
+                <small
+                  class="text-danger"
+                  *ngIf="ctrlByName('phone').hasError('pattern')"
+                  >Should have only numbers<br
+                /></small>
+                <small
+                  class="text-danger"
+                  *ngIf="ctrlByName('phone').hasError('minlength')"
+                  >Should be 10 digits<br
+                /></small>
+              </span>
             </div>
           </div>
           <div class="col-md-6 mb-3">
@@ -82,6 +163,14 @@
                 class="form-control custom-input pl-2rem"
                 placeholder="First Name*"
               />
+              <small
+                class="text-danger"
+                *ngIf="
+                  ctrlByName('fname').dirty &&
+                  ctrlByName('fname').hasError('required')
+                "
+                >First name is required</small
+              >
             </div>
           </div>
           <div class="col-md-6 mb-3">
@@ -93,6 +182,14 @@
                 class="form-control custom-input pl-2rem"
                 placeholder="Last Name*"
               />
+              <small
+                class="text-danger"
+                *ngIf="
+                  ctrlByName('lname').dirty &&
+                  ctrlByName('lname').hasError('required')
+                "
+                >Last name is required</small
+              >
             </div>
           </div>
           <div class="col-md-6 mb-3">
@@ -105,6 +202,25 @@
                 class="form-control custom-input pl-2rem"
                 placeholder="Password*"
               />
+              <div *ngIf="ctrlByName('password').dirty">
+                <small
+                  class="text-danger"
+                  *ngIf="ctrlByName('password').hasError('required')"
+                  >Password is required <br
+                /></small>
+                <small
+                  class="text-danger"
+                  *ngIf="ctrlByName('password').hasError('minlength')"
+                  >Password must be at least 8 characters long <br
+                /></small>
+                <small
+                  class="text-danger"
+                  *ngIf="ctrlByName('password').hasError('pattern')"
+                >
+                  Password should contain one letter,one character and one
+                  special character
+                </small>
+              </div>
             </div>
           </div>
           <div class="col-md-6 mb-3">
@@ -116,6 +232,21 @@
                 class="form-control custom-input pl-2rem"
                 placeholder="Confirm Password*"
               />
+
+              <span *ngIf="ctrlByName('confirmPassword').dirty">
+                <small
+                  class="text-danger"
+                  *ngIf="ctrlByName('confirmPassword').hasError('required')"
+                  >Confirm Password is required
+                  <br />
+                </small>
+                <small
+                  class="text-danger"
+                  *ngIf="ctrlByName('confirmPassword').hasError('mismatch')"
+                >
+                  Please re-enter the password, your passwords don't match
+                </small>
+              </span>
             </div>
           </div>
         </div>
@@ -127,13 +258,20 @@
             and
             <a class="a-link link-blue">Privacy Policy</a>
           </mat-checkbox>
+          <br />
+          <small
+            class="text-danger"
+            *ngIf="
+              ctrlByName('lname').dirty &&
+              ctrlByName('lname').hasError('required')
+            "
+            >Required field</small
+          >
         </div>
 
         <div class="d-grid gap-2">
           <button class="btn auth-btn" type="submit">Register</button>
         </div>
-
-        {{ userForm.errors | json }}
 
         <div class="divider"><span>OR</span></div>
 
@@ -142,6 +280,13 @@
           <a routerLink="/login" class="a-link fs-14">Login</a>
         </div>
       </form>
+
+      <div
+        class="text-center position-absolute w-100 l-0 mb-2"
+        style="bottom: -4rem"
+      >
+        <app-footer></app-footer>
+      </div>
     </div>
   </div>
 </div>
