@@ -109,7 +109,7 @@ export class AppLauncherComponent implements OnInit, OnDestroy {
       next: (resp) => {
         const menu = resp.data;
         this.$localStorage.set('FMS', JSON.stringify({ menu }));
-        this.$localStorage.set('userdata', '');
+        // this.$localStorage.set('userdata', null);
         document.location.href = window.location.origin + '/fms/#/';
       },
       error(err) {

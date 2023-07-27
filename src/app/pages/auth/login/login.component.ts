@@ -139,7 +139,7 @@ export class LoginComponent implements OnDestroy {
   }
 
   async getClients(idtableUserId: number, email: string | null | undefined) {
-    this.$localStorage.set('user_Eamil', email ?? '');
+    this.$localStorage.set('user_Eamil', JSON.stringify(email) ?? '');
     this.$localStorage.set('idtableUserId', idtableUserId.toString());
 
     const recaptcha$ = this.recaptchaService.execute('find_id');
