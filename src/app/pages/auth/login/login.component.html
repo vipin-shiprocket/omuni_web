@@ -11,7 +11,12 @@
         />
       </div>
 
-      <form [formGroup]="userForm" autocomplete="off" class="auth-form">
+      <form
+        [formGroup]="userForm"
+        (submit)="onSubmit()"
+        autocomplete="off"
+        class="auth-form"
+      >
         <div class="custom-input-goup mb-3 fs-14">
           <mat-icon class="fs-5 input-icon-s">mail</mat-icon>
           <input
@@ -45,18 +50,12 @@
         <div class="d-grid gap-2">
           <button
             class="btn auth-btn"
-            type="button"
+            type="submit"
             *ngIf="!userClientsList.length"
-            (click)="isUserVerified()"
           >
             Next
           </button>
-          <button
-            *ngIf="isClientSelected"
-            (click)="login()"
-            class="btn auth-btn"
-            type="button"
-          >
+          <button *ngIf="isClientSelected" class="btn auth-btn" type="submit">
             Log In
           </button>
         </div>

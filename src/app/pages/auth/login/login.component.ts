@@ -93,7 +93,6 @@ export class LoginComponent implements OnDestroy {
       .requestToEndpoint<IVerifyEmailResp | string>(endpoint, params)
       .subscribe({
         next: (resp) => {
-          console.log('🚀 ~ isUserVerified ~ resp:', resp);
           const stringType = typeof resp === 'string' ? resp : null;
           const userData = typeof resp !== 'string' ? resp : null;
 
@@ -343,7 +342,6 @@ export class LoginComponent implements OnDestroy {
       .postToEndpint<AuthenticateResp | IErrorResp>(endpoint, body, {}, header)
       .subscribe({
         next: (resp) => {
-          console.log('🚀 ~ this.subs.sink=this.http.postByUrl ~ resp:', resp);
           const authResponse = resp as AuthenticateResp;
           const errResponse = resp as IErrorResp;
 
@@ -397,6 +395,15 @@ export class LoginComponent implements OnDestroy {
           this.toastr.error('Error while login in, Please try again', 'Error');
         },
       });
+  }
+
+  onSubmit() {
+    const isPwdDisabled = this.ctrlByName('password').disabled;
+    if (isPwdDisabled) {
+      this.isUserVerified();
+    } else {
+      this.login();
+    }
   }
 
   ngOnDestroy(): void {

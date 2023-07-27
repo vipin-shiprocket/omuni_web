@@ -37,7 +37,6 @@ export class AppLauncherComponent implements OnInit, OnDestroy {
       .requestToEndpoint<IUserApp[]>(endpoint)
       .subscribe({
         next: (resp) => {
-          console.log(resp);
           this.$localStorage.set('userApps', JSON.stringify(resp));
           if (resp.length === 1) {
             const currentApp = resp[0].app.name;
@@ -86,7 +85,6 @@ export class AppLauncherComponent implements OnInit, OnDestroy {
     // )
     this.subs.sink = this.auth.getOMSMenu().subscribe({
       next: (resp) => {
-        // console.log('🚀 ~ redirectToOMS ~ resp:', resp);
         const { origin } = window.location;
         if (resp) {
           this.$localStorage.set('menu', JSON.stringify(resp));

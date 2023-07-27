@@ -41,7 +41,6 @@ export class ForgotPasswordComponent implements OnDestroy {
       this.toastr.error('Invalid Form');
       return;
     }
-    console.log('clicked on submit');
 
     const endpoint = '/authservice/webapi/signup/checkemail';
     const params = {
@@ -71,7 +70,6 @@ export class ForgotPasswordComponent implements OnDestroy {
 
     this.subs.sink = this.http.requestToEndpoint(endpoint, params).subscribe({
       next: (resp) => {
-        console.log(resp);
         this.hideResetForm = true;
         this.toastr.success(
           'Password change link has been sent again',
