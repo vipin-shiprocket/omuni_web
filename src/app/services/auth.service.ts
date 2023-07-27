@@ -4,6 +4,7 @@ import { AuthenticateResp } from '../pages/auth/auth.model';
 import { HttpService } from './http.service';
 import { SubSink } from 'subsink';
 import { Observable } from 'rxjs';
+import { IMenu } from '../pages/app-launcher/app-launcher.model';
 
 @Injectable({
   providedIn: 'root',
@@ -51,7 +52,7 @@ export class AuthService implements OnDestroy {
       next: () => {
         localStorage.clear();
         this.cookie.set('isLoggedIn', 'false');
-        window.location.href = window.location.origin + '/login';
+        window.location.href = window.location.origin + '/v2/login';
       },
       error: (err) => {
         console.error(err);
@@ -105,17 +106,13 @@ export class AuthService implements OnDestroy {
     return this.http.requestByUrl(baseUrl + endpoint, params);
   }
 
-  getOMSMenu(): Observable<
-    Record<string, string | number | Record<string, string>[]>[]
-  > {
+  getOMSMenu(): Observable<IMenu[]> {
     const baseUrl = window.location.origin + '/api/oms';
     const endpoint = '/omsservices/webapi/omsusers/menu';
     return this.http.requestByUrl(baseUrl + endpoint);
   }
 
-  getFMSMenu(): Observable<{
-    data: Record<string, string | number | Record<string, string>[]>[];
-  }> {
+  getFMSMenu(): Observable<{ data: IMenu[] }> {
     const baseUrl = window.location.origin + '/api/fms/fms/webapi';
     const endpoint = '/users/menu';
     return this.http.requestByUrl(baseUrl + endpoint);

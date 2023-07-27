@@ -49,3 +49,14 @@ export const AvailableApp: Record<string, IAppModal> = {
     data: null,
   },
 };
+
+export interface IMenu {
+  name: string;
+  href: string;
+  imageUrl: string;
+  readAccess: boolean;
+  editAccess: boolean;
+  createAccess: boolean;
+  deleteAccess: boolean;
+  subMenu: IMenu[];
+}

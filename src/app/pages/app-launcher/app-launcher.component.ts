@@ -7,7 +7,7 @@ import { HttpService } from 'src/app/services/http.service';
 import { SubSink } from 'subsink';
 import { AvailableApp, IAppModal, IUserApp } from './app-launcher.model';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
-import { mergeMap } from 'rxjs';
+// import { mergeMap } from 'rxjs';
 
 @Component({
   selector: 'app-app-launcher',
@@ -77,31 +77,31 @@ export class AppLauncherComponent implements OnInit, OnDestroy {
   }
 
   redirectToOMS() {
-    const email = this.auth.getEmail();
-    this.subs.sink = this.auth
-      .checkOmsClientFirstTime(email)
-      .pipe(
-        mergeMap(() => this.auth.checkOmsUserFirstTime(email)),
-        mergeMap(() => this.auth.getOMSMenu()),
-      )
-      .subscribe({
-        next: (resp) => {
-          console.log('🚀 ~ redirectToOMS ~ resp:', resp);
-
-          if (resp) {
-            this.$localStorage.set('menu', JSON.stringify(resp));
-            if (resp && resp[0]['href'] !== undefined) {
-              window.location.href = 'oms/#' + resp[0]['href'];
-            } else {
-              const subMenu = resp[0]['subMenu'] as Record<string, string>[];
-              window.location.href = 'oms/#' + subMenu[0]['href'];
-            }
+    // const email = this.auth.getEmail();
+    // this.auth
+    // .checkOmsClientFirstTime(email)
+    // .pipe(
+    //   mergeMap(() => this.auth.checkOmsUserFirstTime(email)),
+    //   mergeMap(() => this.auth.getOMSMenu()),
+    // )
+    this.subs.sink = this.auth.getOMSMenu().subscribe({
+      next: (resp) => {
+        // console.log('🚀 ~ redirectToOMS ~ resp:', resp);
+        const { origin } = window.location;
+        if (resp) {
+          this.$localStorage.set('menu', JSON.stringify(resp));
+          if (resp && resp[0]['href'] !== undefined) {
+            window.location.href = origin + '/oms/#' + resp[0]['href'];
+          } else {
+            const subMenu = resp[0]['subMenu'];
+            window.location.href = origin + '/oms/#' + subMenu[0]['href'];
           }
-        },
-        error(err) {
-          console.error(err);
-        },
-      });
+        }
+      },
+      error(err) {
+        console.error(err);
+      },
+    });
   }
 
   redirectToFMS() {
