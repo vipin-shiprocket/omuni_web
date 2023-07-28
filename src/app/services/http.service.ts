@@ -59,6 +59,14 @@ export class HttpService {
     return this.httpClient.delete(url) as Observable<T>;
   }
 
+  putToUrl<T>(url: string, body: unknown, params = {}, headers?: HttpHeaders) {
+    params = this.getQueryParam(params);
+    return this.httpClient.put(url, body, {
+      params,
+      headers,
+    }) as Observable<T>;
+  }
+
   requestByUrl<T>(url: string, params = {}) {
     params = this.getQueryParam(params);
     return this.httpClient.get(url, { params }) as Observable<T>;
