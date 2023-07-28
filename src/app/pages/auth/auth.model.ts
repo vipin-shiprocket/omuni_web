@@ -49,3 +49,7 @@ export interface IErrorResp {
   status: number;
   errorMessage?: string;
 }
+
+export const PasswordPattern = new RegExp(
+  '^(?=.*[A-Za-z])(?=.*\\d)(?=.*[$@$!%*#?&])[A-Za-z\\d$@$!%*#?&]{8,14}$',
+);

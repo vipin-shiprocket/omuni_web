@@ -9,6 +9,7 @@ import { ToastrService } from 'ngx-toastr';
 import { switchMap } from 'rxjs';
 import { HttpService } from 'src/app/services/http.service';
 import { SubSink } from 'subsink';
+import { PasswordPattern } from '../auth.model';
 
 interface IUserForm {
   company: FormControl<string | null>;
@@ -23,10 +24,6 @@ interface IUserForm {
   oms: FormControl<boolean | null>;
   fms: FormControl<boolean | null>;
 }
-
-const PasswordPattern = new RegExp(
-  '^(?=.*[A-Za-z])(?=.*\\d)(?=.*[$@$!%*#?&])[A-Za-z\\d$@$!%*#?&]{8,14}$',
-);
 
 @Component({
   selector: 'app-register',

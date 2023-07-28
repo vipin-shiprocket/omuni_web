@@ -11,9 +11,15 @@ import { ForgotPasswordComponent } from './forgot-password/forgot-password.compo
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { RegisterComponent } from './register/register.component';
 import { FooterComponent } from './footer/footer.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
 
 @NgModule({
-  declarations: [LoginComponent, ForgotPasswordComponent, RegisterComponent],
+  declarations: [
+    LoginComponent,
+    ForgotPasswordComponent,
+    RegisterComponent,
+    ResetPasswordComponent,
+  ],
   imports: [
     CommonModule,
     FormsModule,
