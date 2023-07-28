@@ -49,7 +49,9 @@
       </div>
 
       <form
+        tabindex="-1"
         [formGroup]="userForm"
+        (keyup.enter)="registerCompanyDetails()"
         (submit)="registerCompanyDetails()"
         autocapitalize="off"
         autocomplete="off"

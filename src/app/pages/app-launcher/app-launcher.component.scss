@@ -82,6 +82,10 @@
   }
 }
 
+.ams {
+  @extend .oms;
+}
+
 .wms {
   background: var(--light-blue-gra);
 
