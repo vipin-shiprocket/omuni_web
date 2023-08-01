@@ -1,9 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
 
-:root {
-  --primary-font: 'Open Sans', sans-serif;
-}
-
 html {
   font-size: 100%;
   box-sizing: border-box;
@@ -18,10 +14,10 @@ html {
 html,
 body {
   height: 100%;
+  font-family: var(--font);
 }
 
 body {
   margin: 0;
   padding: 0;
-  font-family: var(--primary-font);
 }
