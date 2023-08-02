@@ -1,0 +1,49 @@
+@use '../utils' as u;
+
+.btn-solid {
+  --bs-btn-font-weight: 600;
+  --bs-btn-color: #{u.$neutral4};
+  --bs-btn-bg: #{u.$primary1};
+  --bs-btn-border-radius: #{u.rem(6)};
+  --bs-btn-hover-color: #{u.$neutral4};
+  --bs-btn-hover-bg: #{u.$primary1a};
+  --bs-btn-active-color: #{u.$neutral4};
+  --bs-btn-active-bg: #{u.$primary1b};
+  --bs-btn-disabled-color: #{u.$neutral3};
+  --bs-btn-disabled-bg: #{u.$neutral3a};
+  --bs-btn-disabled-border-color: #{u.$neutral3a};
+  --bs-btn-padding-y: #{u.rem(6.5)};
+  font-size: u.rem(14);
+  letter-spacing: u.rem(0.28);
+}
+
+.btn-outlined {
+  @extend .btn-solid;
+  --bs-btn-bg: #{u.$neutral4};
+  --bs-btn-color: #{u.$primary1};
+  --bs-btn-border-color: #{u.$primary1};
+  --bs-btn-hover-bg: #{u.$neutral4};
+  --bs-btn-hover-color: #{u.$primary1a};
+  --bs-btn-hover-border-color: #{u.$primary1a};
+  --bs-btn-active-bg: #{u.$neutral4};
+  --bs-btn-active-color: #{u.$primary1b};
+  --bs-btn-disabled-color: #{u.$neutral3};
+  --bs-btn-disabled-bg: #{u.$neutral4};
+  --bs-btn-disabled-border-color: #{u.$neutral3a};
+}
+
+.btn-solid_sm {
+  @extend .btn-solid;
+  --bs-btn-font-weight: 500;
+  --bs-btn-padding-y: #{u.rem(3)};
+  font-size: u.rem(12);
+  letter-spacing: u.rem(0.24);
+}
+
+.btn-outlined_sm {
+  @extend .btn-outlined;
+  --bs-btn-font-weight: 500;
+  --bs-btn-padding-y: #{u.rem(3)};
+  font-size: u.rem(12);
+  letter-spacing: u.rem(0.24);
+}

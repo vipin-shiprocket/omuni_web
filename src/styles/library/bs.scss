@@ -1,7 +1,8 @@
+// Overrides bootstrap here
+@use './bs.component.scss' as *;
+
 // regular style toast
 @import 'ngx-toastr/toastr';
-
-// Overrides bootstrap here
 
 // Import all of Bootstrap's CSS
 @import 'bootstrap/scss/bootstrap';
