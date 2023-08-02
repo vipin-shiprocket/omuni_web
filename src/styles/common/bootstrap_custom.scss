@@ -76,3 +76,20 @@
     border-color: u.$secondary1;
   }
 }
+
+// card
+.card-custom {
+  --bs-card-border-radius: #{u.rem(8)};
+  --bs-card-box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.04);
+  --bs-card-border-color: white;
+  box-shadow: var(--bs-card-box-shadow);
+  cursor: pointer;
+
+  &:hover {
+    --bs-card-border-color: #{u.$secondary5a};
+  }
+
+  &:active {
+    --bs-card-bg: #{u.$secondary5b};
+  }
+}
