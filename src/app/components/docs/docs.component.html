@@ -71,6 +71,7 @@
     <div class="mb-3 ms-3 position-relative eye">
       <label for="exampleFormControlInput4" class="form-label">Password</label>
       <input
+        #pass
         type="password"
         autocomplete="new-password"
         class="form-control"
@@ -78,7 +79,9 @@
         placeholder="Password"
         value="password"
       />
-      <mat-icon> visibility </mat-icon>
+      <mat-icon (click)="toggle(pass)">
+        {{ pass.type === 'password' ? 'visibility_off' : 'visibility' }}
+      </mat-icon>
     </div>
     <div class="vr ms-3"></div>
     <div class="mb-3 ms-3">
@@ -106,6 +109,97 @@
         value="nameexample.com"
       />
       <div class="invalid-feedback">Please provide a valid email id.</div>
+    </div>
+  </div>
+  <div class="my-3">
+    <a routerLink="." fragment="checkbox" class="h2 font-light text-uppercase"
+      >checkbox</a
+    >
+  </div>
+  <div>
+    <input class="form-check-input ms-3" type="checkbox" value="" />
+    <input class="form-check-input ms-3" type="checkbox" checked />
+    <input class="form-check-input ms-3" type="checkbox" disabled />
+    <div class="vr ms-3"></div>
+    <input
+      class="form-check-input checkbox-outlined ms-3"
+      type="checkbox"
+      value=""
+    />
+    <input
+      class="form-check-input checkbox-outlined ms-3"
+      type="checkbox"
+      checked
+    />
+    <input class="form-check-input ms-3" type="checkbox" disabled />
+    <div class="vr ms-3"></div>
+    <input
+      class="form-check-input checkbox-outlined_success ms-3"
+      type="checkbox"
+      value=""
+    />
+    <input
+      class="form-check-input checkbox-outlined_success ms-3"
+      type="checkbox"
+      checked
+    />
+    <input
+      class="form-check-input checkbox-outlined_success ms-3"
+      type="checkbox"
+      disabled
+    />
+    <div class="vr ms-3"></div>
+  </div>
+
+  <div class="my-3">
+    <a routerLink="." fragment="radio" class="h2 font-light text-uppercase"
+      >radio</a
+    >
+  </div>
+  <div class="d-flex">
+    <input
+      class="form-check-input radio-outlined ms-3"
+      type="radio"
+      name="radioExample"
+    />
+    <input
+      class="form-check-input radio-outlined ms-3"
+      type="radio"
+      name="radioExample"
+      checked
+    />
+    <input
+      class="form-check-input radio-outlined ms-3"
+      type="radio"
+      name="radioExample"
+      disabled
+    />
+    <div class="vr ms-3 me-0"></div>
+    <div class="form-check form-switch ps-3">
+      <input
+        class="form-check-input switch-success ms-3"
+        type="checkbox"
+        role="switch"
+      />
+      <input
+        class="form-check-input switch-success ms-3"
+        type="checkbox"
+        role="switch"
+        checked
+      />
+      <input
+        class="form-check-input switch-success ms-3"
+        type="checkbox"
+        role="switch"
+        disabled
+      />
+      <input
+        class="form-check-input switch-success ms-3"
+        type="checkbox"
+        role="switch"
+        disabled
+        checked
+      />
     </div>
   </div>
 </div>

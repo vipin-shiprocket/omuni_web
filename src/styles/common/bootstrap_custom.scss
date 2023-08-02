@@ -47,3 +47,32 @@
   font-size: u.rem(12);
   letter-spacing: u.rem(0.24);
 }
+
+.checkbox-outlined {
+  &:checked[type='checkbox'] {
+    --bs-form-check-bg-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23745be7' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='m6 10 3 3 6-6'/%3e%3c/svg%3e");
+    background-color: white;
+  }
+
+  &_success[type='checkbox'] {
+    &:checked {
+      background-color: u.$secondary1;
+      border-color: u.$secondary1;
+    }
+    border-radius: 50%;
+  }
+}
+
+.radio-outlined {
+  &:checked[type='radio'] {
+    --bs-form-check-bg-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%23745be7'/%3e%3c/svg%3e");
+    background-color: white;
+  }
+}
+
+.switch-success {
+  &:checked {
+    background-color: u.$secondary1;
+    border-color: u.$secondary1;
+  }
+}

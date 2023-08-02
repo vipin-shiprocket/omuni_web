@@ -10,4 +10,12 @@ import { RouterModule } from '@angular/router';
   templateUrl: './docs.component.html',
   styleUrls: ['./docs.component.scss'],
 })
-export class DocsComponent {}
+export class DocsComponent {
+  toggle(el: HTMLInputElement) {
+    if (el.type === 'password') {
+      el.type = 'text';
+    } else {
+      el.type = 'password';
+    }
+  }
+}
