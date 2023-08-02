@@ -39,6 +39,11 @@ const routes: Routes = [
       ),
     canActivate: [authGuard],
   },
+  {
+    path: 'docs',
+    loadComponent: () =>
+      import('./components/docs/docs.component').then((c) => c.DocsComponent),
+  },
 ];
 
 @NgModule({

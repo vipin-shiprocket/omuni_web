@@ -1,0 +1,111 @@
+<div class="container">
+  <div class="my-3">
+    <a routerLink="." fragment="typography" class="h2 font-light text-uppercase"
+      >Typography</a
+    >
+  </div>
+  <h1>H1: Quick Brown Fox Jumps Over Little Lazy Dog.</h1>
+  <h2>H2: Quick Brown Fox Jumps Over Little Lazy Dog.</h2>
+  <h3>H3: Quick Brown Fox Jumps Over Little Lazy Dog.</h3>
+  <h4>H4: Quick Brown Fox Jumps Over Little Lazy Dog.</h4>
+  <h5>H5: Quick Brown Fox Jumps Over Little Lazy Dog.</h5>
+  <h6>H6: Quick Brown Fox Jumps Over Little Lazy Dog.</h6>
+  <p>p: Quick Brown Fox Jumps Over Little Lazy Dog.</p>
+
+  <div class="my-3">
+    <a routerLink="." fragment="buttons" class="h2 font-light text-uppercase"
+      >buttons</a
+    >
+  </div>
+  <button class="m-3 btn btn-solid">Default</button>
+  <button class="m-3 btn btn-solid" disabled>Disabled</button>
+  <button class="m-3 btn btn-outlined">Default</button>
+  <button class="m-3 btn btn-outlined" disabled>Disabled</button>
+  <div class="vr" style="height: 3rem; margin-bottom: -1.25rem"></div>
+  <button class="m-3 btn btn-solid_sm">Default Small</button>
+  <button class="m-3 btn btn-solid_sm" disabled>Disabled Small</button>
+  <button class="m-3 btn btn-outlined_sm">Default small</button>
+  <button class="m-3 btn btn-outlined_sm" disabled>Disabled small</button>
+
+  <div class="my-3">
+    <a
+      routerLink="."
+      fragment="input forms"
+      class="h2 font-light text-uppercase"
+      >input forms</a
+    >
+  </div>
+  <div class="d-flex">
+    <div class="mb-3 ms-3">
+      <label for="exampleFormControlInput1" class="form-label">Email ID</label>
+      <input
+        type="email"
+        class="form-control"
+        autocomplete="new-password"
+        id="exampleFormControlInput1"
+        placeholder="Enter your email id"
+      />
+    </div>
+    <div class="mb-3 ms-3">
+      <label for="exampleFormControlInput2" class="form-label">Password</label>
+      <input
+        type="password"
+        autocomplete="new-password"
+        class="form-control"
+        id="exampleFormControlInput2"
+        placeholder="Password"
+      />
+    </div>
+    <div class="vr ms-3"></div>
+    <div class="mb-3 ms-3">
+      <label for="exampleFormControlInput3" class="form-label">Email ID</label>
+      <input
+        type="email"
+        class="form-control"
+        autocomplete="new-password"
+        id="exampleFormControlInput3"
+        placeholder="Enter your email id"
+        value="name@example.com"
+      />
+    </div>
+    <div class="mb-3 ms-3 position-relative eye">
+      <label for="exampleFormControlInput4" class="form-label">Password</label>
+      <input
+        type="password"
+        autocomplete="new-password"
+        class="form-control"
+        id="exampleFormControlInput4"
+        placeholder="Password"
+        value="password"
+      />
+      <mat-icon> visibility </mat-icon>
+    </div>
+    <div class="vr ms-3"></div>
+    <div class="mb-3 ms-3">
+      <label for="exampleFormControlInput5" class="form-label">Email ID</label>
+      <input
+        type="email"
+        disabled
+        class="form-control"
+        autocomplete="new-password"
+        id="exampleFormControlInput5"
+        placeholder="Enter your email id"
+        value="name@example.com"
+      />
+    </div>
+    <div class="vr ms-3"></div>
+
+    <div class="mb-3 ms-3">
+      <label for="exampleFormControlInput6" class="form-label">Email ID</label>
+      <input
+        type="email"
+        class="form-control is-invalid"
+        autocomplete="new-password"
+        id="exampleFormControlInput6"
+        placeholder="Enter your email id"
+        value="nameexample.com"
+      />
+      <div class="invalid-feedback">Please provide a valid email id.</div>
+    </div>
+  </div>
+</div>
