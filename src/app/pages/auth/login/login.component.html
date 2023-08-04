@@ -1,16 +1,17 @@
-<div class="container-fluid px-0 auth-container">
+<div class="container-fluid px-0 auth-layout">
   <div class="row auth">
+    <div class="text-center mt-5 pt-5">
+      <img
+        ngSrc="./assets/images/logo-big.png"
+        alt="logo"
+        width="300"
+        height="60"
+        priority
+        class=""
+      />
+    </div>
     <div class="col-10 col-md-8 col-lg-5 auth-card">
-      <div class="auth-logo">
-        <img
-          ngSrc="./assets/images/logo-big.png"
-          alt="logo"
-          width="300"
-          height="60"
-          priority
-        />
-      </div>
-
+      <h1 class="h2 text-center mt-3">Login To Maven</h1>
       <form
         tabindex="-1"
         [formGroup]="userForm"
@@ -19,53 +20,53 @@
         autocomplete="off"
         class="auth-form"
       >
-        <div class="custom-input-goup mb-3 fs-14">
-          <mat-icon class="fs-5 input-icon-s">mail</mat-icon>
+        <div class="mb-3">
+          <label for="email" class="form-label">Username or Email ID</label>
           <input
-            type="text"
+            type="email"
+            class="form-control"
             formControlName="email"
-            class="form-control custom-input pl-2rem"
-            placeholder="User Name or Email ID*"
+            autocomplete="new-password"
+            id="email"
+            placeholder="Enter username or email id"
           />
         </div>
 
-        <div
-          class="custom-input-goup mb-3"
-          [hidden]="ctrlByName('password').disabled"
-        >
-          <mat-icon class="fs-5 input-icon-s">key</mat-icon>
+        <div class="mb-3" [hidden]="ctrlByName('password').disabled">
+          <label for="password" class="form-label">Password</label>
           <input
             type="password"
             formControlName="password"
             autocomplete="new-password"
-            class="form-control custom-input pl-2rem"
-            placeholder="Enter password*"
+            class="form-control"
+            id="password"
+            placeholder="Password"
           />
         </div>
 
         <div class="mb-3">
-          <a routerLink="/forgotPassword" class="a-link link-blue fs-14"
+          <a routerLink="/forgotPassword" class="a-link link-primary fs-12"
             >Forgot password ?</a
           >
         </div>
 
         <div class="d-grid gap-2">
           <button
-            class="btn auth-btn"
+            class="btn btn-solid"
             type="submit"
             *ngIf="!userClientsList.length"
           >
             Next
           </button>
-          <button *ngIf="isClientSelected" class="btn auth-btn" type="submit">
+
+          <button *ngIf="isClientSelected" class="btn btn-solid" type="submit">
             Log In
           </button>
         </div>
 
-        <div class="divider"><span>OR</span></div>
-        <div class="auth-note">
+        <div class="auth-note mt-3">
           If you're not a registered user, please contact
-          <a class="a-link" href="mailto:support@gscmaven.com"
+          <a class="a-link link-primary" href="mailto:support@gscmaven.com"
             >support@gscmaven.com</a
           >
         </div>
