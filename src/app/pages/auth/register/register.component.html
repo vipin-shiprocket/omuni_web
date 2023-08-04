@@ -1,5 +1,16 @@
-<div class="container-fluid px-0 auth-container fs-14">
+<div class="container-fluid auth-layout">
   <div class="row auth">
+    <div class="text-center mt-5">
+      <img
+        ngSrc="./assets/images/logo-big.png"
+        alt="logo"
+        width="300"
+        height="60"
+        priority
+        class=""
+      />
+    </div>
+
     <div
       *ngIf="!showRegisterForm"
       class="col-8 col-lg-5 auth-card text-center p-5 signup-success position-relative"
@@ -36,18 +47,8 @@
 
     <div
       *ngIf="showRegisterForm"
-      class="col-10 col-md-8 col-lg-6 auth-card position-relative my-5 my-xl-0"
+      class="col-10 col-md-8 col-lg-6 auth-card position-relative"
     >
-      <div class="auth-logo">
-        <img
-          ngSrc="../assets/images/logo-big.png"
-          alt="logo"
-          width="300"
-          height="60"
-          priority
-        />
-      </div>
-
       <form
         tabindex="-1"
         [formGroup]="userForm"
@@ -55,240 +56,266 @@
         (submit)="registerCompanyDetails()"
         autocapitalize="off"
         autocomplete="off"
-        class="auth-form mt-4rem"
+        class="auth-form"
       >
-        <div class="auth-app__checkbox">
-          <mat-checkbox formControlName="oms" class="maven_checkbox"
-            >OMS</mat-checkbox
-          >
-          <mat-checkbox formControlName="fms" class="maven_checkbox ms-3"
-            >FMS</mat-checkbox
-          >
+        <div class="auth-app__checkbox mb-3 fs-14">
+          <label class="cursor">
+            <input
+              formControlName="oms"
+              class="form-check-input me-2"
+              type="checkbox"
+            />
+            OMS
+          </label>
+          <label class="cursor">
+            <input
+              formControlName="fms"
+              class="form-check-input ms-3 me-2"
+              type="checkbox"
+            />
+            FMS
+          </label>
         </div>
         <div class="row">
           <div class="col-md-6 mb-3">
-            <div class="custom-input-goup mb-3">
-              <mat-icon class="fs-5 input-icon-s">apartment</mat-icon>
-              <input
-                type="text"
-                formControlName="company"
-                class="form-control custom-input pl-2rem"
-                placeholder="Company*"
-              />
-              <small
-                class="text-danger"
-                *ngIf="
-                  ctrlByName('company').dirty &&
-                  ctrlByName('company').hasError('required')
-                "
-                >Company name is required</small
-              >
+            <label for="company" class="form-label required"
+              >Company Name</label
+            >
+            <input
+              type="text"
+              class="form-control"
+              [ngClass]="{
+                'is-invalid':
+                  ctrlByName('company').invalid && ctrlByName('company').dirty
+              }"
+              formControlName="company"
+              id="company"
+              placeholder="Enter company name"
+            />
+            <div
+              *ngIf="ctrlByName('company').hasError('required')"
+              class="invalid-feedback"
+            >
+              Company name is required
             </div>
           </div>
           <div class="col-md-6 mb-3">
-            <div class="custom-input-goup mb-3">
-              <mat-icon class="fs-5 input-icon-s">dns</mat-icon>
-              <input
-                type="text"
-                formControlName="domain"
-                class="form-control custom-input pl-2rem"
-                placeholder="Domain*"
-              />
-              <small
-                class="text-danger"
-                *ngIf="
-                  ctrlByName('domain').dirty &&
-                  ctrlByName('domain').hasError('required')
-                "
-                >Company name is required</small
-              >
+            <label for="domain" class="form-label required">Domain</label>
+            <input
+              type="text"
+              class="form-control"
+              [ngClass]="{
+                'is-invalid':
+                  ctrlByName('domain').invalid && ctrlByName('domain').dirty
+              }"
+              formControlName="domain"
+              id="domain"
+              placeholder="Enter domain"
+            />
+            <div
+              *ngIf="ctrlByName('domain').hasError('required')"
+              class="invalid-feedback"
+            >
+              Domain name is required
             </div>
           </div>
           <div class="col-md-6 mb-3">
-            <div class="custom-input-goup mb-3">
-              <mat-icon class="fs-5 input-icon-s">mail</mat-icon>
-              <input
-                type="email"
-                formControlName="email"
-                class="form-control custom-input pl-2rem"
-                placeholder="Email ID*"
-              />
-              <span *ngIf="ctrlByName('email').dirty">
-                <small
-                  class="text-danger"
-                  *ngIf="ctrlByName('email').hasError('email')"
-                  >Email ID is invalid</small
-                >
-                <small
-                  class="text-danger"
-                  *ngIf="ctrlByName('email').hasError('required')"
-                  >Email ID is required</small
-                >
-              </span>
+            <label for="email" class="form-label required">Email ID</label>
+            <input
+              type="email"
+              class="form-control"
+              [ngClass]="{
+                'is-invalid':
+                  ctrlByName('email').invalid && ctrlByName('email').dirty
+              }"
+              formControlName="email"
+              autocomplete="new-password"
+              id="email"
+              placeholder="Enter email id"
+            />
+            <div
+              *ngIf="ctrlByName('email').hasError('required')"
+              class="invalid-feedback"
+            >
+              Email ID is required
+            </div>
+            <div
+              *ngIf="ctrlByName('email').hasError('email')"
+              class="invalid-feedback"
+            >
+              Email ID is invalid
             </div>
           </div>
           <div class="col-md-6 mb-3">
-            <div class="custom-input-goup mb-3">
-              <mat-icon class="fs-5 input-icon-s">phone_android</mat-icon>
-              <input
-                type="tel"
-                maxlength="10"
-                formControlName="phone"
-                class="form-control custom-input pl-2rem"
-                placeholder="Mobile Number*"
-              />
-              <span *ngIf="ctrlByName('phone').dirty">
-                <small
-                  class="text-danger"
-                  *ngIf="ctrlByName('phone').hasError('required')"
-                  >Phone is required</small
-                >
-                <small
-                  class="text-danger"
-                  *ngIf="ctrlByName('phone').hasError('pattern')"
-                  >Should have only numbers<br
-                /></small>
-                <small
-                  class="text-danger"
-                  *ngIf="ctrlByName('phone').hasError('minlength')"
-                  >Should be 10 digits<br
-                /></small>
-              </span>
+            <label for="phone" class="form-label required">Mobile Number</label>
+            <input
+              type="tel"
+              maxlength="10"
+              class="form-control"
+              [ngClass]="{
+                'is-invalid':
+                  ctrlByName('phone').invalid && ctrlByName('phone').dirty
+              }"
+              formControlName="phone"
+              id="phone"
+              placeholder="Enter mobile number"
+            />
+            <div
+              *ngIf="ctrlByName('phone').hasError('required')"
+              class="invalid-feedback"
+            >
+              Phone is required
+            </div>
+            <div
+              *ngIf="ctrlByName('phone').hasError('pattern')"
+              class="invalid-feedback"
+            >
+              Should have only numbers
+            </div>
+            <div
+              *ngIf="ctrlByName('phone').hasError('minlength')"
+              class="invalid-feedback"
+            >
+              Should be 10 digits
             </div>
           </div>
           <div class="col-md-6 mb-3">
-            <div class="custom-input-goup mb-3">
-              <mat-icon class="fs-5 input-icon-s">person</mat-icon>
-              <input
-                type="text"
-                formControlName="fname"
-                class="form-control custom-input pl-2rem"
-                placeholder="First Name*"
-              />
-              <small
-                class="text-danger"
-                *ngIf="
-                  ctrlByName('fname').dirty &&
-                  ctrlByName('fname').hasError('required')
-                "
-                >First name is required</small
-              >
+            <label for="fname" class="form-label required">First Name</label>
+            <input
+              type="text"
+              class="form-control"
+              [ngClass]="{
+                'is-invalid':
+                  ctrlByName('fname').invalid && ctrlByName('fname').dirty
+              }"
+              formControlName="fname"
+              id="fname"
+              placeholder="Enter first name"
+            />
+            <div
+              *ngIf="ctrlByName('fname').hasError('required')"
+              class="invalid-feedback"
+            >
+              First name is required
             </div>
           </div>
           <div class="col-md-6 mb-3">
-            <div class="custom-input-goup mb-3">
-              <mat-icon class="fs-5 input-icon-s">person</mat-icon>
-              <input
-                type="text"
-                formControlName="lname"
-                class="form-control custom-input pl-2rem"
-                placeholder="Last Name*"
-              />
-              <small
-                class="text-danger"
-                *ngIf="
-                  ctrlByName('lname').dirty &&
-                  ctrlByName('lname').hasError('required')
-                "
-                >Last name is required</small
-              >
+            <label for="lname" class="form-label required">Last Name</label>
+            <input
+              type="text"
+              class="form-control"
+              [ngClass]="{
+                'is-invalid':
+                  ctrlByName('lname').invalid && ctrlByName('lname').dirty
+              }"
+              formControlName="lname"
+              id="lname"
+              placeholder="Enter last name"
+            />
+            <div
+              *ngIf="ctrlByName('lname').hasError('required')"
+              class="invalid-feedback"
+            >
+              Last name is required
             </div>
           </div>
           <div class="col-md-6 mb-3">
-            <div class="custom-input-goup mb-3">
-              <mat-icon class="fs-5 input-icon-s">key</mat-icon>
-              <input
-                type="password"
-                formControlName="password"
-                autocomplete="new-password"
-                class="form-control custom-input pl-2rem"
-                placeholder="Password*"
-              />
-              <div *ngIf="ctrlByName('password').dirty">
-                <small
-                  class="text-danger"
-                  *ngIf="ctrlByName('password').hasError('required')"
-                  >Password is required <br
-                /></small>
-                <small
-                  class="text-danger"
-                  *ngIf="ctrlByName('password').hasError('minlength')"
-                  >Password must be at least 8 characters long <br
-                /></small>
-                <small
-                  class="text-danger"
-                  *ngIf="ctrlByName('password').hasError('pattern')"
-                >
-                  Password should contain one letter,one character and one
-                  special character
-                </small>
-              </div>
+            <label for="password" class="form-label required">Password</label>
+            <input
+              type="password"
+              class="form-control"
+              [ngClass]="{
+                'is-invalid':
+                  ctrlByName('password').invalid && ctrlByName('password').dirty
+              }"
+              formControlName="password"
+              id="password"
+              autocomplete="new-password"
+              placeholder="Enter password"
+            />
+            <div
+              *ngIf="ctrlByName('password').hasError('required')"
+              class="invalid-feedback"
+            >
+              Password is required
+            </div>
+            <div
+              *ngIf="ctrlByName('password').hasError('minlength')"
+              class="invalid-feedback"
+            >
+              Password must be at least 8 characters long
+            </div>
+            <div
+              *ngIf="ctrlByName('password').hasError('pattern')"
+              class="invalid-feedback"
+            >
+              Password should contain one letter,one character and one special
+              character
             </div>
           </div>
           <div class="col-md-6 mb-3">
-            <div class="custom-input-goup mb-3">
-              <mat-icon class="fs-5 input-icon-s">key</mat-icon>
-              <input
-                type="password"
-                formControlName="confirmPassword"
-                class="form-control custom-input pl-2rem"
-                placeholder="Confirm Password*"
-              />
-
-              <span *ngIf="ctrlByName('confirmPassword').dirty">
-                <small
-                  class="text-danger"
-                  *ngIf="ctrlByName('confirmPassword').hasError('required')"
-                  >Confirm Password is required
-                  <br />
-                </small>
-                <small
-                  class="text-danger"
-                  *ngIf="ctrlByName('confirmPassword').hasError('mismatch')"
-                >
-                  Please re-enter the password, your passwords don't match
-                </small>
-              </span>
+            <label for="confirmPassword" class="form-label required"
+              >Confirm Password</label
+            >
+            <input
+              type="password"
+              class="form-control"
+              [ngClass]="{
+                'is-invalid':
+                  ctrlByName('confirmPassword').invalid &&
+                  ctrlByName('confirmPassword').dirty
+              }"
+              formControlName="confirmPassword"
+              id="confirmPassword"
+              autocomplete="new-password"
+              placeholder="Enter Confirm Password"
+            />
+            <div
+              *ngIf="ctrlByName('confirmPassword').hasError('required')"
+              class="invalid-feedback"
+            >
+              Confirm Password is required
+            </div>
+            <div
+              *ngIf="ctrlByName('confirmPassword').hasError('mismatch')"
+              class="invalid-feedback"
+            >
+              Please re-enter the password, your passwords don't match
             </div>
           </div>
         </div>
 
         <div class="mb-3 auth-ack text-start">
-          <mat-checkbox formControlName="iAgree" class="maven_checkbox">
+          <label class="cursor fs-12">
+            <input
+              formControlName="iAgree"
+              [ngClass]="{
+                'is-invalid':
+                  ctrlByName('iAgree').invalid && ctrlByName('iAgree').dirty
+              }"
+              class="form-check-input me-2 is-invalid"
+              type="checkbox"
+            />
             I acknowledge that I have read and agree to the
-            <a class="a-link link-blue">Terms of Service</a>
+            <a class="a-link link-primary">Terms of Service</a>
             and
-            <a class="a-link link-blue">Privacy Policy</a>
-          </mat-checkbox>
-          <br />
-          <small
-            class="text-danger"
-            *ngIf="
-              ctrlByName('lname').dirty &&
-              ctrlByName('lname').hasError('required')
-            "
-            >Required field</small
-          >
+            <a class="a-link link-primary">Privacy Policy</a>
+            <div class="invalid-feedback">Required field</div>
+          </label>
         </div>
 
         <div class="d-grid gap-2">
-          <button class="btn auth-btn" type="submit">Register</button>
+          <button class="btn btn-solid" type="submit">Register</button>
         </div>
 
-        <div class="divider"><span>OR</span></div>
-
-        <div class="auth-note">
+        <div class="auth-note mt-3">
           if you already a registerd user
           <a routerLink="/login" class="a-link fs-14">Login</a>
         </div>
       </form>
-
-      <div
-        class="text-center position-absolute w-100 l-0 mb-2"
-        style="bottom: -4rem"
-      >
-        <app-footer></app-footer>
-      </div>
+    </div>
+    <div class="text-center footer my-3">
+      <app-footer></app-footer>
     </div>
   </div>
 </div>

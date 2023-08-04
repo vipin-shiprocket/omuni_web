@@ -2,6 +2,7 @@
 
 .auth-layout {
   height: 100vh;
+  overflow-y: scroll;
   background-color: u.$secondary5c;
   background-image: url('../../assets/images/bg-login.png');
   background-position: 50%;
@@ -46,11 +47,11 @@
   }
 
   &-app__checkbox {
-    position: absolute;
-    top: 8rem;
-    left: 0;
-    width: 100%;
-    padding: u.rem(8) u.rem(40);
-    background: u.$color8;
+    // position: absolute;
+    // top: 8rem;
+    // left: 0;
+    // width: 100%;
+    // padding: u.rem(8) u.rem(40);
+    // background: u.$color8;
   }
 }
