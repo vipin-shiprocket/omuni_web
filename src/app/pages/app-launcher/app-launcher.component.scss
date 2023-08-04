@@ -2,11 +2,16 @@
 
 .logout-btn {
   &:hover {
-    color: u.$color5;
+    color: u.$primary1;
   }
 }
 
+.navbar {
+  background-color: u.$secondary5c;
+}
+
 .app {
+  background-color: u.$secondary5c;
   height: calc(100% - 60px);
 
   &-row {
@@ -14,82 +19,24 @@
   }
 
   &-card {
-    border: none;
     width: u.rem(300);
     padding: u.rem(50) u.rem(20);
-    box-shadow: var(--bx-shd);
-    border-radius: u.rem(11);
-    position: relative;
+    text-align: center;
 
     &:hover {
-      box-shadow: var(--bx-shd-hv);
+      color: u.$primary1;
+      border-color: u.$primary1;
       cursor: pointer;
     }
+  }
 
-    &::before {
-      content: '';
-      position: absolute;
-      opacity: 0;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      border-radius: u.rem(11);
-      transition: opacity 0.4s ease-in-out;
-    }
-
-    &:hover::before {
-      opacity: 1;
-    }
-
-    & > * {
-      margin-inline: auto;
-      font-size: u.rem(31);
-    }
+  &-icon {
+    text-align: center;
 
     .mat-icon {
       width: u.rem(31);
       height: u.rem(31);
-      z-index: 1;
+      font-size: u.rem(31);
     }
-
-    h1 {
-      margin-bottom: 0;
-      z-index: 1;
-    }
-
-    p {
-      font-size: u.rem(13);
-      margin-bottom: 0;
-      z-index: 1;
-    }
-  }
-}
-
-.fms {
-  background: var(--pink-gra);
-
-  &::before {
-    background: var(--pink-gra-op);
-  }
-}
-
-.oms {
-  background: var(--orange-gra);
-
-  &:before {
-    background: var(--orange-gra-op);
-  }
-}
-
-.ams {
-  @extend .oms;
-}
-
-.wms {
-  background: var(--light-blue-gra);
-
-  &:before {
-    background: var(--light-blue-gra-op);
   }
 }

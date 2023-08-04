@@ -1,4 +1,4 @@
-<nav class="navbar bg-white">
+<nav class="navbar">
   <div class="container-fluid">
     <img
       ngSrc="./assets/svg/glaucus_logo.svg"
@@ -29,12 +29,14 @@
     <ng-container *ngFor="let app of apps">
       <div
         tabindex="-1"
-        class="card mx-3 app-card slideDown {{ app.id }}"
+        class="card mx-3 card-custom app-card slideDown"
         role="button"
         (keypress)="onClickApp(app.id)"
         (click)="onClickApp(app.name)"
       >
-        <mat-icon>{{ app.logo }}</mat-icon>
+        <div class="app-icon">
+          <mat-icon>{{ app.logo }}</mat-icon>
+        </div>
         <h1>{{ app.name }}</h1>
         <p>{{ app.fullname }}</p>
       </div>
