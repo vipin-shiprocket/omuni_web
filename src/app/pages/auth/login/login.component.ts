@@ -22,6 +22,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
 import { MavenAppConfig } from 'src/app/utils/config';
 import { AuthService } from 'src/app/services/auth.service';
+import { toggleEye } from 'src/app/utils/utils';
 
 interface IUserForm {
   email: FormControl<string | null>;
@@ -41,6 +42,7 @@ export class LoginComponent implements OnDestroy {
   userClientsList: TFindUserResp = [];
   isClientSelected = false;
   hideClientsList = false;
+  toggle = toggleEye;
 
   constructor(
     private http: HttpService,

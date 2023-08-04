@@ -32,9 +32,10 @@
           />
         </div>
 
-        <div class="mb-3" [hidden]="ctrlByName('password').disabled">
+        <div class="mb-3 eye" [hidden]="ctrlByName('password').disabled">
           <label for="password" class="form-label">Password</label>
           <input
+            #pass
             type="password"
             formControlName="password"
             autocomplete="new-password"
@@ -42,6 +43,12 @@
             id="password"
             placeholder="Password"
           />
+          <mat-icon
+            [ngStyle]="{ opacity: +ctrlByName('password').enabled }"
+            (click)="toggle(pass)"
+          >
+            {{ pass.type === 'password' ? 'visibility_off' : 'visibility' }}
+          </mat-icon>
         </div>
 
         <div class="mb-3">
