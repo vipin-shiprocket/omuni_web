@@ -1,4 +1,4 @@
-<div class="container-fluid px-0 auth-layout">
+<div class="container-fluid auth-layout">
   <div class="row auth">
     <div class="text-center mt-5 pt-5">
       <img
@@ -11,7 +11,7 @@
       />
     </div>
     <div class="col-10 col-md-8 col-lg-5 auth-card">
-      <h1 class="h2 text-center mt-3">Login To Maven</h1>
+      <h1 class="h2 text-center mt-3 fw-bold">Login To Maven</h1>
       <form
         tabindex="-1"
         [formGroup]="userForm"
@@ -71,6 +71,9 @@
           >
         </div>
       </form>
+    </div>
+    <div class="text-center mt-3 footer">
+      <app-footer></app-footer>
     </div>
   </div>
 </div>

@@ -20,11 +20,11 @@
 </small>
 
 <ng-template #dialogTemplate let-data>
-  <div mat-dialog-title class="bg-info-subtle">
-    <span class="h4">{{ data.heading }}</span>
+  <div mat-dialog-title class="bg-info-subtle pt-2 d-flex align-items-center">
+    <h1 class="h2">{{ data.heading }}</h1>
     <button
       type="button"
-      class="btn-close float-end mt-3"
+      class="btn-close ms-auto"
       aria-label="Close"
       mat-dialog-close
     ></button>
