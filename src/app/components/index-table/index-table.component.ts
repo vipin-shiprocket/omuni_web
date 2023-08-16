@@ -10,9 +10,9 @@ import {
 import { CommonModule } from '@angular/common';
 import {
   IColumnData,
-  IndexedTableModules,
+  IndexTableModules,
   LooseObject,
-} from './indexed-table.model';
+} from './index-table.model';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
@@ -20,12 +20,12 @@ import { SelectionModel } from '@angular/cdk/collections';
 @Component({
   selector: 'app-indexed-table',
   standalone: true,
-  imports: [CommonModule, ...IndexedTableModules],
-  templateUrl: './indexed-table.component.html',
-  styleUrls: ['./indexed-table.component.scss'],
+  imports: [CommonModule, ...IndexTableModules],
+  templateUrl: './index-table.component.html',
+  styleUrls: ['./index-table.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class IndexedTableComponent implements AfterViewInit {
+export class IndexTableComponent implements AfterViewInit {
   @Output() saveColumns = new EventEmitter();
   @Input() set tableData(value: LooseObject[]) {
     if (value?.length) {

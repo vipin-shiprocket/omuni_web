@@ -4,7 +4,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 
-export const IndexedTableModules = [
+export const IndexTableModules = [
   MatTableModule,
   FormsModule,
   MatIconModule,
