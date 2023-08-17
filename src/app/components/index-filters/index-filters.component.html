@@ -1,0 +1,37 @@
+<div class="d-flex">
+  <nav class="nav fs-14 disabled">
+    <ng-container *ngFor="let tab of availableTabs">
+      <div class="nav-item dropdown">
+        <button
+          tabindex="-1"
+          class="nav-link"
+          data-bs-toggle="dropdown"
+          [disabled]="editViewMode"
+          [ngClass]="{ 'active dropdown-toggle': queryParams['query'] === tab }"
+          (click)="onTabClick(tab)"
+          (keyup)="onTabClick(tab)"
+        >
+          {{ tab }}
+        </button>
+        <ul class="dropdown-menu">
+          <li><button class="dropdown-item">Rename view</button></li>
+          <li><button class="dropdown-item">Duplicate view</button></li>
+          <li>
+            <button class="dropdown-item" (click)="onClickEditView()">
+              Edit view
+            </button>
+          </li>
+          <li>
+            <button class="dropdown-item text-danger">Delete view</button>
+          </li>
+        </ul>
+      </div>
+    </ng-container>
+  </nav>
+  <div class="ms-auto me-2" *ngIf="editViewMode">
+    <button (click)="cancelEditView()">cancel</button>
+    <button class="ms-2" (click)="saveEditView()">save</button>
+  </div>
+</div>
+
+<ng-content></ng-content>

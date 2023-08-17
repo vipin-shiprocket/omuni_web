@@ -18,7 +18,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 
 @Component({
-  selector: 'app-indexed-table',
+  selector: 'app-index-table',
   standalone: true,
   imports: [CommonModule, ...IndexTableModules],
   templateUrl: './index-table.component.html',
