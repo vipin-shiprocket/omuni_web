@@ -1,32 +1,53 @@
 <div class="d-flex">
   <nav class="nav fs-14 disabled">
-    <ng-container *ngFor="let tab of availableTabs">
+    <ng-container *ngFor="let tab of availableTabs; let i = index">
       <div class="nav-item dropdown">
         <button
+          #tabRef
           tabindex="-1"
           class="nav-link"
           data-bs-toggle="dropdown"
           [disabled]="editViewMode"
-          [ngClass]="{ 'active dropdown-toggle': queryParams['query'] === tab }"
-          (click)="onTabClick(tab)"
-          (keyup)="onTabClick(tab)"
+          [ngClass]="{
+            'active dropdown-toggle': queryParams['query'] === tab['name']
+          }"
+          (click)="onTabClick(tab, tabRef)"
+          (keyup)="onTabClick(tab, tabRef)"
         >
-          {{ tab }}
+          {{ tab['name'] }}
         </button>
         <ul class="dropdown-menu">
-          <li><button class="dropdown-item">Rename view</button></li>
-          <li><button class="dropdown-item">Duplicate view</button></li>
+          <li>
+            <button class="dropdown-item" (click)="updateName(i, 'rename')">
+              Rename view
+            </button>
+          </li>
+          <li>
+            <button class="dropdown-item" (click)="updateName(i, 'duplicate')">
+              Duplicate view
+            </button>
+          </li>
           <li>
             <button class="dropdown-item" (click)="onClickEditView()">
               Edit view
             </button>
           </li>
           <li>
-            <button class="dropdown-item text-danger">Delete view</button>
+            <button
+              class="dropdown-item text-danger"
+              (click)="updateName(i, 'delete')"
+            >
+              Delete view
+            </button>
           </li>
         </ul>
       </div>
     </ng-container>
+    <div class="nav-item">
+      <button class="nav-link" (click)="updateName(-1, 'create new view')">
+        <mat-icon>add</mat-icon>
+      </button>
+    </div>
   </nav>
   <div class="ms-auto me-2" *ngIf="editViewMode">
     <button (click)="cancelEditView()">cancel</button>
@@ -35,3 +56,47 @@
 </div>
 
 <ng-content></ng-content>
+
+<ng-template #updateNameTemplate let-data>
+  <h1
+    mat-dialog-title
+    class="h2 d-flex align-items-center pb-0 bg-secondary-subtle text-capitalize"
+  >
+    {{ data.context }}
+    <span role="button" mat-dialog-close class="btn-close ms-auto"></span>
+  </h1>
+  <div mat-dialog-content class="pb-0">
+    <div class="mb-3" *ngIf="!['delete'].includes(data.context)">
+      <label for="name" class="form-label">Name</label>
+      <input
+        type="text"
+        [(ngModel)]="data.tab.name"
+        class="form-control"
+        autocomplete="new-password"
+        id="name"
+      />
+    </div>
+    <div class="my-3" *ngIf="['delete'].includes(data.context)">
+      This can’t be undone. {{ data.tab.name }} view will no longer be available
+      in your admin.
+    </div>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-button class="ms-auto" mat-dialog-close>Cancel</button>
+    <button
+      mat-button
+      [mat-dialog-close]="data.tab"
+      *ngIf="!['delete'].includes(data.context)"
+    >
+      Save
+    </button>
+    <button
+      mat-button
+      mat-dialog-close="delete"
+      *ngIf="['delete'].includes(data.context)"
+      class="text-white bg-danger"
+    >
+      Delete
+    </button>
+  </div>
+</ng-template>

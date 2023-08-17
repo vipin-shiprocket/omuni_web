@@ -4,12 +4,15 @@ import {
   Input,
   OnDestroy,
   Output,
+  TemplateRef,
+  ViewChild,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IndexFiltersModules } from './index-filters.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SubSink } from 'subsink';
 import { Dropdown } from 'bootstrap';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-index-filters',
@@ -20,13 +23,16 @@ import { Dropdown } from 'bootstrap';
 })
 export class IndexFiltersComponent implements OnDestroy {
   @Output() editView = new EventEmitter<boolean | 'cancel'>();
-  @Input() set tabs(value: string[]) {
+  @Output() tabInfoUpdate = new EventEmitter();
+  @Input() set tabs(value: Record<string, unknown>[]) {
     if (value) {
       this.availableTabs = value;
     }
   }
+  @ViewChild('updateNameTemplate')
+  updateNameTemplate!: TemplateRef<HTMLElement>;
   private subs = new SubSink();
-  availableTabs: string[] = [];
+  availableTabs: Record<string, unknown>[] = [];
   queryParams!: Record<string, string>;
   editViewMode = false;
   dropdownMenu: Dropdown | null = null;
@@ -34,6 +40,7 @@ export class IndexFiltersComponent implements OnDestroy {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
+    private dialog: MatDialog,
   ) {
     this.subs.sink = this.route.queryParams.subscribe((qp) => {
       this.queryParams = qp;
@@ -43,15 +50,12 @@ export class IndexFiltersComponent implements OnDestroy {
     });
   }
 
-  onTabClick(tabName: string) {
-    if (this.queryParams['query'] === tabName) {
-      const btn = document.querySelector('.active');
-      if (btn) {
-        this.dropdownMenu = new Dropdown(btn);
-        this.dropdownMenu.toggle();
-      }
+  onTabClick(tab: Record<string, unknown>, ref: HTMLElement) {
+    if (this.queryParams['query'] === tab['name']) {
+      this.dropdownMenu = new Dropdown(ref);
+      this.dropdownMenu.toggle();
     } else {
-      this.router.navigate([], { queryParams: { query: tabName } });
+      this.router.navigate([], { queryParams: { query: tab['name'] } });
     }
   }
 
@@ -69,6 +73,51 @@ export class IndexFiltersComponent implements OnDestroy {
   cancelEditView() {
     this.editView.emit('cancel');
     this.editViewMode = false;
+  }
+
+  updateName(index: number, context: string) {
+    let tab = { ...this.availableTabs[index] };
+
+    if (context === 'duplicate') {
+      const newTab = {
+        ...tab,
+        name: `Copy of ${tab['name']}`,
+      };
+      tab = newTab;
+    }
+
+    if (index === -1) {
+      const newTab = {
+        name: '',
+        filters: {},
+      };
+      tab = newTab;
+    }
+
+    const dialog = this.dialog.open(this.updateNameTemplate, {
+      minWidth: '50%',
+      data: { tab, context },
+    });
+
+    this.subs.sink = dialog.afterClosed().subscribe((result) => {
+      if (!result) {
+        return;
+      }
+
+      if (result === 'delete') {
+        this.availableTabs.splice(index, 1);
+        this.tabInfoUpdate.emit('delete');
+        return;
+      }
+
+      if (index === -1 || context === 'duplicate') {
+        this.availableTabs.push(result);
+      } else {
+        this.availableTabs[index] = result;
+      }
+      this.router.navigate([], { queryParams: { query: result['name'] } });
+      this.tabInfoUpdate.emit(result);
+    });
   }
 
   ngOnDestroy(): void {
