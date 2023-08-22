@@ -1,0 +1,38 @@
+<mat-chip
+  [disabled]="test.hidden || disabled"
+  (click)="test.hidden = !test.hidden"
+  cdkOverlayOrigin
+  #trigger="cdkOverlayOrigin"
+  >{{ label }} {{ formatValue(selectedValues) }}
+  <div #test></div>
+  <mat-icon matChipTrailingIcon>expand_more</mat-icon></mat-chip
+>
+<ng-template
+  (overlayOutsideClick)="test.hidden = !test.hidden"
+  cdkConnectedOverlay
+  growAfterOpen
+  [cdkConnectedOverlayOrigin]="trigger"
+  [cdkConnectedOverlayOpen]="test.hidden"
+  class="example-listbox-container"
+>
+  <ul
+    cdkListbox
+    [(ngModel)]="selectedValues"
+    (cdkListboxValueChange)="onSelectionChange($event)"
+    [cdkListboxMultiple]="multiple && type !== 'radio'"
+    class="example-listbox bg-white border shadow-sm"
+  >
+    <li
+      *ngFor="let option of options"
+      [cdkOption]="option"
+      class="example-option"
+      [ngClass]="{
+        'multiple-select': multiple && type !== 'radio',
+        'single-select': !multiple && type === 'select',
+        'radio-select': !multiple && type === 'radio'
+      }"
+    >
+      {{ option.display }}
+    </li>
+  </ul>
+</ng-template>

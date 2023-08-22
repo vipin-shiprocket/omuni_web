@@ -1,4 +1,4 @@
-<div class="d-flex">
+<div class="d-flex border border-bottom-0">
   <nav class="nav fs-14 disabled">
     <ng-container *ngFor="let tab of availableTabs; let i = index">
       <div class="nav-item dropdown">
@@ -17,12 +17,12 @@
           {{ tab['name'] }}
         </button>
         <ul class="dropdown-menu">
-          <li>
+          <li *ngIf="tab['name'] !== 'All'">
             <button class="dropdown-item" (click)="updateName(i, 'rename')">
               Rename view
             </button>
           </li>
-          <li>
+          <li *ngIf="tab['name'] !== 'All'">
             <button class="dropdown-item" (click)="updateName(i, 'duplicate')">
               Duplicate view
             </button>
@@ -32,7 +32,7 @@
               Edit view
             </button>
           </li>
-          <li>
+          <li *ngIf="tab['name'] !== 'All'">
             <button
               class="dropdown-item text-danger"
               (click)="updateName(i, 'delete')"
