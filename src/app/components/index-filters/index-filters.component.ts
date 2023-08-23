@@ -28,6 +28,7 @@ import { MatDialog } from '@angular/material/dialog';
 export class IndexFiltersComponent implements OnDestroy {
   @Output() editView = new EventEmitter<boolean | 'cancel'>();
   @Output() tabInfoUpdate = new EventEmitter();
+  @Output() searchFilter = new EventEmitter<string>();
   @Input() filterData: FilterDataType | null = null;
   @Input() set tabs(value: Record<string, unknown>[]) {
     if (value) {
@@ -42,6 +43,7 @@ export class IndexFiltersComponent implements OnDestroy {
   editViewMode = false;
   dropdownMenu: Dropdown | null = null;
   appliedFilters: IFilter[] = [];
+  showFilters = false;
   objectvalues = Object.values;
 
   constructor(
@@ -136,6 +138,11 @@ export class IndexFiltersComponent implements OnDestroy {
       filter['value'] = [];
     });
     this.appliedFilters = [];
+  }
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.searchFilter.emit(filterValue);
   }
 
   ngOnDestroy(): void {

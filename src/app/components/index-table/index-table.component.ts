@@ -52,6 +52,14 @@ export class IndexTableComponent implements AfterViewInit {
     }
   }
 
+  @Input() set searchText(value: string) {
+    if (value) {
+      this.dataSource.filter = value.trim().toLowerCase();
+    } else {
+      this.dataSource.filter = ' ';
+    }
+  }
+
   @Input() enableSort = false;
 
   @ViewChild(MatSort) sort!: MatSort;
