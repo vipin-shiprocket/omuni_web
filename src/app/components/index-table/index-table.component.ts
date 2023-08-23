@@ -60,7 +60,7 @@ export class IndexTableComponent implements AfterViewInit {
     }
   }
 
-  @Input() enableSort = false;
+  @Input() enableSort = true;
 
   @ViewChild(MatSort) sort!: MatSort;
   columnsToDisplay: string[] = [];
