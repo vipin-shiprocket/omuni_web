@@ -1,3 +1,28 @@
+<mat-chip-set class="ms-3">
+  <ng-container *ngFor="let filter of objectvalues(appliedFilters)">
+    <app-chip-selectbox
+      [label]="filter['label']"
+      [options]="filter['data']"
+      [type]="filter['type']"
+      [multiple]="filter['multiple'] ?? false"
+      (selectionChange)="filter['value'] = $event"
+    ></app-chip-selectbox>
+  </ng-container>
+  <mat-chip [matMenuTriggerFor]="menu">
+    <mat-icon matChipTrailingIcon>add</mat-icon>
+    Add filter
+  </mat-chip>
+  <button mat-button class="ms-2" (click)="clearAll()">Clear All</button>
+</mat-chip-set>
+
+<mat-menu #menu="matMenu">
+  <ng-container *ngFor="let filter of objectvalues(filterData ?? {})">
+    <button mat-menu-item (click)="addFilter(filter)">
+      {{ filter['label'] }}
+    </button>
+  </ng-container>
+</mat-menu>
+
 <div class="d-flex border border-bottom-0">
   <nav class="nav fs-14 disabled">
     <ng-container *ngFor="let tab of availableTabs; let i = index">

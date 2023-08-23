@@ -8,7 +8,11 @@ import {
   ViewChild,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { IndexFiltersModules } from './index-filters.model';
+import {
+  FilterDataType,
+  IFilter,
+  IndexFiltersModules,
+} from './index-filters.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SubSink } from 'subsink';
 import { Dropdown } from 'bootstrap';
@@ -24,6 +28,7 @@ import { MatDialog } from '@angular/material/dialog';
 export class IndexFiltersComponent implements OnDestroy {
   @Output() editView = new EventEmitter<boolean | 'cancel'>();
   @Output() tabInfoUpdate = new EventEmitter();
+  @Input() filterData: FilterDataType | null = null;
   @Input() set tabs(value: Record<string, unknown>[]) {
     if (value) {
       this.availableTabs = value;
@@ -36,6 +41,8 @@ export class IndexFiltersComponent implements OnDestroy {
   queryParams!: Record<string, string>;
   editViewMode = false;
   dropdownMenu: Dropdown | null = null;
+  appliedFilters: IFilter[] = [];
+  objectvalues = Object.values;
 
   constructor(
     private router: Router,
@@ -118,6 +125,17 @@ export class IndexFiltersComponent implements OnDestroy {
       this.router.navigate([], { queryParams: { query: result['name'] } });
       this.tabInfoUpdate.emit(result);
     });
+  }
+
+  addFilter(filter: IFilter) {
+    this.appliedFilters.push(filter);
+  }
+
+  clearAll() {
+    Object.values(this.filterData ?? {}).forEach((filter) => {
+      filter['value'] = [];
+    });
+    this.appliedFilters = [];
   }
 
   ngOnDestroy(): void {
