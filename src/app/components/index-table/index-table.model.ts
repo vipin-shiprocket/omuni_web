@@ -3,6 +3,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 export const IndexTableModules = [
   MatTableModule,
@@ -10,6 +11,7 @@ export const IndexTableModules = [
   MatIconModule,
   MatSortModule,
   MatCheckboxModule,
+  MatPaginatorModule,
 ];
 
 export interface IColumnData {
@@ -20,3 +22,10 @@ export interface IColumnData {
 
 /* eslint-disable-next-line */
 export type LooseObject = Record<string, any>;
+
+export interface IPaginationData {
+  length: number;
+  pageSizeOptions: number[];
+  pageSize: number;
+  currentPage: number;
+}

@@ -10,6 +10,7 @@ import {
 import { CommonModule } from '@angular/common';
 import {
   IColumnData,
+  IPaginationData,
   IndexTableModules,
   LooseObject,
 } from './index-table.model';
@@ -27,6 +28,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 })
 export class IndexTableComponent implements AfterViewInit {
   @Output() saveColumns = new EventEmitter();
+  @Output() pageEvent = new EventEmitter();
   @Input() set tableData(value: LooseObject[]) {
     if (value?.length) {
       this.dataSource = new MatTableDataSource(value);
@@ -60,6 +62,7 @@ export class IndexTableComponent implements AfterViewInit {
     }
   }
 
+  @Input() paginationData: IPaginationData | null = null;
   @Input() enableSort = true;
 
   @ViewChild(MatSort) sort!: MatSort;
