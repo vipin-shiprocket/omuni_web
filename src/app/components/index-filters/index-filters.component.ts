@@ -17,6 +17,7 @@ import {
 import { SubSink } from 'subsink';
 import { Dropdown } from 'bootstrap';
 import { MatDialog } from '@angular/material/dialog';
+import { IOption } from '../chip-selectbox/chip-selectbox.model';
 
 @Component({
   selector: 'app-index-filters',
@@ -27,9 +28,10 @@ import { MatDialog } from '@angular/material/dialog';
 })
 export class IndexFiltersComponent implements OnDestroy {
   @Output() editView = new EventEmitter<IEditMode>();
-  @Output() searchFilter = new EventEmitter<string>();
+  @Output() filterChange = new EventEmitter<IFilter | string>();
   @Output() tabChange = new EventEmitter<Record<string, unknown> | 'delete'>();
   @Output() currentTab = new EventEmitter<number>();
+  @Output() saveFilters = new EventEmitter();
   @Input() filterData: FilterDataType | null = null;
   @Input() set tabs(value: Record<string, unknown>[]) {
     if (value) {
@@ -145,11 +147,31 @@ export class IndexFiltersComponent implements OnDestroy {
       filter['value'] = [];
     });
     this.appliedFilters = [];
+    this.filterChange.emit();
   }
 
-  applyFilter(event: Event) {
+  textSearch(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
-    this.searchFilter.emit(filterValue);
+    this.filterChange.emit(filterValue);
+  }
+
+  onUpdateFilter(evt: IOption[], filter: IFilter) {
+    filter.value = evt;
+    this.filterChange.emit(filter);
+  }
+
+  cancelFilterUpdate() {
+    this.showHideFilters();
+    this.filterChange.emit();
+  }
+
+  saveFilterUpdate() {
+    this.saveFilters.emit();
+    this.showHideFilters();
+  }
+
+  showHideFilters() {
+    this.showFilters = !this.showFilters;
   }
 
   ngOnDestroy(): void {

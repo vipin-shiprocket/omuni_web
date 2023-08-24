@@ -1,9 +1,9 @@
-<section [hidden]="!showFilters">
+<section *ngIf="showFilters">
   <div class="row align-items-center p-2 border">
     <div class="col-sm-8 col-md-10 mb-2 mb-sm-0">
       <input
         type="search"
-        (keyup)="applyFilter($event)"
+        (keyup)="textSearch($event)"
         class="form-control shadow-0"
         placeholder="Search"
       />
@@ -11,11 +11,13 @@
     <div class="col-sm-4 col-md-2">
       <button
         class="btn btn-outlined_sm border-secondary text-secondary"
-        (click)="showFilters = !showFilters"
+        (click)="cancelFilterUpdate()"
       >
         cancel
       </button>
-      <button class="btn btn-outlined_sm ms-3">save</button>
+      <button class="btn btn-outlined_sm ms-3" (click)="saveFilterUpdate()">
+        save
+      </button>
     </div>
   </div>
   <mat-chip-set class="ms-3">
@@ -25,7 +27,7 @@
         [options]="filter['data']"
         [type]="filter['type']"
         [multiple]="filter['multiple'] ?? false"
-        (selectionChange)="filter['value'] = $event"
+        (selectionChange)="onUpdateFilter($event, filter)"
       ></app-chip-selectbox>
     </ng-container>
     <mat-chip [matMenuTriggerFor]="menu">
@@ -101,7 +103,7 @@
   </nav>
 
   <div class="nav ms-auto">
-    <button class="nav-link" (click)="showFilters = !showFilters">
+    <button class="nav-link" (click)="showHideFilters()">
       <mat-icon>search</mat-icon>
       <mat-icon>filter_list</mat-icon>
     </button>
