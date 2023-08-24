@@ -56,12 +56,13 @@
           tabindex="-1"
           class="nav-link"
           data-bs-toggle="dropdown"
-          [disabled]="editViewMode"
+          [disabled]="editViewMode.editMode"
           [ngClass]="{
-            'active dropdown-toggle': queryParams['query'] === tab['name']
+            'active dropdown-toggle':
+              selectedTab && selectedTab['name'] === tab['name']
           }"
-          (click)="onTabClick(tab, tabRef)"
-          (keyup)="onTabClick(tab, tabRef)"
+          (click)="onTabClick(tab, tabRef, i)"
+          (keyup)="onTabClick(tab, tabRef, i)"
         >
           {{ tab['name'] }}
         </button>
@@ -77,7 +78,7 @@
             </button>
           </li>
           <li>
-            <button class="dropdown-item" (click)="onClickEditView()">
+            <button class="dropdown-item" (click)="onClickEditView(i)">
               Edit view
             </button>
           </li>
@@ -108,9 +109,11 @@
       <mat-icon>sort</mat-icon>
     </button>
   </div>
-  <div class="ms-auto me-2" *ngIf="editViewMode">
-    <button (click)="cancelEditView()">cancel</button>
-    <button class="ms-2" (click)="saveEditView()">save</button>
+  <div class="nav ms-auto me-2" *ngIf="editViewMode.editMode">
+    <button class="nav-link" (click)="cancelEditView()">cancel</button>
+    <button class="nav-link ms-2 text-primary" (click)="saveEditView()">
+      save
+    </button>
   </div>
 </div>
 

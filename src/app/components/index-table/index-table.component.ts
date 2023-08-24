@@ -17,6 +17,7 @@ import {
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
+import { PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-index-table',
@@ -27,9 +28,8 @@ import { SelectionModel } from '@angular/cdk/collections';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class IndexTableComponent implements AfterViewInit {
-  @Output() saveColumns = new EventEmitter();
-  @Output() pageEvent = new EventEmitter();
-  @Input() set tableData(value: LooseObject[]) {
+  @Output() pageEvent = new EventEmitter<PageEvent>();
+  @Input({ required: true }) set tableData(value: LooseObject[]) {
     if (value?.length) {
       this.dataSource = new MatTableDataSource(value);
     }
@@ -49,7 +49,6 @@ export class IndexTableComponent implements AfterViewInit {
       this.columnsToDisplay = this._displayedColumns.map((d) => d.name).slice();
     } else {
       const columnArrangement = this.getColumnArrangement();
-      this.saveColumns.emit(columnArrangement);
       this.columnsToDisplay = columnArrangement;
     }
   }

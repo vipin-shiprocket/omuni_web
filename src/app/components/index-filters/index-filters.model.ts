@@ -29,3 +29,8 @@ export interface IFilter {
 }
 
 export type FilterDataType = Record<string, IFilter>;
+export interface IEditMode {
+  editMode: boolean;
+  action?: 'edit' | 'save' | 'cancel';
+  index?: number;
+}

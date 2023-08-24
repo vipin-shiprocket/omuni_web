@@ -10,10 +10,10 @@ import {
 import { CommonModule } from '@angular/common';
 import {
   FilterDataType,
+  IEditMode,
   IFilter,
   IndexFiltersModules,
 } from './index-filters.model';
-import { ActivatedRoute, Router } from '@angular/router';
 import { SubSink } from 'subsink';
 import { Dropdown } from 'bootstrap';
 import { MatDialog } from '@angular/material/dialog';
@@ -21,67 +21,72 @@ import { MatDialog } from '@angular/material/dialog';
 @Component({
   selector: 'app-index-filters',
   standalone: true,
-  imports: [CommonModule, ...IndexFiltersModules],
+  imports: [CommonModule, IndexFiltersModules],
   templateUrl: './index-filters.component.html',
   styleUrls: ['./index-filters.component.scss'],
 })
 export class IndexFiltersComponent implements OnDestroy {
-  @Output() editView = new EventEmitter<boolean | 'cancel'>();
-  @Output() tabInfoUpdate = new EventEmitter();
+  @Output() editView = new EventEmitter<IEditMode>();
   @Output() searchFilter = new EventEmitter<string>();
+  @Output() tabChange = new EventEmitter<Record<string, unknown> | 'delete'>();
+  @Output() currentTab = new EventEmitter<number>();
   @Input() filterData: FilterDataType | null = null;
   @Input() set tabs(value: Record<string, unknown>[]) {
     if (value) {
       this.availableTabs = value;
+      this.selectedTab = this.availableTabs[0];
     }
   }
+  @Input() selectedTab: Record<string, unknown> | undefined;
   @ViewChild('updateNameTemplate')
   updateNameTemplate!: TemplateRef<HTMLElement>;
   private subs = new SubSink();
   availableTabs: Record<string, unknown>[] = [];
-  queryParams!: Record<string, string>;
-  editViewMode = false;
+  editViewMode: IEditMode = { editMode: false };
   dropdownMenu: Dropdown | null = null;
   appliedFilters: IFilter[] = [];
   showFilters = false;
   objectvalues = Object.values;
 
-  constructor(
-    private router: Router,
-    private route: ActivatedRoute,
-    private dialog: MatDialog,
-  ) {
-    this.subs.sink = this.route.queryParams.subscribe((qp) => {
-      this.queryParams = qp;
-      if (!Object.keys(qp).length) {
-        this.router.navigate([], { queryParams: { query: 'All' } });
-      }
-    });
-  }
+  constructor(private dialog: MatDialog) {}
 
-  onTabClick(tab: Record<string, unknown>, ref: HTMLElement) {
-    if (this.queryParams['query'] === tab['name']) {
+  onTabClick(tab: Record<string, unknown>, ref: HTMLElement, tabIndex: number) {
+    if (this.selectedTab && this.selectedTab['name'] === tab['name']) {
       this.dropdownMenu = new Dropdown(ref);
       this.dropdownMenu.toggle();
     } else {
-      this.router.navigate([], { queryParams: { query: tab['name'] } });
+      this.tabChange.emit(tab);
+      this.currentTab.emit(tabIndex);
+      this.selectedTab = tab;
     }
   }
 
-  onClickEditView() {
-    this.editView.emit(true);
-    this.editViewMode = true;
+  onClickEditView(index: number) {
+    this.editViewMode = {
+      editMode: true,
+      action: 'edit',
+      index,
+    };
+    this.editView.emit(this.editViewMode);
     this.dropdownMenu?.hide();
   }
 
   saveEditView() {
-    this.editView.emit(false);
-    this.editViewMode = false;
+    this.editViewMode = {
+      ...this.editViewMode,
+      editMode: false,
+      action: 'save',
+    };
+    this.editView.emit(this.editViewMode);
   }
 
   cancelEditView() {
-    this.editView.emit('cancel');
-    this.editViewMode = false;
+    this.editViewMode = {
+      ...this.editViewMode,
+      editMode: false,
+      action: 'cancel',
+    };
+    this.editView.emit(this.editViewMode);
   }
 
   updateName(index: number, context: string) {
@@ -99,6 +104,7 @@ export class IndexFiltersComponent implements OnDestroy {
       const newTab = {
         name: '',
         filters: {},
+        columns: this.availableTabs[0]['columns'] ?? [],
       };
       tab = newTab;
     }
@@ -115,7 +121,8 @@ export class IndexFiltersComponent implements OnDestroy {
 
       if (result === 'delete') {
         this.availableTabs.splice(index, 1);
-        this.tabInfoUpdate.emit('delete');
+        this.selectedTab = this.availableTabs[0];
+        this.tabChange.emit('delete');
         return;
       }
 
@@ -124,8 +131,8 @@ export class IndexFiltersComponent implements OnDestroy {
       } else {
         this.availableTabs[index] = result;
       }
-      this.router.navigate([], { queryParams: { query: result['name'] } });
-      this.tabInfoUpdate.emit(result);
+      this.selectedTab = result;
+      this.tabChange.emit(result);
     });
   }
 
