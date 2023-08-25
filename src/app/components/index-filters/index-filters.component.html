@@ -3,7 +3,9 @@
     <div class="col-sm-8 col-md-10 mb-2 mb-sm-0">
       <input
         type="search"
-        (keyup)="textSearch($event)"
+        [(ngModel)]="searchText"
+        (input)="textSearch()"
+        (ngModelChange)="filterText.emit(searchText)"
         class="form-control shadow-0"
         placeholder="Search"
       />
@@ -15,8 +17,19 @@
       >
         cancel
       </button>
-      <button class="btn btn-outlined_sm ms-3" (click)="saveFilterUpdate()">
+      <button
+        class="btn btn-outlined_sm ms-3"
+        *ngIf="selectedTab?.tabData?.canUpdate"
+        (click)="saveFilterUpdate()"
+      >
         save
+      </button>
+      <button
+        class="btn btn-outlined_sm ms-3"
+        *ngIf="!selectedTab?.tabData?.canUpdate"
+        (click)="updateTabName(-2, 'Save as')"
+      >
+        save as
       </button>
     </div>
   </div>
@@ -27,6 +40,7 @@
         [options]="filter['data']"
         [type]="filter['type']"
         [multiple]="filter['multiple'] ?? false"
+        [values]="filter.value"
         (selectionChange)="onUpdateFilter($event, filter)"
       ></app-chip-selectbox>
     </ng-container>
@@ -60,8 +74,7 @@
           data-bs-toggle="dropdown"
           [disabled]="editViewMode.editMode"
           [ngClass]="{
-            'active dropdown-toggle':
-              selectedTab && selectedTab['name'] === tab['name']
+            'active dropdown-toggle': selectedTab?.tabData?.name === tab['name']
           }"
           (click)="onTabClick(tab, tabRef, i)"
           (keyup)="onTabClick(tab, tabRef, i)"
@@ -69,25 +82,28 @@
           {{ tab['name'] }}
         </button>
         <ul class="dropdown-menu">
-          <li *ngIf="tab['name'] !== 'All'">
-            <button class="dropdown-item" (click)="updateName(i, 'rename')">
+          <li *ngIf="tab.canUpdate">
+            <button class="dropdown-item" (click)="updateTabName(i, 'rename')">
               Rename view
             </button>
           </li>
-          <li *ngIf="tab['name'] !== 'All'">
-            <button class="dropdown-item" (click)="updateName(i, 'duplicate')">
+          <li *ngIf="tab.canUpdate">
+            <button
+              class="dropdown-item"
+              (click)="updateTabName(i, 'duplicate')"
+            >
               Duplicate view
             </button>
           </li>
           <li>
-            <button class="dropdown-item" (click)="onClickEditView(i)">
+            <button class="dropdown-item" (click)="onClickEditView()">
               Edit view
             </button>
           </li>
-          <li *ngIf="tab['name'] !== 'All'">
+          <li *ngIf="tab.canUpdate">
             <button
               class="dropdown-item text-danger"
-              (click)="updateName(i, 'delete')"
+              (click)="updateTabName(i, 'delete')"
             >
               Delete view
             </button>
@@ -96,7 +112,7 @@
       </div>
     </ng-container>
     <div class="nav-item">
-      <button class="nav-link" (click)="updateName(-1, 'create new view')">
+      <button class="nav-link" (click)="updateTabName(-1, 'create new view')">
         <mat-icon>add</mat-icon>
       </button>
     </div>

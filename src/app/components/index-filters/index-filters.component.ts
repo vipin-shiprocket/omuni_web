@@ -12,6 +12,7 @@ import {
   FilterDataType,
   IEditMode,
   IFilter,
+  ITab,
   IndexFiltersModules,
 } from './index-filters.model';
 import { SubSink } from 'subsink';
@@ -29,45 +30,76 @@ import { IOption } from '../chip-selectbox/chip-selectbox.model';
 export class IndexFiltersComponent implements OnDestroy {
   @Output() editView = new EventEmitter<IEditMode>();
   @Output() filterChange = new EventEmitter<IFilter | string>();
-  @Output() tabChange = new EventEmitter<Record<string, unknown> | 'delete'>();
   @Output() currentTab = new EventEmitter<number>();
   @Output() saveFilters = new EventEmitter();
+  @Output() filterText = new EventEmitter<string>();
   @Input() filterData: FilterDataType | null = null;
-  @Input() set tabs(value: Record<string, unknown>[]) {
+  @Input() set tabs(value: ITab[]) {
     if (value) {
       this.availableTabs = value;
-      this.selectedTab = this.availableTabs[0];
+      this.selectedTab = { tabData: this.availableTabs[0], index: 0 };
     }
   }
-  @Input() selectedTab: Record<string, unknown> | undefined;
+  @Input() selectedTab: { tabData: ITab; index: number } | undefined;
   @ViewChild('updateNameTemplate')
   updateNameTemplate!: TemplateRef<HTMLElement>;
   private subs = new SubSink();
-  availableTabs: Record<string, unknown>[] = [];
+  availableTabs: ITab[] = [];
   editViewMode: IEditMode = { editMode: false };
   dropdownMenu: Dropdown | null = null;
   appliedFilters: IFilter[] = [];
   showFilters = false;
+  searchText = '';
   objectvalues = Object.values;
 
   constructor(private dialog: MatDialog) {}
 
-  onTabClick(tab: Record<string, unknown>, ref: HTMLElement, tabIndex: number) {
-    if (this.selectedTab && this.selectedTab['name'] === tab['name']) {
+  onTabClick(tab: ITab, ref: HTMLElement, tabIndex: number) {
+    if (this.selectedTab?.tabData?.name === tab['name']) {
       this.dropdownMenu = new Dropdown(ref);
       this.dropdownMenu.toggle();
     } else {
-      this.tabChange.emit(tab);
       this.currentTab.emit(tabIndex);
-      this.selectedTab = tab;
+      this.selectedTab = { tabData: tab, index: tabIndex };
+      this.resetFilters();
+      this.setAppliedFilters(tab.filters);
     }
   }
 
-  onClickEditView(index: number) {
+  setAppliedFilters(filters: ITab['filters']) {
+    Object.keys(filters).forEach((key) => {
+      const filterValues = filters[key];
+      let filter: IFilter;
+      if (key === 'query' && typeof filterValues === 'string') {
+        this.searchText = filterValues;
+        this.filterText.emit(this.searchText);
+      } else if (this.filterData) {
+        filter = this.filterData[key];
+        const data = filter.data;
+        filter.value = data.filter((d) => {
+          return Array.isArray(filterValues) && filterValues.includes(d.value);
+        });
+        this.appliedFilters.push(filter);
+      }
+    });
+  }
+
+  resetFilters() {
+    this.appliedFilters = [];
+    this.searchText = '';
+    this.filterText.emit(this.searchText);
+    if (this.filterData) {
+      const fD = this.filterData;
+      Object.keys(this.filterData).forEach((fKey) => {
+        fD[fKey].value = [];
+      });
+    }
+  }
+
+  onClickEditView() {
     this.editViewMode = {
       editMode: true,
       action: 'edit',
-      index,
     };
     this.editView.emit(this.editViewMode);
     this.dropdownMenu?.hide();
@@ -91,7 +123,7 @@ export class IndexFiltersComponent implements OnDestroy {
     this.editView.emit(this.editViewMode);
   }
 
-  updateName(index: number, context: string) {
+  updateTabName(index: number, context: string) {
     let tab = { ...this.availableTabs[index] };
 
     if (context === 'duplicate') {
@@ -102,10 +134,11 @@ export class IndexFiltersComponent implements OnDestroy {
       tab = newTab;
     }
 
-    if (index === -1) {
+    if ([-1, -2].includes(index)) {
       const newTab = {
         name: '',
         filters: {},
+        canUpdate: true,
         columns: this.availableTabs[0]['columns'] ?? [],
       };
       tab = newTab;
@@ -123,18 +156,23 @@ export class IndexFiltersComponent implements OnDestroy {
 
       if (result === 'delete') {
         this.availableTabs.splice(index, 1);
-        this.selectedTab = this.availableTabs[0];
-        this.tabChange.emit('delete');
+        this.selectedTab = { tabData: this.availableTabs[0], index: 0 };
+        this.currentTab.emit(0);
         return;
       }
 
-      if (index === -1 || context === 'duplicate') {
+      if ([-1, -2].includes(index) || context === 'duplicate') {
         this.availableTabs.push(result);
+        this.currentTab.emit(this.availableTabs.length - 1);
+        if (index === -2) {
+          this.showHideFilters();
+          this.saveFilters.emit();
+        }
       } else {
         this.availableTabs[index] = result;
+        this.currentTab.emit(index);
       }
-      this.selectedTab = result;
-      this.tabChange.emit(result);
+      this.selectedTab = { tabData: result, index };
     });
   }
 
@@ -147,12 +185,11 @@ export class IndexFiltersComponent implements OnDestroy {
       filter['value'] = [];
     });
     this.appliedFilters = [];
-    this.filterChange.emit();
+    this.filterChange.emit(undefined);
   }
 
-  textSearch(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.filterChange.emit(filterValue);
+  textSearch() {
+    this.filterChange.emit(this.searchText);
   }
 
   onUpdateFilter(evt: IOption[], filter: IFilter) {
@@ -161,8 +198,12 @@ export class IndexFiltersComponent implements OnDestroy {
   }
 
   cancelFilterUpdate() {
+    // clear filter having no value
+    this.appliedFilters = this.appliedFilters.filter(
+      (fltr) => fltr.value.length,
+    );
     this.showHideFilters();
-    this.filterChange.emit();
+    this.filterChange.emit(undefined);
   }
 
   saveFilterUpdate() {

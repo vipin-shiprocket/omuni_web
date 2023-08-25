@@ -21,6 +21,11 @@ export class ChipSelectboxComponent {
   @Input() options: IOption[] = [];
   @Input() type: chipSelectboxType = 'select';
   @Input() multiple = false;
+  @Input() set values(value: IOption[] | undefined) {
+    if (value) {
+      this.selectedValues = value;
+    }
+  }
   selectedValues: IOption[] = [];
 
   formatValue(value: IOption[]): string {

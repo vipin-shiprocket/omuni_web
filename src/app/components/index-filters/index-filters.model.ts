@@ -32,5 +32,11 @@ export type FilterDataType = Record<string, IFilter>;
 export interface IEditMode {
   editMode: boolean;
   action?: 'edit' | 'save' | 'cancel';
-  index?: number;
+}
+
+export interface ITab {
+  name: string;
+  filters: Record<string, string | (string | number | boolean)[]>;
+  canUpdate: boolean;
+  columns: string[];
 }
