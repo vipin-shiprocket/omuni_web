@@ -16,7 +16,6 @@ import {
   IndexFiltersModules,
 } from './index-filters.model';
 import { SubSink } from 'subsink';
-import { Dropdown } from 'bootstrap';
 import { MatDialog } from '@angular/material/dialog';
 import { IOption } from '../chip-selectbox/chip-selectbox.model';
 
@@ -46,7 +45,6 @@ export class IndexFiltersComponent implements OnDestroy {
   private subs = new SubSink();
   availableTabs: ITab[] = [];
   editViewMode: IEditMode = { editMode: false };
-  dropdownMenu: Dropdown | null = null;
   appliedFilters: IFilter[] = [];
   showFilters = false;
   searchText = '';
@@ -55,15 +53,13 @@ export class IndexFiltersComponent implements OnDestroy {
   constructor(private dialog: MatDialog) {}
 
   onTabClick(tab: ITab, ref: HTMLElement, tabIndex: number) {
-    if (this.selectedTab?.tabData?.name === tab['name']) {
-      this.dropdownMenu = new Dropdown(ref);
-      this.dropdownMenu.toggle();
-    } else {
-      this.currentTab.emit(tabIndex);
-      this.selectedTab = { tabData: tab, index: tabIndex };
-      this.resetFilters();
-      this.setAppliedFilters(tab.filters);
-    }
+    // evt.stopPropagation();
+    // ref.click();
+    if (this.selectedTab?.tabData?.name === tab['name']) return;
+    this.currentTab.emit(tabIndex);
+    this.selectedTab = { tabData: tab, index: tabIndex };
+    this.resetFilters();
+    this.setAppliedFilters(tab.filters);
   }
 
   setAppliedFilters(filters: ITab['filters']) {
@@ -102,7 +98,6 @@ export class IndexFiltersComponent implements OnDestroy {
       action: 'edit',
     };
     this.editView.emit(this.editViewMode);
-    this.dropdownMenu?.hide();
   }
 
   saveEditView() {

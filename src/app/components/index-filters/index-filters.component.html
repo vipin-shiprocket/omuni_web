@@ -72,7 +72,6 @@
           tabindex="-1"
           class="nav-link"
           data-bs-toggle="dropdown"
-          [disabled]="editViewMode.editMode"
           [ngClass]="{
             'active dropdown-toggle': selectedTab?.tabData?.name === tab['name']
           }"
@@ -123,9 +122,17 @@
       <mat-icon>search</mat-icon>
       <mat-icon>filter_list</mat-icon>
     </button>
-    <button class="nav-link">
-      <mat-icon>sort</mat-icon>
-    </button>
+
+    <div class="dropdown">
+      <button class="nav-link" data-bs-toggle="dropdown" aria-expanded="false">
+        <mat-icon>sort</mat-icon>
+      </button>
+      <ul class="dropdown-menu">
+        <li><a class="dropdown-item" href="#">Action</a></li>
+        <li><a class="dropdown-item" href="#">Another action</a></li>
+        <li><a class="dropdown-item" href="#">Something else here</a></li>
+      </ul>
+    </div>
   </div>
   <div class="nav ms-auto me-2" *ngIf="editViewMode.editMode">
     <button class="nav-link" (click)="cancelEditView()">cancel</button>
