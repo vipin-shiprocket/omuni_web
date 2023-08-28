@@ -1,0 +1,6 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+#ng test --no-code-coverage --browsers ChromeHeadless --watch=false
+#npm test
+

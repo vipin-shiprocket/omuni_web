@@ -1,0 +1,10 @@
+version: '3.0'
+services:
+  angular-service:
+    container_name: o2-web-production
+    build: ./Docker
+    working_dir: /var/www/app
+    image: o2-angular:16.2.0
+    volumes:
+      - ./:/var/www/app
+    command: bash -c "npm install --ignore-scripts && ng build -c production"
