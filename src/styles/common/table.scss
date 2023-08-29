@@ -1,0 +1,38 @@
+.o2-table {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-bottom: 0.5rem;
+
+  .o2-header-row,
+  .o2-row {
+    display: flex;
+    flex: 0 0 100%;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #fff;
+    margin: 0.2rem 0;
+    border-radius: 8px;
+  }
+
+  .cdk-cell,
+  .cdk-header-cell {
+    padding: 0.5rem 0;
+    text-align: center;
+    flex: 0 1 8rem;
+  }
+
+  .cdk-header-cell {
+    padding: 0;
+    margin-left: 0.5rem;
+  }
+
+  .cdk-header-cell:first-child {
+    margin-left: 0;
+  }
+
+  .mat-sort-header-container {
+    justify-content: center;
+    border-bottom: unset;
+  }
+}

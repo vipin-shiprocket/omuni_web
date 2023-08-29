@@ -1,72 +1,71 @@
-<div>
-  <table
-    mat-table
-    [dataSource]="dataSource"
-    matSort
-    [matSortDisabled]="!enableSort"
-    class="border"
-  >
-    <ng-container *ngFor="let column of _displayedColumns">
-      <!-- Checkbox Column -->
-      <ng-container *ngIf="column.name === 'select'" matColumnDef="select">
-        <th mat-header-cell *matHeaderCellDef>
-          <mat-checkbox
-            (change)="$event ? toggleAllRows() : null"
-            [checked]="selection.hasValue() && isAllSelected()"
-            [indeterminate]="selection.hasValue() && !isAllSelected()"
-            [aria-label]="checkboxLabel()"
-          >
-          </mat-checkbox>
-        </th>
-        <td mat-cell *matCellDef="let row">
-          <!-- eslint-disable-next-line -->
-          <mat-checkbox
-            (click)="$event.stopPropagation()"
-            (change)="$event ? selection.toggle(row) : null"
-            [checked]="selection.isSelected(row)"
-            [aria-label]="checkboxLabel(row)"
-          >
-            <!-- eslint-enable -->
-          </mat-checkbox>
-        </td>
-      </ng-container>
-
-      <ng-container
-        *ngIf="column.name !== 'select'"
-        [matColumnDef]="column.name"
-      >
-        <th
-          mat-header-cell
-          *matHeaderCellDef
-          mat-sort-header
-          [ngClass]="{ 'bg-lavender': !column.visible }"
+<cdk-table
+  matSort
+  #sort="matSort"
+  [matSortDisabled]="!enableSort"
+  [dataSource]="dataSource"
+  class="o2-table"
+>
+  <ng-container *ngFor="let column of _displayedColumns">
+    <ng-container *ngIf="column.name === 'select'" cdkColumnDef="select">
+      <cdk-header-cell *cdkHeaderCellDef>
+        <mat-checkbox
+          (change)="$event ? toggleAllRows() : null"
+          [checked]="selection.hasValue() && isAllSelected()"
+          [indeterminate]="selection.hasValue() && !isAllSelected()"
+          [aria-label]="checkboxLabel()"
         >
-          {{ column.name }}
-          <mat-icon
-            *ngIf="column.canHide && _enableEditMode"
-            (click)="hideColumn(column)"
-            >{{ column.visible ? 'visibility' : 'visibility_off' }}</mat-icon
-          >
-        </th>
-        <td
-          mat-cell
-          *matCellDef="let element"
-          [ngClass]="{ 'bg-lavender': !column.visible }"
+        </mat-checkbox>
+      </cdk-header-cell>
+      <cdk-cell *cdkCellDef="let row">
+        <!-- eslint-disable-next-line -->
+        <mat-checkbox
+          (click)="$event.stopPropagation()"
+          (change)="$event ? selection.toggle(row) : null"
+          [checked]="selection.isSelected(row)"
+          [aria-label]="checkboxLabel(row)"
         >
-          {{ element[column.name] }}
-        </td>
-      </ng-container>
+          <!-- eslint-enable -->
+        </mat-checkbox>
+      </cdk-cell>
     </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
-    <tr mat-row *matRowDef="let row; columns: columnsToDisplay"></tr>
-  </table>
-  <mat-paginator
-    *ngIf="paginationData"
-    [pageSizeOptions]="paginationData.pageSizeOptions"
-    [length]="paginationData.length"
-    [pageSize]="paginationData.pageSize"
-    [pageIndex]="paginationData.currentPage"
-    (page)="pageEvent.emit($event)"
-  ></mat-paginator>
-</div>
+    <ng-container *ngIf="column.name !== 'select'" [cdkColumnDef]="column.name">
+      <cdk-header-cell
+        *cdkHeaderCellDef
+        mat-sort-header
+        [ngClass]="{ 'bg-lavender': !column.visible }"
+      >
+        {{ column.name }}
+        <mat-icon
+          *ngIf="column.canHide && _enableEditMode"
+          (click)="hideColumn(column)"
+          >{{ column.visible ? 'visibility' : 'visibility_off' }}</mat-icon
+        >
+      </cdk-header-cell>
+      <cdk-cell
+        *cdkCellDef="let row"
+        [ngClass]="{ 'bg-lavender': !column.visible }"
+      >
+        {{ row[column.name] }}
+      </cdk-cell>
+    </ng-container>
+  </ng-container>
+
+  <!-- Header and Row Declarations -->
+  <cdk-header-row
+    class="o2-header-row"
+    *cdkHeaderRowDef="columnsToDisplay"
+  ></cdk-header-row>
+  <cdk-row
+    class="o2-row"
+    *cdkRowDef="let row; columns: columnsToDisplay"
+  ></cdk-row>
+</cdk-table>
+<mat-paginator
+  *ngIf="paginationData"
+  [pageSizeOptions]="paginationData.pageSizeOptions"
+  [length]="paginationData.length"
+  [pageSize]="paginationData.pageSize"
+  [pageIndex]="paginationData.currentPage"
+  (page)="pageEvent.emit($event)"
+></mat-paginator>

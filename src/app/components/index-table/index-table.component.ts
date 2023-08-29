@@ -64,7 +64,7 @@ export class IndexTableComponent implements AfterViewInit {
   @Input() paginationData: IPaginationData | null = null;
   @Input() enableSort = true;
 
-  @ViewChild(MatSort) sort!: MatSort;
+  @ViewChild('sort') sort!: MatSort;
   columnsToDisplay: string[] = [];
   _displayedColumns: IColumnData[] = [];
   _enableEditMode = false;
