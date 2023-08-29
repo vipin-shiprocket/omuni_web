@@ -58,7 +58,7 @@ $gra2: radial-gradient(#b4e1f1 15%, #e8f7fc 100%);
 $gra3: radial-gradient(#fba9b7 15%, #d95066 100%);
 
 html {
-  --side-bar-bg: #06064d;
-  --icon-stroke: #fff;
-  --down-arrow: #fff;
+  --side-bar-bg: #{$primary3};
+  --icon-stroke: #{$neutral4};
+  --down-arrow: #{$neutral4};
 }

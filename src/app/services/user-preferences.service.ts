@@ -1,30 +1,21 @@
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { BehaviorSubject, Subject, delay, of } from 'rxjs';
-import { SubSink } from 'subsink';
 import { MENU_LIST } from '../pages/layout/layout.model';
 
-interface UserPreferences {
+export interface UserPreferences {
   sidebarItems: string[];
 }
 
 @Injectable({
   providedIn: 'root',
 })
-export class UserPreferencesService implements OnDestroy {
+export class UserPreferencesService {
   userPrefences = new BehaviorSubject<UserPreferences | null>(null);
   allowedRoutes = new Subject<string[]>();
-  subSink = new SubSink();
 
   temp = {
     sidebarItems: ['orders', 'inventory', 'catalog', 'settings'],
   };
-
-  init() {
-    this.subSink.sink = this.getUserPreferences().subscribe((data) => {
-      this.userPrefences.next(data);
-      this.setAllowedRoutes();
-    });
-  }
 
   getUserPreferences() {
     return of(this.temp).pipe(delay(2000));
@@ -54,9 +45,5 @@ export class UserPreferencesService implements OnDestroy {
     }, routes);
 
     this.allowedRoutes.next(routesFiltered);
-  }
-
-  ngOnDestroy(): void {
-    this.subSink.unsubscribe();
   }
 }

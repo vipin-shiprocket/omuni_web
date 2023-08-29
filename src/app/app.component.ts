@@ -7,9 +7,9 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   constructor() {
-    const preload = document.createElement('link');
-    preload.rel = 'preconnect';
-    preload.href = window.location.origin;
-    document.head.append(preload);
+    // const preload = document.createElement('link');
+    // preload.rel = 'preconnect';
+    // preload.href = window.location.origin;
+    // document.head.append(preload);
   }
 }

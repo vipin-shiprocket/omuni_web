@@ -3,7 +3,7 @@
     class="o2-sidebar overflow-x-hidden"
     mode="side"
     opened
-    [ngClass]="sidebarOpen ? 'open' : 'close'"
+    [ngClass]="(layoutService.sideBarOpen | async) ? 'open' : 'close'"
     (mouseenter)="sidebarOpen = true"
     (mouseleave)="sidebarOpen = false"
     color="drawer-background"
@@ -12,7 +12,7 @@
   </mat-drawer>
   <mat-drawer-content class="o2-layout-content d-flex flex-column">
     <button
-      *ngIf="sidebarOpen"
+      *ngIf="layoutService.sideBarOpen | async"
       class="o2-backdrop border-0 p-0"
       (click)="close()"
       aria-label="Backdrop"

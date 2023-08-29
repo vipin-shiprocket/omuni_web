@@ -1,3 +1,5 @@
+@use 'src/styles/utils' as u;
+
 .menu-base {
   display: flex;
   align-items: center;
@@ -14,7 +16,7 @@
 
 .active-base {
   color: var(--side-bar-bg);
-  --icon-stroke: #06064d;
+  --icon-stroke: #{u.$primary3};
   --down-arrow: rgba(0, 0, 0, 0.87);
   .side-nav-text {
     color: black;

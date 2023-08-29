@@ -28,14 +28,10 @@ export class SidebarComponent implements OnDestroy {
   @Input() menu: MenuItem[] = [];
 
   layoutService = inject(LayoutService);
-  subSink = new SubSink();
+  private subSink = new SubSink();
   dummy = Array.from({ length: 12 }, (_, i) => i + 1);
 
-  get sidebarOpen() {
-    return this.layoutService.sideBarOpen.value;
-  }
-
-  set sidebarOpen(value) {
+  set sidebarOpen(value: boolean) {
     this.layoutService.sideBarOpen.next(value);
   }
 
@@ -63,7 +59,7 @@ export class SidebarComponent implements OnDestroy {
   }
 
   close() {
-    this.layoutService.sideBarOpen.next(false);
+    this.sidebarOpen = false;
   }
 
   ngOnDestroy(): void {

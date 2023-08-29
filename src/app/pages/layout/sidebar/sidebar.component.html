@@ -33,7 +33,7 @@
 
   <mat-nav-list
     class="menu-container overflow-y-auto flex-grow-1 custom-scrollbar"
-    [ngClass]="!sidebarOpen ? 'hide-scroll': ''"
+    [ngClass]="(layoutService.sideBarOpen | async) ? '' : 'hide-scroll'"
   >
     <ng-container
       [ngTemplateOutlet]="!menu.length ? loading : null"
@@ -76,7 +76,7 @@
     <mat-expansion-panel
       #panel
       class="w-100 shadow-none bg-transparent"
-      [expanded]="!sidebarOpen ? sidebarOpen : null"
+      [expanded]="(layoutService.sideBarOpen | async) ? null : (layoutService.sideBarOpen | async)"
     >
       <mat-expansion-panel-header
         [attr.aria-label]="item.displayName"
