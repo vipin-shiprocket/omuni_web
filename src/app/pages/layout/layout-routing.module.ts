@@ -6,6 +6,13 @@ const routes: Routes = [
   {
     path: '',
     component: LayoutComponent,
+    children: [
+      {
+        path: 'orders',
+        loadComponent: () =>
+          import('../orders/orders.component').then((c) => c.OrdersComponent),
+      },
+    ],
   },
 ];
 

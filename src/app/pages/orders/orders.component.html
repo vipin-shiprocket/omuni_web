@@ -1,0 +1,22 @@
+<div class="my-5"></div>
+<div class="container-fluid bg-success-subtle pb-1">
+  <app-index-filters
+    *ngIf="filtersData"
+    [tabs]="tabs"
+    [filterData]="filtersData"
+    (editView)="enableEdit($event)"
+    (filterChange)="onChangeFilters($event)"
+    (currentTab)="onTabChange($event)"
+    (saveFilters)="onSaveFilters()"
+    (filterText)="searchText = $event"
+  >
+    <app-index-table
+      [editMode]="enableEditMode"
+      [tableData]="elementData"
+      [searchText]="searchText"
+      [paginationData]="pagination"
+      [displayedColumns]="displayedColumns"
+      (pageEvent)="handlePageEvent($event)"
+    ></app-index-table>
+  </app-index-filters>
+</div>
