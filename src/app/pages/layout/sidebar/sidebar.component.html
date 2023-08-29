@@ -5,7 +5,7 @@
     <button
       class="btn btn-link rounded-0"
       [routerLink]="['/']"
-      (click)="close()"
+      (click)="close($event)"
     >
       <img
         class="logo-sm"
@@ -26,7 +26,7 @@
       />
     </button>
 
-    <button class="btn btn-cross" (click)="close()">
+    <button class="btn btn-cross" (click)="sidebarOpen = false">
       <img
         ngSrc="assets/svg/cross_light.svg"
         alt="Close"
@@ -110,7 +110,7 @@
         class="text-decoration-none"
         *ngFor="let child of item.subNav"
         [routerLink]="[item.route, child.route]"
-        (click)="close()"
+        (click)="close($event)"
       >
         <mat-list-item
           class="sub-menu"
@@ -138,7 +138,7 @@
     routerLinkActive="active"
     [routerLinkActiveOptions]="{ exact: true }"
     [attr.aria-label]="item.displayName"
-    (click)="close()"
+    (click)="close($event)"
   >
     <div class="menu mb-4" [ngClass]="checkRoute(item.route) ? 'active' : ''">
       <mat-icon class="overflow-visible" [svgIcon]="item.iconName"></mat-icon>
