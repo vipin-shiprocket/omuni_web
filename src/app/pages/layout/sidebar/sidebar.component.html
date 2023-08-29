@@ -1,0 +1,129 @@
+<div class="d-flex flex-column flex-shrink-0 side-container overflow-x-hidden w-100">
+  <div class="d-flex justify-content-between mb-4 px-2">
+    <button class="btn btn-link rounded-0" [routerLink]="['/']" (click)="close()">
+      <img
+        class="logo-sm"
+        ngSrc="assets/svg/logo-sm.svg"
+        alt="Logo Small"
+        width="31"
+        height="33"
+        priority
+      >
+
+      <img
+        class="logo-main"
+        ngSrc="assets/svg/logo-full.svg"
+        alt="Logo Main"
+        width="153.45"
+        height="33"
+        priority
+      >
+    </button>
+
+    <button class="btn btn-cross" (click)="close()">
+      <img
+        ngSrc="assets/svg/cross_light.svg"
+        alt="Close"
+        width="12"
+        height="13"
+        priority
+        >
+    </button>
+  </div>
+
+  <mat-nav-list
+    class="menu-container overflow-y-auto flex-grow-1 custom-scrollbar"
+    [ngClass]="(layoutService.sideBarOpen | async) ? '' : 'hide-scroll'"
+  >
+    <ng-container
+      [ngTemplateOutlet]="!menu.length ? loading : null"
+    ></ng-container>
+
+    <span
+      *ngFor="let item of menu"
+    >
+      <ng-container
+        [ngTemplateOutlet]="item?.isBottomNav ? null : (item?.subNav ? withSubMenu : withoutSubMenu)"
+        [ngTemplateOutletContext]="{ item: item }"
+      ></ng-container>
+    </span>
+  </mat-nav-list>
+
+  <mat-nav-list class="d-flex flex-column-reverse">
+    <span
+      *ngFor="let item of menu"
+    >
+      <ng-container
+        [ngTemplateOutlet]="item?.isBottomNav ? withoutSubMenu : null"
+        [ngTemplateOutletContext]="{ item: item }"
+      ></ng-container>
+    </span>
+    <hr class="border border-white mx-3 opacity-50">
+  </mat-nav-list>
+</div>
+
+<ng-template #loading>
+  <div class="menu mb-4" *ngFor="let item of dummy; let i = index" [ngClass]="i === 0 ? 'active' : ''">
+    <div class="placeholder-glow me-sm-5 dummy"></div>
+    <p class="placeholder-glow w-100">
+      <span class="placeholder col-12"></span>
+    </p>
+  </div>
+</ng-template>
+
+<ng-template #withSubMenu let-item="item">
+  <mat-accordion class="menu-expanding mb-4 p-0">
+    <mat-expansion-panel
+      #panel
+      class="w-100 shadow-none bg-transparent"
+      [expanded]="(layoutService.sideBarOpen | async) ? null : (layoutService.sideBarOpen | async)"
+    >
+      <mat-expansion-panel-header
+        [attr.aria-label]="item.displayName"
+        [ngClass]="{ active: checkRoute(item.route) }"
+        class="ps-0"
+      >
+        <mat-panel-title>
+          <span class="ms-2">
+            <mat-icon class="overflow-visible" [svgIcon]="item.iconName"></mat-icon>
+          </span>
+
+          <span class="side-nav-text ms-2">{{ item.displayName }}</span>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <a
+        class="text-decoration-none"
+        *ngFor="let child of item.subNav"
+        [routerLink]="[item.route, child.route]"
+        (click)="close()"
+      >
+        <mat-list-item class="sub-menu" [ngClass]="{ active: checkChildRoute(child.route) }">
+          <div
+            class="side-nav-text d-flex align-content-center justify-content-start align-items-center"
+          >
+            <mat-icon [svgIcon]="child.iconName" class="overflow-visible mx-2"></mat-icon>
+            <span>{{ child.displayName }}</span>
+          </div>
+        </mat-list-item>
+      </a>
+    </mat-expansion-panel>
+  </mat-accordion>
+</ng-template>
+
+<ng-template #withoutSubMenu let-item="item">
+  <a
+    class="text-decoration-none"
+    [routerLink]="[item.route]"
+    routerLinkActive="active"
+    [routerLinkActiveOptions]="{ exact: true }"
+    [attr.aria-label]="item.displayName"
+    (click)="close()"
+  >
+    <div class="menu mb-4" [ngClass]="checkRoute(item.route) ? 'active' : ''">
+      <mat-icon class="overflow-visible" [svgIcon]="item.iconName"></mat-icon>
+      <span class="side-nav-text w-100 ms-2 overflow-x-hidden">
+        {{ item.displayName }}
+      </span>
+    </div>
+  </a>
+</ng-template>

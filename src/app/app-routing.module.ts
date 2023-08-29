@@ -8,6 +8,11 @@ import { ResetPasswordComponent } from './pages/auth/reset-password/reset-passwo
 
 const routes: Routes = [
   {
+    path: '',
+    loadChildren: () =>
+      import('./pages/layout/layout.module').then((m) => m.LayoutModule),
+  },
+  {
     path: 'login',
     component: LoginComponent,
     loadChildren: () =>
