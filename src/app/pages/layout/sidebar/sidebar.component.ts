@@ -58,8 +58,12 @@ export class SidebarComponent implements OnDestroy {
     return lastPart == name;
   }
 
-  close() {
-    this.sidebarOpen = false;
+  close(evt?: MouseEvent) {
+    if (evt && evt instanceof PointerEvent && evt.pointerType === 'touch') {
+      setTimeout(() => {
+        this.sidebarOpen = false;
+      }, 10);
+    }
   }
 
   ngOnDestroy(): void {
