@@ -1,0 +1,16 @@
+<svg id="Group_16005" data-name="Group 16005" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+    <defs>
+        <style>
+            .cls-4{fill:#fff}
+        </style>
+    </defs>
+    <path id="Rectangle_5419" data-name="Rectangle 5419" style="fill:none" d="M0 0h24v24H0z"/>
+    <g id="Group_11519" data-name="Group 11519" transform="translate(3 4)">
+        <g id="Group_11346" data-name="Group 11346">
+            <path id="Path_18405" data-name="Path 18405" d="M29.975 28.84H17.263L16 20h15.491a.444.444 0 0 1 .421.505l-1.515 8a.41.41 0 0 1-.422.335z" transform="translate(-13.917 -18.316)" style="fill:#6964e2"/>
+            <path id="Path_18406" data-name="Path 18406" d="M9 16h1.994l2.393 13.049h11.166" transform="translate(-9 -16)" style="stroke:var(--icon-stroke);stroke-linecap:round;stroke-linejoin:round;stroke-width:2px;fill:none"/>
+            <circle id="Ellipse_486" data-name="Ellipse 486" class="cls-4" cx="1.6" cy="1.6" r="1.6" style="stroke:var(--icon-stroke);" transform="translate(5.291 14.8)"/>
+            <circle id="Ellipse_487" data-name="Ellipse 487" class="cls-4" cx="1.6" cy="1.6" r="1.6" style="stroke:var(--icon-stroke);" transform="translate(12.094 14.8)"/>
+        </g>
+    </g>
+</svg>

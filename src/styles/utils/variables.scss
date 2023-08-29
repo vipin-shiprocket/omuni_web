@@ -56,3 +56,9 @@ $color10: #2ab62a;
 $gra1: radial-gradient(#efd6a6 10%, #ffa800 100%);
 $gra2: radial-gradient(#b4e1f1 15%, #e8f7fc 100%);
 $gra3: radial-gradient(#fba9b7 15%, #d95066 100%);
+
+html {
+  --side-bar-bg: #06064d;
+  --icon-stroke: #fff;
+  --down-arrow: #fff;
+}
