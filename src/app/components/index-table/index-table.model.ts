@@ -1,5 +1,4 @@
 import { FormsModule } from '@angular/forms';
-import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSortModule } from '@angular/material/sort';
 import { MatPaginatorModule } from '@angular/material/paginator';
@@ -10,7 +9,6 @@ export const IndexTableModules = [
   FormsModule,
   MatIconModule,
   MatSortModule,
-  MatCheckboxModule,
   MatPaginatorModule,
 ];
 

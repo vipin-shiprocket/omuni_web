@@ -1,3 +1,5 @@
+@use '../utils' as u;
+
 .o2-table {
   display: flex;
   flex-direction: column;
@@ -12,7 +14,7 @@
     justify-content: space-between;
     background-color: #fff;
     margin: 0.2rem 0;
-    border-radius: 8px;
+    border-radius: u.rem(8);
   }
 
   .cdk-cell,

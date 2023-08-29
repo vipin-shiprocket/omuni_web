@@ -8,24 +8,25 @@
   <ng-container *ngFor="let column of _displayedColumns">
     <ng-container *ngIf="column.name === 'select'" cdkColumnDef="select">
       <cdk-header-cell *cdkHeaderCellDef>
-        <mat-checkbox
+        <input
+          class="form-check-input"
+          type="checkbox"
           (change)="$event ? toggleAllRows() : null"
           [checked]="selection.hasValue() && isAllSelected()"
           [indeterminate]="selection.hasValue() && !isAllSelected()"
           [aria-label]="checkboxLabel()"
-        >
-        </mat-checkbox>
+          checked
+        />
       </cdk-header-cell>
       <cdk-cell *cdkCellDef="let row">
-        <!-- eslint-disable-next-line -->
-        <mat-checkbox
+        <input
+          type="checkbox"
+          class="form-check-input"
           (click)="$event.stopPropagation()"
           (change)="$event ? selection.toggle(row) : null"
           [checked]="selection.isSelected(row)"
           [aria-label]="checkboxLabel(row)"
-        >
-          <!-- eslint-enable -->
-        </mat-checkbox>
+        />
       </cdk-cell>
     </ng-container>
 
