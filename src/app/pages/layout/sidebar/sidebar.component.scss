@@ -1,0 +1,126 @@
+@use 'src/styles/utils' as u;
+
+.menu-base {
+  display: flex;
+  align-items: center;
+  margin: 0 1.167em 1em;
+  padding: 0.75em 0.67em;
+  border-radius: 0.34em;
+  cursor: pointer;
+  color: white;
+
+  mat-icon {
+    min-width: 24px;
+  }
+}
+
+.active-base {
+  color: var(--side-bar-bg);
+  --icon-stroke: #{u.$primary3};
+  --down-arrow: rgba(0, 0, 0, 0.87);
+  .side-nav-text {
+    color: black;
+  }
+}
+
+.menu {
+  @extend .menu-base;
+
+  &.active {
+    background-color: white;
+    @extend .active-base;
+  }
+
+  &:hover {
+    @extend .active;
+  }
+}
+
+.menu-expanding {
+  @extend .menu-base;
+
+  .mat-expansion-panel-header {
+    background-color: var(--side-bar-bg);
+
+    &.active {
+      background-color: white !important;
+      @extend .active-base;
+
+      .mat-expansion-indicator::after {
+        color: black !important;
+      }
+    }
+
+    &:hover {
+      @extend .active;
+    }
+  }
+
+  &.mat-accordion {
+    background-color: transparent;
+  }
+
+  .mat-expansion-panel-content {
+    background-color: var(--side-bar-bg) !important;
+  }
+}
+
+::ng-deep .mat-expansion-panel-body {
+  padding: 0 !important;
+}
+
+.menu-container {
+  max-height: 75vh;
+  overflow-x: hidden;
+}
+
+.side-nav-text {
+  color: #fff;
+}
+
+::ng-deep .mat-expansion-panel-header {
+  --mat-expansion-header-collapsed-state-height: 3em;
+  max-height: 3.5em;
+
+  .mat-content {
+    overflow: visible;
+  }
+
+  .mat-expansion-indicator {
+    margin-bottom: 0.5em;
+    &::after {
+      color: var(--down-arrow);
+    }
+  }
+
+  @media screen and (min-width: 768px) {
+    --mat-expansion-header-collapsed-state-height: 3.5em;
+    max-height: 4em;
+
+    .mat-expansion-indicator {
+      margin-right: -1em;
+    }
+  }
+}
+
+.sub-menu {
+  @extend .menu-base;
+  cursor: pointer !important;
+
+  padding: 0 0 0 2.5em;
+  margin: 0.5em 0;
+  height: 3em !important;
+
+  &.active {
+    background-color: #38387e;
+  }
+
+  &:hover {
+    @extend .active;
+  }
+}
+
+.dummy {
+  width: 24px;
+  height: 24px;
+}
