@@ -6,7 +6,6 @@ export enum SvgEnum {
   products = 'products',
   settings = 'settings',
   support = 'help',
-  logoFull = 'logo-full',
   logoSmall = 'logo-sm',
   close = 'cross_light',
 }

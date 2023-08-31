@@ -3,7 +3,7 @@
 >
   <div class="d-flex justify-content-between mb-4 px-2">
     <button
-      class="btn btn-link rounded-0"
+      class="btn d-flex align-items-center rounded-0"
       [routerLink]="['/']"
       (click)="close($event)"
     >
@@ -16,14 +16,7 @@
         priority
       />
 
-      <img
-        class="logo-main"
-        ngSrc="assets/svg/logo-full.svg"
-        alt="Logo Main"
-        width="153.45"
-        height="33"
-        priority
-      />
+      <h1 class="logo-main ms-2 text-white">Omuni</h1>
     </button>
 
     <button class="btn btn-cross" (click)="sidebarOpen = false">
