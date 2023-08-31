@@ -14,7 +14,7 @@
           (change)="$event ? toggleAllRows() : null"
           [checked]="selection.hasValue() && isAllSelected()"
           [indeterminate]="selection.hasValue() && !isAllSelected()"
-          [aria-label]="checkboxLabel()"
+          [attr.aria-label]="checkboxLabel()"
           checked
         />
       </cdk-header-cell>
@@ -25,7 +25,7 @@
           (click)="$event.stopPropagation()"
           (change)="$event ? selection.toggle(row) : null"
           [checked]="selection.isSelected(row)"
-          [aria-label]="checkboxLabel(row)"
+          [attr.aria-label]="checkboxLabel(row)"
         />
       </cdk-cell>
     </ng-container>
