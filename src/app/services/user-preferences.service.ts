@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Subject, delay, of } from 'rxjs';
 import { MENU_LIST } from '../pages/layout/layout.model';
+import { MemoFn, STORAGE_TYPE } from '../utils/memo.decorator';
 
 export interface UserPreferences {
   sidebarItems: string[];
@@ -17,6 +18,7 @@ export class UserPreferencesService {
     sidebarItems: ['orders', 'inventory', 'catalog', 'settings'],
   };
 
+  @MemoFn({ ttl: 10000, cacheStrategy: STORAGE_TYPE.PERSISTENT })
   getUserPreferences() {
     return of(this.temp).pipe(delay(2000));
   }
