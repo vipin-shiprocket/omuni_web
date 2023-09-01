@@ -1,0 +1,47 @@
+<div class="d-none d-md-block d-lg-block d-xl-block flex-sm-grow-1">
+  <div class="input-group dropdown">
+    <button
+      class="btn btn-outline-primary border dropdown-toggle d-flex align-items-center px-1 py-0"
+      type="button"
+      data-bs-toggle="dropdown"
+      data-bs-offset="10,20"
+      aria-expanded="false"
+    >
+      <mat-icon class="search-icon">search</mat-icon>
+    </button>
+    <ul class="dropdown-menu">
+      <button
+        class="dropdown-item fs-14"
+        *ngFor="let item of options"
+        (click)="active = item"
+      >
+        {{ OPTIONS[item] }}
+      </button>
+    </ul>
+    <input
+      #searchInput
+      type="text"
+      class="form-control flex-grow-1 pe-5"
+      aria-label="Global search text input"
+      [placeholder]="'Search in ' + (OPTIONS[active] || '/')"
+      (keydown.escape)="searchInput.blur()"
+      (focus)="selected = true"
+      (focusout)="selected = false"
+    />
+  </div>
+  <span
+    class="p-1 text-primary shortcut"
+    [ngClass]="{ 'hide': selected }"
+  >
+    <kbd class="bg-primary">Ctrl</kbd> + <kbd class="bg-primary">/</kbd>
+  </span>
+</div>
+
+<div class="d-block h-100 d-md-none">
+  <button
+    class="btn btn-light w-100 h-100 rounded-0 shadow-sm d-flex align-items-center justify-content-center text-black-50"
+    type="button"
+  >
+    <mat-icon>search</mat-icon>
+  </button>
+</div>
