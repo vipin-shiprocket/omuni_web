@@ -25,14 +25,14 @@ export class LayoutComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.subSink.sink = this.layoutService.userPrefs().subscribe((data) => {
+    this.subSink.sink = this.layoutService.userPrefs.subscribe((data) => {
       if (data) this.layoutService.filterMenuItems(data);
     });
 
     this.subSink.sink = this.layoutService.userPreferencesService
       .getUserPreferences()
       .subscribe((data) => {
-        this.layoutService.userPrefs().next(data);
+        this.layoutService.userPrefs.next(data);
         this.layoutService.userPreferencesService.setAllowedRoutes();
       });
   }

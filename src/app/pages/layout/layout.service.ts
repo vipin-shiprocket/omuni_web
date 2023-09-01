@@ -14,7 +14,7 @@ export class LayoutService {
   sideBarOpen = new BehaviorSubject<boolean>(false);
   menuItems = new BehaviorSubject<MenuItem[]>([]);
 
-  userPrefs() {
+  get userPrefs() {
     return this.userPreferencesService.userPrefences;
   }
 

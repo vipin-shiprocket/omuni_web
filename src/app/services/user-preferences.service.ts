@@ -6,6 +6,10 @@ export interface UserPreferences {
   sidebarItems: string[];
 }
 
+const temp: UserPreferences = {
+  sidebarItems: ['orders', 'inventory', 'catalog', 'settings'],
+};
+
 @Injectable({
   providedIn: 'root',
 })
@@ -13,12 +17,8 @@ export class UserPreferencesService {
   userPrefences = new BehaviorSubject<UserPreferences | null>(null);
   allowedRoutes = new Subject<string[]>();
 
-  temp = {
-    sidebarItems: ['orders', 'inventory', 'catalog', 'settings'],
-  };
-
   getUserPreferences() {
-    return of(this.temp).pipe(delay(2000));
+    return of(temp).pipe(delay(2000));
   }
 
   setAllowedRoutes() {
