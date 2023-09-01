@@ -6,6 +6,7 @@
       data-bs-toggle="dropdown"
       data-bs-offset="10,20"
       aria-expanded="false"
+      [disabled]="!options.length"
     >
       <mat-icon class="search-icon">search</mat-icon>
     </button>
@@ -23,6 +24,7 @@
       type="text"
       class="form-control flex-grow-1 pe-5"
       aria-label="Global search text input"
+      [disabled]="!options.length"
       [placeholder]="'Search in ' + (OPTIONS[active] || '/')"
       (keydown.escape)="searchInput.blur()"
       (focus)="selected = true"

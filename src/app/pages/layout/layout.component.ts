@@ -4,7 +4,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { SvgEnum } from 'src/app/enum';
 import { LayoutService } from './layout.service';
 import { SubSink } from 'subsink';
-import { preloadImage } from 'src/app/utils/utils';
+import { preloadImage, checkWindowWidth } from 'src/app/utils/utils';
 
 @Component({
   selector: 'app-layout',
@@ -39,6 +39,8 @@ export class LayoutComponent implements OnInit, OnDestroy {
         this.layoutService.userPreferencesService.setAllowedRoutes();
       });
   }
+
+  showFooter = checkWindowWidth;
 
   registerCustomIcons(): void {
     Object.keys(SvgEnum).forEach((key) => {

@@ -21,6 +21,6 @@
     <div class="o2-body overflow-auto custom-scrollbar flex-grow-1">
       <router-outlet></router-outlet>
     </div>
-    <app-footer class="d-lg-none d-md-none d-flex h-vh-6" />
+    <app-footer *ngIf="showFooter()" class="d-flex h-vh-6" />
   </mat-drawer-content>
 </mat-drawer-container>

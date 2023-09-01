@@ -12,3 +12,7 @@ export function preloadImage(path: string) {
   preload.href = window.location.origin + path;
   document.head.append(preload);
 }
+
+export function checkWindowWidth() {
+  return window.innerWidth < 768;
+}
