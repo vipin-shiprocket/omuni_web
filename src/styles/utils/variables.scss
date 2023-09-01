@@ -61,6 +61,8 @@ $bg-color: #F4F4F4;
 
 //time variables
 $sidebar-transition-time: 0.6s;
+$sidebar-spinner-count: 12;
+$delay-increment: 0.1s;
 
 html {
   --side-bar-bg: #{$primary3};

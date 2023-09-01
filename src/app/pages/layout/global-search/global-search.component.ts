@@ -21,8 +21,8 @@ import { OPTIONS } from './global-search.model';
 export class GlobalSearchComponent implements OnInit {
   @ViewChild('searchInput')
   searchInput!: ElementRef<HTMLInputElement>;
-  document = document;
   layoutService = inject(LayoutService);
+  document = document;
   OPTIONS = OPTIONS;
   options: string[] = [];
   active = '/';
