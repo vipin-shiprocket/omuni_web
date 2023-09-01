@@ -6,7 +6,13 @@ import {
   ViewChild,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FiltersData, OrdersModules, RESP } from './orders.model';
+import {
+  FiltersData,
+  OrderColumns,
+  OrderTabs,
+  OrdersModules,
+  RESP,
+} from './orders.model';
 import { SubSink } from 'subsink';
 import { of } from 'rxjs';
 import { PageEvent } from '@angular/material/paginator';
@@ -27,84 +33,38 @@ import { MatTableDataSource } from '@angular/material/table';
   styleUrls: ['./orders.component.scss'],
 })
 export class OrdersComponent implements OnInit, AfterViewInit, OnDestroy {
+  @ViewChild('sort') sort!: MatSort;
   private subs = new SubSink();
-  columns = [
-    { name: 'select', canHide: false, visible: true },
-    { name: 'Order Details', canHide: false, visible: true },
-    { name: 'Customer details', canHide: true, visible: true },
-    { name: 'Product Details', canHide: true, visible: true },
-    { name: 'Payment', canHide: true, visible: true },
-    { name: 'Order Statuses', canHide: true, visible: true },
-    { name: 'Fulfilled By', canHide: true, visible: true },
-    { name: 'Export', canHide: true, visible: true },
-  ];
-
+  columns = OrderColumns;
   displayedColumns = this.getColumnArrangement();
-
-  tabs: ITab[] = [
-    {
-      name: 'All',
-      filters: {},
-      canUpdate: false,
-      columns: ['select', 'name', 'weight', 'symbol', 'position'],
-    },
-    {
-      name: 'Unpaid',
-      filters: { statuses: [1], query: 'h' },
-      canUpdate: true,
-      columns: ['select', 'name', 'position'],
-    },
-    {
-      name: 'Open',
-      filters: {},
-      canUpdate: true,
-      columns: ['select', 'name', 'weight', 'position'],
-    },
-    {
-      name: 'Closed',
-      filters: {},
-      canUpdate: true,
-      columns: ['select', 'name', 'symbol', 'position'],
-    },
-    {
-      name: 'Local delivery',
-      filters: {},
-      canUpdate: true,
-      columns: ['select', 'name', 'weight', 'symbol'],
-    },
-    {
-      name: 'Local pickup',
-      filters: {},
-      canUpdate: true,
-      columns: ['select', 'weight', 'symbol', 'position'],
-    },
-  ];
+  tabs: ITab[] = OrderTabs as ITab[];
+  enableEditMode = false;
+  disableSort = true;
+  activeTabIdx = 0;
+  filtersData: FilterDataType | null = null;
+  dataSource: MatTableDataSource<never[]> = new MatTableDataSource(undefined);
+  selection = new SelectionModel<never[]>(true, []);
   pagination: IPaginationData = {
     pageSizeOptions: [15, 30, 60],
     length: 100,
     pageSize: 15,
     currentPage: 0,
   };
-  enableEditMode = false;
-  displayColumnsDump: typeof this.displayedColumns | null = null;
-  elementData = [];
-  queryParams: ITab['filters'] = {};
-  filtersData: FilterDataType | null = null;
-  searchText = '';
-  objectvalues = Object.values;
-  currentTab = 0;
-  disableSort = true;
-  dataSource: MatTableDataSource<never[]> = new MatTableDataSource(undefined);
-  selection = new SelectionModel<never[]>(true, []);
-  @ViewChild('sort') sort!: MatSort;
 
   ngOnInit(): void {
     this.getOrderFilters();
     this.getOrderData();
+    this.addDropdownAttrFlag(0);
   }
 
   ngAfterViewInit() {
     this.dataSource.sort = this.sort;
+  }
+
+  addDropdownAttrFlag(tabIndex: number) {
+    this.tabs.forEach((tab, i) => {
+      tab.dropdown = tabIndex === i;
+    });
   }
 
   isAllSelected() {
@@ -164,6 +124,16 @@ export class OrdersComponent implements OnInit, AfterViewInit, OnDestroy {
         currentPage: data.meta.pagination.current_page,
       };
     });
+  }
+
+  onTabClick(tabIdx: number) {
+    if (tabIdx !== this.activeTabIdx) {
+      setTimeout(() => {
+        this.addDropdownAttrFlag(tabIdx);
+      });
+    }
+    this.activeTabIdx = tabIdx;
+    this.getOrderData();
   }
 
   // enableEdit(evt: IEditMode) {

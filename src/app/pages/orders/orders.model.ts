@@ -13,6 +13,62 @@ export const OrdersModules = [
   MatPaginatorModule,
 ];
 
+export const OrderColumns = [
+  { name: 'select', canHide: false, visible: true },
+  { name: 'Order Details', canHide: false, visible: true },
+  { name: 'Customer details', canHide: true, visible: true },
+  { name: 'Product Details', canHide: true, visible: true },
+  { name: 'Payment', canHide: true, visible: true },
+  { name: 'Order Statuses', canHide: true, visible: true },
+  { name: 'Fulfilled By', canHide: true, visible: true },
+  { name: 'Export', canHide: true, visible: true },
+];
+
+export const OrderTabs = [
+  {
+    name: 'All',
+    filters: {},
+    canUpdate: false,
+    columns: ['select', 'name', 'weight', 'symbol', 'position'],
+  },
+  {
+    name: 'Unfulfillable',
+    filters: { statuses: [1], query: 'h' },
+    canUpdate: true,
+    columns: ['select', 'name', 'position'],
+  },
+  {
+    name: 'New',
+    filters: {},
+    canUpdate: true,
+    columns: ['select', 'name', 'weight', 'position'],
+  },
+  {
+    name: 'Open',
+    filters: {},
+    canUpdate: true,
+    columns: ['select', 'name', 'symbol', 'position'],
+  },
+  {
+    name: 'Invoiced',
+    filters: {},
+    canUpdate: true,
+    columns: ['select', 'name', 'weight', 'symbol'],
+  },
+  {
+    name: 'Manifested',
+    filters: {},
+    canUpdate: true,
+    columns: ['select', 'weight', 'symbol', 'position'],
+  },
+  {
+    name: 'Return',
+    filters: {},
+    canUpdate: true,
+    columns: ['select', 'weight', 'symbol', 'position'],
+  },
+];
+
 export type LooseObject = Record<string, unknown>;
 
 export const FiltersData: FilterDataType = {

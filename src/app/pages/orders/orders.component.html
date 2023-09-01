@@ -1,4 +1,32 @@
-<div class="container-fluid pb-3" style="background-color: #f4f4f4">
+<div class="container-fluid my-5">
+  <nav class="nav order-nav mb-3">
+    <ng-container *ngFor="let tab of tabs; let i = index">
+      <div class="nav-item dropdown">
+        <button
+          tabindex="-1"
+          class="nav-link d-inline-flex"
+          [attr.data-bs-toggle]="tab.dropdown ? 'dropdown' : null"
+          [ngClass]="{
+            'active dropdown-toggle': tabs[activeTabIdx].name === tab['name']
+          }"
+          (click)="onTabClick(i)"
+          (keyup)="onTabClick(i)"
+        >
+          {{ tab['name'] }}
+        </button>
+        <ul class="dropdown-menu">
+          <li>
+            <button class="dropdown-item">Rename view</button>
+          </li>
+
+          <li>
+            <button class="dropdown-item text-danger">Delete view</button>
+          </li>
+        </ul>
+      </div>
+    </ng-container>
+  </nav>
+
   <cdk-table
     matSort
     #sort="matSort"
