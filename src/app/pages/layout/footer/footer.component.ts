@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { GlobalSearchComponent } from 'src/app/components/global-search/global-search.component';
+import { GlobalSearchComponent } from '../global-search/global-search.component';
 
 @Component({
   selector: 'app-footer',

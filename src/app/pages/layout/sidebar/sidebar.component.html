@@ -60,14 +60,16 @@
 </div>
 
 <ng-template #loading>
-  <div
-    class="menu mb-4"
-    *ngFor="let item of dummy; let i = index"
-    [ngClass]="i === 0 ? 'active' : ''"
-  >
-    <div class="placeholder-glow me-sm-5 dummy"></div>
-    <p class="placeholder-glow w-100">
-      <span class="placeholder col-12"></span>
+  <div class="menu mb-4" *ngFor="let item of dummy; let i = index">
+    <div
+      class="spinner-grow flex-shrink-0 me-3 dummy"
+      [ngClass]="'spinner-' + (i + 1)"
+      role="status"
+    >
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <p class="placeholder-glow flex-grow-1">
+      <span class="placeholder" [ngClass]="item"></span>
     </p>
   </div>
 </ng-template>

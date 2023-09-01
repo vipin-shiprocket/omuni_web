@@ -5,3 +5,14 @@ export const toggleEye = (el: HTMLInputElement) => {
     el.type = 'password';
   }
 };
+
+export function preloadImage(path: string) {
+  const preload = document.createElement('link');
+  preload.rel = 'preconnect';
+  preload.href = window.location.origin + path;
+  document.head.append(preload);
+}
+
+export function checkWindowWidth() {
+  return window.innerWidth < 768;
+}

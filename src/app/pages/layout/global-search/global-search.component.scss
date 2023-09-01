@@ -1,0 +1,27 @@
+.dropdown-menu {
+  inset: 0.25em auto auto auto !important;
+}
+
+.search-icon {
+  font-size: 1.2em;
+  width: auto;
+  height: auto;
+}
+
+.shortcut {
+  background-color: white;
+  position: absolute;
+  inset: 0.85rem auto auto 12rem;
+  z-index: 20;
+}
+
+.shortcut,
+.shortcut > kbd {
+  transition: all 0.4s;
+
+  &.hide,
+  &.hide > kbd {
+    color: transparent !important;
+    background-color: transparent !important;
+  }
+}

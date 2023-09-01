@@ -39,4 +39,5 @@ export interface ITab {
   filters: Record<string, string | (string | number | boolean)[]>;
   canUpdate: boolean;
   columns: string[];
+  dropdown?: boolean;
 }

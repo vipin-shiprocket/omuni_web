@@ -1,22 +1,140 @@
-<div class="my-5"></div>
-<div class="container-fluid bg-success-subtle pb-1">
-  <app-index-filters
-    *ngIf="filtersData"
-    [tabs]="tabs"
-    [filterData]="filtersData"
-    (editView)="enableEdit($event)"
-    (filterChange)="onChangeFilters($event)"
-    (currentTab)="onTabChange($event)"
-    (saveFilters)="onSaveFilters()"
-    (filterText)="searchText = $event"
+<div class="container-fluid my-5">
+  <nav class="nav order-nav mb-3">
+    <ng-container *ngFor="let tab of tabs; let i = index">
+      <div class="nav-item dropdown">
+        <button
+          tabindex="-1"
+          class="nav-link d-inline-flex"
+          [attr.data-bs-toggle]="tab.dropdown ? 'dropdown' : null"
+          [ngClass]="{
+            'active dropdown-toggle': tabs[activeTabIdx].name === tab['name']
+          }"
+          (click)="onTabClick(i)"
+          (keyup)="onTabClick(i)"
+        >
+          {{ tab['name'] }}
+        </button>
+        <ul class="dropdown-menu">
+          <li>
+            <button class="dropdown-item">Rename view</button>
+          </li>
+
+          <li>
+            <button class="dropdown-item text-danger">Delete view</button>
+          </li>
+        </ul>
+      </div>
+    </ng-container>
+  </nav>
+
+  <cdk-table
+    matSort
+    #sort="matSort"
+    [matSortDisabled]="disableSort"
+    [dataSource]="dataSource"
+    class="o2-table"
   >
-    <app-index-table
-      [editMode]="enableEditMode"
-      [tableData]="elementData"
-      [searchText]="searchText"
-      [paginationData]="pagination"
-      [displayedColumns]="displayedColumns"
-      (pageEvent)="handlePageEvent($event)"
-    ></app-index-table>
-  </app-index-filters>
+    <ng-container cdkColumnDef="select">
+      <cdk-header-cell *cdkHeaderCellDef>
+        <input
+          class="form-check-input"
+          type="checkbox"
+          (change)="$event ? toggleAllRows() : null"
+          [checked]="selection.hasValue() && isAllSelected()"
+          [indeterminate]="selection.hasValue() && !isAllSelected()"
+          [attr.aria-label]="checkboxLabel()"
+          checked
+        />
+      </cdk-header-cell>
+      <cdk-cell *cdkCellDef="let row">
+        <input
+          type="checkbox"
+          class="form-check-input"
+          (click)="$event.stopPropagation()"
+          [attr.aria-label]="checkboxLabel(row)"
+          (change)="$event ? selection.toggle(row) : null"
+          [checked]="selection.isSelected(row)"
+        />
+      </cdk-cell>
+    </ng-container>
+
+    <ng-container cdkColumnDef="Order Details">
+      <cdk-header-cell *cdkHeaderCellDef mat-sort-header>
+        Order Details
+      </cdk-header-cell>
+      <cdk-cell *cdkCellDef="let row">
+        {{ row.id }}
+      </cdk-cell>
+    </ng-container>
+
+    <ng-container cdkColumnDef="Customer details">
+      <cdk-header-cell *cdkHeaderCellDef mat-sort-header>
+        Customer details
+      </cdk-header-cell>
+      <cdk-cell *cdkCellDef="let row">
+        {{ row.id }}
+      </cdk-cell>
+    </ng-container>
+
+    <ng-container cdkColumnDef="Product Details">
+      <cdk-header-cell *cdkHeaderCellDef mat-sort-header>
+        Product Details
+      </cdk-header-cell>
+      <cdk-cell *cdkCellDef="let row">
+        {{ row.id }}
+      </cdk-cell>
+    </ng-container>
+
+    <ng-container cdkColumnDef="Payment">
+      <cdk-header-cell *cdkHeaderCellDef mat-sort-header>
+        Payment
+      </cdk-header-cell>
+      <cdk-cell *cdkCellDef="let row">
+        {{ row.id }}
+      </cdk-cell>
+    </ng-container>
+
+    <ng-container cdkColumnDef="Order Statuses">
+      <cdk-header-cell *cdkHeaderCellDef mat-sort-header>
+        Order Status
+      </cdk-header-cell>
+      <cdk-cell *cdkCellDef="let row">
+        {{ row.id }}
+      </cdk-cell>
+    </ng-container>
+
+    <ng-container cdkColumnDef="Fulfilled By">
+      <cdk-header-cell *cdkHeaderCellDef mat-sort-header>
+        Fulfill By
+      </cdk-header-cell>
+      <cdk-cell *cdkCellDef="let row">
+        {{ row.id }}
+      </cdk-cell>
+    </ng-container>
+    <ng-container cdkColumnDef="Export">
+      <cdk-header-cell *cdkHeaderCellDef mat-sort-header>
+        Export
+      </cdk-header-cell>
+      <cdk-cell *cdkCellDef="let row">
+        {{ row.id }}
+      </cdk-cell>
+    </ng-container>
+
+    <cdk-header-row
+      class="o2-header-row"
+      *cdkHeaderRowDef="displayedColumns"
+    ></cdk-header-row>
+    <cdk-row
+      class="o2-row"
+      *cdkRowDef="let row; columns: displayedColumns"
+    ></cdk-row>
+  </cdk-table>
+  <mat-paginator
+    *ngIf="pagination"
+    [pageSizeOptions]="pagination.pageSizeOptions"
+    [length]="pagination.length"
+    [pageSize]="pagination.pageSize"
+    [pageIndex]="pagination.currentPage"
+    (page)="handlePageEvent($event)"
+  ></mat-paginator>
 </div>

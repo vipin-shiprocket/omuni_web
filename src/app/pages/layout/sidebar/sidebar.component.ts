@@ -29,7 +29,10 @@ export class SidebarComponent implements OnDestroy {
 
   layoutService = inject(LayoutService);
   private subSink = new SubSink();
-  dummy = Array.from({ length: 12 }, (_, i) => i + 1);
+  dummy = Array.from(
+    { length: 12 },
+    () => 'col-' + Math.max(3, Math.floor(Math.random() * 10)),
+  );
 
   set sidebarOpen(value: boolean) {
     this.layoutService.sideBarOpen.next(value);
@@ -59,7 +62,13 @@ export class SidebarComponent implements OnDestroy {
   }
 
   close(evt?: MouseEvent) {
-    if (evt && evt instanceof PointerEvent && evt.pointerType === 'touch') {
+    const isNavHidden =
+      evt && evt.view?.outerWidth && evt?.view?.outerWidth < 768;
+    if (
+      isNavHidden &&
+      evt instanceof PointerEvent &&
+      evt.pointerType === 'touch'
+    ) {
       setTimeout(() => {
         this.sidebarOpen = false;
       }, 10);
