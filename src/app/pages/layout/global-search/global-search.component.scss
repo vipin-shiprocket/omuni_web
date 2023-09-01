@@ -15,10 +15,12 @@
   z-index: 20;
 }
 
-.shortcut, .shortcut>kbd {
+.shortcut,
+.shortcut > kbd {
   transition: all 0.4s;
 
-  &.hide, &.hide>kbd {
+  &.hide,
+  &.hide > kbd {
     color: transparent !important;
     background-color: transparent !important;
   }

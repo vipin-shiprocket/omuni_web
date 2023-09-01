@@ -31,10 +31,7 @@
       (focusout)="selected = false"
     />
   </div>
-  <span
-    class="p-1 text-primary shortcut"
-    [ngClass]="{ 'hide': selected }"
-  >
+  <span class="p-1 text-primary shortcut" [ngClass]="{ hide: selected }">
     <kbd class="bg-primary">Ctrl</kbd> + <kbd class="bg-primary">/</kbd>
   </span>
 </div>

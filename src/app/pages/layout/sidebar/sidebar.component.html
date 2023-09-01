@@ -60,10 +60,7 @@
 </div>
 
 <ng-template #loading>
-  <div
-    class="menu mb-4"
-    *ngFor="let item of dummy; let i = index"
-  >
+  <div class="menu mb-4" *ngFor="let item of dummy; let i = index">
     <div
       class="spinner-grow flex-shrink-0 me-3 dummy"
       [ngClass]="'spinner-' + (i + 1)"
