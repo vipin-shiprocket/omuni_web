@@ -1,11 +1,17 @@
-<div class="d-flex flex-wrap">
-  <form [formGroup]="filterForm">
+<div>
+  <form [formGroup]="filterForm" class="d-flex flex-wrap">
     <div formArrayName="filters">
       <ng-container *ngFor="let filter of objectvalues(_filterData ?? {})">
         <ng-container *ngIf="filter.placement === 'out'">
-          <ng-container *ngIf="filter.type === 'radio'">
-            {{ filter.name }}
-          </ng-container>
+          <section class="me-3" *ngIf="filter.type === 'select'">
+            <app-o2-select
+              [label]="filter.label"
+              [multiple]="filter.multiple ?? false"
+              [values]="filter.value"
+              [options]="filter.data"
+              [placeholder]="filter.placeholder ?? ''"
+            />
+          </section>
         </ng-container>
       </ng-container>
     </div>
@@ -27,7 +33,7 @@
       aria-labelledby="moreFiltersLabel"
     >
       <div class="offcanvas-header border-bottom">
-        <h1 class="h2 fs-18" id="moreFiltersLabel">Offcanvas</h1>
+        <h1 class="h2 fs-18" id="moreFiltersLabel">Filters</h1>
         <button
           type="button"
           class="btn-close"

@@ -1,4 +1,6 @@
 import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   ElementRef,
   EventEmitter,
@@ -9,7 +11,7 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { IOption, O2SelectModules, chipSelectboxType } from './o2-select.model';
+import { IOption, O2SelectModules } from './o2-select.model';
 import { ListboxValueChangeEvent } from '@angular/cdk/listbox';
 import { Overlay, OverlayConfig, OverlayRef } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
@@ -20,6 +22,7 @@ import { TemplatePortal } from '@angular/cdk/portal';
   imports: [CommonModule, O2SelectModules],
   templateUrl: './o2-select.component.html',
   styleUrls: ['./o2-select.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class O2SelectComponent {
   @ViewChild('trigger') select!: ElementRef;
@@ -29,6 +32,9 @@ export class O2SelectComponent {
   @Input() label = '';
   @Input() options: IOption[] = [];
   @Input() multiple = false;
+  @Input() placeholder = '';
+  @Input() selectAll = false;
+  @Input() clearBtn = true;
   overlayRef!: OverlayRef;
   @Input() set values(value: IOption[] | undefined) {
     if (value) {
@@ -39,11 +45,18 @@ export class O2SelectComponent {
 
   constructor(
     private overlay: Overlay,
+    private cd: ChangeDetectorRef,
     private _viewContainerRef: ViewContainerRef,
   ) {}
 
+  get allSelected(): boolean {
+    return this.selectedValues.length === this.options.length;
+  }
+
   formatValue(value: IOption[]): string {
-    if (!value.length) return '';
+    if (!value.length) {
+      return this.placeholder || `Select ${this.label}`;
+    }
 
     if (!this.multiple) {
       return value[0].display;
@@ -52,7 +65,20 @@ export class O2SelectComponent {
   }
 
   onSelectionChange(selected: ListboxValueChangeEvent<unknown>) {
-    this.selectionChange.emit(selected.value);
+    this.selectedValues = selected.value as IOption[];
+    this.selectionChange.emit(this.selectedValues);
+    this.cd.markForCheck();
+  }
+
+  handleSelectAll() {
+    if (this.allSelected) {
+      this.clearFilter();
+    } else {
+      this.selectedValues = this.options;
+    }
+
+    this.selectionChange.emit(this.selectedValues);
+    this.cd.markForCheck();
   }
 
   private syncWidth(): void {
@@ -75,14 +101,14 @@ export class O2SelectComponent {
           originY: 'bottom',
           overlayX: 'start',
           overlayY: 'top',
-          offsetY: 4,
+          offsetY: 6,
         },
         {
           originX: 'start',
           originY: 'top',
           overlayX: 'start',
           overlayY: 'bottom',
-          offsetY: -4,
+          offsetY: -6,
         },
       ]);
 
@@ -91,7 +117,6 @@ export class O2SelectComponent {
       positionStrategy: positionStrategy,
       scrollStrategy: scrollStrategy,
       hasBackdrop: true,
-      maxHeight: '10rem',
       backdropClass: 'cdk-overlay-transparent-backdrop',
     });
   }
@@ -109,5 +134,11 @@ export class O2SelectComponent {
     } else {
       this.overlayRef.dispose();
     }
+  }
+
+  clearFilter() {
+    this.selectedValues = [];
+    this.selectionChange.emit(this.selectedValues);
+    this.cd.markForCheck();
   }
 }

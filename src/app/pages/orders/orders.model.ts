@@ -161,6 +161,7 @@ export const FiltersData: FilterDataType = {
     label: 'order tag',
     type: 'select',
     value: [],
+    placement: 'out',
     multiple: true,
     data: [
       {
