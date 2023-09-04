@@ -1,0 +1,28 @@
+<input
+  type="text"
+  class="form-control cursor"
+  [disabled]="disabled"
+  readonly
+  (click)="toggleDropd()"
+  [value]="formatValue(selectedValues)"
+  #trigger
+/>
+
+<ng-template #portal class="example-listbox-container">
+  <ul
+    cdkListbox
+    [(ngModel)]="selectedValues"
+    (cdkListboxValueChange)="onSelectionChange($event)"
+    [cdkListboxMultiple]="multiple"
+    class="example-listbox bg-white border shadow-sm"
+  >
+    <li
+      *ngFor="let option of options"
+      [cdkOption]="option"
+      class="example-option"
+      [ngClass]="multiple ? 'multiple-select' : 'single-select'"
+    >
+      {{ option.display }}
+    </li>
+  </ul>
+</ng-template>

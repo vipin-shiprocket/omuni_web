@@ -1,0 +1,42 @@
+@use '../../../styles/utils' as u;
+
+.more-filter-btn {
+  display: inline-flex;
+  align-items: center;
+  margin-right: 1rem;
+  background-color: #fff;
+  color: u.$neutral2a;
+  padding: u.rem(5) u.rem(12);
+  font-size: u.rem(12);
+  font-weight: 500;
+  line-height: 1.33;
+
+  &:focus {
+    border-color: u.$primary1;
+  }
+
+  &:hover {
+    border-color: u.$primary1;
+  }
+}
+
+.br-s-8 {
+  border-top-left-radius: u.rem(8);
+  border-bottom-left-radius: u.rem(8);
+}
+
+.date-filter-btn {
+  @extend .more-filter-btn;
+  width: u.rem(200);
+
+  &::after {
+    position: absolute;
+    right: 1.5rem;
+    margin-top: u.rem(-5);
+    font-size: u.rem(18);
+    width: u.rem(18);
+    height: u.rem(18);
+    content: '\e5cf';
+    font-family: 'Material Icons';
+  }
+}

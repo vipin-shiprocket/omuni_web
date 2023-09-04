@@ -22,8 +22,10 @@ export const IndexFiltersModules = [
 export interface IFilter {
   name: string;
   label: string;
-  type: 'select' | 'radio';
+  type: 'select' | 'radio' | 'checkbox';
   multiple?: boolean;
+  placement?: 'out' | 'in';
+  placeholder?: string;
   value: IOption[];
   data: IOption[];
 }

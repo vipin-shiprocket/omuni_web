@@ -100,8 +100,11 @@ export class OrdersComponent implements OnInit, AfterViewInit, OnDestroy {
 
   getOrderFilters() {
     this.subs.sink = of('filters are coming').subscribe(() => {
-      this.filtersData = FiltersData;
-      this.filtersData['statuses'].data = [
+      FiltersData['statuses'].data = [
+        {
+          value: 'all',
+          display: 'All',
+        },
         {
           value: 1,
           display: 'New',
@@ -111,6 +114,7 @@ export class OrdersComponent implements OnInit, AfterViewInit, OnDestroy {
           display: 'Invoiced',
         },
       ];
+      this.filtersData = FiltersData;
     });
   }
 

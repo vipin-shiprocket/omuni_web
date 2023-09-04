@@ -51,9 +51,9 @@
   }
 }
 
-.fs-14 {
-  font-size: u.rem(14);
-}
+@include u.fontSize(12);
+@include u.fontSize(14);
+@include u.fontSize(18);
 
 .pl-2rem {
   padding-left: 2rem;
