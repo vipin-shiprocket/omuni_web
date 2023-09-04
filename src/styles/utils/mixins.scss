@@ -31,3 +31,15 @@
     color: $color;
   }
 }
+
+@function calculate-delay($spinner-count, $delay-increment) {
+  $delay: 0s;
+  $delay-list: ();
+
+  @for $i from 1 through $spinner-count {
+    $delay: $delay + $delay-increment;
+    $delay-list: append($delay-list, $delay);
+  }
+
+  @return $delay-list;
+}

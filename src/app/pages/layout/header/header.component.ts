@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { LayoutService } from '../layout.service';
-import { GlobalSearchComponent } from 'src/app/components/global-search/global-search.component';
+import { GlobalSearchComponent } from '../global-search/global-search.component';
 
 @Component({
   selector: 'app-header',
