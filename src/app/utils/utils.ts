@@ -16,3 +16,13 @@ export function preloadImage(path: string) {
 export function checkWindowWidth() {
   return window.innerWidth < 768;
 }
+
+export const intervals = new Map<string, string | number | NodeJS.Timer>();
+
+export function clearIntervals() {
+  intervals.forEach((element) => {
+    clearInterval(element);
+  });
+
+  intervals.clear();
+}
