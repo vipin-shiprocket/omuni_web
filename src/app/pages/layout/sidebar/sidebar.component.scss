@@ -121,11 +121,13 @@
 }
 
 .dummy {
-  width: 24px;
-  height: 24px;
+  width: 20px;
+  height: 20px;
 }
 
 .spinner-grow {
+  --bs-spinner-animation-speed: 1.2s;
+
   $delays: u.calculate-delay(u.$sidebar-spinner-count, u.$delay-increment);
 
   @for $i from 1 through u.$sidebar-spinner-count {

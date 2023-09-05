@@ -8,10 +8,22 @@
   height: auto;
 }
 
+.search-input {
+  padding-right: 5rem;
+}
+
+.search-result {
+  width: 15.5rem;
+
+  & > div {
+    max-height: 10rem;
+  }
+}
+
 .shortcut {
   background-color: white;
   position: absolute;
-  inset: 0.85rem auto auto 12rem;
+  inset: 0.85rem auto auto 14rem;
   z-index: 20;
 }
 
