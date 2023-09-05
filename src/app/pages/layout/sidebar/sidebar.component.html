@@ -55,7 +55,7 @@
         [ngTemplateOutletContext]="{ item: item }"
       ></ng-container>
     </span>
-    <hr class="border border-white mx-3 opacity-50" />
+    <hr *ngIf="menu.length" class="border border-white mx-3 opacity-50" />
   </mat-nav-list>
 </div>
 

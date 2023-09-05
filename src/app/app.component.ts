@@ -11,7 +11,7 @@ export class AppComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     intervals.set(
       'clearExpiredMemos',
-      setInterval(() => clear('expired'), 60000),
+      window.setInterval(() => clear('expired'), 60000),
     );
   }
 

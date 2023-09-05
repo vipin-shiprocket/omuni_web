@@ -4,6 +4,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { CdkTableModule } from '@angular/cdk/table';
 import { FilterDataType } from 'src/app/components/index-filters/index-filters.model';
+import { FiltersComponent } from 'src/app/components/filters/filters.component';
 
 export const OrdersModules = [
   CdkTableModule,
@@ -11,6 +12,7 @@ export const OrdersModules = [
   MatIconModule,
   MatSortModule,
   MatPaginatorModule,
+  FiltersComponent,
 ];
 
 export const OrderColumns = [
@@ -76,8 +78,26 @@ export const FiltersData: FilterDataType = {
     name: 'statuses',
     label: 'Status',
     type: 'radio',
-    value: [],
+    value: [
+      {
+        value: 'all',
+        display: 'All',
+      },
+    ],
     data: [],
+  },
+  secured_shipments: {
+    name: 'secured_shipments',
+    label: 'Secured Shipments',
+    type: 'checkbox',
+    value: [],
+    data: [
+      {
+        display: 'View only Secured Shipments',
+        value: '1',
+      },
+    ],
+    placement: 'in',
   },
   channels: {
     name: 'channels',
@@ -141,6 +161,7 @@ export const FiltersData: FilterDataType = {
     label: 'order tag',
     type: 'select',
     value: [],
+    placement: 'in',
     multiple: true,
     data: [
       {

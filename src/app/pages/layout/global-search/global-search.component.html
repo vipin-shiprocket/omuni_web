@@ -1,10 +1,9 @@
 <div class="d-none d-md-block d-lg-block d-xl-block flex-sm-grow-1">
   <div class="input-group dropdown">
     <button
-      class="btn btn-outline-primary border dropdown-toggle d-flex align-items-center px-1 py-0"
+      class="btn btn-outline-primary border focus-ring focus-ring-primary dropdown-toggle d-flex align-items-center px-1 py-0"
       type="button"
       data-bs-toggle="dropdown"
-      data-bs-offset="10,20"
       aria-expanded="false"
       [disabled]="!options.length"
     >
@@ -13,6 +12,7 @@
     <ul class="dropdown-menu">
       <button
         class="dropdown-item fs-14"
+        [ngClass]="{ active: item === active }"
         *ngFor="let item of options"
         (click)="active = item"
       >
@@ -22,14 +22,30 @@
     <input
       #searchInput
       type="text"
-      class="form-control flex-grow-1 pe-5"
+      class="form-control flex-grow-1 dropdown-toggle search-input"
       aria-label="Global search text input"
       [disabled]="!options.length"
       [placeholder]="'Search in ' + (OPTIONS[active] || '/')"
-      (keydown.escape)="searchInput.blur()"
-      (focus)="selected = true"
-      (focusout)="selected = false"
+      (appDebounceInput)="search($event)"
+      [debounceTime]="500"
+      (resetEvent)="reset()"
+      [minimumCharacters]="3"
+      (focus)="onFocus()"
+      (focusout)="onFocusOut()"
     />
+    <ul
+      class="dropdown-menu search-result fs-14 p-1 text-body-secondary"
+      #searchResult
+      role="menu"
+    >
+      <li><h6 class="dropdown-header">Search results:</h6></li>
+      <ng-container
+        [ngTemplateOutlet]="!result.data ? loading : resultList"
+        [ngTemplateOutletContext]="{ data: result.data }"
+      ></ng-container>
+      <li><hr class="dropdown-divider" /></li>
+      <li class="dropdown-item disabled">in {{ OPTIONS[active] || '/' }}</li>
+    </ul>
   </div>
   <span class="p-1 text-primary shortcut" [ngClass]="{ hide: selected }">
     <kbd class="bg-primary">Ctrl</kbd> + <kbd class="bg-primary">/</kbd>
@@ -44,3 +60,30 @@
     <mat-icon>search</mat-icon>
   </button>
 </div>
+
+<ng-template #loading>
+  <li class="dropdown-item disabled placeholder-glow">
+    <span class="placeholder col-6"></span>
+  </li>
+  <li class="dropdown-item disabled placeholder-glow">
+    <span class="placeholder col-4"></span>
+  </li>
+</ng-template>
+
+<ng-template #resultList let-data="data">
+  <div class="overflow-y-auto custom-scrollbar" *ngIf="data.length">
+    <li
+      *ngFor="let item of data; let i = index"
+      [id]="'searchResult' + i"
+      class="dropdown-item cursor"
+      [ngClass]="{ active: i === dropDownItemIndex }"
+      tabindex="-1"
+      (click)="navigate(i)"
+      (keydown.enter)="navigate(i)"
+    >
+      <h4>{{ item.name }}</h4>
+      <p>SKU: {{ item.sku }}</p>
+    </li>
+  </div>
+  <p class="dropdown-item disabled" *ngIf="!data.length">No results found</p>
+</ng-template>

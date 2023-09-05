@@ -1,0 +1,49 @@
+<input
+  type="text"
+  class="form-control cursor"
+  [ngClass]="{ cursor: !disabled }"
+  [disabled]="disabled"
+  readonly
+  (click)="toggleDropd()"
+  [value]="formatValue(selectedValues)"
+  #trigger
+/>
+
+<ng-template #portal>
+  <section class="o2-listbox-container shadow-sm">
+    <div
+      *ngIf="selectAll && multiple"
+      [tabindex]="-1"
+      class="o2-option multiple-select select-all"
+      (click)="handleSelectAll()"
+      (keyup)="handleSelectAll()"
+      [attr.aria-selected]="allSelected"
+    >
+      {{ allSelected ? 'Deselect' : 'Select All' }}
+    </div>
+    <ul
+      cdkListbox
+      [(ngModel)]="selectedValues"
+      (cdkListboxValueChange)="onSelectionChange($event)"
+      [cdkListboxMultiple]="multiple"
+      class="o2-listbox bg-white"
+    >
+      <li
+        *ngFor="let option of options"
+        [cdkOption]="option"
+        class="o2-option"
+        [ngClass]="multiple ? 'multiple-select' : 'single-select'"
+      >
+        {{ option.display }}
+      </li>
+    </ul>
+    <div *ngIf="clearBtn && multiple">
+      <button
+        class="btn btn-sm btn-solid_sm float-end m-2"
+        (click)="clearFilter()"
+      >
+        clear
+      </button>
+    </div>
+  </section>
+</ng-template>

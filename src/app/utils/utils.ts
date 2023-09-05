@@ -17,11 +17,21 @@ export function checkWindowWidth() {
   return window.innerWidth < 768;
 }
 
-export const intervals = new Map<string, string | number | NodeJS.Timer>();
+export function calculateElementHeight(id: string, defaultHeight = 50) {
+  const item = document.getElementById(id);
+  return item?.offsetHeight || defaultHeight;
+}
+
+export function calculateElementTop(id: string, defaultTop = 0) {
+  const item = document.getElementById(id);
+  return item?.offsetTop || defaultTop;
+}
+
+export const intervals = new Map<string, number>();
 
 export function clearIntervals() {
   intervals.forEach((element) => {
-    clearInterval(element);
+    window.clearInterval(element);
   });
 
   intervals.clear();
