@@ -1,7 +1,7 @@
 <div class="d-none d-md-block d-lg-block d-xl-block flex-sm-grow-1">
   <div class="input-group dropdown">
     <button
-      class="btn btn-outline-primary border dropdown-toggle d-flex align-items-center px-1 py-0"
+      class="btn btn-outline-primary border focus-ring focus-ring-primary dropdown-toggle d-flex align-items-center px-1 py-0"
       type="button"
       data-bs-toggle="dropdown"
       aria-expanded="false"
@@ -23,16 +23,12 @@
       #searchInput
       type="text"
       class="form-control flex-grow-1 dropdown-toggle search-input"
-      data-bs-toggle="dropdown"
-      aria-expanded="false"
       aria-label="Global search text input"
       [disabled]="!options.length"
       [placeholder]="'Search in ' + (OPTIONS[active] || '/')"
-      (keydown.escape)="searchInput.blur()"
-      (keydown.enter)="search(searchInput.value)"
       (appDebounceInput)="search($event)"
       [debounceTime]="500"
-      (resetEvent)="result = {}"
+      (resetEvent)="reset()"
       [minimumCharacters]="3"
       (focus)="onFocus()"
       (focusout)="onFocusOut()"
@@ -77,11 +73,13 @@
 <ng-template #resultList let-data="data">
   <div class="overflow-y-auto custom-scrollbar" *ngIf="data.length">
     <li
+      *ngFor="let item of data; let i = index"
+      [id]="'searchResult' + i"
       class="dropdown-item cursor"
-      *ngFor="let item of data"
-      tabindex="0"
-      (click)="navigate()"
-      (keydown.enter)="navigate()"
+      [ngClass]="{ active: i === dropDownItemIndex }"
+      tabindex="-1"
+      (click)="navigate(i)"
+      (keydown.enter)="navigate(i)"
     >
       <h4>{{ item.name }}</h4>
       <p>SKU: {{ item.sku }}</p>

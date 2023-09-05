@@ -12,9 +12,13 @@ import { MatIconModule } from '@angular/material/icon';
 import { LayoutService } from '../layout.service';
 import { OPTIONS } from './global-search.model';
 import { NavigationEnd, Router } from '@angular/router';
-import { BehaviorSubject, filter } from 'rxjs';
+import { BehaviorSubject, filter, fromEvent, map } from 'rxjs';
 import { SubSink } from 'subsink';
 import { DebounceInputDirective } from 'src/app/directives/debounce-input.directive';
+import {
+  calculateElementHeight,
+  calculateElementTop,
+} from 'src/app/utils/utils';
 
 const mockData: Record<'name' | 'sku', string>[] = [
   {
@@ -71,7 +75,7 @@ const mockData: Record<'name' | 'sku', string>[] = [
   styleUrls: ['./global-search.component.scss'],
 })
 export class GlobalSearchComponent implements OnInit, OnDestroy {
-  @ViewChild('searchInput')
+  @ViewChild('searchInput', { static: true })
   searchInput!: ElementRef<HTMLInputElement>;
   @ViewChild('searchResult')
   searchResult!: ElementRef<HTMLUListElement>;
@@ -79,6 +83,7 @@ export class GlobalSearchComponent implements OnInit, OnDestroy {
   router = inject(Router);
   active = '/';
   allowedRoutes: Record<string, string> = { '/': '' };
+  dropDownItemIndex: number | undefined = undefined;
   currentRoute = new BehaviorSubject<string>('');
   result: { data?: Record<'name' | 'sku', string>[] } = {};
   document = document;
@@ -86,6 +91,7 @@ export class GlobalSearchComponent implements OnInit, OnDestroy {
   options: string[] = [];
   selected = false;
   subSink = new SubSink();
+  timeouts: number[] = [];
 
   ngOnInit(): void {
     this.currentRoute.next(this.router.routerState.snapshot.url.slice(1));
@@ -114,11 +120,77 @@ export class GlobalSearchComponent implements OnInit, OnDestroy {
     this.subSink.sink = this.currentRoute.subscribe((data) => {
       this.updateActive(data);
     });
+
+    this.subSink.sink = fromEvent(this.searchInput.nativeElement, 'keydown')
+      .pipe(
+        map((evt) => (evt as KeyboardEvent).key),
+        filter((key) =>
+          ['ArrowUp', 'ArrowDown', 'Escape', 'Enter'].includes(key),
+        ),
+      )
+      .subscribe((key) => this.handleKeyboardEvents(key));
   }
 
   @HostListener('document:keydown.control./')
   focusSearch() {
-    this.searchInput.nativeElement.click();
+    this.searchInput.nativeElement.focus();
+  }
+
+  handleKeyboardEvents(key: string) {
+    switch (key) {
+      case 'Escape':
+        this.searchInput.nativeElement.blur();
+        break;
+
+      case 'Enter':
+        if (this.dropDownItemIndex !== undefined)
+          this.navigate(this.dropDownItemIndex);
+        else this.search(this.searchInput.nativeElement.value);
+        break;
+
+      case 'ArrowUp':
+        if (this.dropDownItemIndex === undefined) {
+          this.dropDownItemIndex = 0;
+          break;
+        }
+        if (this.result?.data?.length) {
+          this.dropDownItemIndex = Math.max(0, this.dropDownItemIndex - 1);
+          const id = 'searchResult' + (this.dropDownItemIndex - 1);
+          const scrollHeight = calculateElementTop(id);
+          this.searchResult.nativeElement
+            .getElementsByClassName('custom-scrollbar')[0]
+            .scrollTo({
+              top: scrollHeight,
+              behavior: 'smooth',
+            });
+        }
+        break;
+
+      case 'ArrowDown':
+        if (this.dropDownItemIndex === undefined) {
+          this.dropDownItemIndex = 0;
+          break;
+        }
+        if (this.result?.data?.length) {
+          this.dropDownItemIndex = Math.min(
+            this.result.data.length - 1,
+            this.dropDownItemIndex + 1,
+          );
+          const id = 'searchResult' + this.dropDownItemIndex;
+          const scrollHeight =
+            calculateElementTop(id) - calculateElementHeight(id);
+          this.searchResult.nativeElement
+            .getElementsByClassName('custom-scrollbar')[0]
+            .scrollTo({
+              top: scrollHeight,
+              behavior: 'smooth',
+            });
+        }
+        break;
+
+      default:
+        break;
+    }
   }
 
   updateActive(route: string) {
@@ -140,18 +212,34 @@ export class GlobalSearchComponent implements OnInit, OnDestroy {
 
   onFocus() {
     this.selected = true;
+    this.searchResult.nativeElement.classList.add('show');
   }
 
   onFocusOut() {
-    this.selected = false;
+    this.timeouts.push(
+      window.setTimeout(() => {
+        this.selected = false;
+        this.searchResult.nativeElement.classList.remove('show');
+      }, 150),
+    );
   }
 
-  navigate() {
-    console.log('navigating...');
-    this.searchResult.nativeElement.classList.remove('show');
+  navigate(i: number) {
+    const data = this.result.data ? this.result.data[i] : i;
+    this.onFocusOut();
+    this.reset();
+    this.searchInput.nativeElement.value = '';
+    this.searchInput.nativeElement.blur();
+    console.log('navigating to ', data);
+  }
+
+  reset() {
+    this.result = {};
+    this.dropDownItemIndex = undefined;
   }
 
   ngOnDestroy(): void {
+    this.timeouts.forEach((timeout) => clearTimeout(timeout));
     this.subSink.unsubscribe();
   }
 }

@@ -18,6 +18,10 @@
   & > div {
     max-height: 10rem;
   }
+
+  &.show {
+    inset: 2.5rem auto auto 2.5rem !important;
+  }
 }
 
 .shortcut {
