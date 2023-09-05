@@ -4,6 +4,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { LayoutService } from '../layout.service';
 import { GlobalSearchComponent } from '../global-search/global-search.component';
+import { checkWindowWidth } from 'src/app/utils/utils';
 
 @Component({
   selector: 'app-header',
@@ -19,6 +20,8 @@ import { GlobalSearchComponent } from '../global-search/global-search.component'
 })
 export class HeaderComponent {
   sidebarOpen = inject(LayoutService).sideBarOpen;
+
+  showSearch = checkWindowWidth;
 
   openSideBar() {
     this.sidebarOpen.next(true);

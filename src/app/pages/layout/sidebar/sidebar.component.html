@@ -93,7 +93,7 @@
         <mat-panel-title>
           <span class="ms-2">
             <mat-icon
-              class="overflow-visible"
+              class="d-flex overflow-visible"
               [svgIcon]="item.iconName"
             ></mat-icon>
           </span>
@@ -116,7 +116,7 @@
           >
             <mat-icon
               [svgIcon]="child.iconName"
-              class="overflow-visible mx-2"
+              class="d-flex overflow-visible mx-2"
             ></mat-icon>
             <span>{{ child.displayName }}</span>
           </div>
@@ -136,7 +136,10 @@
     (click)="close($event)"
   >
     <div class="menu mb-4" [ngClass]="checkRoute(item.route) ? 'active' : ''">
-      <mat-icon class="overflow-visible" [svgIcon]="item.iconName"></mat-icon>
+      <mat-icon
+        class="d-flex overflow-visible"
+        [svgIcon]="item.iconName"
+      ></mat-icon>
       <span class="side-nav-text w-100 ms-2 overflow-x-hidden">
         {{ item.displayName }}
       </span>

@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   Component,
   ElementRef,
   HostListener,
@@ -18,6 +19,7 @@ import { DebounceInputDirective } from 'src/app/directives/debounce-input.direct
 import {
   calculateElementHeight,
   calculateElementTop,
+  checkWindowWidth,
 } from 'src/app/utils/utils';
 
 const mockData: Record<'name' | 'sku', string>[] = [
@@ -74,8 +76,8 @@ const mockData: Record<'name' | 'sku', string>[] = [
   templateUrl: './global-search.component.html',
   styleUrls: ['./global-search.component.scss'],
 })
-export class GlobalSearchComponent implements OnInit, OnDestroy {
-  @ViewChild('searchInput', { static: true })
+export class GlobalSearchComponent implements OnInit, AfterViewInit, OnDestroy {
+  @ViewChild('searchInput')
   searchInput!: ElementRef<HTMLInputElement>;
   @ViewChild('searchResult')
   searchResult!: ElementRef<HTMLUListElement>;
@@ -120,7 +122,9 @@ export class GlobalSearchComponent implements OnInit, OnDestroy {
     this.subSink.sink = this.currentRoute.subscribe((data) => {
       this.updateActive(data);
     });
+  }
 
+  ngAfterViewInit(): void {
     this.subSink.sink = fromEvent(this.searchInput.nativeElement, 'keydown')
       .pipe(
         map((evt) => (evt as KeyboardEvent).key),
@@ -130,6 +134,8 @@ export class GlobalSearchComponent implements OnInit, OnDestroy {
       )
       .subscribe((key) => this.handleKeyboardEvents(key));
   }
+
+  isMobile = checkWindowWidth;
 
   @HostListener('document:keydown.control./')
   focusSearch() {
@@ -143,9 +149,12 @@ export class GlobalSearchComponent implements OnInit, OnDestroy {
         break;
 
       case 'Enter':
-        if (this.dropDownItemIndex !== undefined)
+        if (this.dropDownItemIndex !== undefined && !this.isMobile())
           this.navigate(this.dropDownItemIndex);
         else this.search(this.searchInput.nativeElement.value);
+        if (this.isMobile()) {
+          this.searchInput.nativeElement.blur();
+        }
         break;
 
       case 'ArrowUp':
@@ -211,11 +220,13 @@ export class GlobalSearchComponent implements OnInit, OnDestroy {
   }
 
   onFocus() {
+    if (this.isMobile()) return;
     this.selected = true;
     this.searchResult.nativeElement.classList.add('show');
   }
 
   onFocusOut() {
+    if (this.isMobile()) return;
     this.timeouts.push(
       window.setTimeout(() => {
         this.selected = false;
