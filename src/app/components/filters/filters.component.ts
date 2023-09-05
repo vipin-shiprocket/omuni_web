@@ -1,7 +1,7 @@
-import { Component, Input } from '@angular/core';
+import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FiltersModules } from './filters.model';
-import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { FilterDataType } from '../index-filters/index-filters.model';
 
 @Component({
@@ -11,7 +11,7 @@ import { FilterDataType } from '../index-filters/index-filters.model';
   templateUrl: './filters.component.html',
   styleUrls: ['./filters.component.scss'],
 })
-export class FiltersComponent {
+export class FiltersComponent implements OnInit {
   @Input() set filtersData(value: FilterDataType | null) {
     console.log('🚀 ~ @Input ~ value:', value);
     if (value) {
@@ -26,5 +26,24 @@ export class FiltersComponent {
     this.filterForm = this.fb.group({
       filters: this.fb.array([]),
     });
+  }
+
+  ngOnInit(): void {
+    if (this._filterData) {
+      Object.keys(this._filterData).forEach((key) => {
+        const control = {
+          [key]:
+            this._filterData && this._filterData[key]
+              ? this._filterData[key].value
+              : [],
+        };
+
+        this.filtersCtrl.push(this.fb.group(control));
+      });
+    }
+  }
+
+  get filtersCtrl(): FormArray {
+    return this.filterForm.get('filters') as FormArray;
   }
 }

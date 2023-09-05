@@ -1,10 +1,14 @@
 <div>
+  {{ filterForm.value | json }}
   <form [formGroup]="filterForm" class="d-flex flex-wrap">
     <div formArrayName="filters">
-      <ng-container *ngFor="let filter of objectvalues(_filterData ?? {})">
-        <ng-container *ngIf="filter.placement === 'out'">
+      <ng-container
+        *ngFor="let filter of objectvalues(_filterData ?? {}); let i = index"
+      >
+        <ng-container [formGroupName]="i" *ngIf="filter.placement === 'out'">
           <section class="me-3" *ngIf="filter.type === 'select'">
             <app-o2-select
+              [formControlName]="filter.name"
               [label]="filter.label"
               [multiple]="filter.multiple ?? false"
               [values]="filter.value"
@@ -42,9 +46,17 @@
         ></button>
       </div>
       <div class="offcanvas-body">
-        <div formArrayName="filters">
-          <ng-container *ngFor="let filter of objectvalues(_filterData ?? {})">
-            <ng-container *ngIf="filter.placement !== 'out'">
+        <div *ngIf="filtersCtrl.controls.length" formArrayName="filters">
+          <ng-container
+            *ngFor="
+              let filter of objectvalues(_filterData ?? {});
+              let i = index
+            "
+          >
+            <ng-container
+              [formGroupName]="i"
+              *ngIf="filter.placement !== 'out'"
+            >
               <section class="mb-3" *ngIf="filter.type === 'radio'">
                 <h5 class="fw-bold text-capitalize mb-2">
                   {{ filter?.label }}
@@ -54,7 +66,9 @@
                   <input
                     class="form-check-input radio-outlined me-1"
                     type="radio"
-                    name="radioExample"
+                    [value]="data"
+                    [formControlName]="filter.name"
+                    [name]="filter.name"
                   />
                   {{ data.display }}
                 </label>
@@ -69,7 +83,7 @@
                   <input
                     class="form-check-input me-1"
                     type="checkbox"
-                    value=""
+                    [formControlName]="filter.name"
                   />
                   {{ data.display }}
                 </label>
@@ -85,6 +99,7 @@
                   [multiple]="filter.multiple ?? false"
                   [values]="filter.value"
                   [options]="filter.data"
+                  [formControlName]="filter.name"
                 />
               </section>
             </ng-container>

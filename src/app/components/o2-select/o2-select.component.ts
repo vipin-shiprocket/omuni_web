@@ -15,6 +15,8 @@ import { IOption, O2SelectModules } from './o2-select.model';
 import { ListboxValueChangeEvent } from '@angular/cdk/listbox';
 import { Overlay, OverlayConfig, OverlayRef } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
+import { noop } from 'rxjs';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
   selector: 'app-o2-select',
@@ -22,9 +24,18 @@ import { TemplatePortal } from '@angular/cdk/portal';
   imports: [CommonModule, O2SelectModules],
   templateUrl: './o2-select.component.html',
   styleUrls: ['./o2-select.component.scss'],
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: O2SelectComponent,
+      multi: true,
+    },
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class O2SelectComponent {
+export class O2SelectComponent implements ControlValueAccessor {
+  private onTouchedCallback: () => void = noop;
+  private onChangeCallback: (_: unknown) => void = noop;
   @ViewChild('trigger') select!: ElementRef;
   @ViewChild('portal') portal!: TemplateRef<ElementRef>;
   @Output() selectionChange = new EventEmitter();
@@ -33,7 +44,7 @@ export class O2SelectComponent {
   @Input() options: IOption[] = [];
   @Input() multiple = false;
   @Input() placeholder = '';
-  @Input() selectAll = false;
+  @Input() selectAll = true;
   @Input() clearBtn = true;
   overlayRef!: OverlayRef;
   @Input() set values(value: IOption[] | undefined) {
@@ -49,12 +60,28 @@ export class O2SelectComponent {
     private _viewContainerRef: ViewContainerRef,
   ) {}
 
+  writeValue(value: IOption[]): void {
+    this.onChangeCallback(value);
+  }
+
+  registerOnChange(fn: typeof this.onChangeCallback): void {
+    this.onChangeCallback = fn;
+  }
+
+  registerOnTouched(fn: typeof this.onTouchedCallback): void {
+    this.onTouchedCallback = fn;
+  }
+
+  setDisabledState?(isDisabled: boolean): void {
+    this.disabled = isDisabled;
+  }
+
   get allSelected(): boolean {
     return this.selectedValues.length === this.options.length;
   }
 
   formatValue(value: IOption[]): string {
-    if (!value.length) {
+    if (!value?.length) {
       return this.placeholder || `Select ${this.label}`;
     }
 
@@ -66,8 +93,7 @@ export class O2SelectComponent {
 
   onSelectionChange(selected: ListboxValueChangeEvent<unknown>) {
     this.selectedValues = selected.value as IOption[];
-    this.selectionChange.emit(this.selectedValues);
-    this.cd.markForCheck();
+    this.emitChange();
   }
 
   handleSelectAll() {
@@ -77,8 +103,7 @@ export class O2SelectComponent {
       this.selectedValues = this.options;
     }
 
-    this.selectionChange.emit(this.selectedValues);
-    this.cd.markForCheck();
+    this.emitChange();
   }
 
   private syncWidth(): void {
@@ -136,9 +161,14 @@ export class O2SelectComponent {
     }
   }
 
+  emitChange() {
+    this.selectionChange.emit(this.selectedValues);
+    this.onChangeCallback(this.selectedValues);
+    this.cd.markForCheck();
+  }
+
   clearFilter() {
     this.selectedValues = [];
-    this.selectionChange.emit(this.selectedValues);
-    this.cd.markForCheck();
+    this.emitChange();
   }
 }
