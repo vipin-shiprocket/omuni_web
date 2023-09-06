@@ -10,17 +10,14 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
+import { MatTooltip, MatTooltipModule } from '@angular/material/tooltip';
 import { LayoutService } from '../layout.service';
 import { OPTIONS } from './global-search.model';
 import { NavigationEnd, Router } from '@angular/router';
 import { BehaviorSubject, filter, fromEvent, map } from 'rxjs';
 import { SubSink } from 'subsink';
 import { DebounceInputDirective } from 'src/app/directives/debounce-input.directive';
-import {
-  calculateElementHeight,
-  calculateElementTop,
-  checkWindowWidth,
-} from 'src/app/utils/utils';
+import { calculateElementHeight, checkWindowWidth } from 'src/app/utils/utils';
 
 const mockData: Record<'name' | 'sku', string>[] = [
   {
@@ -72,7 +69,12 @@ const mockData: Record<'name' | 'sku', string>[] = [
 @Component({
   selector: 'app-global-search',
   standalone: true,
-  imports: [CommonModule, MatIconModule, DebounceInputDirective],
+  imports: [
+    CommonModule,
+    DebounceInputDirective,
+    MatIconModule,
+    MatTooltipModule,
+  ],
   templateUrl: './global-search.component.html',
   styleUrls: ['./global-search.component.scss'],
 })
@@ -81,6 +83,8 @@ export class GlobalSearchComponent implements OnInit, AfterViewInit, OnDestroy {
   searchInput!: ElementRef<HTMLInputElement>;
   @ViewChild('searchResult')
   searchResult!: ElementRef<HTMLUListElement>;
+  @ViewChild('toolTip')
+  toolTip!: MatTooltip;
   layoutService = inject(LayoutService);
   router = inject(Router);
   active = '/';
@@ -91,6 +95,7 @@ export class GlobalSearchComponent implements OnInit, AfterViewInit, OnDestroy {
   document = document;
   OPTIONS = OPTIONS;
   options: string[] = [];
+  resultItemTops = new Map<number, number>();
   searchValue = '';
   selected = false;
   subSink = new SubSink();
@@ -165,8 +170,9 @@ export class GlobalSearchComponent implements OnInit, AfterViewInit, OnDestroy {
         }
         if (this.result?.data?.length) {
           this.dropDownItemIndex = Math.max(0, this.dropDownItemIndex - 1);
-          const id = 'searchResult' + (this.dropDownItemIndex - 1);
-          const scrollHeight = calculateElementTop(id);
+
+          const scrollHeight = this.resultItemTops.get(this.dropDownItemIndex);
+
           this.searchResult.nativeElement
             .getElementsByClassName('custom-scrollbar')[0]
             .scrollTo({
@@ -186,9 +192,9 @@ export class GlobalSearchComponent implements OnInit, AfterViewInit, OnDestroy {
             this.result.data.length - 1,
             this.dropDownItemIndex + 1,
           );
-          const id = 'searchResult' + this.dropDownItemIndex;
-          const scrollHeight =
-            calculateElementTop(id) - calculateElementHeight(id);
+
+          const scrollHeight = this.resultItemTops.get(this.dropDownItemIndex);
+
           this.searchResult.nativeElement
             .getElementsByClassName('custom-scrollbar')[0]
             .scrollTo({
@@ -218,6 +224,30 @@ export class GlobalSearchComponent implements OnInit, AfterViewInit, OnDestroy {
         val.name.toLowerCase().includes(data.toLowerCase()),
       ),
     };
+
+    this.timeouts.push(
+      window.setTimeout(() => {
+        this.setResultsHeights(); //on Success
+      }, 100),
+    );
+
+    this.toolTip.disabled = false;
+    this.toolTip.show();
+  }
+
+  setResultsHeights() {
+    this.resultItemTops.clear();
+
+    if (!this.result.data?.length) return;
+
+    this.resultItemTops.set(0, 0);
+    let prevTop = 0;
+    for (let index = 1; index < this.result.data?.length; index++) {
+      const id = 'searchResult' + index;
+      const height = prevTop + calculateElementHeight(id);
+      this.resultItemTops.set(index, height);
+      prevTop = height;
+    }
   }
 
   setSearchValue(evt: Event) {
@@ -253,6 +283,9 @@ export class GlobalSearchComponent implements OnInit, AfterViewInit, OnDestroy {
   reset() {
     this.result = {};
     this.dropDownItemIndex = undefined;
+    this.resultItemTops.clear();
+    this.toolTip.disabled = true;
+    this.toolTip.hide();
   }
 
   ngOnDestroy(): void {
