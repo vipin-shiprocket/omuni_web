@@ -245,6 +245,7 @@ export class GlobalSearchComponent implements OnInit, AfterViewInit, OnDestroy {
     this.onFocusOut();
     this.reset();
     this.searchInput.nativeElement.value = '';
+    this.searchValue = '';
     this.searchInput.nativeElement.blur();
     console.log('navigating to ', data);
   }

@@ -23,14 +23,14 @@
 }
 
 .search-result {
-  width: 17em;
+  width: 17.15em;
 
   & > div {
     max-height: 10em;
   }
 
   &.show {
-    inset: 3em auto auto 3em !important;
+    inset: 2.85em auto auto 2.85em !important;
   }
 }
 
