@@ -29,10 +29,14 @@ export function calculateElementTop(id: string, defaultTop = 0) {
 
 export const intervals = new Map<string, number>();
 
-export function clearIntervals() {
-  intervals.forEach((element) => {
-    window.clearInterval(element);
-  });
-
-  intervals.clear();
+export function clearIntervals(key: string) {
+  if (key === 'all') {
+    intervals.forEach((element) => {
+      window.clearInterval(element);
+    });
+    intervals.clear();
+  } else if (intervals.has(key)) {
+    window.clearInterval(intervals.get(key));
+    intervals.delete(key);
+  }
 }
