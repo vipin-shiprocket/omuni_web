@@ -34,12 +34,20 @@
           (click)="reset()"
         ></button>
       </div>
-      <h6 class="dropdown-header mx-4 my-2">Search results:</h6>
+      <div class="mx-4 my-2">
+        <ng-container [ngTemplateOutlet]="searchHeading"></ng-container>
+      </div>
       <hr class="border m-0" />
       <div class="modal-body">
         <ul class="list-group fs-14 p-1 text-body-secondary">
           <ng-container
-            [ngTemplateOutlet]="!result.data ? loading : resultList"
+            [ngTemplateOutlet]="
+              !result.data
+                ? searchValue.trim().length > 2
+                  ? loading
+                  : null
+                : resultList
+            "
             [ngTemplateOutletContext]="{ data: result.data }"
           ></ng-container>
         </ul>
@@ -79,6 +87,7 @@
       aria-label="Global search text input"
       [disabled]="!options.length"
       [placeholder]="'Search in ' + (OPTIONS[active] || '/')"
+      (input)="setSearchValue($event)"
       (appDebounceInput)="search($event)"
       [debounceTime]="500"
       (resetEvent)="reset()"
@@ -91,18 +100,38 @@
       #searchResult
       role="menu"
     >
-      <li><h6 class="dropdown-header">Search results:</h6></li>
+      <li>
+        <ng-container [ngTemplateOutlet]="searchHeading"></ng-container>
+      </li>
       <ng-container
-        [ngTemplateOutlet]="!result.data ? loading : resultList"
+        [ngTemplateOutlet]="
+          !result.data
+            ? searchValue.trim().length > 2
+              ? loading
+              : null
+            : resultList
+        "
         [ngTemplateOutletContext]="{ data: result.data }"
       ></ng-container>
       <li><hr class="dropdown-divider" /></li>
       <li class="dropdown-item disabled">in {{ OPTIONS[active] || '/' }}</li>
     </ul>
+    <span class="p-1 text-primary shortcut" [ngClass]="{ hide: selected }">
+      <kbd class="bg-primary">Ctrl</kbd> + <kbd class="bg-primary">/</kbd>
+    </span>
   </div>
-  <span class="p-1 text-primary shortcut" [ngClass]="{ hide: selected }">
-    <kbd class="bg-primary">Ctrl</kbd> + <kbd class="bg-primary">/</kbd>
-  </span>
+</ng-template>
+
+<ng-template #searchHeading>
+  <h6 class="dropdown-header text-secondary text-wrap">
+    {{
+      searchValue.trim().length > 2
+        ? result.data
+          ? 'Search results:'
+          : 'Searching'
+        : 'Enter minimum 3 characters to start searching'
+    }}
+  </h6>
 </ng-template>
 
 <ng-template #loading>

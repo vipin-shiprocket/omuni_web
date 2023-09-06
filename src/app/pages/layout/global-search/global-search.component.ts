@@ -91,6 +91,7 @@ export class GlobalSearchComponent implements OnInit, AfterViewInit, OnDestroy {
   document = document;
   OPTIONS = OPTIONS;
   options: string[] = [];
+  searchValue = '';
   selected = false;
   subSink = new SubSink();
   timeouts: number[] = [];
@@ -210,13 +211,17 @@ export class GlobalSearchComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   search(data: string) {
-    if (data.trim() === '') return;
+    if (data.trim().length < 3) return;
 
     this.result = {
       data: mockData.filter((val) =>
         val.name.toLowerCase().includes(data.toLowerCase()),
       ),
     };
+  }
+
+  setSearchValue(evt: Event) {
+    this.searchValue = (evt.target as HTMLInputElement).value;
   }
 
   onFocus() {
