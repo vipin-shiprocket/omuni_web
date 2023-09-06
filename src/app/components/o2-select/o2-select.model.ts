@@ -12,6 +12,7 @@ export const O2SelectModules = [
 
 export interface IOption {
   display: string;
+  disable?: boolean;
   value: string | number | boolean;
 }
 

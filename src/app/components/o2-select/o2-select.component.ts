@@ -46,10 +46,12 @@ export class O2SelectComponent implements ControlValueAccessor {
   @Input() placeholder = '';
   @Input() selectAll = true;
   @Input() clearBtn = true;
+  @Input() className = '';
   overlayRef!: OverlayRef;
   @Input() set values(value: IOption[] | undefined) {
     if (value) {
       this.selectedValues = value;
+      this.onChangeCallback(this.selectedValues);
     }
   }
   selectedValues: IOption[] = [];
@@ -61,6 +63,7 @@ export class O2SelectComponent implements ControlValueAccessor {
   ) {}
 
   writeValue(value: IOption[]): void {
+    this.selectedValues = value;
     this.onChangeCallback(value);
   }
 
@@ -77,7 +80,7 @@ export class O2SelectComponent implements ControlValueAccessor {
   }
 
   get allSelected(): boolean {
-    return this.selectedValues.length === this.options.length;
+    return this.selectedValues?.length === this.options?.length;
   }
 
   formatValue(value: IOption[]): string {
@@ -94,6 +97,10 @@ export class O2SelectComponent implements ControlValueAccessor {
   onSelectionChange(selected: ListboxValueChangeEvent<unknown>) {
     this.selectedValues = selected.value as IOption[];
     this.emitChange();
+
+    if (!this.multiple) {
+      this.toggleDropd();
+    }
   }
 
   handleSelectAll() {

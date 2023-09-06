@@ -1,6 +1,6 @@
 <div>
-  {{ filterForm.value | json }}
   <form [formGroup]="filterForm" class="d-flex flex-wrap">
+    <app-o2-daterange />
     <div formArrayName="filters">
       <ng-container
         *ngFor="let filter of objectvalues(_filterData ?? {}); let i = index"

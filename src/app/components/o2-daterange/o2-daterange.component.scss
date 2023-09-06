@@ -1,0 +1,69 @@
+@use '../../../styles/utils' as u;
+
+.more-filter-btn {
+  width: u.rem(219);
+}
+
+.o2-listbox-container {
+  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.161);
+}
+
+.o2-listbox {
+  max-height: unset;
+  width: unset;
+  min-width: u.rem(219);
+  border-bottom-left-radius: u.rem(5);
+}
+
+.o2-option {
+  padding: 0.5rem 1rem;
+
+  &::before {
+    left: unset;
+    right: 1rem;
+  }
+}
+
+.range-select {
+  &[aria-selected='true']::before {
+    content: '\e876';
+    color: u.$primary1;
+  }
+
+  &:hover::before {
+    content: '\e876';
+  }
+}
+
+.calendar {
+  display: flex;
+
+  &-one,
+  &-two {
+    width: 15rem;
+    background-color: white;
+  }
+}
+
+.btn-outlined_sm {
+  color: u.$neutral3;
+  border-color: u.$neutral3;
+}
+
+.right-section {
+  background-color: u.$bg-color;
+  padding: 1rem 1rem 0;
+  border-top-right-radius: u.rem(5);
+  border-bottom-right-radius: u.rem(5);
+}
+
+.info-section {
+  width: 80%;
+  color: u.$neutral3b;
+  margin-top: 0.5rem;
+  max-width: u.rem(219);
+
+  .mat-icon {
+    width: u.rem(30);
+  }
+}

@@ -1,6 +1,6 @@
 <input
   type="text"
-  class="form-control cursor"
+  class="form-control {{ className }}"
   [ngClass]="{ cursor: !disabled }"
   [disabled]="disabled"
   readonly
@@ -10,7 +10,7 @@
 />
 
 <ng-template #portal>
-  <section class="o2-listbox-container shadow-sm">
+  <section class="o2-listbox-container shadow">
     <div
       *ngIf="selectAll && multiple"
       [tabindex]="-1"
@@ -31,13 +31,14 @@
       <li
         *ngFor="let option of options"
         [cdkOption]="option"
+        [cdkOptionDisabled]="option.disable"
         class="o2-option"
         [ngClass]="multiple ? 'multiple-select' : 'single-select'"
       >
         {{ option.display }}
       </li>
     </ul>
-    <div *ngIf="clearBtn && multiple">
+    <div class="footer-section" *ngIf="clearBtn && multiple">
       <button
         class="btn btn-sm btn-solid_sm float-end m-2"
         (click)="clearFilter()"

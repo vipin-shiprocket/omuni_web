@@ -179,3 +179,25 @@ label.required::after {
     background: #888;
   }
 }
+
+.more-filter-btn {
+  display: inline-flex;
+  align-items: center;
+  margin-right: 1rem;
+  background-color: #fff;
+  color: u.$neutral2a;
+  padding: u.rem(5) u.rem(12);
+  font-size: u.rem(12);
+  font-weight: 500;
+  line-height: 1.33;
+
+  &:focus {
+    border-color: u.$primary1;
+    background-color: #fff;
+  }
+
+  &:hover {
+    border-color: u.$primary1;
+    background-color: #fff;
+  }
+}
