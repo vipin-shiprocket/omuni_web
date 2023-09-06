@@ -16,3 +16,13 @@ export function preloadImage(path: string) {
 export function checkWindowWidth() {
   return window.innerWidth < 768;
 }
+
+export function calculateElementHeight(id: string, defaultHeight = 50) {
+  const item = document.getElementById(id);
+  return item?.offsetHeight || defaultHeight;
+}
+
+export function calculateElementTop(id: string, defaultTop = 0) {
+  const item = document.getElementById(id);
+  return item?.offsetTop || defaultTop;
+}

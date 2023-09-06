@@ -9,7 +9,9 @@
 }
 
 .search-input {
-  padding-right: 5rem;
+  @media screen and (min-width: 768px) {
+    padding-right: 5rem;
+  }
 }
 
 .search-result {
@@ -18,13 +20,22 @@
   & > div {
     max-height: 10rem;
   }
+
+  &.show {
+    inset: 2.5rem auto auto 2.5rem !important;
+  }
 }
 
 .shortcut {
+  display: none;
   background-color: white;
   position: absolute;
   inset: 0.85rem auto auto 14rem;
   z-index: 20;
+
+  @media screen and (min-width: 768px) {
+    display: block;
+  }
 }
 
 .shortcut,
