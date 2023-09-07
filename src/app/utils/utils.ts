@@ -32,3 +32,17 @@ export const sleep = (ms: number) => {
     setTimeout(resolve, ms);
   });
 };
+
+export const intervals = new Map<string, number>();
+
+export function clearIntervals(key: string) {
+  if (key === 'all') {
+    intervals.forEach((element) => {
+      window.clearInterval(element);
+    });
+    intervals.clear();
+  } else if (intervals.has(key)) {
+    window.clearInterval(intervals.get(key));
+    intervals.delete(key);
+  }
+}
