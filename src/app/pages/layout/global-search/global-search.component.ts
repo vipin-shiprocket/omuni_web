@@ -127,6 +127,8 @@ export class GlobalSearchComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.subSink.sink = this.currentRoute.subscribe((data) => {
       this.updateActive(data);
+      this.reset();
+      this.clear(); //TODO: remove if not needed
     });
   }
 
@@ -293,9 +295,7 @@ export class GlobalSearchComponent implements OnInit, AfterViewInit, OnDestroy {
     const data = this.result.data ? this.result.data[i] : i;
     this.onFocusOut();
     this.reset();
-    this.searchInput.nativeElement.value = '';
-    this.searchValue = '';
-    this.searchInput.nativeElement.blur();
+    this.clear();
     console.log('navigating to ', data);
   }
 
@@ -303,8 +303,18 @@ export class GlobalSearchComponent implements OnInit, AfterViewInit, OnDestroy {
     this.result = {};
     this.dropDownItemIndex = undefined;
     this.resultItemTops.clear();
-    this.toolTip.disabled = true;
-    this.toolTip.hide();
+    if (this.toolTip) {
+      this.toolTip.disabled = true;
+      this.toolTip.hide();
+    }
+  }
+
+  clear() {
+    this.searchValue = '';
+    if (this.searchInput) {
+      this.searchInput.nativeElement.value = '';
+      this.searchInput.nativeElement.blur();
+    }
   }
 
   modalHistoryPush() {

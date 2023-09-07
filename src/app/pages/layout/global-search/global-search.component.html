@@ -73,11 +73,12 @@
       <mat-icon class="search-icon">search</mat-icon>
     </button>
     <ul class="dropdown-menu">
+      <!-- TODO: remove clear() if not needed -->
       <button
         class="dropdown-item fs-14"
         [ngClass]="{ active: item === active }"
         *ngFor="let item of options"
-        (click)="active = item"
+        (click)="active = item; reset(); clear(); search(searchValue)"
       >
         {{ OPTIONS[item] }}
       </button>
