@@ -14,7 +14,7 @@ import { MatTooltip, MatTooltipModule } from '@angular/material/tooltip';
 import { LayoutService } from '../layout.service';
 import { OPTIONS } from './global-search.model';
 import { NavigationEnd, Router } from '@angular/router';
-import { BehaviorSubject, filter, fromEvent, map } from 'rxjs';
+import { BehaviorSubject, delay, filter, fromEvent, map, of } from 'rxjs';
 import { SubSink } from 'subsink';
 import { DebounceInputDirective } from 'src/app/directives/debounce-input.directive';
 import { calculateElementHeight, checkWindowWidth } from 'src/app/utils/utils';
@@ -143,6 +143,17 @@ export class GlobalSearchComponent implements OnInit, AfterViewInit, OnDestroy {
 
   isMobile = checkWindowWidth;
 
+  @HostListener('window:popstate')
+  closeModal() {
+    if (!this.isMobile()) return;
+
+    const isOpen = document
+      .getElementById('mobileSearchModal')
+      ?.classList.contains('show');
+
+    if (isOpen) document.getElementById('searchModalClose')?.click();
+  }
+
   @HostListener('document:keydown.control./')
   focusSearch() {
     this.searchInput.nativeElement.focus();
@@ -219,20 +230,28 @@ export class GlobalSearchComponent implements OnInit, AfterViewInit, OnDestroy {
   search(data: string) {
     if (data.trim().length < 3) return;
 
-    this.result = {
-      data: mockData.filter((val) =>
+    //API call
+    this.subSink.sink = of(
+      mockData.filter((val) =>
         val.name.toLowerCase().includes(data.toLowerCase()),
       ),
-    };
+    )
+      .pipe(
+        delay(1000),
+        map((data) => ({ data: data })),
+      )
+      .subscribe((response) => {
+        //handle result
+        this.result = response;
+        this.timeouts.push(
+          window.setTimeout(() => {
+            this.setResultsHeights();
+          }, 50),
+        );
 
-    this.timeouts.push(
-      window.setTimeout(() => {
-        this.setResultsHeights(); //on Success
-      }, 100),
-    );
-
-    this.toolTip.disabled = false;
-    this.toolTip.show();
+        this.toolTip.disabled = false;
+        this.toolTip.show();
+      });
   }
 
   setResultsHeights() {
@@ -286,6 +305,10 @@ export class GlobalSearchComponent implements OnInit, AfterViewInit, OnDestroy {
     this.resultItemTops.clear();
     this.toolTip.disabled = true;
     this.toolTip.hide();
+  }
+
+  modalHistoryPush() {
+    window.history.pushState(null, document.title, location.href);
   }
 
   ngOnDestroy(): void {

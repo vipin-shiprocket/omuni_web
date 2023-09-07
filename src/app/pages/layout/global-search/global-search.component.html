@@ -4,10 +4,11 @@
 
 <div class="d-block h-100 d-md-none">
   <button
-    class="btn btn-light w-100 h-100 rounded-0 shadow-sm d-flex align-items-center justify-content-center text-black-50"
+    class="btn btn-outlined_sm w-100 h-100 rounded-0 d-flex align-items-center justify-content-center"
     data-bs-toggle="modal"
     data-bs-target="#mobileSearchModal"
     type="button"
+    (click)="modalHistoryPush()"
   >
     <mat-icon>search</mat-icon>
   </button>
@@ -27,6 +28,7 @@
       <div class="modal-header">
         <ng-container [ngTemplateOutlet]="searchBar"></ng-container>
         <button
+          id="searchModalClose"
           type="button"
           class="btn btn-close border border-dark-subtle ms-2 me-0"
           data-bs-dismiss="modal"
