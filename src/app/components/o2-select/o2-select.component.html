@@ -1,13 +1,16 @@
-<input
-  type="text"
-  class="form-control {{ className }}"
-  [ngClass]="{ cursor: !disabled }"
-  [disabled]="disabled"
-  readonly
-  (click)="toggleDropd()"
-  [value]="formatValue(selectedValues)"
-  #trigger
-/>
+<div class="position-relative">
+  <input
+    type="text"
+    class="form-control {{ className }}"
+    [ngClass]="{ cursor: !disabled }"
+    [disabled]="disabled"
+    readonly
+    (click)="toggleDropd()"
+    [value]="formatValue(selectedValues)"
+    #trigger
+  />
+  <mat-icon class="expand-icon">expand_more</mat-icon>
+</div>
 
 <ng-template #portal>
   <section class="o2-listbox-container shadow">

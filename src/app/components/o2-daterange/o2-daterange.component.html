@@ -38,21 +38,42 @@
           class="bg-warning-subtle d-flex align-items-center justify-content-between p-1 px-2 mb-2"
         >
           Please select the year you want to view data for
-          <app-o2-select className="border-0" [options]="yearOptions" />
+          <app-o2-select
+            className="border-0"
+            [formControl]="selectedYear"
+            [options]="yearOptions"
+          />
         </div>
         <section class="calendar">
           <div class="calendar-one me-2">
-            <mat-calendar [headerComponent]="header"></mat-calendar>
+            <mat-calendar
+              #calendarOne
+              [minDate]="minDate"
+              [maxDate]="maxDate"
+              [selected]="selectedDateRange"
+              [startAt]="minDate"
+              [headerComponent]="header"
+              (selectedChange)="onDateChange($event)"
+            ></mat-calendar>
           </div>
           <div class="calendar-two">
-            <mat-calendar [headerComponent]="header"></mat-calendar>
+            <mat-calendar
+              #calendarTwo
+              [minDate]="minDate"
+              [maxDate]="maxDate"
+              [selected]="selectedDateRange"
+              [headerComponent]="header"
+              (selectedChange)="onDateChange($event)"
+            ></mat-calendar>
           </div>
         </section>
         <hr class="m-0 mt-2 text-muted" />
         <div class="d-flex align-items-center justify-content-between p-2 py-3">
           <div>
-            <span class="text-primary">Selected:</span> 05/09/2022
-            <span class="text-muted">to</span> 05/09/2023
+            <span class="text-primary">Selected:</span>
+            {{ selectedDateRange?.start | date: 'dd-MM-YYYY' }}
+            <span class="text-muted">to</span>
+            {{ selectedDateRange?.end | date: 'dd-MM-YYYY' }}
           </div>
           <div>
             <button class="btn btn-outlined_sm me-2">Cancel</button>

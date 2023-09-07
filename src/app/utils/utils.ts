@@ -26,3 +26,9 @@ export function calculateElementTop(id: string, defaultTop = 0) {
   const item = document.getElementById(id);
   return item?.offsetTop || defaultTop;
 }
+
+export const sleep = (ms: number) => {
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
+};

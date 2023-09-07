@@ -1,4 +1,4 @@
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { CdkListboxModule } from '@angular/cdk/listbox';
 import { OverlayModule } from '@angular/cdk/overlay';
@@ -11,6 +11,7 @@ import { O2SelectComponent } from '../o2-select/o2-select.component';
 
 export const O2DaterangeModules = [
   FormsModule,
+  ReactiveFormsModule,
   CdkListboxModule,
   OverlayModule,
   MatIconModule,
@@ -115,17 +116,28 @@ export function getStartAndEndDate(dateRange: DateOptions) {
   }
 }
 
-export function getLastOneYearMonths(): string[] {
-  const today = dayjs();
-  const lastYear = today.subtract(1, 'year');
+export function getValidMonths(year?: string): string[] {
+  if (year) {
+    const currentYear = dayjs(year).year();
+    const months = [];
 
-  const lastOneYearMonths = [];
+    for (let month = 1; month <= 12; month++) {
+      months.push(
+        dayjs(dayjs(`${currentYear}-${month}`, 'YYYY-MM')).format('MMMM YYYY'),
+      );
+    }
+    return months;
+  } else {
+    const today = dayjs();
+    const lastYear = today.subtract(1, 'year');
 
-  for (let month = lastYear; month <= today; month = month.add(1, 'month')) {
-    lastOneYearMonths.push(month.format('MMMM YYYY'));
+    const lastOneYearMonths = [];
+
+    for (let month = lastYear; month <= today; month = month.add(1, 'month')) {
+      lastOneYearMonths.push(month.format('MMMM YYYY'));
+    }
+    return lastOneYearMonths;
   }
-
-  return lastOneYearMonths;
 }
 
 export function getLastFiveYear(): string[] {
@@ -143,4 +155,11 @@ export function getLastFiveYear(): string[] {
   }
 
   return lastFiveYears;
+}
+
+export function isDateGreaterThanToday(date: string | Date) {
+  const today = dayjs();
+  const enteredDate = dayjs(date);
+
+  return enteredDate > today;
 }

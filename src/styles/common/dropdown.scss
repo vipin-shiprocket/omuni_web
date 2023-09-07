@@ -9,6 +9,11 @@
   border-radius: u.rem(5);
 }
 
+.expand-icon {
+  position: absolute;
+  inset: 5px 5px auto auto;
+}
+
 .select-all {
   border-top-left-radius: u.rem(5);
   border-top-right-radius: u.rem(5);

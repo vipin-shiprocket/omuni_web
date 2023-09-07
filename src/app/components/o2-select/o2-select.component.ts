@@ -5,6 +5,7 @@ import {
   ElementRef,
   EventEmitter,
   Input,
+  OnDestroy,
   Output,
   TemplateRef,
   ViewChild,
@@ -17,6 +18,7 @@ import { Overlay, OverlayConfig, OverlayRef } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
 import { noop } from 'rxjs';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { SubSink } from 'subsink';
 
 @Component({
   selector: 'app-o2-select',
@@ -33,7 +35,8 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class O2SelectComponent implements ControlValueAccessor {
+export class O2SelectComponent implements ControlValueAccessor, OnDestroy {
+  private subs = new SubSink();
   private onTouchedCallback: () => void = noop;
   private onChangeCallback: (_: unknown) => void = noop;
   @ViewChild('trigger') select!: ElementRef;
@@ -64,7 +67,7 @@ export class O2SelectComponent implements ControlValueAccessor {
 
   writeValue(value: IOption[]): void {
     this.selectedValues = value;
-    this.onChangeCallback(value);
+    this.emitChange();
   }
 
   registerOnChange(fn: typeof this.onChangeCallback): void {
@@ -89,7 +92,7 @@ export class O2SelectComponent implements ControlValueAccessor {
     }
 
     if (!this.multiple) {
-      return value[0].display;
+      return value[0]?.display;
     }
     return `${value.length} ${this.label} Selected`;
   }
@@ -160,7 +163,7 @@ export class O2SelectComponent implements ControlValueAccessor {
         new TemplatePortal(this.portal, this._viewContainerRef),
       );
       this.syncWidth();
-      this.overlayRef.backdropClick().subscribe(() => {
+      this.subs.sink = this.overlayRef.backdropClick().subscribe(() => {
         this.overlayRef.dispose();
       });
     } else {
@@ -177,5 +180,9 @@ export class O2SelectComponent implements ControlValueAccessor {
   clearFilter() {
     this.selectedValues = [];
     this.emitChange();
+  }
+
+  ngOnDestroy(): void {
+    this.subs.unsubscribe();
   }
 }

@@ -5,7 +5,7 @@ import {
   Inject,
   OnDestroy,
 } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
+import { CommonModule } from '@angular/common';
 import {
   DateAdapter,
   MAT_DATE_FORMATS,
@@ -15,10 +15,13 @@ import { MatCalendar } from '@angular/material/datepicker';
 import { MatIconModule } from '@angular/material/icon';
 import { Subject, takeUntil } from 'rxjs';
 import { O2SelectComponent } from '../o2-select/o2-select.component';
-import { getLastOneYearMonths } from './o2-daterange.model';
 import { IOption } from '../chip-selectbox/chip-selectbox.model';
-import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import dayjs from 'dayjs';
+import toArray from 'dayjs/plugin/toArray';
+import { O2DaterangeService } from './o2-daterange.service';
+import { sleep } from 'src/app/utils/utils';
+dayjs.extend(toArray);
 
 /** Custom header component for datepicker. */
 @Component({
@@ -31,33 +34,30 @@ import dayjs from 'dayjs';
         align-items: center;
         padding: 0.5em;
       }
-
-      .calendar-header-label {
-        flex: 1;
-        height: 1em;
-        font-weight: 500;
-        text-align: center;
-      }
     `,
   ],
   template: `
     <form>
       <div class="calendar-header">
         <app-o2-select
-          class="w-75"
           className="border-0 shadow-none"
-          [options]="availableMonths"
+          [options]="(calService._availableMonths | async) || []"
           [formControl]="selectedMonth"
+          (selectionChange)="onChangeMonth($event)"
         />
       </div>
     </form>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [ReactiveFormsModule, MatIconModule, O2SelectComponent],
+  imports: [
+    ReactiveFormsModule,
+    MatIconModule,
+    O2SelectComponent,
+    CommonModule,
+  ],
 })
 export class CalendarHeaderComponent implements OnDestroy {
   private _destroyed = new Subject<void>();
-  availableMonths: IOption[] = [];
   selectedMonth: FormControl<IOption[] | null> = new FormControl(null);
 
   constructor(
@@ -65,36 +65,44 @@ export class CalendarHeaderComponent implements OnDestroy {
     private _dateAdapter: DateAdapter<typeof DateAdapter>,
     @Inject(MAT_DATE_FORMATS) private _dateFormats: MatDateFormats,
     cdr: ChangeDetectorRef,
+    public calService: O2DaterangeService,
   ) {
-    _calendar.stateChanges
-      .pipe(takeUntil(this._destroyed))
-      .subscribe(() => cdr.markForCheck());
-
-    this.availableMonths = getLastOneYearMonths().map((month) => {
-      return {
-        value: month,
-        display: month,
-      };
+    _calendar.stateChanges.pipe(takeUntil(this._destroyed)).subscribe(() => {
+      cdr.markForCheck();
     });
 
-    this.selectedMonth.valueChanges
+    // this.selectedMonth.valueChanges
+    //   .pipe(takeUntil(this._destroyed))
+    //   .subscribe((selectedMonth) => {
+    //     console.log('🚀 ~ .subscribe ~ selectedMonth:', selectedMonth);
+    //     const month = selectedMonth && selectedMonth[0]?.value;
+    //     if (month) {
+    //       this.goToMonth(month as string);
+    //     }
+    //   });
+
+    this.calService._availableMonths
       .pipe(takeUntil(this._destroyed))
-      .subscribe((val) => {
-        if (val) {
-          this.goToMonth(val[0].value as string);
-        }
+      .subscribe(async () => {
+        await sleep(0);
+        this.setMonth();
       });
 
-    this.initializeCalendar();
+    this.setMonth();
   }
 
-  initializeCalendar() {
-    const calMonth = this.calendarMonth;
-    const index = this.availableMonths.findIndex((month) => {
-      return calMonth === month.value;
+  setMonth() {
+    const availableMonths = this.calService._availableMonths.value;
+    const selectedMonth = availableMonths.find((month) => {
+      return this.isSame(month.value as string);
     });
 
-    this.selectedMonth.patchValue([this.availableMonths[index]]);
+    if (selectedMonth) this.selectedMonth.patchValue([selectedMonth]);
+  }
+
+  onChangeMonth(selectedMonth: IOption[]) {
+    const month = selectedMonth && selectedMonth[0]?.value;
+    if (month) this.goToMonth(month as string);
   }
 
   ngOnDestroy() {
@@ -102,35 +110,13 @@ export class CalendarHeaderComponent implements OnDestroy {
     this._destroyed.complete();
   }
 
-  get calendarMonth(): string {
-    return dayjs(this._calendar.activeDate.toString()).format('MMMM YYYY');
+  isSame(date: string): boolean {
+    const activeDate = this._calendar.activeDate.toString();
+    return dayjs(activeDate).isSame(dayjs(date), 'month');
   }
 
-  //   get periodLabel() {
-  //     return this._dateAdapter.format(
-  //       this._calendar.activeDate,
-  //       this._dateFormats.display.monthYearA11yLabel,
-  //     );
-  //   }
-
-  //   previousClicked(mode: 'month' | 'year') {
-  //     this._calendar.activeDate =
-  //       mode === 'month'
-  //         ? this._dateAdapter.addCalendarMonths(this._calendar.activeDate, -1)
-  //         : this._dateAdapter.addCalendarYears(this._calendar.activeDate, -1);
-  //   }
-
-  //   nextClicked(mode: 'month' | 'year') {
-  //     this._calendar.activeDate =
-  //       mode === 'month'
-  //         ? this._dateAdapter.addCalendarMonths(this._calendar.activeDate, 1)
-  //         : this._dateAdapter.addCalendarYears(this._calendar.activeDate, 1);
-  //   }
-
   goToMonth(month: string) {
-    this._calendar.activeDate = this._dateAdapter.addCalendarMonths(
-      this._calendar.activeDate,
-      dayjs().diff(dayjs(month), 'month'),
-    );
+    const [y, m, d] = dayjs(month).toArray();
+    this._calendar.activeDate = this._dateAdapter.createDate(y, m, d);
   }
 }

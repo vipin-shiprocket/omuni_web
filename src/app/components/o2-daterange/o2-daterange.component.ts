@@ -5,6 +5,7 @@ import {
   Component,
   ElementRef,
   Input,
+  OnDestroy,
   OnInit,
   TemplateRef,
   ViewChild,
@@ -16,11 +17,19 @@ import {
   DateOptions,
   O2DaterangeModules,
   getLastFiveYear,
+  isDateGreaterThanToday,
 } from './o2-daterange.model';
 import { ListboxValueChangeEvent } from '@angular/cdk/listbox';
 import { Overlay, OverlayConfig, OverlayRef } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
 import { CalendarHeaderComponent } from './calender-header.component';
+import { FormControl } from '@angular/forms';
+import { SubSink } from 'subsink';
+import { IOption } from '../chip-selectbox/chip-selectbox.model';
+import { O2DaterangeService } from './o2-daterange.service';
+import dayjs from 'dayjs';
+import { DateRange, MatCalendar } from '@angular/material/datepicker';
+import { sleep } from 'src/app/utils/utils';
 
 @Component({
   selector: 'app-o2-daterange',
@@ -30,7 +39,10 @@ import { CalendarHeaderComponent } from './calender-header.component';
   styleUrls: ['./o2-daterange.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class O2DaterangeComponent {
+export class O2DaterangeComponent implements OnInit, OnDestroy {
+  private subs = new SubSink();
+  @ViewChild('calendarOne') calendarOne!: MatCalendar<Date>;
+  @ViewChild('calendarTwo') calendarTwo!: MatCalendar<Date>;
   @ViewChild('trigger') select!: ElementRef;
   @ViewChild('portal') portal!: TemplateRef<ElementRef>;
   @Input() set optionsRange(value: DateOptions[]) {
@@ -51,12 +63,90 @@ export class O2DaterangeComponent {
       return { display: year, value: year };
     }
   });
+  selectedYear: FormControl<IOption[]> = new FormControl();
+  minDate: Date | undefined;
+  maxDate: Date | undefined;
+  calendarOneStart: Date | undefined;
+  calendarTwoStart: Date | undefined;
+  selectedDateRange: DateRange<Date> | null = null;
 
   constructor(
     private overlay: Overlay,
     private cd: ChangeDetectorRef,
     private _viewContainerRef: ViewContainerRef,
+    public calService: O2DaterangeService,
   ) {}
+
+  ngOnInit(): void {
+    this.subs.sink = this.calService._availableMonths.subscribe((range) => {
+      if (range?.length) {
+        this.minDate = dayjs(range[0].value as string).toDate();
+        const lastDate = dayjs(range[range.length - 1].value as string)
+          .endOf('M')
+          .toDate();
+
+        this.maxDate = isDateGreaterThanToday(lastDate) ? new Date() : lastDate;
+        this.calendarOneStart = this.minDate;
+        this.calendarTwoStart = this.maxDate;
+        this.selectedDateRange = new DateRange(this.minDate, this.maxDate);
+        this.goToDateInView();
+      }
+    });
+
+    this.subs.sink = this.selectedYear.valueChanges.subscribe((value) => {
+      const currYear = new Date().getFullYear().toString();
+      const year = value[0].value;
+      if (currYear === year) {
+        this.calService.computeValidMonths();
+      } else {
+        this.calService.computeValidMonths(year as string);
+      }
+    });
+
+    this.setSelectedYear();
+  }
+
+  onDateChange(date: Date | null): void {
+    if (!date) {
+      return;
+    }
+
+    let range = this.selectedDateRange ?? new DateRange(null, null);
+
+    if (range.start && !range.end) {
+      if (date < range.start) {
+        range = new DateRange(date, null);
+      } else {
+        range = new DateRange(range.start, date);
+      }
+    } else {
+      range = new DateRange(date, null);
+    }
+
+    this.selectedDateRange = range;
+  }
+
+  async goToDateInView() {
+    const start = this.selectedDateRange?.start;
+    const end = this.selectedDateRange?.end;
+    await sleep(0);
+
+    if (start) this.calendarOne?._goToDateInView(start, 'month');
+    if (end) this.calendarTwo?._goToDateInView(end, 'month');
+  }
+
+  setSelectedYear(year?: number | string) {
+    const _year = year ?? new Date().getFullYear();
+    const index = this.yearOptions.findIndex((option) => {
+      return +option.value === +_year;
+    });
+
+    if (index !== -1) {
+      this.selectedYear.patchValue([this.yearOptions[index]]);
+    }
+
+    // set minDate and maxDate
+  }
 
   onSelectionChange(selected: ListboxValueChangeEvent<unknown>) {
     console.log('🚀 ~ onSelectionChange ~ selected:', selected);
@@ -121,5 +211,9 @@ export class O2DaterangeComponent {
     } else {
       this.overlayRef.dispose();
     }
+  }
+
+  ngOnDestroy(): void {
+    this.subs.unsubscribe();
   }
 }
