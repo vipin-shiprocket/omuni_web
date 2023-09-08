@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "baseHref": "/v2/",
+            "baseHref": "/",
             "outputPath": "dist/maven_web/v2",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -52,9 +52,21 @@
               "outputHashing": "all",
               "buildOptimizer": true,
               "optimization": true,
-              "aot": true
+              "aot": true,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.ts"
+                }
+              ]
             },
             "development": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.ts"
+                }
+              ],
               "buildOptimizer": false,
               "optimization": false,
               "vendorChunk": true,
