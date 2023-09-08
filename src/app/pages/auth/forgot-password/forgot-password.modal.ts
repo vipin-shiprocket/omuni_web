@@ -22,3 +22,12 @@ export interface resetPasswordAPIInterface {
   is_web: number;
   otp: number;
 }
+
+export interface otpConfirmationInterface {
+  success: boolean;
+}
+export interface forgotPasswordInterface {
+  success?: boolean;
+  mobile: string;
+  email: string;
+}

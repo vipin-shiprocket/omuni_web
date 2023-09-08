@@ -13,6 +13,8 @@ import { Endpoints } from '../auth.model';
 import { environment } from 'src/environments/environment';
 import {
   ForgotPasswordInterface,
+  forgotPasswordInterface,
+  otpConfirmationInterface,
   resetPasswordAPIInterface,
   resetPasswordInterface,
 } from './forgot-password.modal';
@@ -37,7 +39,7 @@ export class ForgotPasswordComponent implements OnDestroy, OnInit {
   phoneNumber = '';
   timerflag = false;
   countdown = 0;
-  interval: undefined;
+  interval: number | undefined;
   constructor(
     private toastr: ToastrService,
     private http: HttpService,
@@ -181,7 +183,7 @@ export class ForgotPasswordComponent implements OnDestroy, OnInit {
 
     const header = this.http.getHeaders();
     this.subs.sink = this.http
-      .postToEndpint<undefined>(
+      .postToEndpint<forgotPasswordInterface>(
         environment.API_VERSION_V1 + '/' + Endpoints.FORGET_PASSWORD,
         body,
         {},
@@ -271,7 +273,7 @@ export class ForgotPasswordComponent implements OnDestroy, OnInit {
     this.timerflag = true;
     this.countdown = counter;
     counter--;
-    this.interval = setInterval(() => {
+    this.interval = window.setInterval(() => {
       this.countdown = counter;
       counter--;
       if (this.countdown <= 0) {
@@ -301,7 +303,7 @@ export class ForgotPasswordComponent implements OnDestroy, OnInit {
 
     const header = this.http.getHeaders();
     this.subs.sink = this.http
-      .postToEndpint<unknown>(
+      .postToEndpint<otpConfirmationInterface>(
         environment.API_VERSION_V1 +
           '/' +
           Endpoints.USER_RESET_OTP_CONFIRMATION,
@@ -368,7 +370,7 @@ export class ForgotPasswordComponent implements OnDestroy, OnInit {
       )
       .subscribe({
         next: (resp) => {
-          if (resp && resp.success) {
+          if (resp && resp['success']) {
             onClearForm(this.forgotPasswordForm);
             onClearForm(this.forgotPasswordOTPForm);
             // clearOTPForm();
