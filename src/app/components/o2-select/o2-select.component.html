@@ -33,7 +33,7 @@
     >
       <li
         *ngFor="let option of options"
-        [cdkOption]="option"
+        [cdkOption]="option.value"
         [cdkOptionDisabled]="option.disable"
         class="o2-option"
         [ngClass]="multiple ? 'multiple-select' : 'single-select'"

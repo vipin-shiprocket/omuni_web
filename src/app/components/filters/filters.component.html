@@ -1,17 +1,19 @@
 <div>
   <form [formGroup]="filterForm" class="d-flex flex-wrap">
-    <app-o2-daterange />
-    <div formArrayName="filters">
+    <div class="d-flex" formArrayName="filters">
       <ng-container
         *ngFor="let filter of objectvalues(_filterData ?? {}); let i = index"
       >
         <ng-container [formGroupName]="i" *ngIf="filter.placement === 'out'">
+          <section class="me-3" *ngIf="filter.type === 'date'">
+            <app-o2-daterange [formControlName]="filter.name" />
+          </section>
           <section class="me-3" *ngIf="filter.type === 'select'">
             <app-o2-select
               [formControlName]="filter.name"
               [label]="filter.label"
               [multiple]="filter.multiple ?? false"
-              [values]="filter.value"
+              [values]="checkIfValidType(filter.value)"
               [options]="filter.data"
               [placeholder]="filter.placeholder ?? ''"
             />
@@ -66,7 +68,7 @@
                   <input
                     class="form-check-input radio-outlined me-1"
                     type="radio"
-                    [value]="data"
+                    [value]="data.value"
                     [formControlName]="filter.name"
                     [name]="filter.name"
                   />
@@ -83,9 +85,11 @@
                   <input
                     class="form-check-input me-1"
                     type="checkbox"
+                    [value]="data.value"
                     [formControlName]="filter.name"
+                    [name]="filter.name"
                   />
-                  {{ data.display }}
+                  {{ data.display }}{{ data.value }}
                 </label>
               </section>
 
@@ -97,7 +101,7 @@
                 <app-o2-select
                   [label]="filter.label"
                   [multiple]="filter.multiple ?? false"
-                  [values]="filter.value"
+                  [values]="checkIfValidType(filter.value)"
                   [options]="filter.data"
                   [formControlName]="filter.name"
                 />

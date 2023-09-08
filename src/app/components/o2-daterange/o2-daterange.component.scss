@@ -2,6 +2,7 @@
 
 .more-filter-btn {
   width: u.rem(219);
+  margin-right: unset;
 }
 
 .o2-listbox-container {
@@ -55,6 +56,7 @@
   padding: 1rem 1rem 0;
   border-top-right-radius: u.rem(5);
   border-bottom-right-radius: u.rem(5);
+  transition: all 0.4s;
 }
 
 .info-section {

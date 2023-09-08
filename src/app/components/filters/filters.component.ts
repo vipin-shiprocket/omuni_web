@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FiltersModules } from './filters.model';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
@@ -13,7 +13,6 @@ import { FilterDataType } from '../index-filters/index-filters.model';
 })
 export class FiltersComponent implements OnInit {
   @Input() set filtersData(value: FilterDataType | null) {
-    console.log('🚀 ~ @Input ~ value:', value);
     if (value) {
       this._filterData = value;
     }
@@ -30,17 +29,22 @@ export class FiltersComponent implements OnInit {
 
   ngOnInit(): void {
     if (this._filterData) {
+      const filterData = this._filterData;
       Object.keys(this._filterData).forEach((key) => {
-        const control = {
-          [key]:
-            this._filterData && this._filterData[key]
-              ? this._filterData[key].value
-              : [],
-        };
+        const control = new FormGroup({
+          [key]: new FormControl(filterData[key].value),
+        });
 
-        this.filtersCtrl.push(this.fb.group(control));
+        this.filtersCtrl.push(control);
       });
     }
+  }
+
+  checkIfValidType(filterValue: unknown) {
+    if (Array.isArray(filterValue)) {
+      return filterValue as (string | number | boolean)[];
+    }
+    return [];
   }
 
   get filtersCtrl(): FormArray {

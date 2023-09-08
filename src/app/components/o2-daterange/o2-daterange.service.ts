@@ -13,7 +13,7 @@ export class O2DaterangeService {
     this._availableMonths.next(
       getValidMonths(year).map((month) => {
         return {
-          value: month,
+          value: month.toLowerCase(),
           display: month,
         };
       }),

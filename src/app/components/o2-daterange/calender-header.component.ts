@@ -58,7 +58,7 @@ dayjs.extend(toArray);
 })
 export class CalendarHeaderComponent implements OnDestroy {
   private _destroyed = new Subject<void>();
-  selectedMonth: FormControl<IOption[] | null> = new FormControl(null);
+  selectedMonth: FormControl<string[] | null> = new FormControl(null);
 
   constructor(
     private _calendar: MatCalendar<typeof DateAdapter>,
@@ -68,18 +68,9 @@ export class CalendarHeaderComponent implements OnDestroy {
     public calService: O2DaterangeService,
   ) {
     _calendar.stateChanges.pipe(takeUntil(this._destroyed)).subscribe(() => {
+      // console.log(this._calendar.selected);
       cdr.markForCheck();
     });
-
-    // this.selectedMonth.valueChanges
-    //   .pipe(takeUntil(this._destroyed))
-    //   .subscribe((selectedMonth) => {
-    //     console.log('🚀 ~ .subscribe ~ selectedMonth:', selectedMonth);
-    //     const month = selectedMonth && selectedMonth[0]?.value;
-    //     if (month) {
-    //       this.goToMonth(month as string);
-    //     }
-    //   });
 
     this.calService._availableMonths
       .pipe(takeUntil(this._destroyed))
@@ -92,17 +83,13 @@ export class CalendarHeaderComponent implements OnDestroy {
   }
 
   setMonth() {
-    const availableMonths = this.calService._availableMonths.value;
-    const selectedMonth = availableMonths.find((month) => {
-      return this.isSame(month.value as string);
-    });
-
-    if (selectedMonth) this.selectedMonth.patchValue([selectedMonth]);
+    const activeDate = this._calendar.activeDate.toString();
+    const month = dayjs(activeDate).format('MMMM YYYY')?.toLowerCase();
+    this.selectedMonth.patchValue([month]);
   }
 
-  onChangeMonth(selectedMonth: IOption[]) {
-    const month = selectedMonth && selectedMonth[0]?.value;
-    if (month) this.goToMonth(month as string);
+  onChangeMonth(selectedMonth: string[]) {
+    this.goToMonth(selectedMonth[0]);
   }
 
   ngOnDestroy() {

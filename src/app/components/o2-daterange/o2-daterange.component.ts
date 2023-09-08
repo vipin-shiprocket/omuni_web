@@ -4,9 +4,11 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
+  EventEmitter,
   Input,
   OnDestroy,
   OnInit,
+  Output,
   TemplateRef,
   ViewChild,
   ViewContainerRef,
@@ -15,6 +17,7 @@ import { CommonModule } from '@angular/common';
 import {
   DATE_RANGE,
   DateOptions,
+  IDATE_RANGE,
   O2DaterangeModules,
   getLastFiveYear,
   isDateGreaterThanToday,
@@ -23,13 +26,18 @@ import { ListboxValueChangeEvent } from '@angular/cdk/listbox';
 import { Overlay, OverlayConfig, OverlayRef } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
 import { CalendarHeaderComponent } from './calender-header.component';
-import { FormControl } from '@angular/forms';
+import {
+  ControlValueAccessor,
+  FormControl,
+  NG_VALUE_ACCESSOR,
+} from '@angular/forms';
 import { SubSink } from 'subsink';
 import { IOption } from '../chip-selectbox/chip-selectbox.model';
 import { O2DaterangeService } from './o2-daterange.service';
 import dayjs from 'dayjs';
 import { DateRange, MatCalendar } from '@angular/material/datepicker';
 import { sleep } from 'src/app/utils/utils';
+import { noop } from 'rxjs';
 
 @Component({
   selector: 'app-o2-daterange',
@@ -38,13 +46,25 @@ import { sleep } from 'src/app/utils/utils';
   templateUrl: './o2-daterange.component.html',
   styleUrls: ['./o2-daterange.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: O2DaterangeComponent,
+      multi: true,
+    },
+  ],
 })
-export class O2DaterangeComponent implements OnInit, OnDestroy {
+export class O2DaterangeComponent
+  implements ControlValueAccessor, OnInit, OnDestroy
+{
   private subs = new SubSink();
+  private onTouchedCallback = noop;
+  private onChangeCallback: (_: unknown) => void = noop;
   @ViewChild('calendarOne') calendarOne!: MatCalendar<Date>;
   @ViewChild('calendarTwo') calendarTwo!: MatCalendar<Date>;
   @ViewChild('trigger') select!: ElementRef;
   @ViewChild('portal') portal!: TemplateRef<ElementRef>;
+  @Output() selectionChange = new EventEmitter<Array<Date | null>>();
   @Input() set optionsRange(value: DateOptions[]) {
     if (value) {
       this.options = value.map((option) => DATE_RANGE[option]);
@@ -52,7 +72,7 @@ export class O2DaterangeComponent implements OnInit, OnDestroy {
   }
   @Input() disabled = false;
   options = Object.values(DATE_RANGE);
-  selectedValues = [];
+  selectedValues: IDATE_RANGE[] = [];
   overlayRef!: OverlayRef;
   header = CalendarHeaderComponent;
   yearOptions = getLastFiveYear().map((year) => {
@@ -63,12 +83,10 @@ export class O2DaterangeComponent implements OnInit, OnDestroy {
       return { display: year, value: year };
     }
   });
-  selectedYear: FormControl<IOption[]> = new FormControl();
+  selectedYear: FormControl<string[]> = new FormControl();
   minDate: Date | undefined;
   maxDate: Date | undefined;
-  calendarOneStart: Date | undefined;
-  calendarTwoStart: Date | undefined;
-  selectedDateRange: DateRange<Date> | null = null;
+  selectedDateRange: DateRange<Date | null> = new DateRange(null, null);
 
   constructor(
     private overlay: Overlay,
@@ -79,31 +97,33 @@ export class O2DaterangeComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.subs.sink = this.calService._availableMonths.subscribe((range) => {
-      if (range?.length) {
-        this.minDate = dayjs(range[0].value as string).toDate();
-        const lastDate = dayjs(range[range.length - 1].value as string)
-          .endOf('M')
-          .toDate();
-
-        this.maxDate = isDateGreaterThanToday(lastDate) ? new Date() : lastDate;
-        this.calendarOneStart = this.minDate;
-        this.calendarTwoStart = this.maxDate;
-        this.selectedDateRange = new DateRange(this.minDate, this.maxDate);
-        this.goToDateInView();
-      }
-    });
-
-    this.subs.sink = this.selectedYear.valueChanges.subscribe((value) => {
-      const currYear = new Date().getFullYear().toString();
-      const year = value[0].value;
-      if (currYear === year) {
-        this.calService.computeValidMonths();
-      } else {
-        this.calService.computeValidMonths(year as string);
-      }
+      this.updateMonthYearNCalender();
     });
 
     this.setSelectedYear();
+  }
+
+  onYearChange(year: Array<string>) {
+    const currYear = new Date().getFullYear().toString();
+    if (currYear === year[0]) {
+      this.calService.computeValidMonths();
+    } else {
+      this.calService.computeValidMonths(year[0]);
+    }
+  }
+
+  updateMonthYearNCalender() {
+    const range = this.calService._availableMonths.value;
+    if (range?.length) {
+      this.minDate = dayjs(range[0].value as string).toDate();
+      const lastDate = dayjs(range[range.length - 1].value as string)
+        .endOf('M')
+        .toDate();
+
+      this.maxDate = isDateGreaterThanToday(lastDate) ? new Date() : lastDate;
+      // this.selectedDateRange = new DateRange(this.minDate, this.maxDate);
+      this.goToDateInView();
+    }
   }
 
   onDateChange(date: Date | null): void {
@@ -142,19 +162,52 @@ export class O2DaterangeComponent implements OnInit, OnDestroy {
     });
 
     if (index !== -1) {
-      this.selectedYear.patchValue([this.yearOptions[index]]);
+      this.selectedYear.setValue([this.yearOptions[index].value], {
+        emitEvent: false,
+      });
     }
-
-    // set minDate and maxDate
   }
 
   onSelectionChange(selected: ListboxValueChangeEvent<unknown>) {
-    console.log('🚀 ~ onSelectionChange ~ selected:', selected);
-    // todo
+    const value = selected.value as IDATE_RANGE[];
+    const range = value[0].range;
+    const isCustomRange = value[0].key !== DateOptions.CUSTOM_RANGE;
+    if (range?.length) {
+      this.selectedDateRange = new DateRange(
+        range[0].toDate(),
+        range[1].toDate(),
+      );
+    } else {
+      this.selectedDateRange = new DateRange(
+        this.minDate ?? null,
+        this.maxDate ?? null,
+      );
+    }
+
+    this.setSelectedYear(range[1]?.year());
+    this.cd.markForCheck();
+
+    if (isCustomRange) {
+      this.onClickApply();
+    }
   }
 
-  formatValue(value: unknown): string {
-    return 'Select Range';
+  formatValue(): string {
+    if (
+      this.selectedValues?.length &&
+      this.selectedValues[0].key !== DateOptions.CUSTOM_RANGE
+    ) {
+      return this.selectedValues[0].label;
+    } else {
+      const start = this.selectedDateRange?.start;
+      const end = this.selectedDateRange?.end;
+
+      return start && end
+        ? `${dayjs(start).format('DD/MM/YYYY')} - ${dayjs(end).format(
+            'DD/MM/YYYY',
+          )}`
+        : 'Select Range';
+    }
   }
 
   private getOverlayConfig(): OverlayConfig {
@@ -188,15 +241,6 @@ export class O2DaterangeComponent implements OnInit, OnDestroy {
     });
   }
 
-  // private syncWidth(): void {
-  //   if (!this.overlayRef) {
-  //     return;
-  //   }
-  //   const refRectWidth =
-  //     this.select.nativeElement.getBoundingClientRect().width;
-  //   this.overlayRef.updateSize({ width: refRectWidth });
-  // }
-
   toggleDropd() {
     if (!this.overlayRef?.hasAttached()) {
       this.overlayRef = this.overlay.create(this.getOverlayConfig());
@@ -204,13 +248,81 @@ export class O2DaterangeComponent implements OnInit, OnDestroy {
       this.overlayRef.attach(
         new TemplatePortal(this.portal, this._viewContainerRef),
       );
-      // this.overlayRef.updateSize({ width: 219 });
+
       this.overlayRef.backdropClick().subscribe(() => {
         this.overlayRef.dispose();
       });
     } else {
       this.overlayRef.dispose();
     }
+  }
+
+  emitChange() {
+    const start = this.selectedDateRange?.start ?? null;
+    const end = this.selectedDateRange?.end ?? null;
+
+    this.selectionChange.emit([start, end]);
+    const customRange = DATE_RANGE.custom_range;
+    customRange.range = [dayjs(start), dayjs(end)];
+    this.onChangeCallback([start, end]);
+    this.cd.markForCheck();
+  }
+
+  setDateOptionByDate(daterange: string[]) {
+    const index = this.options.findIndex((option) => {
+      const startDate = dayjs(daterange[0]).isSame(option.range[0], 'dates');
+      const endDate = dayjs(daterange[1]).isSame(option.range[1], 'dates');
+      return startDate && endDate;
+    });
+
+    if (index === -1) {
+      const customRange = DATE_RANGE.custom_range;
+      customRange.range = [dayjs(daterange[0]), dayjs(daterange[1])];
+      this.selectedValues = [customRange];
+    } else {
+      this.selectedValues = [this.options[index]];
+    }
+  }
+
+  setDateRange(dateRange: Date[]) {
+    this.selectedDateRange = new DateRange(dateRange[0], dateRange[1]);
+  }
+
+  writeValue(value: string[]): void {
+    if (value?.length) {
+      this.setDateRange([new Date(value[0]), new Date(value[1])]);
+    }
+
+    this.setSelectedYear(new Date(value[1]).getFullYear());
+    this.setDateOptionByDate(value);
+    this.emitChange();
+  }
+
+  registerOnChange(fn: typeof this.onChangeCallback): void {
+    this.onChangeCallback = fn;
+  }
+
+  registerOnTouched(fn: typeof this.onTouchedCallback): void {
+    this.onTouchedCallback = fn;
+  }
+
+  setDisabledState?(isDisabled: boolean): void {
+    this.disabled = isDisabled;
+  }
+
+  onClickCancel() {
+    const custom = DATE_RANGE.custom_range;
+    if (custom.range?.length) {
+      this.setDateRange([custom.range[0].toDate(), custom.range[1].toDate()]);
+    } else {
+      this.selectedDateRange = new DateRange(null, null);
+    }
+    this.toggleDropd();
+  }
+
+  onClickApply() {
+    this.emitChange();
+    this.toggleDropd();
   }
 
   ngOnDestroy(): void {

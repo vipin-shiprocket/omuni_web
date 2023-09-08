@@ -20,6 +20,8 @@ import { noop } from 'rxjs';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { SubSink } from 'subsink';
 
+type SELECT_VALUE_TYPE = (string | number | boolean)[];
+
 @Component({
   selector: 'app-o2-select',
   standalone: true,
@@ -51,13 +53,13 @@ export class O2SelectComponent implements ControlValueAccessor, OnDestroy {
   @Input() clearBtn = true;
   @Input() className = '';
   overlayRef!: OverlayRef;
-  @Input() set values(value: IOption[] | undefined) {
+  @Input() set values(value: SELECT_VALUE_TYPE) {
     if (value) {
       this.selectedValues = value;
       this.onChangeCallback(this.selectedValues);
     }
   }
-  selectedValues: IOption[] = [];
+  selectedValues: SELECT_VALUE_TYPE = [];
 
   constructor(
     private overlay: Overlay,
@@ -65,7 +67,7 @@ export class O2SelectComponent implements ControlValueAccessor, OnDestroy {
     private _viewContainerRef: ViewContainerRef,
   ) {}
 
-  writeValue(value: IOption[]): void {
+  writeValue(value: (string | number)[]): void {
     this.selectedValues = value;
     this.emitChange();
   }
@@ -86,19 +88,24 @@ export class O2SelectComponent implements ControlValueAccessor, OnDestroy {
     return this.selectedValues?.length === this.options?.length;
   }
 
-  formatValue(value: IOption[]): string {
+  formatValue(value: SELECT_VALUE_TYPE): string {
+    // console.log('🚀 ~ formatValue ~ value:', value);
     if (!value?.length) {
       return this.placeholder || `Select ${this.label}`;
     }
 
     if (!this.multiple) {
-      return value[0]?.display;
+      const seclected = this.options.find((option) => {
+        return option.value === value[0];
+      });
+
+      return seclected?.display.toString() || '';
     }
     return `${value.length} ${this.label} Selected`;
   }
 
   onSelectionChange(selected: ListboxValueChangeEvent<unknown>) {
-    this.selectedValues = selected.value as IOption[];
+    this.selectedValues = selected.value as SELECT_VALUE_TYPE;
     this.emitChange();
 
     if (!this.multiple) {
@@ -110,7 +117,7 @@ export class O2SelectComponent implements ControlValueAccessor, OnDestroy {
     if (this.allSelected) {
       this.clearFilter();
     } else {
-      this.selectedValues = this.options;
+      this.selectedValues = this.options.map((o) => o.value);
     }
 
     this.emitChange();

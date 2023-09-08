@@ -27,6 +27,12 @@ export function calculateElementTop(id: string, defaultTop = 0) {
   return item?.offsetTop || defaultTop;
 }
 
+/**
+ * Pauses the execution of the function for the specified number of milliseconds.
+ *
+ * @param ms The number of milliseconds to pause the execution for.
+ * @returns A promise that resolves after the specified number of milliseconds have passed.
+ */
 export const sleep = (ms: number) => {
   return new Promise((resolve) => {
     setTimeout(resolve, ms);

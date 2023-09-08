@@ -74,27 +74,30 @@ export const OrderTabs = [
 export type LooseObject = Record<string, unknown>;
 
 export const FiltersData: FilterDataType = {
+  date: {
+    name: 'date',
+    label: '',
+    type: 'date',
+    placement: 'out',
+    value: ['2021-02-03', '2021-03-25'],
+    data: [],
+  },
   statuses: {
     name: 'statuses',
     label: 'Status',
     type: 'radio',
-    value: [
-      {
-        value: 'all',
-        display: 'All',
-      },
-    ],
+    value: 'all',
     data: [],
   },
   secured_shipments: {
     name: 'secured_shipments',
     label: 'Secured Shipments',
     type: 'checkbox',
-    value: [],
+    value: true,
     data: [
       {
         display: 'View only Secured Shipments',
-        value: '1',
+        value: false,
       },
     ],
     placement: 'in',
@@ -103,7 +106,7 @@ export const FiltersData: FilterDataType = {
     name: 'channels',
     label: 'Channels',
     type: 'select',
-    value: [],
+    value: [589548, 1749542],
     multiple: true,
     data: [
       {
@@ -144,7 +147,7 @@ export const FiltersData: FilterDataType = {
     name: 'paymentTypes',
     label: 'Payment',
     type: 'select',
-    value: [],
+    value: ['cod'],
     data: [
       {
         value: 'cod',
@@ -160,7 +163,7 @@ export const FiltersData: FilterDataType = {
     name: 'orderTag',
     label: 'order tag',
     type: 'select',
-    value: [],
+    value: ['SR Promise', 'Sonalitag3'],
     placement: 'out',
     multiple: true,
     data: [
