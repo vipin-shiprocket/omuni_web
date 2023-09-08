@@ -4,10 +4,12 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideToastr } from 'ngx-toastr';
-import { HttpClientModule } from '@angular/common/http';
-import { RECAPTCHA_V3_SITE_KEY, ReCaptchaV3Service } from 'ng-recaptcha';
-import { environment } from 'src/environments/environment';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+// import { RECAPTCHA_V3_SITE_KEY, ReCaptchaV3Service } from 'ng-recaptcha';
+// import { environment } from 'src/environments/environment';
 import { MatDialogModule } from '@angular/material/dialog';
+import { HttpconfigInterceptor } from './utils/common.interceptors';
+// import { OnlyNumbersDirective } from './utils/only-numbers.directive'
 
 @NgModule({
   declarations: [AppComponent],
@@ -15,11 +17,16 @@ import { MatDialogModule } from '@angular/material/dialog';
   providers: [
     provideAnimations(), // required animations providers
     provideToastr(),
+    // {
+    //   provide: RECAPTCHA_V3_SITE_KEY,
+    //   useValue: environment.RECAPTCHA_SITE_KEY,
+    // },
+    // ReCaptchaV3Service,
     {
-      provide: RECAPTCHA_V3_SITE_KEY,
-      useValue: environment.RECAPTCHA_SITE_KEY,
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpconfigInterceptor,
+      multi: true,
     },
-    ReCaptchaV3Service,
   ],
   bootstrap: [AppComponent],
 })
