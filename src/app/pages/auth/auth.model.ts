@@ -51,5 +51,12 @@ export interface IErrorResp {
 }
 
 export const PasswordPattern = new RegExp(
-  '^(?=.*[A-Za-z])(?=.*\\d)(?=.*[$@$!%*#?&])[A-Za-z\\d$@$!%*#?&]{8,14}$',
+  '^(?=.*[A-Za-z])(?=.*\\d)(?=.*[$@$!%*#?&])[A-Za-z\\d$@$!%*#?&]{6}$',
 );
+
+export const Endpoints = {
+  LOGIN_VIA_EMAIL: 'auth/login',
+  FORGET_PASSWORD: 'auth/forgot/password',
+  USER_RESET_OTP_CONFIRMATION: 'users/reset/otp/confirm',
+  USER_PASSWORD_RESET: 'users/password/reset',
+};
