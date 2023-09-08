@@ -14,7 +14,7 @@ import { MatTooltip, MatTooltipModule } from '@angular/material/tooltip';
 import { LayoutService } from '../layout.service';
 import { OPTIONS } from './global-search.model';
 import { NavigationEnd, Router } from '@angular/router';
-import { BehaviorSubject, filter, fromEvent, map } from 'rxjs';
+import { BehaviorSubject, delay, filter, fromEvent, map, of } from 'rxjs';
 import { SubSink } from 'subsink';
 import { DebounceInputDirective } from 'src/app/directives/debounce-input.directive';
 import { calculateElementHeight, checkWindowWidth } from 'src/app/utils/utils';
@@ -127,6 +127,8 @@ export class GlobalSearchComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.subSink.sink = this.currentRoute.subscribe((data) => {
       this.updateActive(data);
+      this.reset();
+      this.clear(); //TODO: remove if not needed
     });
   }
 
@@ -142,6 +144,17 @@ export class GlobalSearchComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   isMobile = checkWindowWidth;
+
+  @HostListener('window:popstate')
+  closeModal() {
+    if (!this.isMobile()) return;
+
+    const isOpen = document
+      .getElementById('mobileSearchModal')
+      ?.classList.contains('show');
+
+    if (isOpen) document.getElementById('searchModalClose')?.click();
+  }
 
   @HostListener('document:keydown.control./')
   focusSearch() {
@@ -219,20 +232,28 @@ export class GlobalSearchComponent implements OnInit, AfterViewInit, OnDestroy {
   search(data: string) {
     if (data.trim().length < 3) return;
 
-    this.result = {
-      data: mockData.filter((val) =>
+    //API call
+    this.subSink.sink = of(
+      mockData.filter((val) =>
         val.name.toLowerCase().includes(data.toLowerCase()),
       ),
-    };
+    )
+      .pipe(
+        delay(1000),
+        map((data) => ({ data: data })),
+      )
+      .subscribe((response) => {
+        //handle result
+        this.result = response;
+        this.timeouts.push(
+          window.setTimeout(() => {
+            this.setResultsHeights();
+          }, 50),
+        );
 
-    this.timeouts.push(
-      window.setTimeout(() => {
-        this.setResultsHeights(); //on Success
-      }, 100),
-    );
-
-    this.toolTip.disabled = false;
-    this.toolTip.show();
+        this.toolTip.disabled = false;
+        this.toolTip.show();
+      });
   }
 
   setResultsHeights() {
@@ -274,9 +295,7 @@ export class GlobalSearchComponent implements OnInit, AfterViewInit, OnDestroy {
     const data = this.result.data ? this.result.data[i] : i;
     this.onFocusOut();
     this.reset();
-    this.searchInput.nativeElement.value = '';
-    this.searchValue = '';
-    this.searchInput.nativeElement.blur();
+    this.clear();
     console.log('navigating to ', data);
   }
 
@@ -284,8 +303,22 @@ export class GlobalSearchComponent implements OnInit, AfterViewInit, OnDestroy {
     this.result = {};
     this.dropDownItemIndex = undefined;
     this.resultItemTops.clear();
-    this.toolTip.disabled = true;
-    this.toolTip.hide();
+    if (this.toolTip) {
+      this.toolTip.disabled = true;
+      this.toolTip.hide();
+    }
+  }
+
+  clear() {
+    this.searchValue = '';
+    if (this.searchInput) {
+      this.searchInput.nativeElement.value = '';
+      this.searchInput.nativeElement.blur();
+    }
+  }
+
+  modalHistoryPush() {
+    window.history.pushState(null, document.title, location.href);
   }
 
   ngOnDestroy(): void {
