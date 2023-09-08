@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+// import { AppConstants } from 'src/app/utils/config';
 
 type Tparam = string | number | boolean;
 type Theader = string | number | (string | number)[];
@@ -36,7 +37,7 @@ export class HttpService {
 
   requestToEndpoint<T>(endpoint: string, params = {}) {
     params = this.getQueryParam(params);
-    const url = `${window.location.origin}/api/auth${endpoint}`;
+    const url = `${environment.API_SUBDOMAIN}/${endpoint}`;
     return this.httpClient.get(url, { params }) as Observable<T>;
   }
 
@@ -46,7 +47,9 @@ export class HttpService {
     params = {},
     headers?: HttpHeaders,
   ) {
-    const url = `${window.location.origin}/api/auth${endpoint}`;
+    const url = `${environment.API_SUBDOMAIN}/${endpoint}`;
+    // const url = `${window.location.origin}/api/auth${endpoint}`;
+
     params = this.getQueryParam(params);
     return this.httpClient.post(url, body, {
       params,
