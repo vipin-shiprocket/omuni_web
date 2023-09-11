@@ -8,15 +8,18 @@ import { IOption } from '../chip-selectbox/chip-selectbox.model';
 })
 export class O2DaterangeService {
   _availableMonths = new BehaviorSubject<IOption[]>([]);
+  _availableMonths1 = new BehaviorSubject<IOption[]>([]);
+  selectMonth = new BehaviorSubject<string[] | null>(null);
 
   computeValidMonths(year?: string) {
-    this._availableMonths.next(
-      getValidMonths(year).map((month) => {
-        return {
-          value: month.toLowerCase(),
-          display: month,
-        };
-      }),
-    );
+    const availableMonths = getValidMonths(year).map((month) => {
+      return {
+        value: month.toLowerCase(),
+        display: month,
+      };
+    });
+
+    this._availableMonths.next(availableMonths);
+    this._availableMonths1.next(availableMonths);
   }
 }

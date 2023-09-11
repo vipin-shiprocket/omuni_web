@@ -8,6 +8,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { CalendarHeaderComponent } from './calender-header.component';
 import dayjs from 'dayjs';
 import { O2SelectComponent } from '../o2-select/o2-select.component';
+import { CalendarHeaderOneComponent } from './calender-header1.component';
 
 export const O2DaterangeModules = [
   FormsModule,
@@ -19,6 +20,7 @@ export const O2DaterangeModules = [
   MatDatepickerModule,
   MatNativeDateModule,
   CalendarHeaderComponent,
+  CalendarHeaderOneComponent,
   O2SelectComponent,
 ];
 

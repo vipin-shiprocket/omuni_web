@@ -69,3 +69,42 @@
     width: u.rem(30);
   }
 }
+
+::ng-deep .mat-calendar {
+  // & .mat-calendar-body-cell.month-view {
+  //   // background-color: $green;
+  //   height: 90%;
+  //   width: 90%;
+  //   border-radius: 100%;
+  // }
+
+  // & .mat-calendar-body-disabled.month-view {
+  //   // background: var(--bs-danger-border-subtle);
+  //   cursor: default;
+  // }
+
+  // & .mat-focus-indicator {
+  //   // background: u.$primary1;
+  // }
+
+  // & .mat-calendar-body-selected {
+  //   box-shadow: none !important;
+  //   // background: lavender;
+  // }
+
+  // .mat-calendar-body-active.month-view {
+  //   background: u.$primary1;
+  //   color: white;
+  // }
+
+  // .mat-calendar-body-range-start.month-view,
+  // .mat-calendar-body-range-end.month-view {
+  //   &::before {
+  //     background: u.$primary1;
+  //   }
+
+  //   & .mat-calendar-body-selected {
+  //     background: u.$primary1;
+  //   }
+  // }
+}

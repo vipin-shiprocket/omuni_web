@@ -59,16 +59,18 @@
               [maxDate]="maxDate"
               [selected]="selectedDateRange"
               [headerComponent]="header"
+              [dateClass]="dateClass"
               (selectedChange)="onDateChange($event)"
             ></mat-calendar>
           </div>
           <div class="calendar-two">
             <mat-calendar
               #calendarTwo
+              [dateClass]="dateClass"
               [minDate]="minDate"
               [maxDate]="maxDate"
               [selected]="selectedDateRange"
-              [headerComponent]="header"
+              [headerComponent]="header1"
               (selectedChange)="onDateChange($event)"
             ></mat-calendar>
           </div>
@@ -94,3 +96,5 @@
     </div>
   </section>
 </ng-template>
+
+<ng-template #test> hello world </ng-template>

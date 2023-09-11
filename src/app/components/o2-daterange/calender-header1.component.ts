@@ -41,8 +41,8 @@ dayjs.extend(toArray);
       <div class="calendar-header">
         <app-o2-select
           className="border-0 shadow-none"
-          [options]="(calService._availableMonths | async) || []"
-          [values]="(calService.selectMonth | async) || []"
+          [options]="(calService._availableMonths1 | async) || []"
+          [formControl]="selectedMonth"
           (selectionChange)="onChangeMonth($event)"
         />
       </div>
@@ -57,9 +57,9 @@ dayjs.extend(toArray);
   ],
   // providers: [MatCalendar],
 })
-export class CalendarHeaderComponent implements OnDestroy {
+export class CalendarHeaderOneComponent implements OnDestroy {
   private _destroyed = new Subject<void>();
-  // selectedMonth: FormControl<string[] | null> = new FormControl(null);
+  selectedMonth: FormControl<string[] | null> = new FormControl(null);
 
   constructor(
     private _calendar: MatCalendar<typeof DateAdapter>,
@@ -68,40 +68,16 @@ export class CalendarHeaderComponent implements OnDestroy {
     cdr: ChangeDetectorRef,
     public calService: O2DaterangeService,
   ) {
-    _calendar.stateChanges
-      .pipe(takeUntil(this._destroyed))
-      .subscribe(() => cdr.markForCheck());
+    _calendar.stateChanges.pipe(takeUntil(this._destroyed)).subscribe(() => {
+      // console.log(this._calendar.selected);
+      cdr.markForCheck();
+    });
 
-    this.calService._availableMonths
+    this.calService._availableMonths1
       .pipe(takeUntil(this._destroyed))
       .subscribe(async () => {
         await sleep(0);
         this.setMonth();
-      });
-
-    this.calService.selectMonth
-      .pipe(takeUntil(this._destroyed))
-      .subscribe((value) => {
-        const month = value && value[0];
-        if (month) {
-          const index = this.calService._availableMonths.value.findIndex(
-            (monthVal) => monthVal.value === month,
-          );
-
-          if (index > -1) {
-            const updateMonths = this.calService._availableMonths1.value.map(
-              (month, idx) => {
-                if (idx <= index) {
-                  return { ...month, disable: true };
-                } else {
-                  return { ...month, disable: false };
-                }
-              },
-            );
-
-            this.calService._availableMonths1.next(updateMonths);
-          }
-        }
       });
 
     this.setMonth();
@@ -110,11 +86,10 @@ export class CalendarHeaderComponent implements OnDestroy {
   setMonth() {
     const activeDate = this._calendar.activeDate.toString();
     const month = dayjs(activeDate).format('MMMM YYYY')?.toLowerCase();
-    this.calService.selectMonth.next([month]);
+    this.selectedMonth.patchValue([month]);
   }
 
   onChangeMonth(selectedMonth: string[]) {
-    this.calService.selectMonth.next(selectedMonth);
     this.goToMonth(selectedMonth[0]);
   }
 

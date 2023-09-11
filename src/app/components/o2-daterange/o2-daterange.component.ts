@@ -3,6 +3,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  ComponentFactoryResolver,
   ElementRef,
   EventEmitter,
   Input,
@@ -35,9 +36,14 @@ import { SubSink } from 'subsink';
 import { IOption } from '../chip-selectbox/chip-selectbox.model';
 import { O2DaterangeService } from './o2-daterange.service';
 import dayjs from 'dayjs';
-import { DateRange, MatCalendar } from '@angular/material/datepicker';
+import {
+  DateRange,
+  MatCalendar,
+  MatCalendarCellClassFunction,
+} from '@angular/material/datepicker';
 import { sleep } from 'src/app/utils/utils';
 import { noop } from 'rxjs';
+import { CalendarHeaderOneComponent } from './calender-header1.component';
 
 @Component({
   selector: 'app-o2-daterange',
@@ -75,6 +81,7 @@ export class O2DaterangeComponent
   selectedValues: IDATE_RANGE[] = [];
   overlayRef!: OverlayRef;
   header = CalendarHeaderComponent;
+  header1 = CalendarHeaderOneComponent;
   yearOptions = getLastFiveYear().map((year) => {
     const currYear = new Date().getFullYear().toString();
     if (currYear === year) {
@@ -84,21 +91,27 @@ export class O2DaterangeComponent
     }
   });
   selectedYear: FormControl<string[]> = new FormControl();
-  minDate: Date | undefined;
-  maxDate: Date | undefined;
+  minDate: Date | null = null;
+  maxDate: Date | null = null;
   selectedDateRange: DateRange<Date | null> = new DateRange(null, null);
+  dateClass: MatCalendarCellClassFunction<Date | null> = (cellDate, view) => {
+    if (view === 'month') {
+      return 'month-view';
+    }
+    return '';
+  };
 
   constructor(
     private overlay: Overlay,
     private cd: ChangeDetectorRef,
-    private _viewContainerRef: ViewContainerRef,
+    public _viewContainerRef: ViewContainerRef,
     public calService: O2DaterangeService,
   ) {}
 
   ngOnInit(): void {
-    this.subs.sink = this.calService._availableMonths.subscribe((range) => {
-      this.updateMonthYearNCalender();
-    });
+    this.subs.sink = this.calService._availableMonths.subscribe(() =>
+      this.updateMonthYearNCalender(),
+    );
 
     this.setSelectedYear();
   }
@@ -121,8 +134,20 @@ export class O2DaterangeComponent
         .toDate();
 
       this.maxDate = isDateGreaterThanToday(lastDate) ? new Date() : lastDate;
-      // this.selectedDateRange = new DateRange(this.minDate, this.maxDate);
+      this.updateDateRangeOnYearChange();
       this.goToDateInView();
+    }
+  }
+
+  async updateDateRangeOnYearChange() {
+    await sleep(0);
+    const date = this.selectedDateRange.end;
+    if (date) {
+      const year = date.getFullYear();
+      const [selectedYear] = this.selectedYear.value;
+      if (year !== +selectedYear) {
+        this.selectedDateRange = new DateRange(this.minDate, this.maxDate);
+      }
     }
   }
 
