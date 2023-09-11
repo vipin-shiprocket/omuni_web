@@ -201,3 +201,33 @@ label.required::after {
     background-color: #fff;
   }
 }
+
+.underline {
+  position: relative;
+
+  &::before {
+    bottom: u.rem(-2);
+    content: '';
+    width: 100%;
+    border-bottom: u.rem(2) dashed;
+    position: absolute;
+  }
+}
+
+.payment {
+  background-color: u.$neutral3d;
+  text-align: center;
+  width: 3.8rem;
+  padding: u.rem(2) u.rem(6);
+  font-size: u.rem(10);
+}
+
+.prepaid {
+  text-transform: capitalize;
+  color: u.$secondary1;
+}
+
+.cod {
+  text-transform: uppercase;
+  color: u.$secondary2;
+}
