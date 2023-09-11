@@ -15,6 +15,18 @@ import {
 } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
+/**
+ * Directive for inputs requiring delayed notification.
+ * * Trims the input for checking if the new value is distinct or changed.
+ * @input `debounceTime` - Interval after which the event must be emitted.
+ * Defaults to 0 (i.e. instant notification)
+ * @input `minimumCharacters` - Minimum characters required to start emitting events.
+ * Defaults to 1 character.
+ * @output `appDebounceInput` - The event that is emitted on passing all conditions for debounced input.
+ * Contains the value of the input field.
+ * @output `resetEvent` - An optional event to listen to that is emitted on all valid keystrokes
+ * (except for whitespaces as they are not considered as distinct changes in the input)
+ */
 @Directive({
   selector: '[appDebounceInput]',
   standalone: true,

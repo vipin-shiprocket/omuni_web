@@ -31,6 +31,10 @@ function setMemoValue(isInMemory: boolean, key: string, value: MemoValue) {
     : localStorage.setItem(key, JSON.stringify(value));
 }
 
+/**
+ * Memoizes a function result. Use the options object parameter for controlling the behaviour of memoized result.
+ * @param options `ttl`: time to live in milliseconds, `cacheStrategy`: store in volatile memory or persistent memory.
+ */
 export function MemoFn(options: MemoOptions) {
   return function (
     target: unknown,
@@ -84,6 +88,10 @@ export function MemoFn(options: MemoOptions) {
   };
 }
 
+/**
+ * Function for clearing either expired or all memos
+ * @param type `'expired' | 'all'`
+ */
 export function clear(type: 'expired' | 'all') {
   //clear persistent cache
   for (let i = 0; i < localStorage.length; i++) {

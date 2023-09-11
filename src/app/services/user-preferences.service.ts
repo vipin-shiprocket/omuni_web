@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Subject, delay, of } from 'rxjs';
+import { BehaviorSubject, delay, of } from 'rxjs';
 import { MENU_LIST } from '../pages/layout/layout.model';
 import { MemoFn, STORAGE_TYPE } from '../utils/memo.decorator';
 
@@ -16,7 +16,7 @@ const temp: UserPreferences = {
 })
 export class UserPreferencesService {
   userPrefences = new BehaviorSubject<UserPreferences | null>(null);
-  allowedRoutes = new Subject<Record<string, string>>();
+  allowedRoutes = new BehaviorSubject<Record<string, string>>({ '/': '' });
 
   @MemoFn({ ttl: 10000, cacheStrategy: STORAGE_TYPE.PERSISTENT })
   getUserPreferences() {

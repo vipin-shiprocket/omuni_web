@@ -9,6 +9,7 @@ import { clearIntervals, intervals } from './utils/utils';
 })
 export class AppComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
+    //Clear all expired memos stored in cache and localStorage periodically
     intervals.set(
       'clearExpiredMemos',
       window.setInterval(() => clear('expired'), 60000),

@@ -1,3 +1,4 @@
+//SVG enum defined for registering custom icons in MatIconRegistry
 export enum SvgEnum {
   menu = 'menu',
   analytics = 'analytics',
