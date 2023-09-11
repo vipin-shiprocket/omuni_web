@@ -12,6 +12,25 @@ const routes: Routes = [
         loadComponent: () =>
           import('../orders/orders.component').then((c) => c.OrdersComponent),
       },
+      {
+        path: 'products',
+        children: [
+          {
+            path: 'inventory',
+            loadComponent: () =>
+              import('../inventory/inventory.component').then(
+                (c) => c.InventoryComponent,
+              ),
+          },
+          {
+            path: 'catalog',
+            loadComponent: () =>
+              import('../catalog/catalog.component').then(
+                (c) => c.CatalogComponent,
+              ),
+          },
+        ],
+      },
     ],
   },
 ];

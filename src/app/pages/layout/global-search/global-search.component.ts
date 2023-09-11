@@ -101,6 +101,10 @@ export class GlobalSearchComponent implements OnInit, AfterViewInit, OnDestroy {
   subSink = new SubSink();
   timeouts: number[] = [];
 
+  get isHome() {
+    return this.active === '/';
+  }
+
   ngOnInit(): void {
     this.currentRoute.next(this.router.routerState.snapshot.url.slice(1));
 
