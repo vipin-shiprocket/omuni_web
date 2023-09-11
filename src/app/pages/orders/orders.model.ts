@@ -5,6 +5,9 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { CdkTableModule } from '@angular/cdk/table';
 import { FilterDataType } from 'src/app/components/index-filters/index-filters.model';
 import { FiltersComponent } from 'src/app/components/filters/filters.component';
+import { MatButtonModule } from '@angular/material/button';
+import { MatMenuModule } from '@angular/material/menu';
+import { NgOptimizedImage } from '@angular/common';
 
 export const OrdersModules = [
   CdkTableModule,
@@ -13,6 +16,9 @@ export const OrdersModules = [
   MatSortModule,
   MatPaginatorModule,
   FiltersComponent,
+  MatButtonModule,
+  MatMenuModule,
+  NgOptimizedImage,
 ];
 
 export const OrderColumns = [
@@ -23,7 +29,8 @@ export const OrderColumns = [
   { name: 'Payment', canHide: true, visible: true },
   { name: 'Order Statuses', canHide: true, visible: true },
   { name: 'Fulfilled By', canHide: true, visible: true },
-  { name: 'Export', canHide: true, visible: true },
+  { name: 'Fulfillment Center', canHide: true, visible: true },
+  { name: 'Actions', canHide: true, visible: true },
 ];
 
 export const OrderTabs = [
@@ -211,7 +218,7 @@ export const RESP = {
       shipping_method: 'SR',
       status: 'NEW',
       status_code: 1,
-      payment_method: 'prepaid',
+      payment_method: 'cod',
       change_payment_mode: false,
       is_international: 0,
       purpose_of_shipment: 1,

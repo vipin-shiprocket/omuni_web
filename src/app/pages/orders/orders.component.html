@@ -1,5 +1,22 @@
 <div class="container-fluid px-16">
-  <h1 class="h2 fw-bold my-4">Orders</h1>
+  <h1 class="h2 fw-bold my-4">
+    Orders
+
+    <div class="float-end">
+      <button
+        mat-button
+        class="me-2 btn add-sync-btn bg-primary-subtle text-primary"
+      >
+        <mat-icon>add</mat-icon>
+        Add Order
+      </button>
+      <button mat-button class="me-2 add-sync-btn btn">
+        <mat-icon>sync</mat-icon>
+        Sync Orders
+      </button>
+    </div>
+  </h1>
+
   <nav class="nav order-nav mb-3">
     <ng-container *ngFor="let tab of tabs; let i = index">
       <div class="nav-item dropdown">
@@ -28,7 +45,16 @@
     </ng-container>
   </nav>
 
-  <div class="my-4">
+  <div class="my-4 position-relative">
+    <span class="right-btns-section">
+      <button class="btn more-filter-btn">
+        <img src="src/assets/svg/download.svg" height="18" width="18" alt="" />
+      </button>
+      <button style="width: 168px" class="btn more-filter-btn">
+        Select Bulk Action
+        <mat-icon class="ms-auto">expand_more</mat-icon>
+      </button>
+    </span>
     <app-filters [filtersData]="filtersData" />
   </div>
 
@@ -67,8 +93,22 @@
       <cdk-header-cell *cdkHeaderCellDef mat-sort-header>
         Order Details
       </cdk-header-cell>
-      <cdk-cell *cdkCellDef="let row">
-        {{ row.id }}
+      <cdk-cell *cdkCellDef="let row" class="text-truncate">
+        <a href="javascript.void(0);" [title]="row.id">{{ row.id }}</a>
+        <div class="create_at">
+          {{ row.created_at | date: 'dd-MMM-yyyy' }} |
+          {{ row.created_at | date: 'hh:mm a' }}
+        </div>
+        <div class="brand-section">
+          <img
+            ngSrc="src/assets/svg/settings.svg"
+            height="18"
+            width="18"
+            class="me-2"
+            alt=""
+          />
+          <span>{{ row.channel_name }}</span>
+        </div>
       </cdk-cell>
     </ng-container>
 
@@ -76,8 +116,10 @@
       <cdk-header-cell *cdkHeaderCellDef mat-sort-header>
         Customer details
       </cdk-header-cell>
-      <cdk-cell *cdkCellDef="let row">
-        {{ row.id }}
+      <cdk-cell *cdkCellDef="let row" class="text-truncate">
+        <div class="customer-name">{{ row.customer_name }}</div>
+        <div class="customer-name">{{ row.customer_email }}</div>
+        <div class="customer-name">{{ row.customer_phone }}</div>
       </cdk-cell>
     </ng-container>
 
@@ -86,7 +128,17 @@
         Product Details
       </cdk-header-cell>
       <cdk-cell *cdkCellDef="let row">
-        {{ row.id }}
+        <div class="item underline">
+          {{ row.products?.length }}
+          {{ row.products?.length > 1 ? 'items' : 'item' }}
+        </div>
+        <div
+          class="text-primary cursor d-flex align-items-center"
+          role="button"
+        >
+          View Packages
+          <mat-icon>expand_more</mat-icon>
+        </div>
       </cdk-cell>
     </ng-container>
 
@@ -95,7 +147,19 @@
         Payment
       </cdk-header-cell>
       <cdk-cell *cdkCellDef="let row">
-        {{ row.id }}
+        <div class="mb-2">
+          {{ row.currency ? row.currency : '&#x20B9;' }}
+          {{ row.total ?? 0 }}
+        </div>
+        <div
+          class="payment"
+          [ngClass]="{
+            prepaid: row.payment_method === 'prepaid',
+            cod: row.payment_method === 'cod'
+          }"
+        >
+          {{ row.payment_method }}
+        </div>
       </cdk-cell>
     </ng-container>
 
@@ -104,7 +168,13 @@
         Order Status
       </cdk-header-cell>
       <cdk-cell *cdkCellDef="let row">
-        {{ row.id }}
+        <div class="alert alert-warning p-0 text-center w-50 mb-2">
+          {{ row.status | titlecase }}
+        </div>
+        <div>Reason:</div>
+        <div class="text-truncate">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Est, impedit.
+        </div>
       </cdk-cell>
     </ng-container>
 
@@ -113,15 +183,28 @@
         Fulfill By
       </cdk-header-cell>
       <cdk-cell *cdkCellDef="let row">
-        {{ row.id }}
+        <div>{{ row.others.fulfillmentTat | date: 'dd-MMM-yyyy' }}</div>
+        <div>{{ row.others.fulfillmentTat | date: 'hh:mm a' }}</div>
       </cdk-cell>
     </ng-container>
-    <ng-container cdkColumnDef="Export">
+    <ng-container cdkColumnDef="Fulfillment Center">
       <cdk-header-cell *cdkHeaderCellDef mat-sort-header>
-        Export
+        Fulfillment Center
       </cdk-header-cell>
       <cdk-cell *cdkCellDef="let row">
-        {{ row.id }}
+        {{ row.others.marketplace_name | titlecase }}
+      </cdk-cell>
+    </ng-container>
+
+    <ng-container cdkColumnDef="Actions">
+      <cdk-header-cell *cdkHeaderCellDef mat-sort-header>
+        Actions
+      </cdk-header-cell>
+      <cdk-cell *cdkCellDef="let row">
+        <button class="btn btn-solid_sm me-2">CTA</button>
+        <button class="btn btn-sm more_btn">
+          <mat-icon>more_vert</mat-icon>
+        </button>
       </cdk-cell>
     </ng-container>
 
