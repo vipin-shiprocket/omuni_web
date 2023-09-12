@@ -88,12 +88,17 @@
       #toolTip="matTooltip"
       type="text"
       class="form-control flex-grow-1 dropdown-toggle search-input"
+      [ngClass]="{ 'pe-0': isHome }"
       aria-label="Global search text input"
-      [disabled]="!options.length"
+      [disabled]="!options.length || isHome"
       [matTooltip]="!isMobile() ? 'Use &uarr; and &darr; to navigate' : ''"
       [matTooltipPosition]="'right'"
       [matTooltipDisabled]="true"
-      [placeholder]="'Search in ' + (OPTIONS[active] || '/')"
+      [placeholder]="
+        isHome
+          ? '&lArr; Select a category to search in'
+          : 'Search in ' + OPTIONS[active]
+      "
       (input)="setSearchValue($event)"
       (appDebounceInput)="search($event)"
       [debounceTime]="500"
@@ -130,7 +135,7 @@
     </ul>
     <span
       class="p-1 text-primary shortcut user-select-none"
-      [ngClass]="{ hide: selected }"
+      [ngClass]="{ hide: selected || isHome }"
     >
       <kbd class="bg-primary">Ctrl</kbd> + <kbd class="bg-primary">/</kbd>
     </span>

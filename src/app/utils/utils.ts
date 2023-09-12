@@ -6,10 +6,16 @@ export const toggleEye = (el: HTMLInputElement) => {
   }
 };
 
-export function preloadImage(path: string) {
+/**
+ * To preload an asset before loading template
+ * @param path Path to the asset
+ */
+export function preloadAsset(path: string, id: string) {
+  if (document.getElementById(id)) return;
   const preload = document.createElement('link');
   preload.rel = 'preconnect';
   preload.href = window.location.origin + path;
+  preload.id = id;
   document.head.append(preload);
 }
 
@@ -41,6 +47,9 @@ export const sleep = (ms: number) => {
 
 export const intervals = new Map<string, number>();
 
+/**
+ * @param key clear interval with a key. Clears all intervals if the key is `all`
+ */
 export function clearIntervals(key: string) {
   if (key === 'all') {
     intervals.forEach((element) => {
