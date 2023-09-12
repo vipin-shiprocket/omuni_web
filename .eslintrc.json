@@ -32,7 +32,10 @@
             "style": "kebab-case"
           }
         ],
-        "@typescript-eslint/no-explicit-any": "error"
+        "@typescript-eslint/no-explicit-any": "error",
+        "@angular-eslint/template/click-events-have-key-events": [
+          "error"
+        ]
       }
     },
     {
