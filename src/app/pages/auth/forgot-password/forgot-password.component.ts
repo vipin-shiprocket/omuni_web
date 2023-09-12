@@ -193,14 +193,14 @@ export class ForgotPasswordComponent implements OnDestroy, OnInit {
         next: (resp) => {
           if (resp && resp.mobile) {
             this.goToOTPScreen();
-            this.startCountDown(3);
+            this.startCountDown(30);
             this.email = resp.email;
             this.phoneNumber = resp.mobile;
           }
         },
         error: (err) => {
           this.goToOTPScreen();
-          this.startCountDown(3);
+          this.startCountDown(30);
           emailOrPhoneNumber.setErrors({
             serverError: err.error.message,
           });
