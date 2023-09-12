@@ -235,11 +235,13 @@ export class LoginComponent implements OnDestroy {
     // will add new conditions in future
   }
 
-  getOtpState() {
+  getOtpState(isvalid: boolean) {
     //  getOtpState
+    isvalid;
   }
-  getOtpInputs() {
+  getOtpInputs(event: string) {
     // e;
+    event;
   }
 
   onSubmit() {
