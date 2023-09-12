@@ -231,3 +231,13 @@ label.required::after {
   text-transform: uppercase;
   color: u.$secondary2;
 }
+
+.rotate-180 {
+  transform: rotate(0.5turn);
+  transition: all 0.3s ease-in;
+}
+
+.rotate-0 {
+  transform: rotate(0turn);
+  transition: all 0.3s ease-in;
+}

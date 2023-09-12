@@ -144,7 +144,10 @@
             "
           >
             View Packages
-            <mat-icon>expand_more</mat-icon>
+            <mat-icon
+              [ngClass]="row === expandedElement ? 'rotate-180' : 'rotate-0'"
+              >expand_more</mat-icon
+            >
           </a>
         </cdk-cell>
       </ng-container>
@@ -225,10 +228,34 @@
             class="d-flex overflow-hidden"
             [@detailExpand]="row === expandedElement ? 'expanded' : 'collapsed'"
           >
-            <div>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga,
-              minus ratione harum officiis eum porro odio a sequi saepe autem
-              impedit magnam, rem quia quas vitae vero laborum, odit sed?
+            <div class="child-table">
+              <div class="child-table-header">
+                <div class="child-table-cell">Name</div>
+                <div class="child-table-cell">HSN</div>
+                <div class="child-table-cell">SKU</div>
+                <div class="child-table-cell">Qty</div>
+                <div class="child-table-cell">Unit Price</div>
+                <div class="child-table-cell">Total</div>
+              </div>
+
+              <ng-container *ngFor="let product of row.products; let i = index">
+                <div class="child-table-row">
+                  <div class="child-table-cell">{{ product.name }}</div>
+                  <div class="child-table-cell">{{ product.hsn }}</div>
+                  <div class="child-table-cell">{{ product.sku }}</div>
+                  <div class="child-table-cell">{{ product.quantity }}</div>
+                  <div class="child-table-cell">
+                    &#x20B9; {{ product.selling_price }}
+                  </div>
+                  <div class="child-table-cell">
+                    &#x20B9; {{ product.discount_including_tax }}
+                  </div>
+                </div>
+                <hr
+                  class="my-0 mx-3 text-black-50"
+                  *ngIf="i < row.products?.length - 1"
+                />
+              </ng-container>
             </div>
           </div>
         </cdk-cell>
