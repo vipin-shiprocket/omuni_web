@@ -1,0 +1,72 @@
+<cdk-table
+  matSort
+  #sort="matSort"
+  [matSortDisabled]="!enableSort"
+  [dataSource]="dataSource"
+  class="o2-table"
+>
+  <ng-container *ngFor="let column of _displayedColumns">
+    <ng-container *ngIf="column.name === 'select'" cdkColumnDef="select">
+      <cdk-header-cell *cdkHeaderCellDef>
+        <input
+          class="form-check-input"
+          type="checkbox"
+          (change)="$event ? toggleAllRows() : null"
+          [checked]="selection.hasValue() && isAllSelected()"
+          [indeterminate]="selection.hasValue() && !isAllSelected()"
+          [attr.aria-label]="checkboxLabel()"
+          checked
+        />
+      </cdk-header-cell>
+      <cdk-cell *cdkCellDef="let row">
+        <input
+          type="checkbox"
+          class="form-check-input"
+          (click)="$event.stopPropagation()"
+          (change)="$event ? selection.toggle(row) : null"
+          [checked]="selection.isSelected(row)"
+          [attr.aria-label]="checkboxLabel(row)"
+        />
+      </cdk-cell>
+    </ng-container>
+
+    <ng-container *ngIf="column.name !== 'select'" [cdkColumnDef]="column.name">
+      <cdk-header-cell
+        *cdkHeaderCellDef
+        mat-sort-header
+        [ngClass]="{ 'bg-lavender': !column.visible }"
+      >
+        {{ column.name }}
+        <mat-icon
+          *ngIf="column.canHide && _enableEditMode"
+          (click)="hideColumn(column)"
+          >{{ column.visible ? 'visibility' : 'visibility_off' }}</mat-icon
+        >
+      </cdk-header-cell>
+      <cdk-cell
+        *cdkCellDef="let row"
+        [ngClass]="{ 'bg-lavender': !column.visible }"
+      >
+        {{ row[column.name] }}
+      </cdk-cell>
+    </ng-container>
+  </ng-container>
+
+  <!-- Header and Row Declarations -->
+  <cdk-header-row
+    class="o2-header-row"
+    *cdkHeaderRowDef="columnsToDisplay"
+  ></cdk-header-row>
+  <cdk-row
+    class="o2-row"
+    *cdkRowDef="let row; columns: columnsToDisplay"
+  ></cdk-row>
+</cdk-table>
+<mat-paginator
+  *ngIf="paginationData"
+  [pageSizeOptions]="paginationData.pageSizeOptions"
+  [length]="paginationData.length"
+  [pageSize]="paginationData.pageSize"
+  [pageIndex]="paginationData.currentPage"
+  (page)="pageEvent.emit($event)"
+></mat-paginator>

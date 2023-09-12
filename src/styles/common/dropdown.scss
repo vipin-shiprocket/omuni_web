@@ -1,0 +1,91 @@
+@use '../utils' as u;
+
+.o2-listbox-container {
+  // position: absolute;
+  background-color: white;
+  z-index: 1;
+  width: 100%;
+  display: block;
+  border-radius: u.rem(5);
+}
+
+.expand-icon {
+  position: absolute;
+  inset: 5px 5px auto auto;
+}
+
+.select-all {
+  border-top-left-radius: u.rem(5);
+  border-top-right-radius: u.rem(5);
+}
+
+.o2-listbox {
+  list-style: none;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  max-height: 10rem;
+  overflow-y: auto;
+
+  &:first-child {
+    border-top-left-radius: u.rem(5);
+    border-top-right-radius: u.rem(5);
+  }
+}
+
+.o2-option {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 0.5rem;
+  cursor: pointer;
+
+  &:hover,
+  &:focus {
+    background-color: u.$color11;
+    color: u.$primary1;
+  }
+
+  &::before {
+    font-family: 'Material Icons';
+    display: block;
+    font-size: u.rem(20);
+    position: absolute;
+    left: unset;
+    right: 1rem;
+    color: u.$neutral3c;
+  }
+}
+
+.multiple-select {
+  padding: 0.5rem 2rem;
+
+  &::before {
+    left: 0.5rem;
+    right: unset;
+  }
+
+  &[aria-selected='true']::before {
+    content: '\e834';
+    color: u.$primary1;
+  }
+
+  &[aria-selected='false']::before {
+    content: '\e835';
+  }
+}
+
+.single-select {
+  &[aria-selected='true']::before {
+    content: '\e876';
+    color: u.$primary1;
+  }
+
+  &:hover::before {
+    content: '\e876';
+  }
+}
+
+.footer-section {
+  border-top: 1px solid u.$neutral3a;
+}

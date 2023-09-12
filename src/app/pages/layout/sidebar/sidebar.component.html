@@ -1,0 +1,148 @@
+<div
+  class="d-flex flex-column flex-shrink-0 side-container overflow-x-hidden w-100"
+>
+  <div class="d-flex justify-content-between mb-4 px-2">
+    <button
+      class="btn d-flex align-items-center rounded-0"
+      [routerLink]="['/']"
+      (click)="close($event)"
+    >
+      <img
+        class="logo-sm"
+        ngSrc="assets/svg/logo-sm.svg"
+        alt="Logo Small"
+        width="31"
+        height="33"
+        priority
+      />
+
+      <h1 class="logo-main ms-2 text-white">Omuni</h1>
+    </button>
+
+    <button class="btn btn-cross" (click)="sidebarOpen = false">
+      <img
+        ngSrc="assets/svg/cross_light.svg"
+        alt="Close"
+        width="12"
+        height="13"
+        priority
+      />
+    </button>
+  </div>
+
+  <mat-nav-list
+    class="menu-container overflow-y-auto flex-grow-1 custom-scrollbar"
+    [ngClass]="(layoutService.sideBarOpen | async) ? '' : 'hide-scroll'"
+  >
+    <ng-container
+      [ngTemplateOutlet]="!menu.length ? loading : null"
+    ></ng-container>
+
+    <span *ngFor="let item of menu">
+      <ng-container
+        [ngTemplateOutlet]="
+          item?.isBottomNav ? null : item?.subNav ? withSubMenu : withoutSubMenu
+        "
+        [ngTemplateOutletContext]="{ item: item }"
+      ></ng-container>
+    </span>
+  </mat-nav-list>
+
+  <mat-nav-list class="d-flex flex-column-reverse">
+    <span *ngFor="let item of menu">
+      <ng-container
+        [ngTemplateOutlet]="item?.isBottomNav ? withoutSubMenu : null"
+        [ngTemplateOutletContext]="{ item: item }"
+      ></ng-container>
+    </span>
+    <hr *ngIf="menu.length" class="border border-white mx-3 opacity-50" />
+  </mat-nav-list>
+</div>
+
+<ng-template #loading>
+  <div class="menu mb-4" *ngFor="let item of dummy; let i = index">
+    <div
+      class="spinner-grow flex-shrink-0 me-3 dummy"
+      [ngClass]="'spinner-' + (i + 1)"
+      role="status"
+    >
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <p class="placeholder-glow flex-grow-1">
+      <span class="placeholder" [ngClass]="item"></span>
+    </p>
+  </div>
+</ng-template>
+
+<ng-template #withSubMenu let-item="item">
+  <mat-accordion class="menu-expanding mb-4 p-0">
+    <mat-expansion-panel
+      #panel
+      class="w-100 shadow-none bg-transparent"
+      [expanded]="
+        (layoutService.sideBarOpen | async)
+          ? null
+          : (layoutService.sideBarOpen | async)
+      "
+    >
+      <mat-expansion-panel-header
+        [attr.aria-label]="item.displayName"
+        [ngClass]="{ active: checkRoute(item.route) }"
+        class="ps-0"
+      >
+        <mat-panel-title>
+          <span class="ms-2">
+            <mat-icon
+              class="d-flex overflow-visible"
+              [svgIcon]="item.iconName"
+            ></mat-icon>
+          </span>
+
+          <span class="side-nav-text ms-2">{{ item.displayName }}</span>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <a
+        class="text-decoration-none"
+        *ngFor="let child of item.subNav"
+        [routerLink]="[item.route, child.route]"
+        (click)="close($event)"
+      >
+        <mat-list-item
+          class="sub-menu"
+          [ngClass]="{ active: checkChildRoute(child.route) }"
+        >
+          <div
+            class="side-nav-text d-flex align-content-center justify-content-start align-items-center"
+          >
+            <mat-icon
+              [svgIcon]="child.iconName"
+              class="d-flex overflow-visible mx-2"
+            ></mat-icon>
+            <span>{{ child.displayName }}</span>
+          </div>
+        </mat-list-item>
+      </a>
+    </mat-expansion-panel>
+  </mat-accordion>
+</ng-template>
+
+<ng-template #withoutSubMenu let-item="item">
+  <a
+    class="text-decoration-none"
+    [routerLink]="[item.route]"
+    routerLinkActive="active"
+    [routerLinkActiveOptions]="{ exact: true }"
+    [attr.aria-label]="item.displayName"
+    (click)="close($event)"
+  >
+    <div class="menu mb-4" [ngClass]="checkRoute(item.route) ? 'active' : ''">
+      <mat-icon
+        class="d-flex overflow-visible"
+        [svgIcon]="item.iconName"
+      ></mat-icon>
+      <span class="side-nav-text w-100 ms-2 overflow-x-hidden">
+        {{ item.displayName }}
+      </span>
+    </div>
+  </a>
+</ng-template>

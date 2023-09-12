@@ -1,0 +1,115 @@
+<div>
+  <form [formGroup]="filterForm" class="d-flex flex-wrap">
+    <div class="d-flex" formArrayName="filters">
+      <ng-container
+        *ngFor="let filter of objectvalues(_filterData ?? {}); let i = index"
+      >
+        <ng-container [formGroupName]="i" *ngIf="filter.placement === 'out'">
+          <section class="me-3" *ngIf="filter.type === 'date'">
+            <app-o2-daterange [formControlName]="filter.name" />
+          </section>
+          <section class="me-3" *ngIf="filter.type === 'select'">
+            <app-o2-select
+              [formControlName]="filter.name"
+              [label]="filter.label"
+              [multiple]="filter.multiple ?? false"
+              [values]="checkIfValidType(filter.value)"
+              [options]="filter.data"
+              [placeholder]="filter.placeholder ?? ''"
+            />
+          </section>
+        </ng-container>
+      </ng-container>
+    </div>
+    <button
+      class="btn more-filter-btn"
+      type="button"
+      data-bs-toggle="offcanvas"
+      data-bs-target="#moreFilters"
+      aria-controls="moreFilters"
+    >
+      <img ngSrc="src/assets/svg/filter.svg" alt="" width="24" height="24" />
+      More Filters
+    </button>
+
+    <div
+      class="offcanvas offcanvas-end br-s-8"
+      tabindex="-1"
+      id="moreFilters"
+      aria-labelledby="moreFiltersLabel"
+    >
+      <div class="offcanvas-header border-bottom">
+        <h1 class="h2 fs-18" id="moreFiltersLabel">Filters</h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="offcanvas"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="offcanvas-body">
+        <div *ngIf="filtersCtrl.controls.length" formArrayName="filters">
+          <ng-container
+            *ngFor="
+              let filter of objectvalues(_filterData ?? {});
+              let i = index
+            "
+          >
+            <ng-container
+              [formGroupName]="i"
+              *ngIf="filter.placement !== 'out'"
+            >
+              <section class="mb-3" *ngIf="filter.type === 'radio'">
+                <h5 class="fw-bold text-capitalize mb-2">
+                  {{ filter?.label }}
+                </h5>
+
+                <label class="me-3 cursor" *ngFor="let data of filter.data">
+                  <input
+                    class="form-check-input radio-outlined me-1"
+                    type="radio"
+                    [value]="data.value"
+                    [formControlName]="filter.name"
+                    [name]="filter.name"
+                  />
+                  {{ data.display }}
+                </label>
+              </section>
+
+              <section class="mb-3" *ngIf="filter.type === 'checkbox'">
+                <h5 class="fw-bold text-capitalize mb-2">
+                  {{ filter?.label }}
+                </h5>
+
+                <label class="me-3 cursor" *ngFor="let data of filter.data">
+                  <input
+                    class="form-check-input me-1"
+                    type="checkbox"
+                    [value]="data.value"
+                    [formControlName]="filter.name"
+                    [name]="filter.name"
+                  />
+                  {{ data.display }}{{ data.value }}
+                </label>
+              </section>
+
+              <section class="mb-3" *ngIf="filter.type === 'select'">
+                <h5 class="fw-bold text-capitalize mb-2">
+                  {{ filter?.label }}
+                </h5>
+
+                <app-o2-select
+                  [label]="filter.label"
+                  [multiple]="filter.multiple ?? false"
+                  [values]="checkIfValidType(filter.value)"
+                  [options]="filter.data"
+                  [formControlName]="filter.name"
+                />
+              </section>
+            </ng-container>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

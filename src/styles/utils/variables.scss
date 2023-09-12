@@ -52,7 +52,21 @@ $color7: #ccc;
 $color8: #f7f7f7;
 $color9: #f3f3f3;
 $color10: #2ab62a;
+$color11: rgba(110, 95, 221, 0.1);
 
 $gra1: radial-gradient(#efd6a6 10%, #ffa800 100%);
 $gra2: radial-gradient(#b4e1f1 15%, #e8f7fc 100%);
 $gra3: radial-gradient(#fba9b7 15%, #d95066 100%);
+
+$bg-color: #f4f4f4;
+
+//time variables
+$sidebar-transition-time: 0.6s;
+$sidebar-spinner-count: 12;
+$delay-increment: 0.1s;
+
+html {
+  --side-bar-bg: #{$primary3};
+  --icon-stroke: #{$neutral4};
+  --down-arrow: #{$neutral4};
+}

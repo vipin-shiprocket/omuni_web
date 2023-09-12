@@ -51,9 +51,9 @@
   }
 }
 
-.fs-14 {
-  font-size: u.rem(14);
-}
+@include u.fontSize(12);
+@include u.fontSize(14);
+@include u.fontSize(18);
 
 .pl-2rem {
   padding-left: 2rem;
@@ -165,21 +165,21 @@ label.required::after {
 
 .ptb {
   &-tenpx {
-    padding-top: 10px !important;
-    padding-bottom: 10px !important;
+    padding-top: u.rem(10) !important;
+    padding-bottom: u.rem(10) !important;
   }
 }
 
 @media screen and (min-width: 401px) {
   .resposive-position {
-    top: 33px;
+    top: u.rem(33);
     left: 92%;
   }
 }
 
 @media screen and (min-width: 0px) and (max-width: 400px) {
   .resposive-position {
-    top: 30px;
+    top: u.rem(30);
     left: 88% !important;
   }
 }
@@ -204,7 +204,7 @@ a:not([href]):not([class]):hover {
 
 //Circle Border
 .rounded-10px {
-  border-radius: 8px !important;
+  border-radius: u.rem(8) !important;
 }
 
 .rounded-5rem {
@@ -212,27 +212,27 @@ a:not([href]):not([class]):hover {
 }
 
 .mb-lg {
-  margin-bottom: 15px !important;
+  margin-bottom: u.rem(15) !important;
 }
 
 $BaseBG: #ffffff;
 
 .digit-group {
   input {
-    width: 60px;
+    width: u.rem(60);
     max-width: 12%;
-    height: 40px;
+    height: u.rem(40);
     background-color: lighten($BaseBG, 5%);
     border: none;
     // line-height: 50px;
     text-align: center;
-    font-size: 12px;
+    font-size: u.rem(12);
     // font-family: 'Raleway', sans-serif;
     // font-weight: 200;
     color: black;
     // margin: 0 2px;
-    border: 1px solid #d3d3d3;
-    border-radius: 8px;
+    border: u.rem(1) solid #d3d3d3;
+    border-radius: u.rem(8);
   }
 }
 
@@ -248,12 +248,13 @@ $BaseBG: #ffffff;
 .font-medium-16 {
   font-size: u.rem(16);
 }
+
 .w-12px {
-  width: 12px;
+  width: u.rem(12);
 }
 
 .h-40px {
-  height: 40px;
+  height: u.rem(40);
 }
 
 img {
@@ -266,7 +267,7 @@ img {
 }
 
 .w-20px {
-  width: 20px;
+  width: u.rem(20);
 }
 
 .mr-2,
@@ -295,14 +296,15 @@ img {
 }
 
 .fs-16px {
-  font-size: 16px !important;
+  font-size: u.rem(16) !important;
 }
 
 .fs-20px {
-  font-size: 20px !important;
+  font-size: u.rem(20) !important;
 }
+
 .fs-42px {
-  font-size: 42px;
+  font-size: u.rem(42);
 }
 
 .fw-500 {
@@ -319,14 +321,17 @@ img {
   .order-m-1 {
     order: 1;
   }
+
   .order-m-2 {
     order: 2;
   }
 }
+
 @media (max-width: 768px) {
   .order-s-1 {
     order: 1;
   }
+
   .order-s-2 {
     order: 2;
   }
@@ -336,14 +341,17 @@ img {
   .tc-s {
     text-align: center;
   }
+
   .tl-s {
     text-align: left;
   }
 }
+
 @media (min-width: 768px) {
   .tc-m {
     text-align: center;
   }
+
   .tl-m {
     text-align: left;
   }
@@ -352,14 +360,14 @@ img {
 // Social CSS
 
 .btn-social.btn-border {
-  border: 1px solid #dcdcdc;
-  font-size: 14px;
-  padding: 5px 0;
+  border: u.rem(1) solid #dcdcdc;
+  font-size: u.rem(14);
+  padding: u.rem(5) 0;
   text-align: center;
-  border-radius: 8px;
+  border-radius: u.rem(8);
   color: rgba(0, 0, 0, 0.9);
   transition: all 0.5s ease;
-  height: 40px;
+  height: u.rem(40);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -368,4 +376,92 @@ img {
 
 .list-style-type-none {
   list-style-type: none;
+}
+
+.hide-scroll {
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+
+  /* Firefox */
+  &::-webkit-scrollbar {
+    display: none;
+    /* Chrome, Safari and Opera */
+  }
+}
+
+.custom-scrollbar {
+  /* width */
+  &::-webkit-scrollbar {
+    width: u.rem(5);
+  }
+
+  /* Track */
+  &::-webkit-scrollbar-track {
+    background: #ffffff22;
+    border-radius: u.rem(20);
+  }
+
+  /* Handle */
+  &::-webkit-scrollbar-thumb {
+    background: #aaa;
+    border-radius: u.rem(20);
+  }
+
+  /* Handle on hover */
+  &::-webkit-scrollbar-thumb:hover {
+    background: #888;
+  }
+}
+
+.more-filter-btn {
+  display: inline-flex;
+  align-items: center;
+  margin-right: 1rem;
+  background-color: #fff;
+  color: u.$neutral2a;
+  padding: u.rem(5) u.rem(12);
+  font-size: u.rem(12);
+  font-weight: 500;
+  line-height: 1.33;
+
+  &:focus {
+    border-color: u.$primary1;
+    background-color: #fff;
+  }
+
+  &:hover {
+    border-color: u.$primary1;
+    background-color: #fff;
+  }
+}
+
+.underline {
+  position: relative;
+
+  &::before {
+    bottom: u.rem(-2);
+    content: '';
+    width: 100%;
+    border-bottom: u.rem(2) dashed;
+    position: absolute;
+  }
+}
+
+.payment {
+  background-color: u.$neutral3d;
+  text-align: center;
+  width: 3.8rem;
+  padding: u.rem(2) u.rem(6);
+  font-size: u.rem(10);
+}
+
+.prepaid {
+  text-transform: capitalize;
+  color: u.$secondary1;
+}
+
+.cod {
+  text-transform: uppercase;
+  color: u.$secondary2;
 }

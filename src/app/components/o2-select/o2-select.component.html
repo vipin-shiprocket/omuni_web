@@ -1,0 +1,53 @@
+<div class="position-relative">
+  <input
+    type="text"
+    class="form-control {{ className }}"
+    [ngClass]="{ cursor: !disabled }"
+    [disabled]="disabled"
+    readonly
+    (click)="toggleDropd()"
+    [value]="formatValue(selectedValues)"
+    #trigger
+  />
+  <mat-icon class="expand-icon">expand_more</mat-icon>
+</div>
+
+<ng-template #portal>
+  <section class="o2-listbox-container shadow">
+    <div
+      *ngIf="selectAll && multiple"
+      [tabindex]="-1"
+      class="o2-option multiple-select select-all"
+      (click)="handleSelectAll()"
+      (keyup)="handleSelectAll()"
+      [attr.aria-selected]="allSelected"
+    >
+      {{ allSelected ? 'Deselect' : 'Select All' }}
+    </div>
+    <ul
+      cdkListbox
+      [(ngModel)]="selectedValues"
+      (cdkListboxValueChange)="onSelectionChange($event)"
+      [cdkListboxMultiple]="multiple"
+      class="o2-listbox bg-white"
+    >
+      <li
+        *ngFor="let option of options"
+        [cdkOption]="option.value"
+        [cdkOptionDisabled]="option.disable"
+        class="o2-option"
+        [ngClass]="multiple ? 'multiple-select' : 'single-select'"
+      >
+        {{ option.display }}
+      </li>
+    </ul>
+    <div class="footer-section" *ngIf="clearBtn && multiple">
+      <button
+        class="btn btn-sm btn-solid_sm float-end m-2"
+        (click)="clearFilter()"
+      >
+        clear
+      </button>
+    </div>
+  </section>
+</ng-template>

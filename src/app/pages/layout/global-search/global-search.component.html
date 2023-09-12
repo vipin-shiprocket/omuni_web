@@ -1,0 +1,187 @@
+<div *ngIf="!isMobile()" class="flex-sm-grow-1">
+  <ng-container [ngTemplateOutlet]="searchBar"></ng-container>
+</div>
+
+<div class="d-block h-100 d-md-none">
+  <button
+    class="btn btn-outlined_sm w-100 h-100 rounded-0 d-flex align-items-center justify-content-center"
+    data-bs-toggle="modal"
+    data-bs-target="#mobileSearchModal"
+    type="button"
+    (click)="modalHistoryPush()"
+  >
+    <mat-icon>search</mat-icon>
+  </button>
+</div>
+
+<div
+  *ngIf="isMobile()"
+  class="modal fade"
+  id="mobileSearchModal"
+  data-bs-backdrop="false"
+  tabindex="-1"
+  aria-labelledby="mobileSearchModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-fullscreen-md-down">
+    <div class="modal-content">
+      <div class="modal-header">
+        <ng-container [ngTemplateOutlet]="searchBar"></ng-container>
+        <button
+          id="searchModalClose"
+          type="button"
+          class="btn btn-close border border-dark-subtle ms-2 me-0"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+          (click)="reset()"
+        ></button>
+      </div>
+      <div class="mx-4 my-2">
+        <ng-container [ngTemplateOutlet]="searchHeading"></ng-container>
+      </div>
+      <hr class="border m-0" />
+      <div class="modal-body">
+        <ul class="list-group fs-14 p-1 text-body-secondary">
+          <ng-container
+            [ngTemplateOutlet]="
+              !result.data
+                ? searchValue.trim().length > 2
+                  ? loading
+                  : null
+                : resultList
+            "
+            [ngTemplateOutletContext]="{ data: result.data }"
+          ></ng-container>
+        </ul>
+      </div>
+      <div class="modal-footer justify-content-start user-select-none">
+        <h6 class="dropdown-header">in {{ OPTIONS[active] || '/' }}</h6>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #searchBar>
+  <div class="input-group dropdown">
+    <button
+      class="btn btn-outline-primary border focus-ring focus-ring-primary dropdown-toggle d-flex align-items-center px-1 py-0"
+      type="button"
+      data-bs-toggle="dropdown"
+      aria-expanded="false"
+      [disabled]="!options.length"
+    >
+      <mat-icon class="search-icon">search</mat-icon>
+    </button>
+    <ul class="dropdown-menu">
+      <!-- TODO: remove clear() if not needed -->
+      <button
+        class="dropdown-item fs-14"
+        [ngClass]="{ active: item === active }"
+        *ngFor="let item of options"
+        (click)="active = item; reset(); clear(); search(searchValue)"
+      >
+        {{ OPTIONS[item] }}
+      </button>
+    </ul>
+    <input
+      #searchInput
+      #toolTip="matTooltip"
+      type="text"
+      class="form-control flex-grow-1 dropdown-toggle search-input"
+      [ngClass]="{ 'pe-0': isHome }"
+      aria-label="Global search text input"
+      [disabled]="!options.length || isHome"
+      [matTooltip]="!isMobile() ? 'Use &uarr; and &darr; to navigate' : ''"
+      [matTooltipPosition]="'right'"
+      [matTooltipDisabled]="true"
+      [placeholder]="
+        isHome
+          ? '&lArr; Select a category to search in'
+          : 'Search in ' + OPTIONS[active]
+      "
+      (input)="setSearchValue($event)"
+      (appDebounceInput)="search($event)"
+      [debounceTime]="500"
+      (resetEvent)="reset()"
+      [minimumCharacters]="3"
+      (focus)="onFocus()"
+      (focusout)="onFocusOut()"
+    />
+    <ul
+      class="dropdown-menu search-result fs-14 p-1 text-body-secondary"
+      #searchResult
+      role="menu"
+    >
+      <li>
+        <ng-container [ngTemplateOutlet]="searchHeading"></ng-container>
+      </li>
+      <li>
+        <hr *ngIf="result.data" class="dropdown-divider" />
+      </li>
+      <ng-container
+        [ngTemplateOutlet]="
+          !result.data
+            ? searchValue.trim().length > 2
+              ? loading
+              : null
+            : resultList
+        "
+        [ngTemplateOutletContext]="{ data: result.data }"
+      ></ng-container>
+      <li><hr class="dropdown-divider" /></li>
+      <li class="dropdown-item disabled user-select-none">
+        <h4>in {{ OPTIONS[active] || '/' }}</h4>
+      </li>
+    </ul>
+    <span
+      class="p-1 text-primary shortcut user-select-none"
+      [ngClass]="{ hide: selected || isHome }"
+    >
+      <kbd class="bg-primary">Ctrl</kbd> + <kbd class="bg-primary">/</kbd>
+    </span>
+  </div>
+</ng-template>
+
+<ng-template #searchHeading>
+  <h6 class="dropdown-header text-secondary text-wrap user-select-none">
+    {{
+      searchValue.trim().length > 2
+        ? result.data
+          ? 'Search results:'
+          : 'Searching...'
+        : 'Enter minimum 3 characters to start searching'
+    }}
+  </h6>
+</ng-template>
+
+<ng-template #loading>
+  <li class="dropdown-item disabled placeholder-glow">
+    <span class="placeholder col-6"></span>
+  </li>
+  <li class="dropdown-item disabled placeholder-glow">
+    <span class="placeholder col-4"></span>
+  </li>
+</ng-template>
+
+<ng-template #resultList let-data="data">
+  <div class="overflow-y-auto custom-scrollbar" *ngIf="data.length">
+    <li
+      *ngFor="let item of data; let i = index"
+      aria-label="Close"
+      class="dropdown-item cursor"
+      [attr.data-bs-dismiss]="isMobile() ? 'modal' : null"
+      tabindex="-1"
+      [id]="'searchResult' + i"
+      [ngClass]="{
+        active: i === dropDownItemIndex,
+        'list-group-item': isMobile()
+      }"
+      (click)="navigate(i)"
+      (keydown.enter)="navigate(i)"
+    >
+      <h4>{{ item.name }}</h4>
+      <p>SKU: {{ item.sku }}</p>
+    </li>
+  </div>
+  <p class="dropdown-item disabled" *ngIf="!data.length">No results found</p>
+</ng-template>
