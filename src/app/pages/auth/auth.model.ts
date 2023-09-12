@@ -59,4 +59,5 @@ export const Endpoints = {
   FORGET_PASSWORD: 'auth/forgot/password',
   USER_RESET_OTP_CONFIRMATION: 'users/reset/otp/confirm',
   USER_PASSWORD_RESET: 'users/password/reset',
+  AUTH_MOBILE: 'auth/validate/mobile',
 };

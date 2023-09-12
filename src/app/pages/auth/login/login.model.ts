@@ -7,6 +7,9 @@ interface IUserForm {
 interface IPhoneForm {
   mobile: FormControl<number | string>;
 }
+interface ILoginOTPForm {
+  otp: FormControl<string | null>;
+}
 
 interface LoginErrorResponse {
   message: string;
@@ -20,10 +23,17 @@ interface LoginEmailAPIResponse {
   token?: string;
 }
 
+interface LoginOTPDTO {
+  mobile: string | number;
+  otp: number | null;
+}
+
 export {
   IUserForm,
   IPhoneForm,
   LoginErrorResponse,
   LoginMobileAPIResponse,
   LoginEmailAPIResponse,
+  ILoginOTPForm,
+  LoginOTPDTO,
 };

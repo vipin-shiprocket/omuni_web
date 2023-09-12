@@ -18,6 +18,8 @@ import {
   LoginEmailAPIResponse,
   LoginErrorResponse,
   LoginMobileAPIResponse,
+  ILoginOTPForm,
+  LoginOTPDTO,
 } from './login.model';
 import { Endpoints, PasswordPattern } from '../auth.model';
 
@@ -30,6 +32,7 @@ export class LoginComponent implements OnDestroy {
   private subs = new SubSink();
   userForm: FormGroup<IUserForm>;
   phoneLoginForm: FormGroup;
+  loginOTPForm: FormGroup<ILoginOTPForm>;
   toggle = toggleEye;
   showEmailLoginForm = true;
   showPhoneLoginForm = false;
@@ -67,6 +70,9 @@ export class LoginComponent implements OnDestroy {
       ]),
     });
     this.changeFormSubmitTo(false);
+    this.loginOTPForm = new FormGroup({
+      otp: new FormControl('', [Validators.required]),
+    });
   }
 
   formResponseErrorObj: LoginErrorResponse = { message: '', status_code: null };
@@ -92,7 +98,7 @@ export class LoginComponent implements OnDestroy {
   mobileValidationMessage = {
     mobile: [
       { type: 'required', message: 'This field is required' },
-      { type: 'pattern', message: 'Please enter a valid email id' },
+      { type: 'pattern', message: 'Please enter a valid Mobile Number' },
     ],
   };
   emailPattern = '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,4}$';
@@ -103,6 +109,9 @@ export class LoginComponent implements OnDestroy {
   }
   ctrlByNameForMobile(ctrlName: string): AbstractControl {
     return this.phoneLoginForm.get(ctrlName) as AbstractControl;
+  }
+  ctrlByNameForOTP(ctrlName: string): AbstractControl {
+    return this.loginOTPForm.get(ctrlName) as AbstractControl;
   }
 
   resetPhoneLoginFormValidators() {
@@ -129,13 +138,6 @@ export class LoginComponent implements OnDestroy {
     this.showPhoneLoginForm = true;
     this.showEmailLoginForm = false;
     this.resetLoginViaPhoneNumberForm();
-    // Object.keys(this.userForm.controls).forEach((key) => {
-    //   const control = this.ctrlByName(key);
-    //   control.setValue('');
-    //   control.clearValidators();
-    //   control.updateValueAndValidity();
-    // });
-    // this.resetPhoneLoginFormValidators();
   }
   resetLoginViaPhoneNumberForm() {
     this.phoneLoginForm.reset('');
@@ -235,13 +237,27 @@ export class LoginComponent implements OnDestroy {
     // will add new conditions in future
   }
 
-  getOtpState(isvalid: boolean) {
-    //  getOtpState
-    isvalid;
+  /**
+   * @name getOtpState
+   * @param isValid
+   * @description Gives State on every Key up
+   */
+  getOtpState(isValid: boolean) {
+    if (isValid) {
+      this.ctrlByNameForOTP('otp').setErrors(null);
+    } else {
+      this.ctrlByNameForOTP('otp').setErrors({
+        required: true,
+      });
+    }
   }
-  getOtpInputs(event: string) {
-    // e;
-    event;
+  /**
+   * @name getOtpInputs
+   * @param val
+   * @description Gives whole OTP Value on every Key up
+   */
+  getOtpInputs(val: number) {
+    this.ctrlByNameForOTP('otp').setValue(val);
   }
 
   onSubmit() {
@@ -306,6 +322,43 @@ export class LoginComponent implements OnDestroy {
         this.timerflag = false;
       }
     }, 1000);
+  }
+
+  onOTPFormSubmit() {
+    if (this.ctrlByNameForOTP('otp').errors) {
+      return;
+    }
+
+    const body: LoginOTPDTO = {
+      otp: null,
+      mobile: '',
+    };
+    body.otp = this.ctrlByNameForOTP('otp').value;
+    body.mobile = this.ctrlByNameForMobile('mobile').value;
+    // const body = data;
+
+    const header = this.http.getHeaders();
+
+    this.subs.sink = this.http
+      .postToEndpint<LoginEmailAPIResponse>(
+        environment.API_VERSION_V1 + '/' + Endpoints.AUTH_MOBILE,
+        body,
+        {},
+        header,
+      )
+      .subscribe({
+        next: (resp) => {
+          if (resp.token) {
+            localStorage.setItem('token', resp.token);
+          }
+        },
+        error: (err) => {
+          console.error(err);
+          const error = err.error as LoginErrorResponse;
+          this.formResponseErrorObj = error;
+          this.errorOtpMessage = error.message;
+        },
+      });
   }
 
   ngOnDestroy(): void {

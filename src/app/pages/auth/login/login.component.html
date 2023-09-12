@@ -23,8 +23,10 @@
       <div class="socialMediaTabs" *ngIf="showSocialMediaTabs">
         <div class="row d-none d-md-flex mt-15 justify-content-center">
           <div
+            tabindex="1"
             class="col-md-4 col-xs-6 pr-sm col-6"
             (click)="signInWithGoogle()"
+            (keyup.enter)="signInWithGoogle()"
           >
             <a class="btn btn-block btn-social btn-border">
               <img
@@ -39,9 +41,11 @@
           </div>
 
           <div
+            tabindex="1"
             class="col-md-4 col-xs-6 pr-sm col-6"
             *ngIf="showEmailLoginForm"
             (click)="onClickLoginViaPhoneNumber()"
+            (keyup.enter)="onClickLoginViaPhoneNumber()"
           >
             <a class="btn btn-block btn-social btn-border">
               <img
@@ -56,9 +60,11 @@
           </div>
 
           <div
+            tabindex="1"
             class="col-md-4 col-xs-6 pr-sm col-6"
             *ngIf="showPhoneLoginForm"
             (click)="onClickEmailId()"
+            (keyup.enter)="onClickEmailId()"
           >
             <a class="btn btn-block btn-social btn-border">
               <img
@@ -193,8 +199,10 @@
             placeholder="Enter Password"
           />
           <span
+            tabindex="0"
             class="position-absolute pointer resposive-position"
             (click)="toggle(pass)"
+            (keyup.enter)="toggle(pass)"
           >
             <img
               src="{{
@@ -202,7 +210,7 @@
                   ? './assets/images/eyeopen.png'
                   : './assets/images/eyeclose.png'
               }}"
-              alt="eye close"
+              alt="Show password image "
               class="w-20px"
               width="20px"
               height="20px"
@@ -247,8 +255,7 @@
         tabindex="-1"
         [formGroup]="phoneLoginForm"
         *ngIf="showPhoneLoginForm"
-        (submit)="generateOTP($event)"
-        (keyup.enter)="generateOTP($event)"
+        (submit)="generateOTP()"
         autocomplete="off"
         class="auth-form mb-lg"
       >
@@ -300,77 +307,95 @@
         </div>
       </form>
       <!-- OTP Screen  -->
-
-      <div class="whiteBg" *ngIf="showOtpForm">
-        <div class="mx-auto mb-0 col-12">
-          <span class="fs-12px">
-            <a
-              class="text-blue"
-              href="javascript:void(0);"
-              (click)="backToLogin('phoneotp')"
-            >
-              <img
-                class="w-12px"
-                src="./assets/images/backbtn.png"
-                alt="backimg"
-              />
-              Back
-            </a>
-          </span>
-
-          <h6
-            class="mt-md-3 mt-3 text-blackdark SFProDisplay-Semibold fs-20px fw-500"
-          >
-            OTP Verification
-          </h6>
-
-          <p class="mt-md-4 mb-1 lbl_st mt-3 SFProDisplay-Medium fs-12px">
-            Enter OTP sent to +91-<span>{{
-              ctrlByNameForMobile('mobile').value
-            }}</span>
-          </p>
-
-          <app-otp-input
-            class="digit-group"
-            (isvalid)="getOtpState($event)"
-            (values)="getOtpInputs($event)"
-          >
-          </app-otp-input>
-
-          <div class="mt-2 d-flex justify-content-between">
-            <p
-              *ngIf="!timerflag"
-              class="SFProDisplay-Regular fs-12px mb-3"
-              style="color: rgba(0, 0, 0, 0.6)"
-            >
-              Didn't Received OTP?
-              <a href="#" class="text-blue" (click)="generateOTP($event)"
-                >Resend</a
+      <form
+        tabindex="-1"
+        [formGroup]="loginOTPForm"
+        *ngIf="showOtpForm"
+        (submit)="onOTPFormSubmit()"
+        class="auth-form mb-lg"
+      >
+        <div class="whiteBg" *ngIf="showOtpForm">
+          <div class="mx-auto mb-0 col-12">
+            <span class="fs-12px">
+              <a
+                class="text-blue"
+                href="javascript:void(0);"
+                (click)="backToLogin('phoneotp')"
               >
-            </p>
-            <p
-              *ngIf="timerflag"
-              class="ml-auto fs-12px SFProDisplay-Regular mb-3"
+                <img
+                  class="w-12px"
+                  src="./assets/images/backbtn.png"
+                  alt="backimg"
+                />
+                Back
+              </a>
+            </span>
+
+            <h6
+              class="mt-md-3 mt-3 text-blackdark SFProDisplay-Semibold fs-20px fw-500"
             >
-              <img src="./assets/images/timer.png" height="10" width="10" />
-              00 : {{ countdown < 10 ? '0' + countdown : countdown.toString() }}
+              OTP Verification
+            </h6>
+
+            <p class="mt-md-4 mb-1 lbl_st mt-3 SFProDisplay-Medium fs-12px">
+              Enter OTP sent to +91-<span>{{
+                ctrlByNameForMobile('mobile').value
+              }}</span>
             </p>
-          </div>
+            <input type="hidden" formControlName="otp" />
+            <app-otp-input
+              class="digit-group"
+              (isvalid)="getOtpState($event)"
+              (values)="getOtpInputs($event)"
+            >
+            </app-otp-input>
 
-          <div
-            *ngIf="invalidOtpError"
-            class="alert alert-danger SFProDisplay-Regular"
-          >
-            {{ errorOtpMessage }}
-          </div>
+            <div class="mt-2 d-flex justify-content-between">
+              <p
+                *ngIf="!timerflag"
+                class="SFProDisplay-Regular fs-12px mb-3"
+                style="color: rgba(0, 0, 0, 0.6)"
+              >
+                Didn't Received OTP?
+                <a href="#" class="text-blue" (click)="generateOTP()">Resend</a>
+              </p>
+              <p
+                *ngIf="timerflag"
+                class="ml-auto fs-12px SFProDisplay-Regular mb-3"
+              >
+                <img
+                  src="./assets/images/timer.png"
+                  height="10"
+                  width="10"
+                  alt="Timer Logo"
+                />
+                00 :
+                {{ countdown < 10 ? '0' + countdown : countdown.toString() }}
+              </p>
+            </div>
 
-          <div class="d-grid gap-2 col-12 my-3">
-            <button class="btn btn-solid h-40px" type="button">
-              Login with OTP
-            </button>
+            <div
+              *ngIf="invalidOtpError"
+              class="alert alert-danger SFProDisplay-Regular"
+            >
+              {{ errorOtpMessage }}
+            </div>
+
+            <div class="d-grid gap-2 col-12 my-3">
+              <button
+                class="btn btn-solid h-40px"
+                type="submit"
+                [disabled]="
+                  !ctrlByNameForOTP('otp').value ||
+                  !ctrlByNameForOTP('otp').valid
+                "
+              >
+                Login with OTP
+              </button>
+            </div>
           </div>
         </div>
-      </div>
+      </form>
       <!-- Common From Error  -->
       <div class="row">
         <div
