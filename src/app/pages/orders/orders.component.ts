@@ -24,6 +24,7 @@ import {
 import { MatSort } from '@angular/material/sort';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatTableDataSource } from '@angular/material/table';
+import { Expand } from 'src/app/utils/animation';
 
 @Component({
   selector: 'app-orders',
@@ -31,12 +32,14 @@ import { MatTableDataSource } from '@angular/material/table';
   imports: [CommonModule, OrdersModules],
   templateUrl: './orders.component.html',
   styleUrls: ['./orders.component.scss'],
+  animations: [Expand],
 })
 export class OrdersComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('sort') sort!: MatSort;
   private subs = new SubSink();
   columns = OrderColumns;
   displayedColumns = this.getColumnArrangement();
+  columnsToDisplayWithExpand = [...this.displayedColumns];
   tabs: ITab[] = OrderTabs as ITab[];
   enableEditMode = false;
   disableSort = true;
@@ -50,6 +53,7 @@ export class OrdersComponent implements OnInit, AfterViewInit, OnDestroy {
     pageSize: 15,
     currentPage: 0,
   };
+  expandedElement: never | null = null;
 
   ngOnInit(): void {
     this.getOrderFilters();
