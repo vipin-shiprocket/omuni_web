@@ -1,1 +1,35 @@
-<p>inventory works!</p>
+<form
+  class="container text-center my-4"
+  (submit)="UploadFile(uploadForm)"
+  #uploadForm="ngForm"
+>
+  <div class="row my-2">
+    <div class="col-12 col-sm-8 mb-2 mb-sm-0">
+      <input
+        #fileInput
+        class="form-control"
+        name="uploadFile"
+        type="file"
+        [accept]="fileTypes"
+        (change)="selectedFileInput = $event.target"
+      />
+    </div>
+    <div class="col-12 col-sm-4">
+      <app-o2-select
+        [(ngModel)]="selectedOption"
+        name="fileType"
+        required
+        [options]="fileOptions"
+        placeholder="Select file type"
+      >
+      </app-o2-select>
+    </div>
+  </div>
+  <button
+    type="submit"
+    class="btn btn-primary float-end"
+    [disabled]="!uploadForm.form.valid || !fileInput.value"
+  >
+    Upload
+  </button>
+</form>
