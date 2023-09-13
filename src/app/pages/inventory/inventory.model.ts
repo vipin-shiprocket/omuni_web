@@ -1,3 +1,13 @@
+// ---------Temp-------------
+export const InventoryTabs = [
+  {
+    name: 'All',
+    filters: {},
+    canUpdate: false,
+    columns: ['name', 'sku', 'available', 'blocked', 'total', 'action'],
+  },
+];
+// --------------------------
 export type ErrorResponse = Record<'data', string>;
 
 export type FileType = 'RESET' | 'DELTA';

@@ -1,19 +1,26 @@
 import { Component, OnDestroy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { InventoryService } from './inventory.service';
-import { verifyFileType } from 'src/app/utils/utils';
+import { checkWindowWidth, verifyFileType } from 'src/app/utils/utils';
 import { ToastrService } from 'ngx-toastr';
 import { SubSink } from 'subsink';
-import { ErrorResponse } from './inventory.model';
+import { ErrorResponse, InventoryTabs } from './inventory.model';
 import { O2SelectComponent } from 'src/app/components/o2-select/o2-select.component';
 import { IOption } from 'src/app/components/chip-selectbox/chip-selectbox.model';
 import { FormsModule, NgForm } from '@angular/forms';
 import { switchMap } from 'rxjs';
+import { ITab } from 'src/app/components/index-filters/index-filters.model';
+import { GlobalSearchComponent } from 'src/app/components/global-search/global-search.component';
 
 @Component({
   selector: 'app-inventory',
   standalone: true,
-  imports: [CommonModule, O2SelectComponent, FormsModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    GlobalSearchComponent,
+    O2SelectComponent,
+  ],
   templateUrl: './inventory.component.html',
   styleUrls: ['./inventory.component.scss'],
 })
@@ -22,6 +29,8 @@ export class InventoryComponent implements OnDestroy {
     { display: 'Reset', value: 'RESET' },
     { display: 'Delta', value: 'DELTA' },
   ];
+  activeTabIdx = 0;
+  tabs: ITab[] = InventoryTabs;
   selectedFileInput!: EventTarget | null;
   selectedOption!: string[];
   private inventoryService = inject(InventoryService);
@@ -39,7 +48,31 @@ export class InventoryComponent implements OnDestroy {
     return files ? files[0] : null;
   }
 
-  UploadFile(form: NgForm) {
+  get showSearch() {
+    return checkWindowWidth();
+  }
+
+  getInventoryData() {
+    return;
+  }
+
+  addDropdownAttrFlag(tabIndex: number) {
+    this.tabs.forEach((tab, i) => {
+      tab.dropdown = tabIndex === i;
+    });
+  }
+
+  onTabClick(tabIdx: number) {
+    if (tabIdx !== this.activeTabIdx) {
+      setTimeout(() => {
+        this.addDropdownAttrFlag(tabIdx);
+      });
+    }
+    this.activeTabIdx = tabIdx;
+    this.getInventoryData();
+  }
+
+  uploadFile(form: NgForm) {
     if (!this.selectedFile) {
       this.toast.warning('No file selected');
       return;

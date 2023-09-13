@@ -11,7 +11,7 @@ import {
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltip, MatTooltipModule } from '@angular/material/tooltip';
-import { LayoutService } from '../layout.service';
+import { LayoutService } from 'src/app/pages/layout/layout.service';
 import { OPTIONS } from './global-search.model';
 import { NavigationEnd, Router } from '@angular/router';
 import { BehaviorSubject, delay, filter, fromEvent, map, of } from 'rxjs';
@@ -100,10 +100,6 @@ export class GlobalSearchComponent implements OnInit, AfterViewInit, OnDestroy {
   selected = false;
   subSink = new SubSink();
   timeouts: number[] = [];
-
-  get isHome() {
-    return this.active === '/';
-  }
 
   ngOnInit(): void {
     this.currentRoute.next(this.router.routerState.snapshot.url.slice(1));
@@ -234,7 +230,7 @@ export class GlobalSearchComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   search(data: string) {
-    if (data.trim().length < 3) return;
+    if (data.trim().length < 3 || this.active === '/') return;
 
     //API call
     this.subSink.sink = of(

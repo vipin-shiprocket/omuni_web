@@ -8,7 +8,17 @@ export interface UserPreferences {
 }
 
 const temp: UserPreferences = {
-  sidebarItems: ['orders', 'catalog', 'inventory', 'settings'],
+  sidebarItems: [
+    'analytics',
+    'orders',
+    'catalog',
+    'inventory',
+    'automation',
+    //divider - reverse order after this
+    'support',
+    'settings',
+    'getStarted',
+  ],
 };
 
 @Injectable({
@@ -21,6 +31,10 @@ export class UserPreferencesService {
   @MemoFn({ ttl: 10000, cacheStrategy: STORAGE_TYPE.PERSISTENT })
   getUserPreferences() {
     return of(temp).pipe(delay(2000));
+  }
+
+  getAccountProgress() {
+    return of(3).pipe(delay(200));
   }
 
   setAllowedRoutes() {

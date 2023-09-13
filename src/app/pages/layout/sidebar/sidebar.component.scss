@@ -76,13 +76,15 @@
 }
 
 .side-nav-text {
+  text-wrap: nowrap;
   transition: color u.$sidebar-open-time;
   color: #fff;
 }
 
 ::ng-deep .mat-expansion-panel-header {
   --mat-expansion-header-collapsed-state-height: 3em;
-  max-height: 3.5em;
+  max-height: 3em;
+  height: 3em;
 
   .mat-content {
     overflow: visible;
@@ -98,7 +100,8 @@
 
   @media screen and (min-width: 768px) {
     --mat-expansion-header-collapsed-state-height: 3.5em;
-    max-height: 4em;
+    max-height: 3.5em;
+    height: 3.5em;
 
     .mat-expansion-indicator {
       margin-right: -1em;

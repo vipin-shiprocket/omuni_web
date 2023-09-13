@@ -1,6 +1,108 @@
-<form
+<div class="container-fluid px-16">
+  <div class="d-flex align-items-center justify-content-between">
+    <h1 class="h2 fw-bold my-4 flex-grow-1">Inventory</h1>
+    <div class="col-4">
+      <app-global-search *ngIf="!showSearch"></app-global-search>
+    </div>
+    <div class="flex-grow-1"></div>
+  </div>
+
+  <div class="rounded bg-secondary-subtle d-flex align-items-center">
+    <div class="card m-3" style="max-width: 540px">
+      <div class="row g-0">
+        <div class="col-md-4">
+          <img src="..." class="img-fluid rounded-start" alt="..." />
+        </div>
+        <div class="col-md-8">
+          <div class="card-body">
+            <h5 class="card-title">Card title</h5>
+            <p class="card-text">
+              This is a wider card with supporting text below as a natural
+              lead-in to additional content. This content is a little bit
+              longer.
+            </p>
+            <p class="card-text">
+              <small class="text-body-secondary">Last updated 3 mins ago</small>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card m-3" style="max-width: 540px">
+      <div class="row g-0">
+        <div class="col-md-4">
+          <img src="..." class="img-fluid rounded-start" alt="..." />
+        </div>
+        <div class="col-md-8">
+          <div class="card-body">
+            <h5 class="card-title">Card title</h5>
+            <p class="card-text">
+              This is a wider card with supporting text below as a natural
+              lead-in to additional content. This content is a little bit
+              longer.
+            </p>
+            <p class="card-text">
+              <small class="text-body-secondary">Last updated 3 mins ago</small>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card m-3" style="max-width: 540px">
+      <div class="row g-0">
+        <div class="col-md-4">
+          <img src="..." class="img-fluid rounded-start" alt="..." />
+        </div>
+        <div class="col-md-8">
+          <div class="card-body">
+            <h5 class="card-title">Card title</h5>
+            <p class="card-text">
+              This is a wider card with supporting text below as a natural
+              lead-in to additional content. This content is a little bit
+              longer.
+            </p>
+            <p class="card-text">
+              <small class="text-body-secondary">Last updated 3 mins ago</small>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <nav class="navbar mb-3" *ngIf="tabs.length">
+    <ng-container *ngFor="let tab of tabs; let i = index">
+      <div class="nav-item dropdown">
+        <button
+          tabindex="-1"
+          class="nav-link d-inline-flex"
+          [attr.data-bs-toggle]="tab.dropdown ? 'dropdown' : null"
+          [ngClass]="{
+            'active dropdown-toggle': tabs[activeTabIdx].name === tab['name']
+          }"
+          (click)="onTabClick(i)"
+          (keyup)="onTabClick(i)"
+        >
+          {{ tab['name'] }}
+        </button>
+        <ul class="dropdown-menu">
+          <li>
+            <button class="dropdown-item">Rename view</button>
+          </li>
+
+          <li>
+            <button class="dropdown-item text-danger">Delete view</button>
+          </li>
+        </ul>
+      </div>
+    </ng-container>
+  </nav>
+</div>
+
+<!-- bulk upload -->
+<!-- <form
   class="container text-center my-4"
-  (submit)="UploadFile(uploadForm)"
+  (submit)="uploadFile(uploadForm)"
   #uploadForm="ngForm"
 >
   <div class="row my-2">
@@ -32,4 +134,4 @@
   >
     Upload
   </button>
-</form>
+</form> -->
