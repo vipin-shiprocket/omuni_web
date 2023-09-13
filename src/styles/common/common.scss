@@ -61,13 +61,15 @@
 
 .a-link {
   text-decoration: none;
+
   &:hover {
-    text-decoration: underline;
+    text-decoration: none;
   }
 }
 
 .link-blue {
   color: u.$color3;
+
   &:hover {
     color: u.$color4;
   }
@@ -105,6 +107,7 @@
   0% {
     opacity: 0;
   }
+
   100% {
     opacity: 1;
   }
@@ -115,6 +118,7 @@
     transform: translateY(-50%);
     opacity: 0;
   }
+
   100% {
     transform: translateY(0);
     opacity: 1;
@@ -148,30 +152,260 @@ label.required::after {
   display: inline;
 }
 
+.font-weight-bold {
+  font-weight: 500 !important;
+}
+
+@media (min-width: 768px) {
+  .mt-md-3,
+  .my-md-3 {
+    margin-top: 1rem !important;
+  }
+}
+
+.ptb {
+  &-tenpx {
+    padding-top: u.rem(10) !important;
+    padding-bottom: u.rem(10) !important;
+  }
+}
+
+@media screen and (min-width: 401px) {
+  .resposive-position {
+    top: u.rem(33);
+    left: 92%;
+  }
+}
+
+@media screen and (min-width: 0px) and (max-width: 400px) {
+  .resposive-position {
+    top: u.rem(30);
+    left: 88% !important;
+  }
+}
+
+.position-absolute {
+  position: absolute !important;
+}
+
+.position-relative {
+  position: relative !important;
+}
+
+.pointer:hover {
+  cursor: pointer;
+}
+
+a:not([href]):not([class]),
+a:not([href]):not([class]):hover {
+  color: inherit;
+  text-decoration: none;
+}
+
+//Circle Border
+.rounded-10px {
+  border-radius: u.rem(8) !important;
+}
+
+.rounded-5rem {
+  border-radius: 5rem;
+}
+
+.mb-lg {
+  margin-bottom: u.rem(15) !important;
+}
+
+$BaseBG: #ffffff;
+
+.digit-group {
+  input {
+    width: u.rem(60);
+    max-width: 12%;
+    height: u.rem(40);
+    background-color: lighten($BaseBG, 5%);
+    border: none;
+    // line-height: 50px;
+    text-align: center;
+    font-size: u.rem(12);
+    // font-family: 'Raleway', sans-serif;
+    // font-weight: 200;
+    color: black;
+    // margin: 0 2px;
+    border: u.rem(1) solid #d3d3d3;
+    border-radius: u.rem(8);
+  }
+}
+
+.fs-12px {
+  font-size: u.rem(12);
+}
+
+.fs-14px {
+  font-size: u.rem(14);
+}
+
+.font-16,
+.font-medium-16 {
+  font-size: u.rem(16);
+}
+
+.w-12px {
+  width: u.rem(12);
+}
+
+.h-40px {
+  height: u.rem(40);
+}
+
+img {
+  vertical-align: middle;
+  align-items: center;
+  max-width: 100%;
+  max-height: none;
+  box-shadow: none;
+  border-radius: initial;
+}
+
+.w-20px {
+  width: u.rem(20);
+}
+
+.mr-2,
+.mx-2 {
+  margin-right: 0.5rem !important;
+}
+
+.mb-5 {
+  margin-bottom: 3rem !important;
+}
+
+.px-2rem {
+  padding: 2.2rem !important;
+}
+
+@media screen and (min-width: 992px) {
+  .px-2rem {
+    padding: 2.2rem !important;
+  }
+}
+
+.eye {
+  .mat-icon {
+    bottom: 0.8rem;
+  }
+}
+
+.fs-16px {
+  font-size: u.rem(16) !important;
+}
+
+.fs-20px {
+  font-size: u.rem(20) !important;
+}
+
+.fs-42px {
+  font-size: u.rem(42);
+}
+
+.fw-500 {
+  font-weight: 500;
+}
+
+.dashed-border {
+  border: 1px dashed #d3d3d3;
+  display: inline-block;
+  width: calc(50% - 1rem);
+}
+
+@media (min-width: 768px) {
+  .order-m-1 {
+    order: 1;
+  }
+
+  .order-m-2 {
+    order: 2;
+  }
+}
+
+@media (max-width: 768px) {
+  .order-s-1 {
+    order: 1;
+  }
+
+  .order-s-2 {
+    order: 2;
+  }
+}
+
+@media (max-width: 768px) {
+  .tc-s {
+    text-align: center;
+  }
+
+  .tl-s {
+    text-align: left;
+  }
+}
+
+@media (min-width: 768px) {
+  .tc-m {
+    text-align: center;
+  }
+
+  .tl-m {
+    text-align: left;
+  }
+}
+
+// Social CSS
+
+.btn-social.btn-border {
+  border: u.rem(1) solid #dcdcdc;
+  font-size: u.rem(14);
+  padding: u.rem(5) 0;
+  text-align: center;
+  border-radius: u.rem(8);
+  color: rgba(0, 0, 0, 0.9);
+  transition: all 0.5s ease;
+  height: u.rem(40);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: SFProDisplay-Regular;
+}
+
+.list-style-type-none {
+  list-style-type: none;
+}
+
 .hide-scroll {
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+
+  /* Firefox */
   &::-webkit-scrollbar {
-    display: none; /* Chrome, Safari and Opera */
+    display: none;
+    /* Chrome, Safari and Opera */
   }
 }
 
 .custom-scrollbar {
   /* width */
   &::-webkit-scrollbar {
-    width: 5px;
+    width: u.rem(5);
   }
 
   /* Track */
   &::-webkit-scrollbar-track {
     background: #ffffff22;
-    border-radius: 20px;
+    border-radius: u.rem(20);
   }
 
   /* Handle */
   &::-webkit-scrollbar-thumb {
     background: #aaa;
-    border-radius: 20px;
+    border-radius: u.rem(20);
   }
 
   /* Handle on hover */

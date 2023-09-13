@@ -19,13 +19,19 @@ const routes: Routes = [
       import('src/app/pages/auth/auth.module').then((m) => m.AuthModule),
   },
   {
-    path: 'forgotPassword',
+    path: 'forgotpassword',
     component: ForgotPasswordComponent,
     loadChildren: () =>
       import('src/app/pages/auth/auth.module').then((m) => m.AuthModule),
   },
   {
-    path: 'signUp',
+    path: 'register',
+    component: RegisterComponent,
+    loadChildren: () =>
+      import('src/app/pages/auth/auth.module').then((m) => m.AuthModule),
+  },
+  {
+    path: 'signup',
     component: RegisterComponent,
     loadChildren: () =>
       import('src/app/pages/auth/auth.module').then((m) => m.AuthModule),
@@ -49,6 +55,11 @@ const routes: Routes = [
     loadComponent: () =>
       import('./components/docs/docs.component').then((c) => c.DocsComponent),
   },
+  {
+    path: '',
+    redirectTo: '/login',
+    pathMatch: 'full',
+  }, // redirect to `login`
 ];
 
 @NgModule({

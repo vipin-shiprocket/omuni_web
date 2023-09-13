@@ -1,114 +1,414 @@
 <div class="container-fluid auth-layout">
   <div class="row auth">
-    <div class="text-center mt-5 pt-5">
+    <div class="text-center mt-5 mb-5">
       <img
-        ngSrc="./assets/images/logo-big.png"
+        ngSrc="./assets/svg/srlogo.svg"
         alt="logo"
-        width="300"
-        height="60"
-        priority
+        width="200"
+        height="42"
+        fetchpriority="high"
         class=""
       />
     </div>
-    <div class="col-10 col-md-8 col-lg-5 auth-card">
-      <h1 class="h2 text-center mt-3 fw-bold">Login To Maven</h1>
+
+    <div class="col-11 col-md-8 col-lg-5 auth-card px-2rem">
+      <div class="panel-body" *ngIf="showSocialMediaTabs">
+        <h3
+          class="text-center SFProDisplay-Semibold text-left text-blackdark fs-20px mt-2 mt-md-3 mb-4 font-weight-bold"
+        >
+          Login To Shiprocket Using
+        </h3>
+      </div>
+
+      <div class="socialMediaTabs" *ngIf="showSocialMediaTabs">
+        <div class="row d-none d-md-flex mt-15 justify-content-center">
+          <div
+            tabindex="1"
+            class="col-md-4 col-xs-6 pr-sm col-6"
+            (click)="signInWithGoogle()"
+            (keyup.enter)="signInWithGoogle()"
+          >
+            <a class="btn btn-block btn-social btn-border">
+              <img
+                class="w-20px mr-2"
+                src="./assets/images/google.png"
+                alt="google"
+                width="20px"
+                height="20px"
+              />
+              Google
+            </a>
+          </div>
+
+          <div
+            tabindex="1"
+            class="col-md-4 col-xs-6 pr-sm col-6"
+            *ngIf="showEmailLoginForm"
+            (click)="onClickLoginViaPhoneNumber()"
+            (keyup.enter)="onClickLoginViaPhoneNumber()"
+          >
+            <a class="btn btn-block btn-social btn-border">
+              <img
+                src="./assets/images/phone_no.png"
+                alt="phone"
+                width="20px"
+                height="20px"
+                class="w-20px mr-2"
+              />
+              Phone No
+            </a>
+          </div>
+
+          <div
+            tabindex="1"
+            class="col-md-4 col-xs-6 pr-sm col-6"
+            *ngIf="showPhoneLoginForm"
+            (click)="onClickEmailId()"
+            (keyup.enter)="onClickEmailId()"
+          >
+            <a class="btn btn-block btn-social btn-border">
+              <img
+                src="./assets/images/email.png"
+                alt="phone"
+                width="20px"
+                height="20px"
+                class="w-20px mr-2"
+              />
+              Email
+            </a>
+          </div>
+        </div>
+        <!-- .. OR -->
+        <div class="text-center ptb-tenpx">
+          <p class="my-1 text-center fs-16px">
+            <span class="dashed-border mb-2px"> </span> or
+            <span class="dashed-border mb-2px"></span>
+          </p>
+        </div>
+      </div>
+      <!-- On Small Screen social tags -->
+      <div
+        class="row d-flex d-md-none mt-15 justify-content-center"
+        *ngIf="showSocialMediaTabs"
+      >
+        <div
+          class="col col-3 mb-2 text-center text-opacity-90 SFProDisplay-Regular"
+        >
+          <button
+            class="btn mb-1 btn-light rounded-5rem border bg-white fs-14px p-0-75"
+            (click)="signInWithGoogle()"
+          >
+            <img
+              class="w-20px"
+              src="./assets/images/google.png"
+              alt="google"
+              width="20px"
+              height="20px"
+            />
+          </button>
+          <br />
+          Google
+        </div>
+
+        <div
+          *ngIf="showEmailLoginForm"
+          class="text-center col col-3 mb-2 text-opacity-90 SFProDisplay-Regular"
+        >
+          <button
+            class="btn mb-1 p-0-75 btn-light rounded-5rem border bg-white fs-14px"
+            (click)="onClickLoginViaPhoneNumber()"
+          >
+            <img
+              class="w-20px"
+              src="./assets/images/phone_no.png"
+              alt="facebook"
+              width="20px"
+              height="20px"
+            />
+          </button>
+          <br />
+          Phone No
+        </div>
+        <div
+          *ngIf="showPhoneLoginForm"
+          class="text-center col col-3 mb-2 text-opacity-90 SFProDisplay-Regular"
+        >
+          <button
+            class="btn mb-1 p-0-75 btn-light rounded-5rem border bg-white fs-14px"
+            (click)="onClickEmailId()"
+          >
+            <img
+              class="w-20px"
+              src="./assets/images/email.png"
+              alt="email"
+              width="20px"
+              height="20px"
+            />
+          </button>
+          <br />
+          Email
+        </div>
+      </div>
+      <!-- Form For Email ID -->
       <form
         tabindex="-1"
         [formGroup]="userForm"
         (submit)="onSubmit()"
+        *ngIf="showEmailLoginForm"
         (keyup.enter)="onSubmit()"
         autocomplete="off"
-        class="auth-form"
+        class="auth-form mb-lg"
       >
         <div class="mb-3">
-          <label for="email" class="form-label">Username or Email ID</label>
+          <label for="email" class="form-label">Email ID</label>
           <input
             type="email"
             class="form-control"
             formControlName="email"
-            autocomplete="new-password"
+            autocomplete="Password"
             id="email"
-            placeholder="Enter username or email id"
+            placeholder="Enter your email ID"
+            [pattern]="emailPattern"
           />
+          <div class="row">
+            <div
+              *ngFor="let validation of loginValidationMessage.email"
+              class="text-danger col-12"
+            >
+              <span
+                *ngIf="
+                  ctrlByName('email').hasError(validation.type) &&
+                  ctrlByName('email').dirty
+                "
+              >
+                {{ validation.message }}
+              </span>
+            </div>
+          </div>
         </div>
 
-        <div class="mb-3 eye" [hidden]="ctrlByName('password').disabled">
+        <div class="mb-3 eye position-relative">
           <label for="password" class="form-label">Password</label>
           <input
             #pass
-            type="password"
+            [type]="'password'"
             formControlName="password"
             autocomplete="new-password"
             class="form-control"
             id="password"
-            placeholder="Password"
+            placeholder="Enter Password"
           />
-          <mat-icon
-            [ngStyle]="{ opacity: +ctrlByName('password').enabled }"
+          <span
+            tabindex="0"
+            class="position-absolute pointer resposive-position"
             (click)="toggle(pass)"
+            (keyup.enter)="toggle(pass)"
           >
-            {{ pass.type === 'password' ? 'visibility_off' : 'visibility' }}
-          </mat-icon>
+            <img
+              src="{{
+                pass.type === 'text'
+                  ? './assets/images/eyeopen.png'
+                  : './assets/images/eyeclose.png'
+              }}"
+              alt="Show password image "
+              class="w-20px"
+              width="20px"
+              height="20px"
+            />
+          </span>
+          <div class="row">
+            <div
+              *ngFor="let validation of loginValidationMessage.password"
+              class="text-danger col-12"
+            >
+              <span
+                *ngIf="
+                  ctrlByName('password').hasError(validation.type) &&
+                  ctrlByName('password').dirty
+                "
+              >
+                {{ validation.message }}
+              </span>
+            </div>
+          </div>
         </div>
 
         <div class="mb-3">
-          <a routerLink="/forgotPassword" class="a-link link-primary fs-12"
+          <a routerLink="/forgotpassword" class="a-link link-primary fs-12"
             >Forgot password ?</a
           >
+        </div>
+
+        <div class="d-grid gap-2">
+          <button class="btn btn-solid" type="submit">Login</button>
+        </div>
+
+        <div class="auth-note mt-3">
+          New to Shiprocket?
+          <a routerLink="/signup" class="a-link link-primary fs-12 pointer ml-2"
+            >Sign Up Now</a
+          >
+        </div>
+      </form>
+      <!-- Form For Mobile -->
+      <form
+        tabindex="-1"
+        [formGroup]="phoneLoginForm"
+        *ngIf="showPhoneLoginForm"
+        (submit)="generateOTP()"
+        autocomplete="off"
+        class="auth-form mb-lg"
+      >
+        <div class="mb-3">
+          <label for="mobile" class="form-label">Enter Mobile Number</label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="mobile"
+            [pattern]="mobilePattern"
+            autocomplete="new-password"
+            id="mobile"
+            placeholder="Enter Phone Number"
+            onlyNumbers
+            maxlength="10"
+          />
+          <div class="row mt-1">
+            <div
+              *ngFor="let validation of mobileValidationMessage.mobile"
+              class="text-danger col-12"
+            >
+              <span
+                *ngIf="
+                  ctrlByNameForMobile('mobile').hasError(validation.type) &&
+                  (ctrlByNameForMobile('mobile').dirty || submitted)
+                "
+              >
+                {{ validation.message }}
+              </span>
+            </div>
+          </div>
         </div>
 
         <div class="d-grid gap-2">
           <button
             class="btn btn-solid"
             type="submit"
-            *ngIf="!userClientsList.length"
+            [disabled]="ctrlByNameForMobile('mobile').errors"
           >
-            Next
-          </button>
-
-          <button *ngIf="isClientSelected" class="btn btn-solid" type="submit">
-            Log In
+            Login with OTP
           </button>
         </div>
 
         <div class="auth-note mt-3">
-          If you're not a registered user, please contact
-          <a class="a-link link-primary" href="mailto:support@gscmaven.com"
-            >support@gscmaven.com</a
+          New to Shiprocket?
+          <a routerLink="/signup" class="a-link link-primary fs-12 pointer ml-2"
+            >Sign Up Now</a
           >
         </div>
       </form>
+      <!-- OTP Screen  -->
+      <form
+        tabindex="-1"
+        [formGroup]="loginOTPForm"
+        *ngIf="showOtpForm"
+        (submit)="onOTPFormSubmit()"
+        class="auth-form mb-lg"
+      >
+        <div class="whiteBg" *ngIf="showOtpForm">
+          <div class="mx-auto mb-0 col-12">
+            <span class="fs-12px">
+              <a
+                class="text-blue"
+                href="javascript:void(0);"
+                (click)="backToLogin('phoneotp')"
+              >
+                <img
+                  class="w-12px"
+                  src="./assets/images/backbtn.png"
+                  alt="backimg"
+                />
+                Back
+              </a>
+            </span>
+
+            <h6
+              class="mt-md-3 mt-3 text-blackdark SFProDisplay-Semibold fs-20px fw-500"
+            >
+              OTP Verification
+            </h6>
+
+            <p class="mt-md-4 mb-1 lbl_st mt-3 SFProDisplay-Medium fs-12px">
+              Enter OTP sent to +91-<span>{{
+                ctrlByNameForMobile('mobile').value
+              }}</span>
+            </p>
+            <input type="hidden" formControlName="otp" />
+            <app-otp-input
+              class="digit-group"
+              (isvalid)="getOtpState($event)"
+              (values)="getOtpInputs($event)"
+            >
+            </app-otp-input>
+
+            <div class="mt-2 d-flex justify-content-between">
+              <p
+                *ngIf="!timerflag"
+                class="SFProDisplay-Regular fs-12px mb-3"
+                style="color: rgba(0, 0, 0, 0.6)"
+              >
+                Didn't Received OTP?
+                <a href="#" class="text-blue" (click)="generateOTP()">Resend</a>
+              </p>
+              <p
+                *ngIf="timerflag"
+                class="ml-auto fs-12px SFProDisplay-Regular mb-3"
+              >
+                <img
+                  src="./assets/images/timer.png"
+                  height="10"
+                  width="10"
+                  alt="Timer Logo"
+                />
+                00 :
+                {{ countdown < 10 ? '0' + countdown : countdown.toString() }}
+              </p>
+            </div>
+
+            <div
+              *ngIf="invalidOtpError"
+              class="alert alert-danger SFProDisplay-Regular"
+            >
+              {{ errorOtpMessage }}
+            </div>
+
+            <div class="d-grid gap-2 col-12 my-3">
+              <button
+                class="btn btn-solid h-40px"
+                type="submit"
+                [disabled]="
+                  !ctrlByNameForOTP('otp').value ||
+                  !ctrlByNameForOTP('otp').valid
+                "
+              >
+                Login with OTP
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
+      <!-- Common From Error  -->
+      <div class="row">
+        <div
+          *ngIf="formResponseErrorObj && formResponseErrorObj.message"
+          class="text-danger text-center pt-2 col-12"
+        >
+          {{ formResponseErrorObj.message }}
+        </div>
+      </div>
     </div>
+
     <div class="text-center mt-3 footer">
       <app-footer></app-footer>
     </div>
   </div>
 </div>
-
-<ng-template #emailError>
-  <div mat-dialog-title class="bg-info-subtle">
-    <span class="h4">Email Not Verified</span>
-    <button
-      type="button"
-      class="btn-close float-end mt-3"
-      aria-label="Close"
-      mat-dialog-close
-    ></button>
-  </div>
-  <div mat-dialog-content>
-    <p>
-      Your email has not been verified yet. Please click on the activation link
-      sent to your email or
-      <a
-        class="a-link"
-        href="javascript:void(0);"
-        (click)="resendActivationLink()"
-        >click here</a
-      >
-      to resend the activation link.
-    </p>
-  </div>
-  <div mat-dialog-actions class="justify-content-center mb-3">
-    <button cdkFocusInitial mat-stroked-button mat-dialog-close>OK</button>
-  </div>
-</ng-template>

@@ -1,4 +1,7 @@
-export const toggleEye = (el: HTMLInputElement) => {
+// import { HtmlTagDefinition } from '@angular/compiler';
+import { FormGroup } from '@angular/forms';
+
+export const toggleEye = (el: HTMLInputElement): void => {
   if (el.type === 'password') {
     el.type = 'text';
   } else {
@@ -6,6 +9,30 @@ export const toggleEye = (el: HTMLInputElement) => {
   }
 };
 
+export const focusOnFirstDigitInOTP = (): void => {
+  //  For focusing First digit Input box
+  setTimeout(() => {
+    const a = document.querySelectorAll('#digit-1');
+
+    a.forEach((element) => {
+      const node = element as HTMLInputElement;
+      node?.focus();
+      return true;
+    });
+  }, 300);
+};
+
+export const clearOTPForm = (): void => {
+  for (let i = 1; i < 7; i++) {
+    (<HTMLInputElement>document.getElementById('digit-' + i)).value = '';
+  }
+};
+
+export const onClearForm = (form: FormGroup): void => {
+  form.reset('');
+  form.markAsUntouched();
+  form.markAsPristine();
+};
 /**
  * To preload an asset before loading template
  * @param path Path to the asset
@@ -60,4 +87,9 @@ export function clearIntervals(key: string) {
     window.clearInterval(intervals.get(key));
     intervals.delete(key);
   }
+}
+
+export function verifyFileType(file: File, fileTypes: string[]) {
+  const extension = file.name.substring(file.name.lastIndexOf('.'));
+  return fileTypes.includes(file.type) || fileTypes.includes(extension);
 }

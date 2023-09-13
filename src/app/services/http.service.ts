@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+// import { AppConstants } from 'src/app/utils/config';
 
 type Tparam = string | number | boolean;
 type Theader = string | number | (string | number)[];
@@ -34,10 +35,10 @@ export class HttpService {
     return headers;
   }
 
-  requestToEndpoint<T>(endpoint: string, params = {}) {
+  requestToEndpoint<T>(endpoint: string, params = {}, headers?: HttpHeaders) {
     params = this.getQueryParam(params);
-    const url = `${window.location.origin}/api/auth${endpoint}`;
-    return this.httpClient.get(url, { params }) as Observable<T>;
+    const url = `${environment.API_SUBDOMAIN}/${endpoint}`;
+    return this.httpClient.get(url, { params, headers }) as Observable<T>;
   }
 
   postToEndpint<T>(
@@ -46,7 +47,9 @@ export class HttpService {
     params = {},
     headers?: HttpHeaders,
   ) {
-    const url = `${window.location.origin}/api/auth${endpoint}`;
+    const url = `${environment.API_SUBDOMAIN}/${endpoint}`;
+    // const url = `${window.location.origin}/api/auth${endpoint}`;
+
     params = this.getQueryParam(params);
     return this.httpClient.post(url, body, {
       params,
@@ -59,17 +62,24 @@ export class HttpService {
     return this.httpClient.delete(url) as Observable<T>;
   }
 
-  putToUrl<T>(url: string, body: unknown, params = {}, headers?: HttpHeaders) {
+  putToUrl<T>(
+    url: string,
+    body: unknown,
+    params = {},
+    headers?: HttpHeaders,
+    observe: 'body' | undefined = 'body',
+  ) {
     params = this.getQueryParam(params);
     return this.httpClient.put(url, body, {
       params,
       headers,
+      observe,
     }) as Observable<T>;
   }
 
-  requestByUrl<T>(url: string, params = {}) {
+  requestByUrl<T>(url: string, params = {}, headers?: HttpHeaders) {
     params = this.getQueryParam(params);
-    return this.httpClient.get(url, { params }) as Observable<T>;
+    return this.httpClient.get(url, { params, headers }) as Observable<T>;
   }
 
   postByUrl<T>(url: string, body: unknown, params = {}, headers?: HttpHeaders) {

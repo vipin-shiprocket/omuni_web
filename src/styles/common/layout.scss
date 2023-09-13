@@ -77,18 +77,17 @@
 
   &.open {
     width: 13rem;
+    & .menu:hover .side-nav-text,
+    .menu-expanding:hover .side-nav-text {
+      transition: color 0s !important;
+    }
   }
 
   &.close {
     width: 4.4rem;
 
-    .logo-main {
-      transition: opacity u.$sidebar-transition-time;
-      opacity: 0;
-    }
-
     .side-nav-text {
-      transition: color u.$sidebar-transition-time;
+      transition: color u.$sidebar-close-time;
       color: transparent !important;
     }
   }

@@ -1,321 +1,204 @@
 <div class="container-fluid auth-layout">
-  <div class="row auth">
-    <div class="text-center mt-5">
-      <img
-        ngSrc="./assets/images/logo-big.png"
-        alt="logo"
-        width="300"
-        height="60"
-        priority
-        class=""
-      />
-    </div>
-
-    <div
-      *ngIf="!showRegisterForm"
-      class="col-8 col-lg-5 auth-card text-center p-5 signup-success position-relative"
-    >
-      <mat-icon>check_circle_outline</mat-icon>
-      <h1 class="mb-3">
-        You have successfully registered
-        <br />
-        Thank you!
-      </h1>
-      <p class="text-muted">
-        You will receive a confirmation email shortly.
-        <br />
-        Take me to
-        <a class="a-link" routerLink="../login"> Login screen </a>
-      </p>
-      <hr />
-      <div class="text-black-50">Questions? Connect with us.</div>
-      <div class="text-black-50 auth-note">
-        Email Support:<a
-          class="fs-14 a-link opacity-100"
-          id="signupSuccessSupport"
-          href="mailto:support@gscmaven.com"
-          >support@gscmaven.com</a
-        >
+  <div class="container">
+    <div class="row auth">
+      <div class="tl-m tc-s mt-5">
+        <img
+          ngSrc="./assets/svg/srlogo.svg"
+          alt="logo"
+          width="200"
+          height="42"
+          fetchpriority="high"
+          class=""
+        />
       </div>
+
       <div
-        class="text-center position-absolute w-100 l-0"
-        style="bottom: -4rem"
+        class="col-md-6 col-lg-6 col-sm-9 col-xs-9 auth-card signup px-2rem order-m-2 order-s-1"
       >
+        <div class="panel-body">
+          <h3
+            class="text-center SFProDisplay-Semibold text-left text-blackdark fs-20px mt-2 mt-md-3 mb-4 font-weight-bold"
+          >
+            Get started with a free account
+          </h3>
+        </div>
+        <!--Small Screen Socail Media Icons -->
+        <div class="row d-flex d-md-none mt-15 justify-content-center">
+          <div class="col col-3 mb-2 text-center text-opacity-90">
+            <button
+              class="btn mb-1 btn-light rounded-5rem border bg-white fs-14px py-2"
+              (click)="registerWithGoogle()"
+            >
+              <img
+                class="w-20px"
+                src="./assets/images/google.png"
+                alt="google"
+                width="20px"
+                height="20px"
+              />
+            </button>
+            <br />
+            Google
+          </div>
+          <div class="col col-3 mb-2 text-opacity-90">
+            <button
+              class="btn mb-1 btn-light rounded-5rem border bg-white fs-14px py-2"
+              (click)="registerWithShopify()"
+            >
+              <img
+                class="w-20px"
+                src="./assets/images/shopify-sm.svg"
+                alt="Shopify"
+                width="20px"
+                height="20px"
+              />
+            </button>
+            <br />
+            Shopofy
+          </div>
+        </div>
+        <div class="socialMediaTabs">
+          <div class="row d-none d-md-flex mt-15 justify-content-center">
+            <div
+              class="col-md-6 col-xs-6 pr-sm col-6"
+              (click)="registerWithGoogle()"
+            >
+              <a class="btn btn-block btn-social btn-border">
+                <img
+                  class="w-20px mr-2"
+                  src="./assets/images/google.png"
+                  alt="google"
+                  width="20px"
+                  height="20px"
+                />
+                Google
+              </a>
+            </div>
+
+            <div
+              class="col-md-6 col-xs-6 pr-sm col-6"
+              (click)="registerWithShopify()"
+            >
+              <a class="btn btn-block btn-social btn-border">
+                <img
+                  class="w-20px"
+                  src="./assets/images/shopify-sm.svg"
+                  alt="Shopify"
+                  width="20px"
+                  height="20px"
+                />
+                Phone No
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- .. OR -->
+        <div class="text-center ptb-tenpx">
+          <p class="my-1 text-center fs-16px">
+            <span class="dashed-border mb-2px"> </span> or
+            <span class="dashed-border mb-2px"></span>
+          </p>
+        </div>
+
+        <form novalidate (submit)="onSignupFormSubmit()" class="row g-3">
+          <div class="col-xs-12 mb-3">
+            <div class="row mb-md-2">
+              <div class="col-xs col-md-12 col-lg-6">
+                <label for="firstName" class="form-label">First Name </label>
+                <input
+                  type="text"
+                  id="firstName"
+                  class="form-control"
+                  placeholder="First name"
+                  aria-label="First name"
+                />
+              </div>
+              <div class="col-xs col-md-12 col-lg-6">
+                <label for="lastName" class="form-label">Last Name </label>
+                <input
+                  type="text"
+                  id="lastName"
+                  class="form-control"
+                  placeholder="Last name"
+                  aria-label="Last name"
+                />
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </div>
+        </form>
+      </div>
+
+      <div
+        class="col-md-6 col-sm-12 d-flex flex-column justify-content-start order-m-1 order-s-2"
+      >
+        <div>
+          <h1
+            class="text-blackdark text-left fs-42px mt-4 sfprodisplay SFProDisplay-Bold mobfont-24"
+          >
+            <b> We Are More than Just a Shipping Partner</b>
+          </h1>
+          <ul
+            class="text-blackdark list-style-type-none font-16 mt-4 pl-0"
+            style="line-height: 35px"
+          >
+            <li>
+              <img
+                src="./assets/images/tickright.png"
+                alt="checkCircle"
+                width="20px"
+                height="20px"
+                class="w-20px me-3 mb-1"
+              />
+              <span class="SFProDisplay-Medium blck"
+                >AI-Powered Courier Selection</span
+              >
+            </li>
+            <li _ngcontent-sjc-c57="">
+              <img
+                _ngcontent-sjc-c57=""
+                src="/sr_login/assets/images/tickright.png"
+                alt="checkCircle"
+                width="20px"
+                height="20px"
+                class="w-20px mr-3 mb-1"
+              /><span _ngcontent-sjc-c57="" class="SFProDisplay-Medium blck"
+                >Branded Order Tracking Page</span
+              >
+            </li>
+            <li _ngcontent-sjc-c57="">
+              <img
+                _ngcontent-sjc-c57=""
+                src="/sr_login/assets/images/tickright.png"
+                alt="checkCircle"
+                width="20px"
+                height="20px"
+                class="w-20px mr-3 mb-1"
+              /><span _ngcontent-sjc-c57="" class="SFProDisplay-Medium blck"
+                >Automated NDR Management</span
+              >
+            </li>
+            <li _ngcontent-sjc-c57="">
+              <img
+                _ngcontent-sjc-c57=""
+                src="/sr_login/assets/images/tickright.png"
+                alt="checkCircle"
+                width="20px"
+                height="20px"
+                class="w-20px mr-3"
+              /><span _ngcontent-sjc-c57="" class="SFProDisplay-Medium blck"
+                >Up To 45% Lesser RTOs</span
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="text-center mt-3 footer">
         <app-footer></app-footer>
       </div>
-    </div>
-
-    <div
-      *ngIf="showRegisterForm"
-      class="col-10 col-md-8 col-lg-6 auth-card position-relative"
-    >
-      <form
-        tabindex="-1"
-        [formGroup]="userForm"
-        (keyup.enter)="registerCompanyDetails()"
-        (submit)="registerCompanyDetails()"
-        autocapitalize="off"
-        autocomplete="off"
-        class="auth-form"
-      >
-        <div class="auth-app__checkbox mb-3 fs-14">
-          <label class="cursor">
-            <input
-              formControlName="oms"
-              class="form-check-input me-2"
-              type="checkbox"
-            />
-            OMS
-          </label>
-          <label class="cursor">
-            <input
-              formControlName="fms"
-              class="form-check-input ms-3 me-2"
-              type="checkbox"
-            />
-            FMS
-          </label>
-        </div>
-        <div class="row">
-          <div class="col-md-6 mb-3">
-            <label for="company" class="form-label required"
-              >Company Name</label
-            >
-            <input
-              type="text"
-              class="form-control"
-              [ngClass]="{
-                'is-invalid':
-                  ctrlByName('company').invalid && ctrlByName('company').dirty
-              }"
-              formControlName="company"
-              id="company"
-              placeholder="Enter company name"
-            />
-            <div
-              *ngIf="ctrlByName('company').hasError('required')"
-              class="invalid-feedback"
-            >
-              Company name is required
-            </div>
-          </div>
-          <div class="col-md-6 mb-3">
-            <label for="domain" class="form-label required">Domain</label>
-            <input
-              type="text"
-              class="form-control"
-              [ngClass]="{
-                'is-invalid':
-                  ctrlByName('domain').invalid && ctrlByName('domain').dirty
-              }"
-              formControlName="domain"
-              id="domain"
-              placeholder="Enter domain"
-            />
-            <div
-              *ngIf="ctrlByName('domain').hasError('required')"
-              class="invalid-feedback"
-            >
-              Domain name is required
-            </div>
-          </div>
-          <div class="col-md-6 mb-3">
-            <label for="email" class="form-label required">Email ID</label>
-            <input
-              type="email"
-              class="form-control"
-              [ngClass]="{
-                'is-invalid':
-                  ctrlByName('email').invalid && ctrlByName('email').dirty
-              }"
-              formControlName="email"
-              autocomplete="new-password"
-              id="email"
-              placeholder="Enter email id"
-            />
-            <div
-              *ngIf="ctrlByName('email').hasError('required')"
-              class="invalid-feedback"
-            >
-              Email ID is required
-            </div>
-            <div
-              *ngIf="ctrlByName('email').hasError('email')"
-              class="invalid-feedback"
-            >
-              Email ID is invalid
-            </div>
-          </div>
-          <div class="col-md-6 mb-3">
-            <label for="phone" class="form-label required">Mobile Number</label>
-            <input
-              type="tel"
-              maxlength="10"
-              class="form-control"
-              [ngClass]="{
-                'is-invalid':
-                  ctrlByName('phone').invalid && ctrlByName('phone').dirty
-              }"
-              formControlName="phone"
-              id="phone"
-              placeholder="Enter mobile number"
-            />
-            <div
-              *ngIf="ctrlByName('phone').hasError('required')"
-              class="invalid-feedback"
-            >
-              Phone is required
-            </div>
-            <div
-              *ngIf="ctrlByName('phone').hasError('pattern')"
-              class="invalid-feedback"
-            >
-              Should have only numbers
-            </div>
-            <div
-              *ngIf="ctrlByName('phone').hasError('minlength')"
-              class="invalid-feedback"
-            >
-              Should be 10 digits
-            </div>
-          </div>
-          <div class="col-md-6 mb-3">
-            <label for="fname" class="form-label required">First Name</label>
-            <input
-              type="text"
-              class="form-control"
-              [ngClass]="{
-                'is-invalid':
-                  ctrlByName('fname').invalid && ctrlByName('fname').dirty
-              }"
-              formControlName="fname"
-              id="fname"
-              placeholder="Enter first name"
-            />
-            <div
-              *ngIf="ctrlByName('fname').hasError('required')"
-              class="invalid-feedback"
-            >
-              First name is required
-            </div>
-          </div>
-          <div class="col-md-6 mb-3">
-            <label for="lname" class="form-label required">Last Name</label>
-            <input
-              type="text"
-              class="form-control"
-              [ngClass]="{
-                'is-invalid':
-                  ctrlByName('lname').invalid && ctrlByName('lname').dirty
-              }"
-              formControlName="lname"
-              id="lname"
-              placeholder="Enter last name"
-            />
-            <div
-              *ngIf="ctrlByName('lname').hasError('required')"
-              class="invalid-feedback"
-            >
-              Last name is required
-            </div>
-          </div>
-          <div class="col-md-6 mb-3">
-            <label for="password" class="form-label required">Password</label>
-            <input
-              type="password"
-              class="form-control"
-              [ngClass]="{
-                'is-invalid':
-                  ctrlByName('password').invalid && ctrlByName('password').dirty
-              }"
-              formControlName="password"
-              id="password"
-              autocomplete="new-password"
-              placeholder="Enter password"
-            />
-            <div
-              *ngIf="ctrlByName('password').hasError('required')"
-              class="invalid-feedback"
-            >
-              Password is required
-            </div>
-            <div
-              *ngIf="ctrlByName('password').hasError('minlength')"
-              class="invalid-feedback"
-            >
-              Password must be at least 8 characters long
-            </div>
-            <div
-              *ngIf="ctrlByName('password').hasError('pattern')"
-              class="invalid-feedback"
-            >
-              Password should contain one letter,one character and one special
-              character
-            </div>
-          </div>
-          <div class="col-md-6 mb-3">
-            <label for="confirmPassword" class="form-label required"
-              >Confirm Password</label
-            >
-            <input
-              type="password"
-              class="form-control"
-              [ngClass]="{
-                'is-invalid':
-                  ctrlByName('confirmPassword').invalid &&
-                  ctrlByName('confirmPassword').dirty
-              }"
-              formControlName="confirmPassword"
-              id="confirmPassword"
-              autocomplete="new-password"
-              placeholder="Enter Confirm Password"
-            />
-            <div
-              *ngIf="ctrlByName('confirmPassword').hasError('required')"
-              class="invalid-feedback"
-            >
-              Confirm Password is required
-            </div>
-            <div
-              *ngIf="ctrlByName('confirmPassword').hasError('mismatch')"
-              class="invalid-feedback"
-            >
-              Please re-enter the password, your passwords don't match
-            </div>
-          </div>
-        </div>
-
-        <div class="mb-3 auth-ack text-start">
-          <label class="cursor fs-12">
-            <input
-              formControlName="iAgree"
-              [ngClass]="{
-                'is-invalid':
-                  ctrlByName('iAgree').invalid && ctrlByName('iAgree').dirty
-              }"
-              class="form-check-input me-2 is-invalid"
-              type="checkbox"
-            />
-            I acknowledge that I have read and agree to the
-            <a class="a-link link-primary">Terms of Service</a>
-            and
-            <a class="a-link link-primary">Privacy Policy</a>
-            <div class="invalid-feedback">Required field</div>
-          </label>
-        </div>
-
-        <div class="d-grid gap-2">
-          <button class="btn btn-solid" type="submit">Register</button>
-        </div>
-
-        <div class="auth-note mt-3">
-          if you already a registerd user
-          <a routerLink="/login" class="a-link fs-14">Login</a>
-        </div>
-      </form>
-    </div>
-    <div class="text-center footer my-3">
-      <app-footer></app-footer>
     </div>
   </div>
 </div>

@@ -19,6 +19,7 @@
   --icon-stroke: #{u.$primary3};
   --down-arrow: rgba(0, 0, 0, 0.87);
   .side-nav-text {
+    transition: color u.$sidebar-open-time;
     color: black;
   }
 }
@@ -75,6 +76,7 @@
 }
 
 .side-nav-text {
+  transition: color u.$sidebar-open-time;
   color: #fff;
 }
 
@@ -89,6 +91,7 @@
   .mat-expansion-indicator {
     margin-bottom: 0.5em;
     &::after {
+      transition: color u.$sidebar-open-time;
       color: var(--down-arrow);
     }
   }
@@ -101,6 +104,11 @@
       margin-right: -1em;
     }
   }
+}
+
+::ng-deep .close .mat-expansion-indicator::after {
+  transition: color u.$sidebar-close-time;
+  color: transparent;
 }
 
 .sub-menu {

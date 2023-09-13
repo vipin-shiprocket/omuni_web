@@ -4,25 +4,26 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class LocalStorageService {
-  prefix = 'ngStorage-';
+  // prefix = 'ngStorage-';
 
-  set(key: string, value: string, prefix?: string) {
-    this.prefix = prefix ?? this.prefix;
-    localStorage.setItem(`${this.prefix}${key}`, value);
+  set(key: string, value: string) {
+    // this.prefix = prefix ?? this.prefix;
+    localStorage.setItem(key, value);
   }
 
-  get(key: string, prefix?: string) {
-    this.prefix = prefix ?? this.prefix;
-    return localStorage.getItem(`${this.prefix}${key}`);
+  get(key: string) {
+    // this.prefix = prefix ?? this.prefix;
+    return localStorage.getItem(key);
   }
 
   clear() {
     localStorage.clear();
   }
 
-  remove(key: string, prefix?: string) {
-    this.prefix = prefix ?? this.prefix;
-    localStorage.removeItem(`${this.prefix}${key}`);
+  remove(key: string) {
+    // this.prefix = prefix ?? this.prefix;
+    localStorage.removeItem(key);
+    // localStorage.removeItem(`${this.prefix}${key}`);
   }
 
   len() {
