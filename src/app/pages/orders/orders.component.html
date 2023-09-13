@@ -50,10 +50,36 @@
       <button class="btn more-filter-btn">
         <img src="src/assets/svg/download.svg" height="18" width="18" alt="" />
       </button>
-      <button style="width: 168px" class="btn more-filter-btn me-0">
-        Select Bulk Action
-        <mat-icon class="ms-auto">expand_more</mat-icon>
-      </button>
+      <div class="dropdown d-inline mt-2">
+        <button
+          style="width: 168px"
+          class="btn more-filter-btn me-0"
+          type="button"
+          data-bs-toggle="dropdown"
+          data-bs-offset="5,5"
+          aria-expanded="false"
+        >
+          Select Bulk Action
+          <mat-icon class="ms-auto">expand_more</mat-icon>
+        </button>
+
+        <ul class="dropdown-menu bulk-actions-dropd">
+          <li>
+            <button class="dropdown-item" type="button">QC Verify</button>
+          </li>
+          <li>
+            <button class="dropdown-item" type="button">Pack</button>
+          </li>
+          <li>
+            <button class="dropdown-item" type="button">
+              Generate Manifest
+            </button>
+          </li>
+          <li>
+            <button class="dropdown-item" type="button">Handover</button>
+          </li>
+        </ul>
+      </div>
     </span>
     <app-filters [filtersData]="filtersData" />
   </div>
@@ -144,7 +170,10 @@
             "
           >
             View Packages
-            <mat-icon>expand_more</mat-icon>
+            <mat-icon
+              [ngClass]="row === expandedElement ? 'rotate-180' : 'rotate-0'"
+              >expand_more</mat-icon
+            >
           </a>
         </cdk-cell>
       </ng-container>
@@ -210,9 +239,51 @@
         </cdk-header-cell>
         <cdk-cell *cdkCellDef="let row" class="actions-section">
           <button class="btn btn-solid_sm me-2">CTA</button>
-          <button class="btn btn-sm more_btn">
-            <mat-icon>more_vert</mat-icon>
-          </button>
+          <div class="dropdown d-inline">
+            <button
+              class="btn btn-sm more_btn"
+              data-bs-toggle="dropdown"
+              data-bs-offset="5,5"
+              aria-expanded="false"
+            >
+              <mat-icon>more_vert</mat-icon>
+            </button>
+
+            <ul class="dropdown-menu bulk-actions-dropd">
+              <li>
+                <button class="dropdown-item" type="button">
+                  Download Invoice
+                </button>
+              </li>
+              <li>
+                <button class="dropdown-item" type="button">Edit Order</button>
+              </li>
+              <li><hr class="dropdown-divider" /></li>
+              <li><h6 class="dropdown-header fs-12">VERIFY ORDER</h6></li>
+              <li>
+                <button class="dropdown-item" type="button">Call Buyer</button>
+              </li>
+              <li>
+                <button class="dropdown-item" type="button">
+                  Mark Verified
+                </button>
+              </li>
+              <li><hr class="dropdown-divider" /></li>
+              <li>
+                <button class="dropdown-item" type="button">
+                  Add Order Tag
+                </button>
+              </li>
+              <li>
+                <button class="dropdown-item" type="button">Clone Order</button>
+              </li>
+              <li>
+                <button class="dropdown-item text-danger" type="button">
+                  Cancel Order
+                </button>
+              </li>
+            </ul>
+          </div>
         </cdk-cell>
       </ng-container>
 
@@ -225,10 +296,34 @@
             class="d-flex overflow-hidden"
             [@detailExpand]="row === expandedElement ? 'expanded' : 'collapsed'"
           >
-            <div>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga,
-              minus ratione harum officiis eum porro odio a sequi saepe autem
-              impedit magnam, rem quia quas vitae vero laborum, odit sed?
+            <div class="child-table">
+              <div class="child-table-header">
+                <div class="child-table-cell">Name</div>
+                <div class="child-table-cell">HSN</div>
+                <div class="child-table-cell">SKU</div>
+                <div class="child-table-cell">Qty</div>
+                <div class="child-table-cell">Unit Price</div>
+                <div class="child-table-cell">Total</div>
+              </div>
+
+              <ng-container *ngFor="let product of row.products; let i = index">
+                <div class="child-table-row">
+                  <div class="child-table-cell">{{ product.name }}</div>
+                  <div class="child-table-cell">{{ product.hsn }}</div>
+                  <div class="child-table-cell">{{ product.sku }}</div>
+                  <div class="child-table-cell">{{ product.quantity }}</div>
+                  <div class="child-table-cell">
+                    &#x20B9; {{ product.selling_price }}
+                  </div>
+                  <div class="child-table-cell">
+                    &#x20B9; {{ product.discount_including_tax }}
+                  </div>
+                </div>
+                <hr
+                  class="my-0 mx-3 text-black-50"
+                  *ngIf="i < row.products?.length - 1"
+                />
+              </ng-container>
             </div>
           </div>
         </cdk-cell>

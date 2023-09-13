@@ -10,6 +10,7 @@ import {
   TemplateRef,
   ViewChild,
   ViewContainerRef,
+  signal,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IOption, O2SelectModules } from './o2-select.model';
@@ -53,6 +54,7 @@ export class O2SelectComponent implements ControlValueAccessor, OnDestroy {
   @Input() clearBtn = true;
   @Input() className = '';
   overlayRef!: OverlayRef;
+  isOpened = signal(false);
   @Input() set values(value: SELECT_VALUE_TYPE) {
     if (value) {
       this.selectedValues = value;
@@ -170,11 +172,13 @@ export class O2SelectComponent implements ControlValueAccessor, OnDestroy {
         new TemplatePortal(this.portal, this._viewContainerRef),
       );
       this.syncWidth();
-      this.subs.sink = this.overlayRef.backdropClick().subscribe(() => {
+      this.isOpened.set(true);
+
+      const overlaySubs = this.overlayRef.backdropClick().subscribe(() => {
         this.overlayRef.dispose();
+        this.isOpened.set(false);
+        overlaySubs.unsubscribe();
       });
-    } else {
-      this.overlayRef.dispose();
     }
   }
 

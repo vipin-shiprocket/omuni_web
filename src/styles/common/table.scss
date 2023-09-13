@@ -54,6 +54,7 @@
   .cdk-header-row {
     margin-bottom: 1rem;
     font-weight: 500;
+    box-shadow: 0 3px 3px rgba(0, 0, 0, 0.102);
   }
 
   .expand-row {
@@ -93,5 +94,50 @@
   .cdk-header-cell:last-child {
     border-top-right-radius: u.rem(8);
     border-bottom-right-radius: u.rem(8);
+  }
+}
+
+.child-table {
+  width: 100%;
+  background-color: u.$bg-color;
+  margin-bottom: 1rem;
+  padding: 1rem;
+  border-radius: u.rem(6);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+
+  &-header,
+  &-row {
+    display: flex;
+    background-color: #fff;
+  }
+
+  &-header {
+    padding-inline: 1rem;
+    margin-bottom: 0.8rem;
+    border-radius: u.rem(6);
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.102);
+  }
+
+  & &-row:first-of-type {
+    background-color: azure;
+  }
+
+  &-row {
+    padding-inline: 1rem;
+
+    &:first-of-type {
+      border-top-left-radius: u.rem(6);
+      border-top-right-radius: u.rem(6);
+    }
+
+    &:last-of-type {
+      border-bottom-left-radius: u.rem(6);
+      border-bottom-right-radius: u.rem(6);
+    }
+  }
+
+  &-cell {
+    flex: 1;
+    padding: 0.5rem;
   }
 }
