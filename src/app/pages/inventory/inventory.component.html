@@ -7,68 +7,7 @@
     <div class="flex-grow-1"></div>
   </div>
 
-  <div class="rounded bg-secondary-subtle d-flex align-items-center">
-    <div class="card m-3" style="max-width: 540px">
-      <div class="row g-0">
-        <div class="col-md-4">
-          <img src="..." class="img-fluid rounded-start" alt="..." />
-        </div>
-        <div class="col-md-8">
-          <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <p class="card-text">
-              This is a wider card with supporting text below as a natural
-              lead-in to additional content. This content is a little bit
-              longer.
-            </p>
-            <p class="card-text">
-              <small class="text-body-secondary">Last updated 3 mins ago</small>
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="card m-3" style="max-width: 540px">
-      <div class="row g-0">
-        <div class="col-md-4">
-          <img src="..." class="img-fluid rounded-start" alt="..." />
-        </div>
-        <div class="col-md-8">
-          <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <p class="card-text">
-              This is a wider card with supporting text below as a natural
-              lead-in to additional content. This content is a little bit
-              longer.
-            </p>
-            <p class="card-text">
-              <small class="text-body-secondary">Last updated 3 mins ago</small>
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="card m-3" style="max-width: 540px">
-      <div class="row g-0">
-        <div class="col-md-4">
-          <img src="..." class="img-fluid rounded-start" alt="..." />
-        </div>
-        <div class="col-md-8">
-          <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <p class="card-text">
-              This is a wider card with supporting text below as a natural
-              lead-in to additional content. This content is a little bit
-              longer.
-            </p>
-            <p class="card-text">
-              <small class="text-body-secondary">Last updated 3 mins ago</small>
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+  <ng-container [ngTemplateOutlet]="analytics"></ng-container>
 
   <nav class="navbar mb-3" *ngIf="tabs.length">
     <ng-container *ngFor="let tab of tabs; let i = index">
@@ -98,6 +37,42 @@
     </ng-container>
   </nav>
 </div>
+
+<ng-template #analytics>
+  <div class="rounded bg-secondary-subtle row pe-3 mx-0">
+    <div
+      class="card my-3 col flex-shrink-0 ms-3"
+      *ngFor="let item of analyticsStructure"
+    >
+      <div class="row g-0">
+        <div
+          class="col-4 px-3 d-flex align-items-center justify-content-between"
+        >
+          <img
+            class="img-fluid rounded-start"
+            [ngSrc]="item.image"
+            width="46"
+            height="46"
+            [alt]="item.name"
+          />
+        </div>
+        <div class="col-8">
+          <div class="card-body">
+            <h5 class="card-title">{{ item.name }}</h5>
+            <ng-container *ngIf="(analyticsResponse$ | async) === null">
+              <div class="placeholder-glow">
+                <h4 class="placeholder col-4">.</h4>
+              </div>
+            </ng-container>
+            <ng-container *ngIf="analyticsResponse$ | async as resp">
+              <h4>{{ resp[item.key].amount }}</h4>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
 
 <!-- bulk upload -->
 <!-- <form

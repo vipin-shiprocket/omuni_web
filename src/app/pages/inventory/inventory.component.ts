@@ -1,14 +1,14 @@
 import { Component, OnDestroy, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { InventoryService } from './inventory.service';
 import { checkWindowWidth, verifyFileType } from 'src/app/utils/utils';
 import { ToastrService } from 'ngx-toastr';
 import { SubSink } from 'subsink';
-import { ErrorResponse, InventoryTabs } from './inventory.model';
+import { ErrorResponse, InventoryTabs, analytics } from './inventory.model';
 import { O2SelectComponent } from 'src/app/components/o2-select/o2-select.component';
 import { IOption } from 'src/app/components/chip-selectbox/chip-selectbox.model';
 import { FormsModule, NgForm } from '@angular/forms';
-import { switchMap } from 'rxjs';
+import { Observable, switchMap } from 'rxjs';
 import { ITab } from 'src/app/components/index-filters/index-filters.model';
 import { GlobalSearchComponent } from 'src/app/components/global-search/global-search.component';
 
@@ -19,6 +19,7 @@ import { GlobalSearchComponent } from 'src/app/components/global-search/global-s
     CommonModule,
     FormsModule,
     GlobalSearchComponent,
+    NgOptimizedImage,
     O2SelectComponent,
   ],
   templateUrl: './inventory.component.html',
@@ -30,14 +31,39 @@ export class InventoryComponent implements OnDestroy {
     { display: 'Delta', value: 'DELTA' },
   ];
   activeTabIdx = 0;
+  analyticsStructure = analytics;
   tabs: ITab[] = InventoryTabs;
   selectedFileInput!: EventTarget | null;
   selectedOption!: string[];
+  private _analyticsResponse$?: Observable<
+    Record<
+      string,
+      {
+        amount: number;
+        direction: string;
+      }
+    >
+  >;
   private inventoryService = inject(InventoryService);
   private toast = inject(ToastrService);
   private subs = new SubSink();
   fileTypes =
     '.csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel';
+
+  get analyticsResponse$(): Observable<
+    Record<
+      string,
+      {
+        amount: number;
+        direction: string;
+      }
+    >
+  > {
+    if (!this._analyticsResponse$) {
+      this._analyticsResponse$ = this.inventoryService.getAnalytics();
+    }
+    return this._analyticsResponse$;
+  }
 
   get getOption() {
     return this.selectedOption[0];
