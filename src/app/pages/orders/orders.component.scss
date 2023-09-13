@@ -123,3 +123,15 @@
     pointer-events: none;
   }
 }
+
+.bulk-actions-dropd {
+  font-size: u.rem(12);
+
+  button {
+    &:focus,
+    &:hover {
+      background-color: u.$color11;
+      color: u.$primary1;
+    }
+  }
+}
