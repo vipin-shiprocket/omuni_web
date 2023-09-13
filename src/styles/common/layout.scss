@@ -77,6 +77,10 @@
 
   &.open {
     width: 13rem;
+    & .menu:hover .side-nav-text,
+    .menu-expanding:hover .side-nav-text {
+      transition: color 0s !important;
+    }
   }
 
   &.close {

@@ -8,7 +8,7 @@ export interface UserPreferences {
 }
 
 const temp: UserPreferences = {
-  sidebarItems: ['orders', 'inventory', 'catalog', 'settings'],
+  sidebarItems: ['orders', 'catalog', 'inventory', 'settings'],
 };
 
 @Injectable({

@@ -112,12 +112,8 @@
           [ngClass]="{ active: checkChildRoute(child.route) }"
         >
           <div
-            class="side-nav-text d-flex align-content-center justify-content-start align-items-center"
+            class="side-nav-text d-flex align-content-center justify-content-start align-items-center ps-3"
           >
-            <mat-icon
-              [svgIcon]="child.iconName"
-              class="d-flex overflow-visible mx-2"
-            ></mat-icon>
             <span>{{ child.displayName }}</span>
           </div>
         </mat-list-item>
