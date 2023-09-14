@@ -13,6 +13,7 @@ import {
   TemplateRef,
   ViewChild,
   ViewContainerRef,
+  signal,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
@@ -100,6 +101,7 @@ export class O2DaterangeComponent
     }
     return '';
   };
+  isOpened = signal(false);
 
   constructor(
     private overlay: Overlay,
@@ -255,6 +257,13 @@ export class O2DaterangeComponent
           overlayY: 'bottom',
           offsetY: -6,
         },
+        {
+          originX: 'end',
+          originY: 'top',
+          overlayX: 'end',
+          overlayY: 'top',
+          offsetY: -6,
+        },
       ]);
 
     const scrollStrategy = this.overlay.scrollStrategies.reposition();
@@ -274,11 +283,12 @@ export class O2DaterangeComponent
         new TemplatePortal(this.portal, this._viewContainerRef),
       );
 
-      this.overlayRef.backdropClick().subscribe(() => {
+      this.isOpened.set(true);
+      const overlaySubs = this.overlayRef.backdropClick().subscribe(() => {
         this.overlayRef.dispose();
+        overlaySubs.unsubscribe();
+        this.isOpened.set(false);
       });
-    } else {
-      this.overlayRef.dispose();
     }
   }
 

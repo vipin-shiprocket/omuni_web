@@ -104,18 +104,18 @@ export class OrdersComponent implements OnInit, AfterViewInit, OnDestroy {
 
   getOrderFilters() {
     this.subs.sink = of('filters are coming').subscribe(() => {
-      FiltersData['statuses'].data = [
+      FiltersData['paymentTypes'].data = [
         {
           value: 'all',
           display: 'All',
         },
         {
-          value: 1,
-          display: 'New',
+          value: 'cod',
+          display: 'Cash on Delivery',
         },
         {
-          value: 2,
-          display: 'Invoiced',
+          value: 'prepaid',
+          display: 'Prepaid',
         },
       ];
       this.filtersData = FiltersData;

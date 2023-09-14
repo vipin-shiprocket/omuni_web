@@ -55,10 +55,7 @@
               let i = index
             "
           >
-            <ng-container
-              [formGroupName]="i"
-              *ngIf="filter.placement !== 'out'"
-            >
+            <ng-container [formGroupName]="i">
               <section class="mb-3" *ngIf="filter.type === 'radio'">
                 <h5 class="fw-bold text-capitalize mb-2">
                   {{ filter?.label }}
