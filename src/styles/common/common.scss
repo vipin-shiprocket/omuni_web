@@ -398,6 +398,9 @@ img {
   /* width */
   &::-webkit-scrollbar {
     width: u.rem(5);
+    @media screen and (min-width: 768px) {
+      width: u.rem(8);
+    }
   }
 
   /* Track */

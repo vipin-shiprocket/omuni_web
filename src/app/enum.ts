@@ -14,4 +14,5 @@ export enum SvgEnum {
   logoSmall = 'logo-sm',
   close = 'cross_light',
   search = 'search',
+  upload = 'upload',
 }

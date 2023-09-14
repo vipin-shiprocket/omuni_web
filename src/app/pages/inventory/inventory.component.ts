@@ -1,46 +1,62 @@
-import { Component, OnDestroy, inject } from '@angular/core';
-import { CommonModule, NgOptimizedImage } from '@angular/common';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { InventoryService } from './inventory.service';
 import { checkWindowWidth, verifyFileType } from 'src/app/utils/utils';
 import { ToastrService } from 'ngx-toastr';
 import { SubSink } from 'subsink';
-import { ErrorResponse, InventoryTabs, analytics } from './inventory.model';
-import { O2SelectComponent } from 'src/app/components/o2-select/o2-select.component';
+import {
+  ErrorResponse,
+  FiltersData,
+  InventoryColumns,
+  InventoryModules,
+  RESP,
+  TablePlaceholder,
+  analytics,
+} from './inventory.model';
 import { IOption } from 'src/app/components/chip-selectbox/chip-selectbox.model';
-import { FormsModule, NgForm } from '@angular/forms';
-import { Observable, switchMap } from 'rxjs';
+import { NgForm } from '@angular/forms';
+import { Observable, delay, of, switchMap } from 'rxjs';
 import { ITab } from 'src/app/components/index-filters/index-filters.model';
-import { GlobalSearchComponent } from 'src/app/components/global-search/global-search.component';
+import { PageEvent } from '@angular/material/paginator';
+import { IPaginationData } from 'src/app/components/index-table/index-table.model';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-inventory',
   standalone: true,
-  imports: [
-    CommonModule,
-    FormsModule,
-    GlobalSearchComponent,
-    NgOptimizedImage,
-    O2SelectComponent,
-  ],
+  imports: InventoryModules,
   templateUrl: './inventory.component.html',
   styleUrls: ['./inventory.component.scss'],
 })
-export class InventoryComponent implements OnDestroy {
+export class InventoryComponent implements OnInit, OnDestroy {
   fileOptions: IOption[] = [
     { display: 'Reset', value: 'RESET' },
     { display: 'Delta', value: 'DELTA' },
   ];
   activeTabIdx = 0;
   analyticsStructure = analytics;
-  tabs: ITab[] = InventoryTabs;
+  columns = InventoryColumns;
+  columnsToDisplay = [...this.getColumnArrangement()];
+  defaultValues = FiltersData.map((a) => a.value);
+  filtersData = FiltersData;
+  dataSource: MatTableDataSource<never[]> = new MatTableDataSource(
+    TablePlaceholder,
+  );
+  pagination: IPaginationData = {
+    pageSizeOptions: [25, 50, 100],
+    length: 5,
+    pageSize: 25,
+    currentPage: 0,
+  };
   selectedFileInput!: EventTarget | null;
   selectedOption!: string[];
+  tabs: ITab[] = [];
   private _analyticsResponse$?: Observable<
     Record<
       string,
       {
         amount: number;
         direction: string;
+        percentage: number;
       }
     >
   >;
@@ -56,6 +72,7 @@ export class InventoryComponent implements OnDestroy {
       {
         amount: number;
         direction: string;
+        percentage: number;
       }
     >
   > {
@@ -78,14 +95,46 @@ export class InventoryComponent implements OnDestroy {
     return checkWindowWidth();
   }
 
+  ngOnInit(): void {
+    this.getInventoryData();
+    this.addDropdownAttrFlag(0);
+  }
+
   getInventoryData() {
-    return;
+    this.subs.sink = of(RESP)
+      .pipe(delay(2000))
+      .subscribe((data) => {
+        this.dataSource.data = data.data as never;
+        this.pagination = {
+          ...this.pagination,
+          length: data.meta.pagination.total,
+          pageSize: +data.meta.pagination.per_page,
+          currentPage: data.meta.pagination.current_page,
+        };
+      });
   }
 
   addDropdownAttrFlag(tabIndex: number) {
     this.tabs.forEach((tab, i) => {
       tab.dropdown = tabIndex === i;
     });
+  }
+
+  getColumnArrangement() {
+    return this.columns
+      .filter((d) => d.visible)
+      .map((d) => d.name)
+      .slice();
+  }
+
+  handlePageEvent(event: PageEvent) {
+    console.log(event);
+
+    return;
+  }
+
+  isEmpty(obj: object) {
+    return Object.keys(obj).length === 0 && obj.constructor === Object;
   }
 
   onTabClick(tabIdx: number) {
