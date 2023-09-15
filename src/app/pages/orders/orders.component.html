@@ -25,14 +25,15 @@
           class="nav-link d-inline-flex"
           [attr.data-bs-toggle]="tab.dropdown ? 'dropdown' : null"
           [ngClass]="{
-            'active dropdown-toggle': tabs[activeTabIdx].name === tab['name']
+            active: tabs[activeTabIdx].name === tab['name'],
+            'dropdown-toggle': tab.isCustom
           }"
           (click)="onTabClick(i)"
           (keyup)="onTabClick(i)"
         >
           {{ tab['name'] }}
         </button>
-        <ul class="dropdown-menu">
+        <ul class="dropdown-menu bulk-actions-dropd">
           <li>
             <button class="dropdown-item">Rename view</button>
           </li>
@@ -43,6 +44,16 @@
         </ul>
       </div>
     </ng-container>
+    <div class="nav-item">
+      <button
+        tabindex="-1"
+        class="nav-link d-inline-flex"
+        title="Add new"
+        (click)="openUpdateTabDialog('add')"
+      >
+        <mat-icon>add</mat-icon>
+      </button>
+    </div>
   </nav>
 
   <div class="my-4 position-relative">
@@ -353,3 +364,53 @@
     ></mat-paginator>
   </div>
 </div>
+
+<ng-template #updateTabTemplate let-data>
+  <h1 mat-dialog-title class="h2 d-flex align-items-center mt-2 pb-0">
+    {{ data.title }}
+    <small role="button" mat-dialog-close class="btn-close ms-auto"></small>
+  </h1>
+  <div mat-dialog-content class="pb-0">
+    <div class="mb-3" *ngIf="!['delete'].includes(data.context)">
+      <label for="name" class="form-label"
+        >Name
+        <span *ngIf="data.context === 'add'">({{ tabLen + 1 }}/5)</span></label
+      >
+      <input
+        type="text"
+        [(ngModel)]="data.tab.name"
+        class="form-control"
+        autocomplete="new-password"
+        (ngModelChange)="onUpdateTabName($event)"
+        id="name"
+      />
+    </div>
+    <div class="my-3" *ngIf="['delete'].includes(data.context)">
+      This can’t be undone. {{ data.tab.name }} view will no longer be available
+      in your admin.
+    </div>
+  </div>
+  <div mat-dialog-actions class="justify-content-center mb-3">
+    <button class="btn btn-outlined me-3" mat-dialog-close>Cancel</button>
+    <button
+      class="btn btn-solid"
+      [disabled]="
+        !data.tab.name?.length ||
+        (data.context === 'add' && tabLen > 4) ||
+        isDuplicateName()
+      "
+      [mat-dialog-close]="data.tab"
+      *ngIf="!['delete'].includes(data.context)"
+    >
+      Save
+    </button>
+    <button
+      mat-button
+      mat-dialog-close="delete"
+      *ngIf="['delete'].includes(data.context)"
+      class="text-white bg-danger"
+    >
+      Delete
+    </button>
+  </div>
+</ng-template>

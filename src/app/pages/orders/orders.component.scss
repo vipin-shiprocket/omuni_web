@@ -135,3 +135,15 @@
     }
   }
 }
+
+::ng-deep .update-tab-container {
+  width: 35vw;
+
+  .mat-mdc-dialog-surface {
+    border-radius: 1rem !important;
+  }
+
+  .mdc-dialog__actions button {
+    width: 7rem;
+  }
+}

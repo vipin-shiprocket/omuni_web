@@ -8,6 +8,7 @@ import { FiltersComponent } from 'src/app/components/filters/filters.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
 import { NgOptimizedImage } from '@angular/common';
+import { MatDialogModule } from '@angular/material/dialog';
 
 export const OrdersModules = [
   CdkTableModule,
@@ -19,6 +20,7 @@ export const OrdersModules = [
   MatButtonModule,
   MatMenuModule,
   NgOptimizedImage,
+  MatDialogModule,
 ];
 
 export const OrderColumns = [
@@ -33,48 +35,42 @@ export const OrderColumns = [
   { name: 'Actions', canHide: true, visible: true },
 ];
 
+export interface ITab {
+  name: string;
+  filters: Record<string, string | (string | number | boolean)[]>;
+  isCustom?: boolean;
+  // columns?: string[];
+  dropdown?: boolean;
+}
+
 export const OrderTabs = [
   {
     name: 'All',
     filters: {},
-    canUpdate: false,
-    columns: ['select', 'name', 'weight', 'symbol', 'position'],
   },
   {
     name: 'Unfulfillable',
     filters: { statuses: [1], query: 'h' },
-    canUpdate: true,
-    columns: ['select', 'name', 'position'],
   },
   {
     name: 'Unverified',
     filters: {},
-    canUpdate: true,
-    columns: ['select', 'name', 'weight', 'position'],
   },
   {
     name: 'Fulfillable',
     filters: {},
-    canUpdate: true,
-    columns: ['select', 'name', 'symbol', 'position'],
   },
   {
     name: 'Invoiced',
     filters: {},
-    canUpdate: true,
-    columns: ['select', 'name', 'weight', 'symbol'],
   },
   {
     name: 'Manifested',
     filters: {},
-    canUpdate: true,
-    columns: ['select', 'weight', 'symbol', 'position'],
   },
   {
     name: 'Returns',
     filters: {},
-    canUpdate: true,
-    columns: ['select', 'weight', 'symbol', 'position'],
   },
 ];
 

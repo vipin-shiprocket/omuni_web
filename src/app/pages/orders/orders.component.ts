@@ -1,13 +1,17 @@
 import {
   AfterViewInit,
   Component,
+  ElementRef,
   OnDestroy,
   OnInit,
+  TemplateRef,
   ViewChild,
+  signal,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   FiltersData,
+  ITab,
   OrderColumns,
   OrderTabs,
   OrdersModules,
@@ -17,14 +21,13 @@ import { SubSink } from 'subsink';
 import { of } from 'rxjs';
 import { PageEvent } from '@angular/material/paginator';
 import { IPaginationData } from 'src/app/components/index-table/index-table.model';
-import {
-  FilterDataType,
-  ITab,
-} from 'src/app/components/index-filters/index-filters.model';
+import { FilterDataType } from 'src/app/components/index-filters/index-filters.model';
 import { MatSort } from '@angular/material/sort';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatTableDataSource } from '@angular/material/table';
 import { Expand } from 'src/app/utils/animation';
+import { MatDialog } from '@angular/material/dialog';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-orders',
@@ -36,6 +39,7 @@ import { Expand } from 'src/app/utils/animation';
 })
 export class OrdersComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('sort') sort!: MatSort;
+  @ViewChild('updateTabTemplate') updateTabTemplate!: TemplateRef<ElementRef>;
   private subs = new SubSink();
   columns = OrderColumns;
   displayedColumns = this.getColumnArrangement();
@@ -54,6 +58,16 @@ export class OrdersComponent implements OnInit, AfterViewInit, OnDestroy {
     currentPage: 0,
   };
   expandedElement: never | null = null;
+  isDuplicateName = signal(false);
+
+  constructor(
+    public dialog: MatDialog,
+    private toastr: ToastrService,
+  ) {}
+
+  get tabLen(): number {
+    return this.tabs.filter((t) => t.isCustom).length;
+  }
 
   ngOnInit(): void {
     this.getOrderFilters();
@@ -67,7 +81,7 @@ export class OrdersComponent implements OnInit, AfterViewInit, OnDestroy {
 
   addDropdownAttrFlag(tabIndex: number) {
     this.tabs.forEach((tab, i) => {
-      tab.dropdown = tabIndex === i;
+      tab.dropdown = tabIndex === i && tab.isCustom;
     });
   }
 
@@ -213,6 +227,64 @@ export class OrdersComponent implements OnInit, AfterViewInit, OnDestroy {
   //   this.tabs[this.currentTab].filters = this.queryParams;
   //   this.onTabChange(this.currentTab);
   // }
+
+  onUpdateTabName(evt: string) {
+    const existingTabNames = this.tabs.map((t) => t.name);
+    this.isDuplicateName.set(existingTabNames.includes(evt));
+  }
+
+  addNewTab(tabData: ITab | ITab[]) {
+    if (Array.isArray(tabData)) {
+      this.tabs.concat(tabData);
+    } else {
+      this.tabs.push(tabData);
+    }
+  }
+
+  openUpdateTabDialog(context: 'add' | 'edit' | 'delete', tabData?: ITab) {
+    let data: { context: string; title: string; tab: ITab } | null = null;
+    if (context === 'add') {
+      data = {
+        context,
+        title: 'Create new view',
+        tab: { name: '', filters: {}, isCustom: true },
+      };
+    } else {
+      if (!tabData) return;
+      data = { tab: tabData, context, title: '' };
+    }
+
+    const dialog = this.dialog.open(this.updateTabTemplate, {
+      panelClass: ['update-tab-container'],
+      data,
+    });
+
+    const keyeventSubs = dialog.keydownEvents().subscribe((val) => {
+      if (['enter'].includes(val.key?.toLowerCase())) {
+        dialog.close(data?.tab);
+        keyeventSubs.unsubscribe();
+      }
+    });
+
+    const afterClosedSubs = dialog
+      .afterClosed()
+      .subscribe((result: ITab | undefined) => {
+        console.log('🚀 ~ .subscribe ~ result:', result);
+        if (!result) return;
+
+        // API call
+        switch (context) {
+          case 'add': {
+            this.addNewTab(result);
+            return;
+          }
+          default:
+            break;
+        }
+
+        afterClosedSubs.unsubscribe();
+      });
+  }
 
   ngOnDestroy(): void {
     this.subs.unsubscribe();

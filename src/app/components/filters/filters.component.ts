@@ -12,6 +12,7 @@ import { FilterDataType } from '../index-filters/index-filters.model';
   styleUrls: ['./filters.component.scss'],
 })
 export class FiltersComponent implements OnInit {
+  @Input() saveNApply: string | undefined = undefined;
   @Input() set filtersData(value: FilterDataType | null) {
     if (value) {
       this._filterData = value;
