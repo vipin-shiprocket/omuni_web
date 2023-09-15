@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { GlobalSearchComponent } from '../global-search/global-search.component';
+import { GlobalSearchComponent } from 'src/app/components/global-search/global-search.component';
 import { MatIconModule } from '@angular/material/icon';
 
 @Component({

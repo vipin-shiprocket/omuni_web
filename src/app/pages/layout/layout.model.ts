@@ -1,4 +1,5 @@
 export interface MenuItem {
+  key?: string;
   displayName: string;
   iconName: string;
   route?: string;
@@ -52,6 +53,12 @@ export const MENU_LIST: Record<string, MenuItem> = {
     displayName: 'Settings',
     iconName: 'assets:settings',
     route: 'settings',
+    isBottomNav: true,
+  },
+  getStarted: {
+    displayName: 'Get Started',
+    iconName: 'assets:getStarted',
+    route: 'getting-started',
     isBottomNav: true,
   },
 };

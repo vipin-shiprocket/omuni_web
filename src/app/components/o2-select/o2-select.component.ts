@@ -51,6 +51,7 @@ export class O2SelectComponent implements ControlValueAccessor, OnDestroy {
   @Input() multiple = false;
   @Input() placeholder = '';
   @Input() selectAll = true;
+  @Input() showLabelWithValue = false;
   @Input() clearBtn = true;
   @Input() className = '';
   overlayRef!: OverlayRef;
@@ -97,13 +98,18 @@ export class O2SelectComponent implements ControlValueAccessor, OnDestroy {
     }
 
     if (!this.multiple) {
-      const seclected = this.options.find((option) => {
+      const selected = this.options.find((option) => {
         return option.value === value[0];
       });
 
-      return seclected?.display.toString() || '';
+      return (
+        (this.showLabelWithValue ? this.label + ': ' : '') +
+          selected?.display.toString() || ''
+      );
     }
-    return `${value.length} ${this.label} Selected`;
+    return `${this.allSelected ? 'All' : value.length} ${this.label}${
+      value.length > 1 ? 's' : ''
+    } Selected`;
   }
 
   onSelectionChange(selected: ListboxValueChangeEvent<unknown>) {

@@ -5,14 +5,20 @@ import {
   FileUploadResponse,
   S3UploadResponse,
   UpdateInventoryBody,
+  analyticsResponse,
 } from './inventory.model';
 import { HttpResponse } from '@angular/common/http';
+import { delay, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class InventoryService {
   private http = inject(HttpService);
+
+  getAnalytics() {
+    return of(analyticsResponse).pipe(delay(2000));
+  }
 
   getPreSignedUrlForUpload(fileName: string, fileType: string) {
     const endpoint = 'narcos/file-upload/presigned-url';

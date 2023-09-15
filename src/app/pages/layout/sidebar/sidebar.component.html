@@ -124,6 +124,7 @@
 
 <ng-template #withoutSubMenu let-item="item">
   <a
+    *ngIf="showGetStarted(item.key)"
     class="text-decoration-none"
     [routerLink]="[item.route]"
     routerLinkActive="active"
@@ -138,6 +139,11 @@
       ></mat-icon>
       <span class="side-nav-text w-100 ms-2 overflow-x-hidden">
         {{ item.displayName }}
+        {{
+          item.key === 'getStarted'
+            ? ' (' + (accountProgress | async) + '/5)'
+            : ''
+        }}
       </span>
     </div>
   </a>
