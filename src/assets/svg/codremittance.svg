@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 56 56">
+    <defs>
+        <style>
+            .cls-2{fill:#bfbcff}.cls-3{fill:#fff}.cls-4{fill:#6964e2}
+        </style>
+    </defs>
+    <g id="Group_22428" data-name="Group 22428" transform="translate(-545 -4255)">
+        <g id="Group_21732" data-name="Group 21732" transform="translate(545 4255)">
+            <rect id="Rectangle_7853" data-name="Rectangle 7853" width="56" height="56" rx="28" style="fill:#f4f8ff"/>
+        </g>
+        <g id="Group_21741" data-name="Group 21741" transform="translate(559.933 4268.066)">
+            <g id="Group_21733" data-name="Group 21733">
+                <path id="Path_33664" data-name="Path 33664" class="cls-2" d="M29.469 10H9.227A1.266 1.266 0 0 0 8 11.3v20.082a1.266 1.266 0 0 0 1.227 1.3h20.242a1.266 1.266 0 0 0 1.227-1.3V11.3a1.266 1.266 0 0 0-1.227-1.3z" transform="translate(-8 -10)"/>
+                <path id="Path_33665" data-name="Path 33665" class="cls-3" d="M27.479 18.423h-5.831a.612.612 0 0 1-.648-.648V10h7.127v7.775a.612.612 0 0 1-.648.648z" transform="translate(-13.216 -10)"/>
+            </g>
+            <g id="_3631630_hand_pay_give_money_icon" data-name="3631630_hand_pay_give money_icon" transform="translate(3.89 13.091)">
+                <g id="Group_21737" data-name="Group 21737">
+                    <path id="Path_33681" data-name="Path 33681" class="cls-4" d="M16.954 30.15 6.093 20.018a.738.738 0 0 1-.043-1.03l4.85-5.195a.738.738 0 0 1 1.03-.043l10.863 10.132a.738.738 0 0 1 .043 1.03l-4.851 5.195a.741.741 0 0 1-1.031.043z" transform="translate(-5.862 -13.562)"/>
+                    <circle id="Ellipse_582" data-name="Ellipse 582" class="cls-2" cx="3.005" cy="3.005" r="3.005" transform="translate(5.555 5.383)"/>
+                    <circle id="Ellipse_583" data-name="Ellipse 583" class="cls-2" cx=".859" cy=".859" r=".859" transform="translate(11.78 11.35)"/>
+                    <circle id="Ellipse_584" data-name="Ellipse 584" class="cls-2" cx=".859" cy=".859" r=".859" transform="translate(3.623 3.708)"/>
+                </g>
+                <path id="Path_33682" data-name="Path 33682" class="cls-3" d="m23.3 15.521 2.015 2.018a1.349 1.349 0 0 1-.079 1.975l-2.213 1.8a1.33 1.33 0 0 0-.474 1.331 1.166 1.166 0 0 0 1.541.859l8.5-3.735h3.952V14.62h-3.957l-6.876-1.03a1.1 1.1 0 0 0-.988.386z" transform="translate(-15.365 -13.573)"/>
+            </g>
+            <path id="Rectangle_8130" data-name="Rectangle 8130" class="cls-4" transform="translate(21.79 13.774)" d="M0 0h3.41v6.819H0z"/>
+        </g>
+    </g>
+</svg>

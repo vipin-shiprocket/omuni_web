@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 56 56">
+    <g data-name="Group 21729" transform="translate(-113 -3023)">
+        <rect data-name="Rectangle 7853" width="56" height="56" rx="28" transform="translate(113 3023)" style="fill:#f4f8ff"/>
+        <g data-name="4183858_location_map_pin_place_point_icon" transform="translate(130.733 3036.067)">
+            <path data-name="Path 33663" d="m37.795 17.595-7.255 6.739-7.254-6.739a9.375 9.375 0 0 1 0-13.768 10.681 10.681 0 0 1 14.532 0 9.393 9.393 0 0 1-.023 13.768z" transform="translate(-20.275 -.975)" style="fill:#6964e2"/>
+            <circle data-name="Ellipse 579" cx="4.149" cy="4.149" r="4.149" transform="translate(6.117 5.796)" style="fill:#fff"/>
+            <path data-name="Rectangle 8125" transform="translate(2.084 26.768)" style="fill:#bfbcff" d="M0 0h16.362v3.099H0z"/>
+        </g>
+    </g>
+</svg>
