@@ -42,36 +42,29 @@
 
   <!-- Filters -->
   <div
-    class="my-4 d-flex flex-column flex-sm-row align-items-center justify-content-between flex-wrap"
+    class="my-4 d-flex flex-column flex-sm-row align-items-stretch justify-content-between flex-wrap"
   >
     <div class="d-flex align-items-center mb-4 mb-sm-0">
-      <app-o2-select
-        [label]="'Column'"
-        [multiple]="true"
-        [options]="filtersData"
-        [values]="defaultValues"
-        placeholder="Filters"
-      >
-      </app-o2-select>
+      <app-filters [filtersData]="filtersData" />
     </div>
-    <div class="d-flex flex-wrap">
+    <div class="d-flex flex-wrap h-100">
       <button
         matTooltip="Export Inventory"
         matTooltipPosition="above"
-        class="btn more-filter-btn border"
+        class="btn more-filter-btn border mb-3 mb-sm-0"
       >
         <mat-icon>save_alt</mat-icon>
       </button>
       <button
         matTooltip="Import Inventory"
         matTooltipPosition="above"
-        class="btn more-filter-btn border"
+        class="btn more-filter-btn border mb-3 mb-sm-0"
       >
         <mat-icon svgIcon="assets:upload"></mat-icon>
       </button>
       <app-o2-select
         [label]="'Sort By'"
-        [options]="filtersData"
+        [options]="filtersData['columns'].data"
         [showLabelWithValue]="true"
         [values]="['name']"
         placeholder="Sort By"
@@ -218,23 +211,23 @@
               </ng-container>
               <ng-container *ngIf="analyticsResponse$ | async as resp">
                 <div class="d-flex align-items-center">
-                  <h3>{{ resp[item.key].amount }}</h3>
+                  <h3>{{ resp[item.key].quantity }}</h3>
                   <span
                     class="ms-2 d-inline-flex align-items-center"
                     [ngClass]="
-                      resp[item.key].direction === 'up'
+                      resp[item.key].percentage >= 0
                         ? 'text-success'
                         : 'text-danger'
                     "
                   >
                     <mat-icon class="me-2">
                       {{
-                        resp[item.key].direction === 'up'
+                        resp[item.key].percentage >= 0
                           ? 'trending_up'
                           : 'trending_down'
                       }}
                     </mat-icon>
-                    {{ resp[item.key].percentage }} %
+                    {{ resp[item.key].percentage | mapper: abs }} %
                   </span>
                 </div>
               </ng-container>

@@ -20,12 +20,14 @@ export const IndexFiltersModules = [
 ];
 
 export interface IFilter {
+  chipEditable?: boolean;
   name: string;
   label: string;
   type: 'select' | 'radio' | 'checkbox' | 'date';
   multiple?: boolean;
   placement?: 'out' | 'in';
   placeholder?: string;
+  showLabelWithValue?: boolean;
   value: boolean | string | number | (string | number | boolean)[];
   data: IOption[];
 }

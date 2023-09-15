@@ -78,6 +78,7 @@ export type LooseObject = Record<string, unknown>;
 
 export const FiltersData: FilterDataType = {
   date: {
+    chipEditable: false,
     name: 'date',
     label: '',
     type: 'date',
@@ -148,7 +149,7 @@ export const FiltersData: FilterDataType = {
 
   channels: {
     name: 'channels',
-    label: 'Channels',
+    label: 'Channel',
     type: 'select',
     placement: 'out',
     value: [589548, 1749542],

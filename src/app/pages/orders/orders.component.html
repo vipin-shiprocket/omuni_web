@@ -58,13 +58,13 @@
 
   <div class="my-4 position-relative">
     <span class="right-btns-section">
-      <button class="btn more-filter-btn">
-        <img src="src/assets/svg/download.svg" height="18" width="18" alt="" />
+      <button class="btn more-filter-btn border">
+        <img src="assets/svg/download.svg" height="18" width="18" alt="" />
       </button>
       <div class="dropdown d-inline mt-2">
         <button
           style="width: 168px"
-          class="btn more-filter-btn me-0"
+          class="btn more-filter-btn border me-0"
           type="button"
           data-bs-toggle="dropdown"
           data-bs-offset="5,5"
@@ -140,7 +140,7 @@
           </div>
           <div class="brand-section">
             <img
-              ngSrc="src/assets/svg/settings.svg"
+              ngSrc="assets/svg/settings.svg"
               height="18"
               width="18"
               class="me-2"
@@ -182,6 +182,7 @@
           >
             View Packages
             <mat-icon
+              class="expand-icon-base"
               [ngClass]="row === expandedElement ? 'rotate-180' : 'rotate-0'"
               >expand_more</mat-icon
             >

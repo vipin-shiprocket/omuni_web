@@ -1,12 +1,14 @@
 <button
   #trigger
-  class="btn more-filter-btn"
+  class="btn more-filter-btn border"
   type="button"
   (click)="toggleDropd()"
 >
-  <img ngSrc="src/assets/svg/calendar.svg" alt="" width="24" height="24" />
+  <img ngSrc="assets/svg/calendar.svg" alt="" width="24" height="24" />
   {{ formatValue() }}
-  <mat-icon class="ms-auto" [ngClass]="isOpened() ? 'rotate-180' : 'rotate-0'"
+  <mat-icon
+    class="ms-auto expand-icon-base"
+    [ngClass]="isOpened() ? 'rotate-180' : 'rotate-0'"
     >expand_more</mat-icon
   >
 </button>

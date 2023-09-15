@@ -1,5 +1,4 @@
 <div>
-  {{ filtersCtrl.value | json }}
   <form [formGroup]="filterForm" class="d-flex flex-wrap">
     <div class="d-flex" formArrayName="filters">
       <ng-container
@@ -17,19 +16,21 @@
               [values]="checkIfValidType(filter.value)"
               [options]="filter.data"
               [placeholder]="filter.placeholder ?? ''"
+              [showLabelWithValue]="filter.showLabelWithValue ?? false"
             />
           </section>
         </ng-container>
       </ng-container>
     </div>
     <button
-      class="btn more-filter-btn"
+      *ngIf="showMoreFiltersButton"
+      class="btn more-filter-btn border"
       type="button"
       data-bs-toggle="offcanvas"
       data-bs-target="#moreFilters"
       aria-controls="moreFilters"
     >
-      <img ngSrc="src/assets/svg/filter.svg" alt="" width="24" height="24" />
+      <img ngSrc="assets/svg/filter.svg" alt="" width="24" height="24" />
       More Filters
     </button>
 
@@ -122,4 +123,76 @@
       </div>
     </div>
   </form>
+
+  <!-- chip section -->
+  <div class="mt-3 d-flex flex-wrap align-items-center">
+    <div class="me-2 mb-2">
+      <span class="ms-1 fs-14 text-secondary">Results for: </span>
+    </div>
+    <ng-container *ngFor="let filter of filtersCtrl.value; let i = index">
+      <ng-container
+        [ngTemplateOutlet]="chipSection"
+        [ngTemplateOutletContext]="{ data: (filter | keyvalue)[0], index: i }"
+      ></ng-container>
+    </ng-container>
+  </div>
 </div>
+
+<ng-template #chipSection let-filter="data" let-index="index">
+  <ng-container
+    *ngIf="
+      length(filter.value) > 0 &&
+      _filterData &&
+      _filterData[filter.key].chipEditable !== false
+    "
+  >
+    <div class="d-flex align-items-center me-2 mb-2">
+      <h4 class="me-2 fs-12 fw-500">
+        {{ _filterData[filter.key].label | titlecase }}:
+      </h4>
+      <mat-chip-listbox>
+        <ng-container
+          *ngIf="checkIfValidType(filter.value).length > 0; else single"
+        >
+          <mat-chip
+            *ngFor="let chip of filter.value | slice: 0 : 2"
+            (removed)="remove(chip)"
+          >
+            <span class="text-primary">
+              {{ getDisplayValue(filter.key, chip) }}
+            </span>
+            <button matChipRemove [attr.aria-label]="'remove ' + chip">
+              <mat-icon class="text-primary bold">close</mat-icon>
+            </button>
+          </mat-chip>
+          <div
+            class="ms-2 text-decoration-underline align-self-center"
+            *ngIf="length(filter.value) > 2"
+          >
+            +{{ length(filter.value) - 2 }} more
+          </div>
+        </ng-container>
+      </mat-chip-listbox>
+      <ng-template #single>
+        <mat-chip (removed)="remove(filter.value)">
+          <span class="text-primary">
+            {{ getDisplayValue(filter.key, filter.value) }}
+          </span>
+          <button matChipRemove [attr.aria-label]="'remove ' + filter.value">
+            <mat-icon class="text-primary bold">close</mat-icon>
+          </button>
+        </mat-chip>
+      </ng-template>
+      <div class="ms-2 vr"></div>
+      <ng-container *ngIf="index === filtersCtrl.value.length - 1">
+        <button class="btn btn-outline-danger btn-sm fs-12 border-0 ms-2">
+          Clear All
+        </button>
+        <div class="ms-2 vr"></div>
+        <button class="btn btn-outline-primary btn-sm fs-12 border-0 ms-2">
+          Save View
+        </button>
+      </ng-container>
+    </div>
+  </ng-container>
+</ng-template>
