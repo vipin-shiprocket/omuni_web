@@ -13,6 +13,11 @@ const routes: Routes = [
           import('../orders/orders.component').then((c) => c.OrdersComponent),
       },
       {
+        path: 'add-order',
+        loadChildren: () =>
+          import('../add-order/add-order.module').then((m) => m.AddOrderModule),
+      },
+      {
         path: 'products',
         children: [
           {
