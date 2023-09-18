@@ -3,6 +3,7 @@ import { HttpService } from 'src/app/services/http.service';
 import {
   AcknowledgeUploadResponse,
   FileUploadResponse,
+  ListingResponse,
   S3UploadResponse,
   UpdateInventoryBody,
   analyticsResponse,
@@ -18,6 +19,20 @@ export class InventoryService {
 
   getAnalytics() {
     return of(analyticsResponse).pipe(delay(2000));
+  }
+
+  getListings(params: Record<string, unknown>) {
+    const endpoint = 'aryabhatta/inventory/listing';
+    const headers = this.http.getHeaders({
+      'X-Tenant-ID': '', //TODO
+      'X-USER-ID': '', //TODO
+    });
+
+    return this.http.requestToEndpoint<ListingResponse>(
+      endpoint,
+      params,
+      headers,
+    );
   }
 
   getPreSignedUrlForUpload(fileName: string, fileType: string) {
