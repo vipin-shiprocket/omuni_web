@@ -8,3 +8,8 @@
 #moreFilters {
   width: u.rem(340);
 }
+
+.mat-mdc-chip {
+  height: 2em;
+  background-color: u.$chip-bg-color !important;
+}

@@ -3,10 +3,12 @@ import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { IOption } from 'src/app/components/chip-selectbox/chip-selectbox.model';
 import { O2SelectComponent } from 'src/app/components/o2-select/o2-select.component';
 import { GlobalSearchComponent } from '../../components/global-search/global-search.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MapperPipe } from 'src/app/pipes/mapper.pipe';
+import { FiltersComponent } from 'src/app/components/filters/filters.component';
+import { FilterDataType } from 'src/app/components/index-filters/index-filters.model';
 
 // ---------Temp-------------
 export const InventoryTabs = [
@@ -20,31 +22,26 @@ export const InventoryTabs = [
 
 export const analyticsResponse: Record<
   string,
-  { amount: number; direction: string; percentage: number }
+  Record<'quantity' | 'percentage', number>
 > = {
-  total: {
-    amount: 25,
-    direction: 'up',
+  totalInventory: {
+    quantity: 25,
     percentage: 167,
   },
-  count: {
-    amount: 12,
-    direction: 'up',
-    percentage: 149,
+  totalSku: {
+    quantity: 12,
+    percentage: -149,
   },
-  out: {
-    amount: 43,
-    direction: 'down',
+  totalOutOfStockSku: {
+    quantity: 43,
     percentage: 51,
   },
-  blocked: {
-    amount: 67,
-    direction: 'up',
-    percentage: 100,
+  totalBlockedSku: {
+    quantity: 67,
+    percentage: -100,
   },
-  available: {
-    amount: 2,
-    direction: 'down',
+  totalAvailableSku: {
+    quantity: 2,
     percentage: 65,
   },
 };
@@ -244,8 +241,10 @@ export const RESP = {
 export const InventoryModules = [
   CdkTableModule,
   CommonModule,
+  FiltersComponent,
   FormsModule,
   GlobalSearchComponent,
+  MapperPipe,
   MatIconModule,
   MatPaginatorModule,
   MatTooltipModule,
@@ -287,52 +286,62 @@ export const analytics = [
   {
     name: 'Total Inventory',
     image: 'assets/images/inventory/inventoryTotal.svg',
-    key: 'total',
+    key: 'totalInventory',
   },
   {
     name: 'Total count of SKUs',
     image: 'assets/images/inventory/inventorySKUCount.svg',
-    key: 'count',
+    key: 'totalSku',
   },
   {
     name: 'Out of stock SKUs',
     image: 'assets/images/inventory/inventoryOut.svg',
-    key: 'out',
+    key: 'totalOutOfStockSku',
   },
   {
     name: 'Blocked',
     image: 'assets/images/inventory/inventoryBlocked.svg',
-    key: 'blocked',
+    key: 'totalBlockedSku',
   },
   {
     name: 'Available',
     image: 'assets/images/inventory/inventoryAvailable.svg',
-    key: 'available',
+    key: 'totalAvailableSku',
   },
 ];
 
-export const FiltersData: IOption[] = [
-  {
-    value: 'name',
-    display: 'Product Name',
+export const FiltersData: FilterDataType = {
+  columns: {
+    name: 'columns',
+    label: 'Column',
+    type: 'select',
+    placement: 'out',
+    multiple: true,
+    value: ['name', 'sku', 'available', 'blocked', 'total'],
+    data: [
+      {
+        value: 'name',
+        display: 'Product Name',
+      },
+      {
+        value: 'sku',
+        display: 'SKU',
+      },
+      {
+        value: 'available',
+        display: 'Available',
+      },
+      {
+        value: 'blocked',
+        display: 'Blocked',
+      },
+      {
+        value: 'total',
+        display: 'Total Inventory',
+      },
+    ],
   },
-  {
-    value: 'sku',
-    display: 'SKU',
-  },
-  {
-    value: 'available',
-    display: 'Available',
-  },
-  {
-    value: 'blocked',
-    display: 'Blocked',
-  },
-  {
-    value: 'total',
-    display: 'Total Inventory',
-  },
-];
+};
 
 export const InventoryColumns = [
   { name: 'name', canHide: false, visible: true },
@@ -344,6 +353,8 @@ export const InventoryColumns = [
 ];
 
 export const TablePlaceholder = [
+  {} as never[],
+  {} as never[],
   {} as never[],
   {} as never[],
   {} as never[],

@@ -36,7 +36,6 @@ export class InventoryComponent implements OnInit, OnDestroy {
   analyticsStructure = analytics;
   columns = InventoryColumns;
   columnsToDisplay = [...this.getColumnArrangement()];
-  defaultValues = FiltersData.map((a) => a.value);
   filtersData = FiltersData;
   dataSource: MatTableDataSource<never[]> = new MatTableDataSource(
     TablePlaceholder,
@@ -51,14 +50,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
   selectedOption!: string[];
   tabs: ITab[] = [];
   private _analyticsResponse$?: Observable<
-    Record<
-      string,
-      {
-        amount: number;
-        direction: string;
-        percentage: number;
-      }
-    >
+    Record<string, Record<'quantity' | 'percentage', number>>
   >;
   private inventoryService = inject(InventoryService);
   private toast = inject(ToastrService);
@@ -67,14 +59,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
     '.csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel';
 
   get analyticsResponse$(): Observable<
-    Record<
-      string,
-      {
-        amount: number;
-        direction: string;
-        percentage: number;
-      }
-    >
+    Record<string, Record<'quantity' | 'percentage', number>>
   > {
     if (!this._analyticsResponse$) {
       this._analyticsResponse$ = this.inventoryService.getAnalytics();
@@ -112,6 +97,10 @@ export class InventoryComponent implements OnInit, OnDestroy {
           currentPage: data.meta.pagination.current_page,
         };
       });
+  }
+
+  abs(val: number) {
+    return Math.abs(val);
   }
 
   addDropdownAttrFlag(tabIndex: number) {

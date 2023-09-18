@@ -9,9 +9,14 @@
   border-radius: u.rem(5);
 }
 
+.expand-icon-base {
+  transform-origin: 50% 40%;
+}
+
 .expand-icon {
+  @extend .expand-icon-base;
   position: absolute;
-  inset: 5px 5px auto auto;
+  inset: 7px 5px auto auto;
 }
 
 .select-all {

@@ -21,6 +21,7 @@ export class FiltersComponent implements OnInit {
   _filterData: FilterDataType | undefined;
   filterForm: FormGroup;
   objectvalues = Object.values;
+  showMoreFiltersButton = true;
 
   constructor(private fb: FormBuilder) {
     this.filterForm = this.fb.group({
@@ -31,14 +32,25 @@ export class FiltersComponent implements OnInit {
   ngOnInit(): void {
     if (this._filterData) {
       const filterData = this._filterData;
+      let placementInCount = 0;
       Object.keys(this._filterData).forEach((key) => {
         const control = new FormGroup({
           [key]: new FormControl(filterData[key].value),
         });
 
+        placementInCount += filterData[key].placement === 'out' ? 0 : 1;
+
         this.filtersCtrl.push(control);
       });
+
+      this.showMoreFiltersButton = placementInCount > 0;
     }
+  }
+
+  length(value: unknown): number {
+    if (['number', 'boolean'].includes(typeof value)) return 1;
+    if (typeof value === 'string') return value.length;
+    return Object.keys(value as never).length;
   }
 
   checkIfValidType(filterValue: unknown) {
@@ -46,6 +58,19 @@ export class FiltersComponent implements OnInit {
       return filterValue as (string | number | boolean)[];
     }
     return [];
+  }
+
+  getDisplayValue(filterKey: string, filterValue: unknown) {
+    if (this._filterData) {
+      return this._filterData[filterKey].data.find(
+        (val) => val.value === filterValue,
+      )?.display;
+    }
+    return '';
+  }
+
+  remove(item: unknown) {
+    console.log(item);
   }
 
   get filtersCtrl(): FormArray {
