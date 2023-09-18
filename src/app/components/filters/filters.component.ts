@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FiltersModules } from './filters.model';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { FilterDataType } from '../index-filters/index-filters.model';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-filters',
@@ -22,6 +23,7 @@ export class FiltersComponent implements OnInit {
   filterForm: FormGroup;
   objectvalues = Object.values;
   showMoreFiltersButton = true;
+  updateSelectBox: Subject<void> = new Subject<void>();
 
   constructor(private fb: FormBuilder) {
     this.filterForm = this.fb.group({
@@ -72,6 +74,7 @@ export class FiltersComponent implements OnInit {
   remove(index: number, item: unknown) {
     const val = Object.values(this.filtersCtrl.controls[index].value)[0];
     Array.isArray(val) ? val.splice(val.indexOf(item), 1) : null;
+    this.updateSelectBox.next();
   }
 
   clearAll() {
@@ -81,6 +84,7 @@ export class FiltersComponent implements OnInit {
       )[0];
       Array.isArray(filter) ? filter.splice(0, filter.length) : null;
     });
+    this.updateSelectBox.next();
   }
 
   get showChipsSection() {
