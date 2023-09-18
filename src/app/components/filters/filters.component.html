@@ -17,7 +17,6 @@
               [options]="filter.data"
               [placeholder]="filter.placeholder ?? ''"
               [showLabelWithValue]="filter.showLabelWithValue ?? false"
-              [changeSignal]="updateSelectBox.asObservable()"
             />
           </section>
         </ng-container>
@@ -108,7 +107,6 @@
                   [values]="checkIfValidType(filter.value)"
                   [options]="filter.data"
                   [formControlName]="filter.name"
-                  [changeSignal]="updateSelectBox.asObservable()"
                 />
               </section>
             </ng-container>

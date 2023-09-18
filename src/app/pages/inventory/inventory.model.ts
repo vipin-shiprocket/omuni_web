@@ -224,17 +224,7 @@ export const RESP = {
       total: 32,
     },
   ],
-  meta: {
-    pagination: {
-      total: 9999999,
-      per_page: '25',
-      current_page: 1,
-      links: {
-        previous: null,
-        next: '',
-      },
-    },
-  },
+  next: true,
 };
 
 // --------------------------
@@ -281,6 +271,11 @@ export type UpdateInventoryBody = {
   quantity: string;
   transactionType: 'CREDIT' | 'DEBIT' | 'OVERWRITE';
 };
+
+export type AnalyticsResponse = Record<
+  string,
+  Record<'quantity' | 'percentage', number>
+>;
 
 export const analytics = [
   {
@@ -349,7 +344,7 @@ export const InventoryColumns = [
   { name: 'available', canHide: true, visible: true },
   { name: 'blocked', canHide: true, visible: true },
   { name: 'total', canHide: true, visible: true },
-  { name: 'Actions', canHide: true, visible: true },
+  { name: 'Actions', canHide: false, visible: true },
 ];
 
 export const TablePlaceholder = [

@@ -6,7 +6,6 @@ import {
   EventEmitter,
   Input,
   OnDestroy,
-  OnInit,
   Output,
   TemplateRef,
   ViewChild,
@@ -18,7 +17,7 @@ import { IOption, O2SelectModules } from './o2-select.model';
 import { ListboxValueChangeEvent } from '@angular/cdk/listbox';
 import { Overlay, OverlayConfig, OverlayRef } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
-import { Observable, noop } from 'rxjs';
+import { noop } from 'rxjs';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { SubSink } from 'subsink';
 
@@ -39,9 +38,7 @@ type SELECT_VALUE_TYPE = (string | number | boolean)[];
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class O2SelectComponent
-  implements ControlValueAccessor, OnInit, OnDestroy
-{
+export class O2SelectComponent implements ControlValueAccessor, OnDestroy {
   private subs = new SubSink();
   private onTouchedCallback: () => void = noop;
   private onChangeCallback: (_: unknown) => void = noop;
@@ -57,7 +54,6 @@ export class O2SelectComponent
   @Input() showLabelWithValue = false;
   @Input() clearBtn = true;
   @Input() className = '';
-  @Input() changeSignal: Observable<void> | undefined;
   overlayRef!: OverlayRef;
   isOpened = signal(false);
   @Input() set values(value: SELECT_VALUE_TYPE) {
@@ -73,13 +69,6 @@ export class O2SelectComponent
     private cd: ChangeDetectorRef,
     private _viewContainerRef: ViewContainerRef,
   ) {}
-
-  ngOnInit(): void {
-    if (this.changeSignal)
-      this.subs.sink = this.changeSignal.subscribe(() =>
-        this.cd.markForCheck(),
-      );
-  }
 
   writeValue(value: (string | number)[]): void {
     this.selectedValues = value;
