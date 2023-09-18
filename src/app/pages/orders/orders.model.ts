@@ -80,7 +80,7 @@ export type LooseObject = Record<string, unknown>;
 
 export const FiltersData: FilterDataType = {
   date: {
-    chipEditable: false,
+    chipVisible: false,
     name: 'date',
     label: '',
     type: 'date',
