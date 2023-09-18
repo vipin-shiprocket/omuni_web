@@ -1,0 +1,36 @@
+@use '../../../../styles/utils' as u;
+
+.done.mat-icon {
+  font-size: u.rem(22);
+  height: u.rem(22);
+  width: u.rem(22);
+  color: u.$secondary1;
+  margin-right: u.rem(10);
+}
+
+.num-icon {
+  font-size: u.rem(12);
+  width: u.rem(22);
+  height: u.rem(22);
+  line-height: u.rem(22);
+  border-radius: 50%;
+  border: 1px solid u.$neutral3c;
+  display: inline-block;
+  text-align: center;
+  background-color: #fff;
+  margin-right: u.rem(10);
+}
+
+.tab {
+  font-size: u.rem(14);
+  color: u.$neutral3b;
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.active,
+.active .num-icon {
+  color: u.$neutral2;
+  border-color: u.$primary1;
+}
