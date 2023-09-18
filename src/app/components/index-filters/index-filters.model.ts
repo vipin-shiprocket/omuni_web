@@ -20,7 +20,7 @@ export const IndexFiltersModules = [
 ];
 
 export interface IFilter {
-  chipEditable?: boolean;
+  chipVisible?: boolean;
   name: string;
   label: string;
   type: 'select' | 'radio' | 'checkbox' | 'date';

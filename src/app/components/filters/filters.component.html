@@ -125,8 +125,11 @@
   </form>
 
   <!-- chip section -->
-  <div class="mt-3 d-flex flex-wrap align-items-center">
-    <div class="me-2 mb-2">
+  <div
+    class="mt-3 d-flex flex-wrap align-items-stretch"
+    *ngIf="showChipsSection"
+  >
+    <div class="me-2 mb-2 d-flex align-items-center">
       <span class="ms-1 fs-14 text-secondary">Results for: </span>
     </div>
     <ng-container *ngFor="let filter of filtersCtrl.value; let i = index">
@@ -134,6 +137,20 @@
         [ngTemplateOutlet]="chipSection"
         [ngTemplateOutletContext]="{ data: (filter | keyvalue)[0], index: i }"
       ></ng-container>
+    </ng-container>
+    <ng-container>
+      <div class="d-flex align-items-center mb-2">
+        <button
+          class="btn btn-outline-danger btn-sm fs-12 border-0"
+          (click)="clearAll()"
+        >
+          Clear All
+        </button>
+        <div class="ms-2 vr"></div>
+        <button class="btn btn-outline-primary btn-sm fs-12 border-0 ms-2">
+          Save View
+        </button>
+      </div>
     </ng-container>
   </div>
 </div>
@@ -143,7 +160,7 @@
     *ngIf="
       length(filter.value) > 0 &&
       _filterData &&
-      _filterData[filter.key].chipEditable !== false
+      _filterData[filter.key].chipVisible !== false
     "
   >
     <div class="d-flex align-items-center me-2 mb-2">
@@ -156,12 +173,16 @@
         >
           <mat-chip
             *ngFor="let chip of filter.value | slice: 0 : 2"
-            (removed)="remove(chip)"
+            (removed)="remove(index, chip)"
           >
             <span class="text-primary">
-              {{ getDisplayValue(filter.key, chip) }}
+              {{ getData(filter.key, chip)?.display }}
             </span>
-            <button matChipRemove [attr.aria-label]="'remove ' + chip">
+            <button
+              matChipRemove
+              [attr.aria-label]="'remove ' + chip"
+              *ngIf="_filterData[filter.key].type === 'select'"
+            >
               <mat-icon class="text-primary bold">close</mat-icon>
             </button>
           </mat-chip>
@@ -174,25 +195,20 @@
         </ng-container>
       </mat-chip-listbox>
       <ng-template #single>
-        <mat-chip (removed)="remove(filter.value)">
+        <mat-chip (removed)="remove(index, filter.value)">
           <span class="text-primary">
-            {{ getDisplayValue(filter.key, filter.value) }}
+            {{ getData(filter.key, filter.value)?.display }}
           </span>
-          <button matChipRemove [attr.aria-label]="'remove ' + filter.value">
+          <button
+            matChipRemove
+            [attr.aria-label]="'remove ' + filter.value"
+            *ngIf="_filterData[filter.key].type === 'select'"
+          >
             <mat-icon class="text-primary bold">close</mat-icon>
           </button>
         </mat-chip>
       </ng-template>
       <div class="ms-2 vr"></div>
-      <ng-container *ngIf="index === filtersCtrl.value.length - 1">
-        <button class="btn btn-outline-danger btn-sm fs-12 border-0 ms-2">
-          Clear All
-        </button>
-        <div class="ms-2 vr"></div>
-        <button class="btn btn-outline-primary btn-sm fs-12 border-0 ms-2">
-          Save View
-        </button>
-      </ng-container>
     </div>
   </ng-container>
 </ng-template>

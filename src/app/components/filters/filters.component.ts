@@ -60,17 +60,37 @@ export class FiltersComponent implements OnInit {
     return [];
   }
 
-  getDisplayValue(filterKey: string, filterValue: unknown) {
+  getData(filterKey: string, filterValue: unknown) {
     if (this._filterData) {
       return this._filterData[filterKey].data.find(
         (val) => val.value === filterValue,
-      )?.display;
+      );
     }
-    return '';
+    return null;
   }
 
-  remove(item: unknown) {
-    console.log(item);
+  remove(index: number, item: unknown) {
+    const val = Object.values(this.filtersCtrl.controls[index].value)[0];
+    Array.isArray(val) ? val.splice(val.indexOf(item), 1) : null;
+  }
+
+  clearAll() {
+    Object.keys(this.filtersCtrl.controls).forEach((index) => {
+      const filter = Object.values(
+        this.filtersCtrl.controls[index as never].value,
+      )[0];
+      Array.isArray(filter) ? filter.splice(0, filter.length) : null;
+    });
+  }
+
+  get showChipsSection() {
+    return Object.keys(this.filtersCtrl.controls).some((index) => {
+      const filter = Object.values(
+        this.filtersCtrl.controls[index as never].value,
+      )[0];
+
+      return Array.isArray(filter) ? filter.length > 0 : true;
+    });
   }
 
   get filtersCtrl(): FormArray {
