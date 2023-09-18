@@ -5,6 +5,7 @@
     <div class="float-end">
       <button
         mat-button
+        routerLink="../add-order/single"
         class="me-2 btn add-sync-btn bg-primary-subtle text-primary"
       >
         <mat-icon>add</mat-icon>
@@ -17,7 +18,7 @@
     </div>
   </h1>
 
-  <nav class="nav order-nav mb-3">
+  <nav class="nav o2-nav mb-3">
     <ng-container *ngFor="let tab of tabs; let i = index">
       <div class="nav-item dropdown">
         <button

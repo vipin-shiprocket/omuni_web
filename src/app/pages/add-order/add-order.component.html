@@ -1,2 +1,30 @@
-<p>add-order works!</p>
-<router-outlet></router-outlet>
+<div class="mt-4">
+  <div class="container px-0 d-flex justify-content-between mb-3">
+    <section class="fs-18 d-flex align-items-center fw-bold cursor">
+      <mat-icon>chevron_left</mat-icon>
+      Add Order
+    </section>
+
+    <section class="alert alert-warning p-1 px-2 mb-0">
+      <a
+        href="javascript:void(0);"
+        target="_blank"
+        class=""
+        style="border-radius: 8px"
+      >
+        <img class="me-2" src="assets/svg/bulb.svg" alt="bulb" />
+        Need help with adding an order?</a
+      >
+    </section>
+  </div>
+
+  <nav class="nav o2-nav px-4">
+    <ng-container *ngFor="let tab of tabs">
+      <a class="nav-link" routerLinkActive="active" [routerLink]="tab.path">{{
+        tab.name
+      }}</a>
+    </ng-container>
+  </nav>
+
+  <router-outlet></router-outlet>
+</div>

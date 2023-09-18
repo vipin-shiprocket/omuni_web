@@ -5,4 +5,15 @@ import { Component } from '@angular/core';
   templateUrl: './add-order.component.html',
   styleUrls: ['./add-order.component.scss'],
 })
-export class AddOrderComponent {}
+export class AddOrderComponent {
+  tabs = [
+    {
+      name: 'Domestic order',
+      path: 'single',
+    },
+    {
+      name: 'Bulk order',
+      path: 'bulk',
+    },
+  ];
+}

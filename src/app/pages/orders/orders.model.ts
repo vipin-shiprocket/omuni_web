@@ -9,9 +9,11 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
 import { NgOptimizedImage } from '@angular/common';
 import { MatDialogModule } from '@angular/material/dialog';
+import { RouterModule } from '@angular/router';
 
 export const OrdersModules = [
   CdkTableModule,
+  RouterModule,
   FormsModule,
   MatIconModule,
   MatSortModule,

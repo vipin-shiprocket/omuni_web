@@ -4,28 +4,6 @@
   border-radius: 8px;
 }
 
-.order-nav.nav {
-  font-size: u.rem(14);
-  font-weight: 500;
-  border-bottom: 1px solid u.$neutral3c;
-
-  .nav-link {
-    color: u.$neutral3;
-  }
-
-  .active {
-    color: u.$primary1;
-    border-bottom: u.rem(5) solid;
-  }
-
-  .dropdown-toggle::after {
-    content: '\e5cf';
-    font-family: 'Material Icons';
-    border-top: unset;
-    vertical-align: unset;
-  }
-}
-
 .add-sync-btn {
   height: u.rem(32);
   font-size: u.rem(12);
