@@ -1,10 +1,2 @@
 @forward '../single-order.component.scss';
-
 @use '../../../../../styles/utils' as u;
-
-.expand_more {
-  font-size: u.rem(20);
-  height: u.rem(20);
-  width: u.rem(20);
-  line-height: u.rem(18);
-}

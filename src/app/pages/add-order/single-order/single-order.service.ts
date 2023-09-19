@@ -6,7 +6,7 @@ import { EnumTabStatus, TabListSingleOrder } from '../add-order.model';
 })
 export class SingleOrderService {
   tabs = TabListSingleOrder;
-  currentTab = 1;
+  currentTab = 2;
 
   onTabChange(context: 'next' | 'prev') {
     if (context === 'next') {
