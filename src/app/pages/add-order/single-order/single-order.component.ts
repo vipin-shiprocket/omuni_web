@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { TabListSingleOrder } from '../add-order.model';
+import { SingleOrderService } from './single-order.service';
 
 @Component({
   selector: 'app-single-order',
@@ -7,6 +8,6 @@ import { TabListSingleOrder } from '../add-order.model';
   styleUrls: ['./single-order.component.scss'],
 })
 export class SingleOrderComponent {
-  tabs = TabListSingleOrder;
-  currentTab = 0;
+  soService = inject(SingleOrderService);
+  tabs = this.soService.tabs;
 }

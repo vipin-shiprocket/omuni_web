@@ -1,1 +1,271 @@
-<p>order-details works!</p>
+<h1 class="content-heading mb-4">Order Details</h1>
+<div class="content-data buyer">
+  <div class="row mb-3">
+    <div class="col-md-3">
+      <label for="orderId" class="form-label"
+        >Order ID <span class="text-black-50">(Auto Generated)</span></label
+      >
+      <input
+        type="text"
+        class="form-control"
+        id="orderId"
+        placeholder="0000001"
+      />
+    </div>
+    <div class="col-md-3">
+      <label for="orderDate" class="form-label">Order Date</label>
+      <input
+        type="date"
+        class="form-control"
+        id="orderDate"
+        placeholder="Enter Full Name"
+      />
+    </div>
+    <div class="col-md-3">
+      <label for="orderChannel" class="form-label"
+        >Order Channel<span class="text-black-50 ms-1 form-label-icon">
+          <mat-icon>help</mat-icon>
+        </span></label
+      >
+      <input
+        type="text"
+        class="form-control"
+        id="orderChannel"
+        placeholder="i.e abc@xyz.in"
+      />
+    </div>
+  </div>
+  <a
+    href="javascript:void(0);"
+    class="d-block mb-3 text-decoration-none d-flex align-item-center"
+  >
+    + Add Order Tag, Reseller's Name
+    <mat-icon class="expand_more">expand_more</mat-icon>
+    <span class="text-black-50">(Optional)</span>
+  </a>
+  <div class="row mb-3">
+    <div class="col-md-6">
+      <label for="orderTag" class="form-label">Order Tag </label>
+      <input type="text" class="form-control" id="orderTag" />
+    </div>
+    <div class="col-md-3">
+      <label for="resellerName" class="form-label"
+        >Reseller's Name <span class="text-black-50 fs-10px">(Optional)</span>
+      </label>
+      <input
+        type="text"
+        class="form-control"
+        id="resellerName"
+        placeholder="Reseller's Name "
+      />
+    </div>
+  </div>
+  <hr class="my-4 text-black-50" />
+  <h4 class="medium mb-3">Product Details</h4>
+  <div class="row mb-3">
+    <div class="col-md-4">
+      <label for="product1Name" class="form-label">Product 1 name</label>
+      <input
+        type="text"
+        class="form-control"
+        id="product1Name"
+        placeholder="Enter or search your product name"
+      />
+    </div>
+    <div class="col-md-2">
+      <label for="unitPrice" class="form-label">Unit Price </label>
+      <input
+        type="text"
+        class="form-control"
+        id="unitPrice"
+        placeholder="Reseller's Name "
+      />
+    </div>
+    <div class="col-md-2">
+      <label for="quantity" class="form-label">Quantity </label>
+      <input
+        type="text"
+        class="form-control"
+        id="quantity"
+        placeholder="Reseller's Name "
+      />
+    </div>
+    <div class="col-md-3">
+      <label for="productCategory" class="form-label">Product Category </label>
+      <input
+        type="text"
+        class="form-control"
+        id="productCategory"
+        placeholder="Enter Product Category"
+      />
+    </div>
+    <div class="col-1 align-self-end text-danger cursor">
+      <mat-icon>delete</mat-icon>
+    </div>
+  </div>
+
+  <a
+    href="javascript:void(0);"
+    class="d-block mb-3 text-decoration-none d-flex align-item-center"
+  >
+    + Add HSN Code, SKU, Tax Rate and Discount
+    <mat-icon class="expand_more">expand_more</mat-icon>
+    <span class="text-black-50">(Optional)</span>
+  </a>
+
+  <div class="row mb-3">
+    <div class="col-md-4">
+      <label for="hsnCode1" class="form-label"
+        >HSN Code
+        <span class="text-black-50 ms-1 form-label-icon">
+          <mat-icon>help</mat-icon>
+        </span></label
+      >
+      <input
+        type="text"
+        class="form-control"
+        id="hsnCode1"
+        placeholder="Enter your product HSN code"
+      />
+    </div>
+    <div class="col-md-2">
+      <label for="sku1" class="form-label"
+        >SKU
+        <span class="text-black-50 ms-1 form-label-icon">
+          <mat-icon>help</mat-icon>
+        </span></label
+      >
+      <input
+        type="text"
+        class="form-control"
+        id="sku1"
+        placeholder="Enter Product SKU"
+      />
+    </div>
+    <div class="col-md-2">
+      <label for="taxRate1" class="form-label">Tax Rate</label>
+      <input type="number" class="form-control" id="taxRate1" placeholder="%" />
+    </div>
+    <div class="col-md-3">
+      <label for="productDiscount1" class="form-label"
+        >Product Discount
+        <span class="text-black-50 ms-1 form-label-icon">
+          <mat-icon>help</mat-icon>
+        </span></label
+      >
+      <input
+        type="number"
+        class="form-control"
+        id="productDiscount1"
+        placeholder="0.00"
+      />
+    </div>
+  </div>
+  <hr class="my-4 text-black-50" />
+  <button class="btn btn-solid add-another-product-btn medium">
+    + Add Another Product
+  </button>
+  <hr class="my-4 text-black-50" />
+  <h4 class="medium mb-3">Payment Details</h4>
+  <p class="text-black-50 mb-3">
+    Select mode of payment that your buyer has chosen for the order
+  </p>
+  <section class="mb-3">
+    <label class="me-3">
+      <input
+        class="form-check-input radio-outlined me-1"
+        type="radio"
+        name="paymentMode"
+      />
+      Prepaid
+      <span class="text-black-50 ms-1 form-label-icon">
+        <mat-icon>help</mat-icon>
+      </span>
+    </label>
+    <label>
+      <input
+        class="form-check-input radio-outlined me-1"
+        type="radio"
+        name="paymentMode"
+      />
+      Cash On Delhivery
+      <span class="text-black-50 ms-1 form-label-icon">
+        <mat-icon>help</mat-icon>
+      </span>
+    </label>
+  </section>
+  <a
+    href="javascript:void(0);"
+    class="d-block mb-3 text-decoration-none d-flex align-item-center"
+  >
+    + Add Shipping Charges, Giftwrap, Transaction fee
+    <mat-icon class="expand_more">expand_more</mat-icon>
+    <span class="text-black-50">(Optional)</span>
+  </a>
+  <div class="row mb-3">
+    <div class="col-md-2">
+      <label for="shippingCharges" class="form-label">Shipping Charges</label>
+      <input
+        type="number"
+        class="form-control"
+        id="shippingCharges"
+        placeholder="0.00"
+      />
+    </div>
+    <div class="col-md-2">
+      <label for="giftWrap" class="form-label">Gift Wrap</label>
+      <input
+        type="number"
+        class="form-control"
+        id="giftWrap"
+        placeholder="0.00"
+      />
+    </div>
+    <div class="col-md-2">
+      <label for="transactionFee" class="form-label"
+        >Transaction Fee
+        <span class="text-black-50 ms-1 form-label-icon">
+          <mat-icon>help</mat-icon>
+        </span></label
+      >
+      <input
+        type="number"
+        class="form-control"
+        id="transactionFee"
+        placeholder="0.00"
+      />
+    </div>
+    <div class="col-md-2">
+      <label for="discounts" class="form-label"
+        >Discounts
+        <span class="text-black-50 ms-1 form-label-icon">
+          <mat-icon>help</mat-icon>
+        </span></label
+      >
+      <input
+        type="number"
+        class="form-control"
+        id="discounts"
+        placeholder="0.00"
+      />
+    </div>
+  </div>
+
+  <section class="total-section mt-5">
+    <p class="mb-2">
+      Sub-total for Product <span class="float-end">&#x20B9; 0.00</span>
+    </p>
+    <p class="mb-3">
+      Other Charges <span class="float-end">&#x20B9; 0.00</span>
+    </p>
+    <h4 class="medium">
+      Total Order Value <span class="float-end">&#x20B9; 0.00</span>
+    </h4>
+  </section>
+</div>
+<div class="text-end">
+  <button class="btn btn-outlined w-100px me-2" (click)="onClickBack()">
+    Back
+  </button>
+  <button class="btn btn-solid w-100px" (click)="onClickNext()">Next</button>
+</div>

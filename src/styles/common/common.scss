@@ -236,6 +236,10 @@ $BaseBG: #ffffff;
   }
 }
 
+.fs-10px {
+  font-size: u.rem(10);
+}
+
 .fs-12px {
   font-size: u.rem(12);
 }
@@ -508,6 +512,42 @@ img {
     border-top: unset;
     vertical-align: unset;
   }
+}
+
+.trapezoid {
+  width: 5rem;
+  border-left: u.rem(15) solid transparent;
+  position: absolute;
+  top: 1rem;
+  right: -0.6rem;
+
+  &-content {
+    display: flex;
+    align-items: center;
+    position: absolute;
+    top: u.rem(-16);
+    right: u.rem(10);
+    font-weight: 500;
+    color: white;
+    font-size: u.rem(10);
+  }
+
+  &:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    border-top: u.rem(5) solid;
+    border-right: u.rem(9) solid transparent;
+    border-left: 0 solid transparent;
+  }
+}
+
+.form-label-icon > .mat-icon {
+  width: u.rem(13);
+  height: u.rem(14);
+  line-height: u.rem(16);
+  font-size: u.rem(14);
 }
 
 .arrow-base {

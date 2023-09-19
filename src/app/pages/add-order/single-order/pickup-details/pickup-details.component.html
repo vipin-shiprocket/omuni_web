@@ -1,1 +1,64 @@
-<p>pickup-details works!</p>
+<h1 class="content-heading mb-4">Add Pickup Details</h1>
+<div class="content-data buyer">
+  <h4 class="medium mb-3">
+    Where is the order being sent from?
+    <span class="text-black-50">(Your Address)</span>
+  </h4>
+  <div class="row">
+    <div class="col-md-6">
+      <input
+        type="search"
+        class="form-control"
+        placeholder="Search your pick up address here by nickname or phone number"
+      />
+    </div>
+  </div>
+  <hr class="text-black-50 my-4" />
+  <h4 class="medium mb-3">Recently Used Addresses</h4>
+  <div class="row">
+    <div class="col-md-3 col-sm-6">
+      <ng-container [ngTemplateOutlet]="addressCard"></ng-container>
+    </div>
+  </div>
+  <hr class="my-4" />
+  <h4 class="medium mb-3">Other Addresses</h4>
+  <div class="row">
+    <div class="col-md-3 col-sm-6">
+      <button class="card card-custom add-address-btn">
+        <mat-icon class="mx-auto">add_location_alt</mat-icon>
+        <div class="mx-auto">Add New Pickup Address</div>
+      </button>
+    </div>
+    <div class="col-md-3 col-sm-6">
+      <ng-container [ngTemplateOutlet]="addressCard"></ng-container>
+    </div>
+  </div>
+</div>
+<div class="text-end">
+  <button class="btn btn-outlined me-2 w-100px" (click)="onClickBack()">
+    Back
+  </button>
+  <button class="btn btn-solid w-100px" (click)="onClickNext()">Next</button>
+</div>
+
+<ng-template #addressCard>
+  <div class="card card-custom selected">
+    <div class="trapezoid trapezoid-unverified">
+      <span class="trapezoid-content"></span>
+    </div>
+    <div class="card-body">
+      <span class="primary-tag">Primary Address</span>
+      <h5 class="medium mb-3">Sudip Gurgaon</h5>
+      <p class="mb-3">Plot 416,Phase III,Udyog Vihar,,Sector 19,Gurugra ...</p>
+      <p>Mobile : 9999999999</p>
+      <hr />
+      <div class="d-flex align-item-center">
+        <a class="text-decoration-none" href="javascript:void(0);">
+          <mat-icon class="pencil-icon">edit</mat-icon>
+          Edit Address</a
+        >
+        <button class="btn btn-sm btn-solid_sm ms-auto">Verify Address</button>
+      </div>
+    </div>
+  </div>
+</ng-template>

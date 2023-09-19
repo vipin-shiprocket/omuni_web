@@ -1,17 +1,19 @@
-<div class="container d-flex my-4">
-  <section>
+<div class="container d-flex my-5">
+  <section style="width: 15%">
     <ng-container *ngFor="let tab of tabs; let i = index">
-      <div class="tab" [ngClass]="{ active: currentTab === i }">
+      <div class="tab" [ngClass]="{ active: soService.currentTab === i }">
         <span *ngIf="tab.status !== 0" class="num-icon">{{ i + 1 }}</span>
         <mat-icon class="done" *ngIf="tab.status === 0">check_circle</mat-icon>
         {{ tab.name }}
       </div>
     </ng-container>
   </section>
-  <section class="content">
-    <app-buyer-details *ngIf="currentTab === 0"></app-buyer-details>
-    <app-pickup-details *ngIf="currentTab === 1"></app-pickup-details>
-    <app-order-details *ngIf="currentTab === 2"></app-order-details>
-    <app-package-details *ngIf="currentTab === 3"></app-package-details>
+  <section class="content w-100">
+    <app-buyer-details *ngIf="soService.currentTab === 0"></app-buyer-details>
+    <app-pickup-details *ngIf="soService.currentTab === 1"></app-pickup-details>
+    <app-order-details *ngIf="soService.currentTab === 2"></app-order-details>
+    <app-package-details
+      *ngIf="soService.currentTab === 3"
+    ></app-package-details>
   </section>
 </div>

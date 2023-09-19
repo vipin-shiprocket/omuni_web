@@ -21,6 +21,12 @@ import { OrderDetailsComponent } from './single-order/order-details/order-detail
     PackageDetailsComponent,
     OrderDetailsComponent,
   ],
-  imports: [CommonModule, AddOrdersRoutingModule, MatIconModule, MatTabsModule],
+  imports: [
+    CommonModule,
+    AddOrdersRoutingModule,
+    MatIconModule,
+    MatTabsModule,
+    MatIconModule,
+  ],
 })
 export class AddOrderModule {}

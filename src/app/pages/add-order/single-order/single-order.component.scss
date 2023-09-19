@@ -34,3 +34,28 @@
   color: u.$neutral2;
   border-color: u.$primary1;
 }
+
+.content {
+  & .content-heading {
+    font-size: 20px;
+    font-weight: bold;
+  }
+
+  & .content-data {
+    padding: 3em;
+    background-color: white;
+    border-radius: u.rem(13);
+    margin-bottom: u.rem(13);
+  }
+}
+
+.w-100px {
+  width: u.rem(100);
+}
+
+.expand_more {
+  font-size: u.rem(20);
+  height: u.rem(20);
+  width: u.rem(20);
+  line-height: u.rem(18);
+}
