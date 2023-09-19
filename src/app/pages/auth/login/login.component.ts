@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, inject } from '@angular/core';
 
 import {
   AbstractControl,
@@ -13,6 +13,8 @@ import { ToastrService } from 'ngx-toastr';
 // import { ReCaptchaV3Service } from 'ng-recaptcha';
 import { focusOnFirstDigitInOTP, toggleEye } from 'src/app/utils/utils';
 import { v4 as uuidv4 } from 'uuid';
+import { Router } from '@angular/router';
+import { CookieService } from 'ngx-cookie-service';
 import {
   IUserForm,
   LoginEmailAPIResponse,
@@ -50,13 +52,15 @@ export class LoginComponent implements OnDestroy {
   constructor(
     private http: HttpService,
     private toastr: ToastrService,
+    private _router: Router,
+    private cookie: CookieService,
   ) {
     this.userForm = new FormGroup({
       email: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('', [
         Validators.required,
         Validators.minLength(8),
-        Validators.pattern(PasswordPattern),
+        // Validators.pattern(PasswordPattern),
       ]),
     });
     this.ctrlByName('password').enable();
@@ -88,11 +92,11 @@ export class LoginComponent implements OnDestroy {
       //   type: 'minlength',
       //   message: 'Password must be at least 8 characters long',
       // },
-      {
-        type: 'pattern',
-        message:
-          'Your password must contain at least one uppercase, one lowercase, one number and minimum 8 characters',
-      },
+      // {
+      //   type: 'pattern',
+      //   message:
+      //     'Your password must contain at least one uppercase, one lowercase, one number and minimum 8 characters',
+      // },
     ],
   };
   mobileValidationMessage = {
@@ -114,22 +118,6 @@ export class LoginComponent implements OnDestroy {
     return this.loginOTPForm.get(ctrlName) as AbstractControl;
   }
 
-  resetPhoneLoginFormValidators() {
-    const form = this.phoneLoginForm.get('mobile') as AbstractControl;
-    form.setValidators([
-      Validators.required,
-      Validators.pattern('^[0-9]*$'),
-      Validators.minLength(10),
-      Validators.maxLength(10),
-    ]);
-  }
-  resetUserLoginFormValidators() {
-    const emailControl = this.ctrlByName('email');
-    emailControl.setValidators([Validators.required, Validators.email]);
-    const passwordControl = this.ctrlByName('password');
-    passwordControl.setValidators([Validators.required]);
-  }
-
   signInWithGoogle() {
     // signInWithGoogle
   }
@@ -144,7 +132,6 @@ export class LoginComponent implements OnDestroy {
 
     this.userForm.markAsUntouched();
     this.userForm.markAsPristine();
-    // this.changeFormSubmitTo(false);
   }
 
   changeOtpScreen() {
@@ -153,7 +140,7 @@ export class LoginComponent implements OnDestroy {
 
   onClickEmailId() {
     this.changeFormSubmitTo(false);
-    // this.resetUserLoginFormValidators();
+
     this.showPhoneLoginForm = !this.showPhoneLoginForm;
     this.showEmailLoginForm = !this.showEmailLoginForm;
   }
@@ -295,6 +282,9 @@ export class LoginComponent implements OnDestroy {
         next: (resp) => {
           if (resp.token) {
             localStorage.setItem('token', resp.token);
+            this.cookie.set('isLoggedIn', 'true');
+            this.toastr.success('', 'Login Successfully!');
+            this._router.navigate(['dashboard']);
           }
         },
         error: (err) => {
