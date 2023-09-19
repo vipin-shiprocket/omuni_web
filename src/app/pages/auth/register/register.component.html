@@ -1,9 +1,9 @@
-<div class="container-fluid auth-layout">
+<div class="container-fluid bg-blueclr position-relative">
   <div class="container">
     <div class="row auth">
-      <div class="tl-m tc-s mt-5">
+      <div class="tl-m tc-s my-5 col-xl-12">
         <img
-          ngSrc="./assets/svg/srlogo.svg"
+          ngSrc="./assets/svg/omuniLogoDark.svg"
           alt="logo"
           width="200"
           height="42"
@@ -11,193 +11,777 @@
           class=""
         />
       </div>
-
-      <div
-        class="col-md-6 col-lg-6 col-sm-9 col-xs-9 auth-card signup px-2rem order-m-2 order-s-1"
-      >
-        <div class="panel-body">
-          <h3
-            class="text-center SFProDisplay-Semibold text-left text-blackdark fs-20px mt-2 mt-md-3 mb-4 font-weight-bold"
-          >
-            Get started with a free account
-          </h3>
-        </div>
-        <!--Small Screen Socail Media Icons -->
-        <div class="row d-flex d-md-none mt-15 justify-content-center">
-          <div class="col col-3 mb-2 text-center text-opacity-90">
-            <button
-              class="btn mb-1 btn-light rounded-5rem border bg-white fs-14px py-2"
-              (click)="registerWithGoogle()"
+      <div class="col-md-12 row">
+        <div
+          style="z-index: 1"
+          class="col-md-6 col-lg-6 col-sm-11 col-xs-11 auth-card signup px-2rem order-m-2 order-s-1 mb-4"
+        >
+          <div class="panel-body">
+            <h3
+              class="text-center -Semibold text-left fs-20px mt-2 mt-md-3 mb-4 font-weight-bold"
             >
-              <img
-                class="w-20px"
-                src="./assets/images/google.png"
-                alt="google"
-                width="20px"
-                height="20px"
-              />
-            </button>
-            <br />
-            Google
+              Get started with a free account
+            </h3>
           </div>
-          <div class="col col-3 mb-2 text-opacity-90">
-            <button
-              class="btn mb-1 btn-light rounded-5rem border bg-white fs-14px py-2"
-              (click)="registerWithShopify()"
-            >
-              <img
-                class="w-20px"
-                src="./assets/images/shopify-sm.svg"
-                alt="Shopify"
-                width="20px"
-                height="20px"
-              />
-            </button>
-            <br />
-            Shopofy
-          </div>
-        </div>
-        <div class="socialMediaTabs">
-          <div class="row d-none d-md-flex mt-15 justify-content-center">
-            <div
-              class="col-md-6 col-xs-6 pr-sm col-6"
-              (click)="registerWithGoogle()"
-            >
-              <a class="btn btn-block btn-social btn-border">
+          <!--Small Screen Socail Media Icons -->
+          <div class="row d-flex d-md-none mt-15 justify-content-center">
+            <div class="col col-3 mb-2 text-center text-opacity-90 mx-2">
+              <button
+                class="btn mb-1 btn-light rounded-5rem border bg-white fs-14px py-2"
+                (click)="registerWithGoogle()"
+              >
                 <img
-                  class="w-20px mr-2"
+                  class=""
                   src="./assets/images/google.png"
                   alt="google"
                   width="20px"
                   height="20px"
                 />
-                Google
-              </a>
+              </button>
+              <br />
+              Google
             </div>
-
-            <div
-              class="col-md-6 col-xs-6 pr-sm col-6"
-              (click)="registerWithShopify()"
-            >
-              <a class="btn btn-block btn-social btn-border">
+            <div class="col col-3 mb-2 text-opacity-90 mx-2">
+              <button
+                class="btn mb-1 btn-light rounded-5rem border bg-white fs-14px py-2"
+                (click)="registerWithShopify()"
+              >
                 <img
-                  class="w-20px"
+                  class=""
                   src="./assets/images/shopify-sm.svg"
                   alt="Shopify"
                   width="20px"
                   height="20px"
                 />
-                Phone No
-              </a>
+              </button>
+              <br />
+              Shopofy
             </div>
           </div>
+          <div class="socialMediaTabs">
+            <div class="row d-none d-md-flex mt-15 justify-content-center">
+              <div
+                tabindex="0"
+                class="col-md-6 col-xs-6 pr-sm col-6"
+                (click)="registerWithGoogle()"
+                (keyup.enter)="registerWithGoogle()"
+              >
+                <a class="btn btn-block btn-social btn-border">
+                  <img
+                    class="w-20px mr-2"
+                    src="./assets/images/google.png"
+                    alt="google"
+                    width="20px"
+                    height="20px"
+                  />
+                  Google
+                </a>
+              </div>
+
+              <div
+                tabindex="0"
+                class="col-md-6 col-xs-6 pr-sm col-6"
+                (click)="registerWithShopify()"
+                (keyup.enter)="registerWithShopify()"
+              >
+                <a class="btn btn-block btn-social btn-border">
+                  <img
+                    class="w-20px"
+                    src="./assets/images/shopify-sm.svg"
+                    alt="Shopify"
+                    width="20px"
+                    height="20px"
+                  />
+                  Shopify
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- .. OR -->
+          <div class="text-center ptb-tenpx">
+            <p class="my-1 text-center fs-16px">
+              <span class="dashed-border mb-2px"> </span> or
+              <span class="dashed-border mb-2px"></span>
+            </p>
+          </div>
+
+          <form novalidate (submit)="onSignupFormSubmit()" class="row g-3">
+            <div class="col-xs-12 mb-3">
+              <div class="row mb-md-2">
+                <div class="col-xs col-md-12 col-lg-6 my-2">
+                  <label for="firstName" class="form-label">First Name </label>
+                  <input
+                    type="text"
+                    id="firstName"
+                    class="form-control"
+                    placeholder="First name"
+                    aria-label="First name"
+                    placeholder="Enter First Name"
+                  />
+                </div>
+                <div class="col-xs col-md-12 col-lg-6 my-2">
+                  <label for="lastName" class="form-label">Last Name </label>
+                  <input
+                    type="text"
+                    id="lastName"
+                    class="form-control"
+                    placeholder="Last name"
+                    placeholder="Enter Last Name"
+                    aria-label="Last name"
+                  />
+                </div>
+              </div>
+
+              <div class="row mb-md-2">
+                <div class="col-xs-12 my-2">
+                  <label for="companyName" class="form-label"
+                    >Company Name</label
+                  >
+                  <input
+                    type="text"
+                    id="companyName"
+                    class="form-control"
+                    placeholder="Enter Company Name"
+                    aria-label="Company name"
+                  />
+                </div>
+
+                <div class="col-xs-12 my-2">
+                  <label for="emailId" class="form-label">Email ID</label>
+                  <input
+                    type="text"
+                    id="emailId"
+                    class="form-control"
+                    aria-label="Email Id"
+                    autocomplete="nope"
+                    placeholder="Enter Email Id"
+                  />
+                </div>
+
+                <div class="col-xs-12 my-2">
+                  <label for="emailId" class="form-label">Password</label>
+                  <input
+                    type="password"
+                    id="password"
+                    class="form-control"
+                    aria-label="password"
+                    autocomplete="nope"
+                    placeholder="Enter Password"
+                  />
+                </div>
+              </div>
+
+              <div class="col-12 mb-3 mt">
+                <label for="emailId" class="form-label">
+                  How many orders do you ship in a month ?
+                </label>
+                <select class="form-select" aria-label="Default select example">
+                  <option selected>Please select</option>
+                  <option value="Setting up a new business">
+                    Setting up a new business
+                  </option>
+                  <option value="Between 1-10 orders">
+                    Between 1-10 orders
+                  </option>
+                  <option value="11-100 orders">11-100 orders</option>
+                  <option value="101-1000 orders">101-1000 orders</option>
+                  <option value="1001-5000 orders">1001-5000 orders</option>
+                  <option value="More than 5000 orders">
+                    More than 5000 orders
+                  </option>
+                </select>
+              </div>
+              <div
+                class="checkbox col-12 form-group fs-10px mb-0 ml-1 mt-1 px-0 text-left position-relative"
+              >
+                <label class="pl-2 col-12">
+                  <input type="checkbox" class="d-none" />
+                  <span class="block-center ms-4 fs-8px">
+                    <span
+                      >By clicking Sign up for Free, you agree to
+                      Shiprocket's</span
+                    >
+                    <a
+                      href="https://www.shiprocket.in/merchant-agreement/"
+                      target="_blank"
+                      rel="noopener"
+                      class="text-blue ms-1"
+                      >Terms Of Service
+                    </a>
+                    and
+                    <a
+                      href="https://www.shiprocket.in/privacy-policy/"
+                      rel="noopener"
+                      target="_blank"
+                      class="text-blue ms-1"
+                      >Privacy Policy.</a
+                    > </span
+                  ><span class="customcheckbox"></span
+                ></label>
+              </div>
+
+              <div class="d-grid gap-2 col-12 mt-4">
+                <button type="submit" class="btn btn-solid">
+                  Sign up for Free
+                </button>
+              </div>
+
+              <div class="col-12 mt-2">
+                <p class="tc-all fs-14px text-grey" style="color: #969696">
+                  Already have an account?
+                  <a
+                    routerLink="/login"
+                    class="a-link link-primary fs-12 pointer ml-2"
+                  >
+                    Login
+                  </a>
+                </p>
+              </div>
+            </div>
+          </form>
         </div>
 
-        <!-- .. OR -->
-        <div class="text-center ptb-tenpx">
-          <p class="my-1 text-center fs-16px">
-            <span class="dashed-border mb-2px"> </span> or
-            <span class="dashed-border mb-2px"></span>
+        <div
+          class="col-md-6 col-sm-12 d-flex flex-column justify-content-start order-m-1 order-s-2"
+        >
+          <div>
+            <h1 class="text-left fs-md-24 fs-md-42 mt-4 mobfont-24">
+              <b> We Are More than Just a Shipping Partner</b>
+            </h1>
+            <ul class="list-style-type-none fs-16px mt-4 lh-35 px-0">
+              <li>
+                <img
+                  src="./assets/images/tickright.png"
+                  alt="checkCircle"
+                  width="20px"
+                  height="20px"
+                  class="me-3 mb-1"
+                />
+                <span class="text-black">AI-Powered Courier Selection</span>
+              </li>
+              <li>
+                <img
+                  src="./assets/images/tickright.png"
+                  alt="checkCircle"
+                  width="20px"
+                  height="20px"
+                  class="me-3 mb-1"
+                /><span class="text-black">Branded Order Tracking Page</span>
+              </li>
+              <li>
+                <img
+                  src="./assets/images/tickright.png"
+                  alt="checkCircle"
+                  width="20px"
+                  height="20px"
+                  class="me-3 mb-1"
+                /><span class="text-black">Automated NDR Management</span>
+              </li>
+              <li>
+                <img
+                  src="./assets/images/tickright.png"
+                  alt="checkCircle"
+                  width="20px"
+                  height="20px"
+                  class="me-3"
+                /><span class="text-black">Up To 45% Lesser RTOs</span>
+              </li>
+            </ul>
+          </div>
+          <ng-container>
+            <div class="mt-2">
+              <p class="fs-16px mb-1">Trusted by 1 Lakh+ Brands</p>
+            </div>
+          </ng-container>
+          <!-- images start -->
+          <ng-container>
+            <div class="pb-3">
+              <img
+                class="w-100px me-3"
+                src="/src/assets/images/samsung.png"
+                alt="samsung"
+                width="100"
+                height="15"
+              />
+              <img
+                class="w-100px me-3"
+                src="/src/assets/images/relaxo.png"
+                alt="relaxo"
+                width="100"
+                height="18"
+              />
+              <img
+                class="w-70px me-3"
+                src="/src/assets/images/kellogs.png"
+                alt="kellogs"
+                width="70"
+                height="24"
+              />
+              <img
+                class="w-100px me-3"
+                src="/src/assets/images/mamaearth.png"
+                alt="mamaearth"
+                width="100"
+                height="13"
+              />
+            </div>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+    <div
+      class="row"
+      style="height: 300px; bottom: 15px; z-index: 0; left: 0"
+      class="position-absolute w-100 d-none d-md-block"
+    >
+      <img
+        src="/src/assets/images/regbackground2.png"
+        alt="store Image"
+        width="100%"
+        height="300"
+      />
+    </div>
+    <div class="text-center mt-3 footer">
+      <app-footer></app-footer>
+    </div>
+  </div>
+</div>
+
+<!--shiprocket register section-->
+<section class="mt-5 col-xs-12">
+  <div class="container">
+    <div class="row">
+      <div class="col-12 text-center">
+        <h2 class="fs-xl-40 fs-lg-34 fs-md-42 fs-md-24">
+          <b>Artificial Intelligence, Real Impact</b>
+        </h2>
+        <p class="fs-16px mb-3">
+          Skyrocket your delivery performance. Use AI-based suggestions to
+          choose from 17+ courier partners.
+        </p>
+      </div>
+    </div>
+    <div class="row setFlexDir mx-40">
+      <div class="col d-md-block d-none">
+        <img
+          src="https://sr-cdn-1.shiprocket.in/img/login/courier_guy@3x.webp"
+          class="setimage"
+          alt="courier-guy"
+          width="480"
+          height="480"
+        />
+      </div>
+      <div class="col">
+        <img
+          src="https://sr-cdn-1.shiprocket.in/img/login/partners@3x.webp"
+          class="w-100 h-auto m-ipad setimage pull-right"
+          alt="shiprocket-partner"
+          width="500"
+          height="388"
+        />
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="mt-5">
+  <div class="container">
+    <div class="row">
+      <div class="col-12 text-center">
+        <h2 class="fs-xl-40 fs-lg-34 fs-md-24">
+          <b>Engage. Re-Engage. Repeat</b>
+        </h2>
+        <p class="fs-16px lgt_grey">
+          Retain your buyers with branded tracking pages. Place your logo,
+          offers & support details.
+        </p>
+      </div>
+    </div>
+    <div class="row mt-5">
+      <div class="col-sm-6 col-xs-12">
+        <div
+          class="product-detail active"
+          [class.active]="tabactive === 'first'"
+          (click)="changeclass('first')"
+          (keyup.enter)="changeclass('first')"
+          tabindex="0"
+        >
+          <img
+            *ngIf="tabactive !== 'first'"
+            class="float-end d-sm-none d-block"
+            alt="firstImage"
+            src="/src/assets/svg/arrowdown.svg"
+          />
+
+          <img
+            *ngIf="tabactive === 'first'"
+            class="float-end d-sm-none d-block"
+            alt="image"
+            src="/src/assets/svg/arrowup.svg"
+          />
+          <h3>Promote Your Products</h3>
+          <p>Cross-sell products through dedicated display banners</p>
+          <img
+            *ngIf="tabactive === 'first'"
+            src="https://sr-cdn-1.shiprocket.in/img/login/promote_projects.svg"
+            class="w-100 setimage d-block d-sm-none mt-2rem"
+            alt="order-placement"
+            width="700"
+            height="409"
+          />
+        </div>
+        <div
+          class="product-detail"
+          [class.active]="tabactive === 'second'"
+          (click)="changeclass('second')"
+          (keyup.enter)="changeclass('second')"
+          tabindex="0"
+        >
+          <img
+            *ngIf="tabactive !== 'second'"
+            class="float-end d-sm-none d-block"
+            tabindex="0"
+            alt="image"
+            src="/src/assets/svg/arrowdown.svg"
+          />
+          <img
+            *ngIf="tabactive === 'second'"
+            class="float-end d-sm-none d-block"
+            alt="secondArrow"
+            src="/src/assets/svg/arrowup.svg"
+          />
+          <h3>Bring Back Users</h3>
+          <p>Add your own menu to navigate the users back to your website</p>
+          <img
+            *ngIf="tabactive === 'second'"
+            src="https://sr-cdn-1.shiprocket.in/img/login/bring_users.svg"
+            class="w-100 setimage mt-2 d-block d-sm-none"
+            alt="order-placement"
+            width="540"
+            height="409"
+          />
+        </div>
+
+        <div
+          class="product-detail"
+          [class.active]="tabactive === 'third'"
+          tabindex="0"
+          (click)="changeclass('third')"
+          (keyup.enter)="changeclass('third')"
+        >
+          <img
+            *ngIf="tabactive !== 'third'"
+            class="float-end d-sm-none d-block"
+            tabindex="0"
+            alt=""
+            src="/src/assets/svg/arrowdown.svg"
+          />
+          <img
+            *ngIf="tabactive === 'third'"
+            class="float-end d-sm-none d-block"
+            tabindex="0"
+            alt=""
+            src="/src/assets/svg/arrowup.svg"
+          />
+          <h3>Collect Customer Feedback</h3>
+          <p>
+            Know your buyer’s experience in terms of NPS(Net Promoter Score)
           </p>
+          <img
+            *ngIf="tabactive === 'third'"
+            src="https://sr-cdn-1.shiprocket.in/img/login/customerfeedback@3x.webp"
+            class="w-100 setimage mt-2 d-block d-sm-none"
+            alt="order-placement"
+            width="540"
+            height="350"
+          />
         </div>
+      </div>
+      <div class="col-sm-6 d-sm-block d-none col-xs-12">
+        <img
+          *ngIf="tabactive === 'first'"
+          src="https://sr-cdn-1.shiprocket.in/img/login/promote_projects.svg"
+          class="w-100 m-ipad h-auto setimage mt-sm-5 mt-md-0"
+          alt="order-placement"
+          width="576.7"
+          height="409"
+        />
+        <img
+          *ngIf="tabactive === 'second'"
+          src="https://sr-cdn-1.shiprocket.in/img/login/bring_users.svg"
+          class="w-100 m-ipad h-auto setimage mt-sm-5 mt-md-0"
+          alt="order-placement"
+          width="540"
+          height="409"
+        />
+        <img
+          *ngIf="tabactive === 'third'"
+          src="https://sr-cdn-1.shiprocket.in/img/login/customerfeedback@3x.webp"
+          class="w-100 m-ipad setimage mt-sm-5 mt-md-0"
+          alt="order-placement"
+          width="540"
+          height="350"
+        />
+      </div>
+    </div>
+  </div>
+</section>
 
-        <form novalidate (submit)="onSignupFormSubmit()" class="row g-3">
-          <div class="col-xs-12 mb-3">
-            <div class="row mb-md-2">
-              <div class="col-xs col-md-12 col-lg-6">
-                <label for="firstName" class="form-label">First Name </label>
-                <input
-                  type="text"
-                  id="firstName"
-                  class="form-control"
-                  placeholder="First name"
-                  aria-label="First name"
-                />
-              </div>
-              <div class="col-xs col-md-12 col-lg-6">
-                <label for="lastName" class="form-label">Last Name </label>
-                <input
-                  type="text"
-                  id="lastName"
-                  class="form-control"
-                  placeholder="Last name"
-                  aria-label="Last name"
-                />
-              </div>
-            </div>
-
-            <button type="submit" class="btn btn-primary">Submit</button>
-          </div>
-        </form>
+<section class="mt-5 pt-5 pb-5 orderSection">
+  <div class="container noti__">
+    <div class="row">
+      <div class="col-12 text-center">
+        <h2 class="fs-xl-40 fs-lg-34 fs-md-24 mb-2">There’s No Looking Back</h2>
+        <p class="fs-16px lgt_grey">
+          Have your investments return, not your orders. Move forward with upto
+          45% lesser RTOs.
+        </p>
+      </div>
+    </div>
+    <div class="row mt-5">
+      <div class="col-sm-6 col-xs-12 order-s-2 order-xs-1 order-m-2">
+        <img
+          src="https://sr-cdn-1.shiprocket.in/img/login/courier_tracking.webp"
+          class="w-90p setimage h-auto"
+          alt="courier-tracking"
+          width="486"
+          height="319"
+        />
+      </div>
+      <div
+        class="col-sm-6 mt-4 col-xs-12 order-s-1 order-xs-1 tc-all order-m-1"
+      >
+        <h2 class="">Real-Time Tracking Updates</h2>
+        <p class="fs-16px">Notify your buyers via Email & SMS</p>
+      </div>
+    </div>
+    <div class="row mt-5">
+      <div class="col-sm-6 col-xs-12 order-s-1 order-xs-1 order-m-1">
+        <img
+          src="https://sr-cdn-1.shiprocket.in/img/login/return_order.webp"
+          class="w-90p setimage h-auto"
+          alt="return-order"
+          width="486"
+          height="290"
+        />
       </div>
 
       <div
-        class="col-md-6 col-sm-12 d-flex flex-column justify-content-start order-m-1 order-s-2"
+        class="col-sm-6 mt-4 col-xs-12 order-s-2 order-xs-1 tc-all order-m-2"
       >
-        <div>
-          <h1
-            class="text-blackdark text-left fs-42px mt-4 sfprodisplay SFProDisplay-Bold mobfont-24"
-          >
-            <b> We Are More than Just a Shipping Partner</b>
-          </h1>
-          <ul
-            class="text-blackdark list-style-type-none font-16 mt-4 pl-0"
-            style="line-height: 35px"
-          >
-            <li>
-              <img
-                src="./assets/images/tickright.png"
-                alt="checkCircle"
-                width="20px"
-                height="20px"
-                class="w-20px me-3 mb-1"
-              />
-              <span class="SFProDisplay-Medium blck"
-                >AI-Powered Courier Selection</span
-              >
-            </li>
-            <li _ngcontent-sjc-c57="">
-              <img
-                _ngcontent-sjc-c57=""
-                src="/sr_login/assets/images/tickright.png"
-                alt="checkCircle"
-                width="20px"
-                height="20px"
-                class="w-20px mr-3 mb-1"
-              /><span _ngcontent-sjc-c57="" class="SFProDisplay-Medium blck"
-                >Branded Order Tracking Page</span
-              >
-            </li>
-            <li _ngcontent-sjc-c57="">
-              <img
-                _ngcontent-sjc-c57=""
-                src="/sr_login/assets/images/tickright.png"
-                alt="checkCircle"
-                width="20px"
-                height="20px"
-                class="w-20px mr-3 mb-1"
-              /><span _ngcontent-sjc-c57="" class="SFProDisplay-Medium blck"
-                >Automated NDR Management</span
-              >
-            </li>
-            <li _ngcontent-sjc-c57="">
-              <img
-                _ngcontent-sjc-c57=""
-                src="/sr_login/assets/images/tickright.png"
-                alt="checkCircle"
-                width="20px"
-                height="20px"
-                class="w-20px mr-3"
-              /><span _ngcontent-sjc-c57="" class="SFProDisplay-Medium blck"
-                >Up To 45% Lesser RTOs</span
-              >
-            </li>
-          </ul>
-        </div>
+        <h2 class="">AI-Powered RTO Prediction</h2>
+        <p class="fs-16px">Process undelivered orders within minutes</p>
       </div>
+    </div>
+    <div class="row mt-5">
+      <div class="col-sm-6 col-xs-12 order-s-2 order-xs-1 order-m-2">
+        <img
+          src="https://sr-cdn-1.shiprocket.in/img/login/issue_tracking.webp"
+          class="w-90p setimage h-auto"
+          alt="issue-tracking"
+          width="486"
+          height="306"
+        />
+      </div>
+      <div
+        class="col-sm-6 mt-4 col-xs-12 order-s-1 order-xs-1 tc-all order-m-1"
+      >
+        <h2>Automated NDR Dashboard</h2>
+        <p class="fs-16px">Process undelivered orders within minutes</p>
+      </div>
+    </div>
+  </div>
+</section>
 
-      <div class="text-center mt-3 footer">
-        <app-footer></app-footer>
+<section class="mt-5 finger_box">
+  <div class="container">
+    <div class="row">
+      <div class="col-12 text-center my-3">
+        <h2 class="fs-xl-40 fs-lg-34 fs-md-24 mb-2">
+          <b>Power At Your Fingertips</b>
+        </h2>
+        <p class="fs-14px mb-2">
+          Fantastic features to make eCommerce shipping an easy-peasy task.
+        </p>
+      </div>
+    </div>
+
+    <div class="row mt-5 justify-content-center">
+      <div class="col-sm-4 col finger_box setFlex">
+        <img
+          src="/src/assets/svg/dashboard.svg"
+          class="mb-4 tc-xs tl-s"
+          width="56"
+          height="56"
+          alt="dashboard"
+        />
+        <h3 class="tc-xs tl-s text-sm-left">All-In-One Dashboard</h3>
+        <p class="d-sm-block d-none">
+          Manage your orders, shipments, NDR, RTO in one place.
+        </p>
+      </div>
+      <div class="col-sm-4 col finger_box setFlex">
+        <img
+          src="/src/assets/svg/calculator.svg"
+          class="mb-4"
+          width="56"
+          height="56"
+          alt="calculator"
+        />
+        <h3 class="tc-xs tl-s text-sm-left">Shipping Rate Calculator</h3>
+        <p class="d-sm-block d-none">
+          Calculate shipping rates based on the delivery distance & shipping
+          mode.
+        </p>
+      </div>
+      <div class="col-sm-4 col finger_box setFlex">
+        <img
+          src="/src/assets/svg/shippingrate.svg"
+          class="mb-4"
+          width="56"
+          height="56"
+          alt="shipping rate"
+        />
+
+        <h3 class="tc-xs tl-s text-sm-left">Lowest Shipping Rates</h3>
+        <p class="d-sm-block d-none">
+          Start shipping at ₹20/500gms* domestically & ₹110/50gms*
+        </p>
+      </div>
+    </div>
+    <div class="row justify-content-center">
+      <div class="col-sm-4 col finger_box setFlex">
+        <img
+          src="/src/assets/svg/orderprocessing.svg"
+          class="mb-4"
+          width="56"
+          height="56"
+          alt="order processing"
+        />
+
+        <h3 class="tc-xs tl-s text-sm-left">Quick Order Processing</h3>
+        <p class="d-sm-block d-none">
+          Create shipments, download documents & schedule pickups in a few
+          clicks.
+        </p>
+      </div>
+      <div class="col-sm-4 col finger_box setFlex">
+        <img
+          src="/src/assets/svg/locations.svg"
+          class="mb-4"
+          width="56"
+          height="56"
+          alt="locations"
+        />
+        <h3 class="tc-xs tl-s text-sm-left">Multiple Pickup Locations</h3>
+        <p class="d-sm-block d-none">
+          Add unlimited pickup locations to your account & ship conveniently.
+        </p>
+      </div>
+      <div class="col-sm-4 col finger_box setFlex">
+        <img
+          src="/src/assets/svg/pincode.svg"
+          class="mb-4"
+          width="56"
+          height="56"
+          alt="pincode"
+        />
+        <h3 class="tc-xs tl-s text-sm-left">29k+ Serviceable Pin Codes</h3>
+        <p class="d-sm-block d-none">
+          Reach far-off cities with ease & take your business to every
+          household.
+        </p>
+      </div>
+    </div>
+    <div class="row justify-content-center">
+      <div class="col-sm-4 col finger_box setFlex">
+        <img
+          src="/src/assets/svg/insurancecover.svg"
+          class="mb-4"
+          width="56"
+          height="56"
+          alt="insurance cover"
+        />
+        <h3 class="tc-xs tl-s text-sm-left">Insurance Cover Upto ₹25L</h3>
+        <p class="d-sm-block d-none">
+          Get 100%* insurance cover for lost & damaged shipments worth ₹5K- ₹25L
+        </p>
+      </div>
+      <div class="col-sm-4 col finger_box setFlex">
+        <img
+          src="/src/assets/svg/codremittance.svg"
+          class="mb-4"
+          width="56"
+          height="56"
+          alt="cod remittance"
+        />
+
+        <h3 class="tc-xs tl-s text-sm-left">Early COD Remittance</h3>
+        <p class="d-sm-block d-none">
+          Get guaranteed remittance in 2 days* & unrestrict your cash flow
+        </p>
+      </div>
+      <div class="col-sm-4 col finger_box setFlex">
+        <img
+          src="/src/assets/svg/bulkupload.svg"
+          class="mb-4"
+          width="56"
+          height="56"
+          alt="bulk upload"
+        />
+        <h3 class="tc-xs tl-s text-sm-left">Bulk Upload</h3>
+        <p class="d-sm-block d-none">
+          Upload several orders in one file & eliminate manual efforts
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="mt-5 pt-5 pb-5 signUpChannelsSection">
+  <div class="container">
+    <div class="row mb-4">
+      <div class="col-sm-4 col-xs-12 order-2">
+        <h3
+          class="fs-xl-40 fs-lg-34 fs-md-24 mb-2 mt-xl-90 mt-lg-90 mt-md-60 mt-sm-60"
+        >
+          Connect Your <br />
+          Channel Easily
+        </h3>
+        <p>
+          Integrate 12+ eCommerce sales channels & <br />marketplaces in an
+          instant.
+        </p>
+      </div>
+      <div class="col-sm-8 col-xs-12 mt-5 order-1">
+        <img
+          src="https://sr-cdn-1.shiprocket.in/img/login/channel-image.webp"
+          class="w-90p h-auto setimage"
+          alt="channels"
+          width="657"
+          height="272"
+        />
+      </div>
+    </div>
+    <div class="row m-auto custm-banner text-center">
+      <div class="col-12">
+        <h3 class="fs-xl-40 fs-lg-34 fs-md-24 mb-2 mt-md-50px">
+          Ship Delightful Experiences With Shiprocket
+        </h3>
+        <a>Sign-Up For Free</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="content bg-inverse signupFooter">
+  <div class="pane panel-default container">
+    <div class="panel-body text-center row pv">
+      <div class="col-md-12 text-center clearfix">
+        <p class="text-grey">
+          Copyright © 2023 Shiprocket. All Rights Reserved.
+        </p>
       </div>
     </div>
   </div>

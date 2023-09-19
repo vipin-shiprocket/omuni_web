@@ -8,13 +8,14 @@ import { ResetPasswordComponent } from './pages/auth/reset-password/reset-passwo
 
 const routes: Routes = [
   {
-    path: '',
+    path: 'dashboard',
     loadChildren: () =>
       import('./pages/layout/layout.module').then((m) => m.LayoutModule),
   },
   {
     path: 'login',
     component: LoginComponent,
+    // canMatch:()=>{},
     loadChildren: () =>
       import('src/app/pages/auth/auth.module').then((m) => m.AuthModule),
   },

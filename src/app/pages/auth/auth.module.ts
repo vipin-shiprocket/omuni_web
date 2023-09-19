@@ -13,7 +13,6 @@ import { RegisterComponent } from './register/register.component';
 import { FooterComponent } from './footer/footer.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { OtpInputModule } from 'src/app/components/otp-input/otp-input.module';
-// import * as Fingerprint2 from 'src/app/utils/fingerprint';
 @NgModule({
   declarations: [
     LoginComponent,
