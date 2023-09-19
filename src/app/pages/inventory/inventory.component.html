@@ -79,8 +79,9 @@
 
   <!-- Table -->
   <div class="w-100 overflow-auto rounded">
-    <div class="table-responsive mb-3 custom-scrollbar">
+    <div class="table-responsive mb-3 custom-scrollbar" cdkScrollable>
       <cdk-table
+        cdkScrollable
         matSort
         multiTemplateDataRows
         [dataSource]="dataSource || [{}, {}, {}]"
@@ -94,12 +95,8 @@
             <div
               *ngIf="!isEmpty(row)"
               class="cursor"
-              data-bs-toggle="popover"
-              data-bs-trigger="hover focus"
-              data-bs-placement="top"
-              data-bs-html="true"
-              [attr.data-bs-content]="row.productDetails?.image"
-              [attr.data-bs-title2]="row.productDetails?.name"
+              appToolTip
+              [contentTemplate]="popup"
             >
               <span class="d-block mb-1">{{ row.productDetails?.name }}</span>
               <span class="rounded p-1 bg-dark-subtle text-black-50"
@@ -107,6 +104,14 @@
                 {{ row.productDetails?.colour }}</span
               >
             </div>
+            <ng-template #popup>
+              <div class="bg-white p-2 rounded shadow-lg popover-arrow">
+                <img
+                  [src]="row.productDetails?.image"
+                  [alt]="row.productDetails?.name"
+                />
+              </div>
+            </ng-template>
             <ng-container
               *ngIf="isEmpty(row)"
               [ngTemplateOutlet]="placeholder"
@@ -223,30 +228,30 @@
           <div>
             <div class="card-body">
               <h5 class="card-title">{{ item.name }}</h5>
-              <ng-container *ngIf="(analyticsResponse$ | async) === null">
+              <ng-container *ngIf="analyticsData === undefined">
                 <div class="placeholder-glow">
                   <h2 class="placeholder">Lorem ...</h2>
                 </div>
               </ng-container>
-              <ng-container *ngIf="analyticsResponse$ | async as resp">
+              <ng-container *ngIf="analyticsData">
                 <div class="d-flex align-items-center">
-                  <h3>{{ resp[item.key].quantity }}</h3>
+                  <h3>{{ analyticsData[item.key].quantity }}</h3>
                   <span
                     class="ms-2 d-inline-flex align-items-center"
                     [ngClass]="
-                      resp[item.key].percentage >= 0
+                      analyticsData[item.key].percentage >= 0
                         ? 'text-success'
                         : 'text-danger'
                     "
                   >
                     <mat-icon class="me-2">
                       {{
-                        resp[item.key].percentage >= 0
+                        analyticsData[item.key].percentage >= 0
                           ? 'trending_up'
                           : 'trending_down'
                       }}
                     </mat-icon>
-                    {{ resp[item.key].percentage | mapper: abs }} %
+                    {{ analyticsData[item.key].percentage | mapper: abs }} %
                   </span>
                 </div>
               </ng-container>

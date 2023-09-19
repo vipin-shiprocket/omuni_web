@@ -14,13 +14,12 @@ import {
 } from './inventory.model';
 import { IOption } from 'src/app/components/chip-selectbox/chip-selectbox.model';
 import { NgForm } from '@angular/forms';
-import { Observable, switchMap } from 'rxjs';
+import { switchMap } from 'rxjs';
 import { ITab } from 'src/app/components/index-filters/index-filters.model';
 import { MatPaginatorIntl, PageEvent } from '@angular/material/paginator';
 import { IPaginationData } from 'src/app/components/index-table/index-table.model';
 import { MatTableDataSource } from '@angular/material/table';
 import { CustomPaginator } from 'src/app/utils/customPaginator';
-import * as bootstrap from 'bootstrap';
 
 @Component({
   selector: 'app-inventory',
@@ -36,6 +35,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
     { display: 'Delta', value: 'DELTA' },
   ];
   activeTabIdx = 0;
+  analyticsData?: AnalyticsResponse['data'];
   analyticsStructure = analytics;
   columns = InventoryColumns;
   columnsToDisplay = [...this.getColumnArrangement()];
@@ -53,19 +53,11 @@ export class InventoryComponent implements OnInit, OnDestroy {
   selectedOption!: string[];
   sortBy = ['name'];
   tabs: ITab[] = [];
-  private _analyticsResponse$?: Observable<AnalyticsResponse>;
   private inventoryService = inject(InventoryService);
   private toast = inject(ToastrService);
   private subs = new SubSink();
   fileTypes =
     '.csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel';
-
-  get analyticsResponse$(): Observable<AnalyticsResponse> {
-    if (!this._analyticsResponse$) {
-      this._analyticsResponse$ = this.inventoryService.getAnalytics();
-    }
-    return this._analyticsResponse$;
-  }
 
   get getOption() {
     return this.selectedOption[0];
@@ -85,10 +77,26 @@ export class InventoryComponent implements OnInit, OnDestroy {
     this.addDropdownAttrFlag(0);
   }
 
+  getAnalyticsData() {
+    this.analyticsData = undefined;
+    const params = { fcId: '' };
+    this.subs.sink = this.inventoryService.getAnalytics(params).subscribe({
+      next: (data: AnalyticsResponse) => {
+        this.analyticsData = data.data;
+      },
+      error: (err) => {
+        console.log(err);
+      },
+    });
+  }
+
   getInventoryData(evt?: string[]) {
     if (evt) this.sortBy = evt;
 
     this.dataSource.data = TablePlaceholder;
+
+    this.getAnalyticsData();
+
     const params = {
       sortField: this.sortBy[0],
       pageNum: this.pagination.currentPage,
@@ -96,22 +104,19 @@ export class InventoryComponent implements OnInit, OnDestroy {
       fcId: 'FC_123',
       viewId: 'VIEW_123',
     };
-    this.subs.sink = this.inventoryService.getListings(params).subscribe(
-      (data) => {
+
+    this.subs.sink = this.inventoryService.getListings(params).subscribe({
+      next: (data) => {
         this.dataSource.data = data.data as never;
         this.pagination = {
           ...this.pagination,
           length: data.hasNext ? 999 : data.data.length,
         };
       },
-      (err) => {
+      error: (err) => {
         console.log(err);
       },
-      async () => {
-        await sleep(0);
-        this.setPopovers();
-      },
-    );
+    });
   }
 
   abs(val: number) {
@@ -215,19 +220,6 @@ export class InventoryComponent implements OnInit, OnDestroy {
     });
     this.columnsToDisplay = [...this.getColumnArrangement()];
     this.getInventoryData();
-  }
-
-  setPopovers() {
-    const popoverTriggerList = document.querySelectorAll(
-      '[data-bs-toggle="popover"]',
-    );
-    popoverTriggerList.forEach((popoverTriggerEl) => {
-      const url = popoverTriggerEl.getAttribute('data-bs-content');
-      const title = popoverTriggerEl.getAttribute('data-bs-title2');
-      new bootstrap.Popover(popoverTriggerEl, {
-        content: `<img src="${url}" alt ="${title}">`,
-      });
-    });
   }
 
   ngOnDestroy(): void {

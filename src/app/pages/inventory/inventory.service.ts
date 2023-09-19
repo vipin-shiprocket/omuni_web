@@ -2,14 +2,14 @@ import { Injectable, inject } from '@angular/core';
 import { HttpService } from 'src/app/services/http.service';
 import {
   AcknowledgeUploadResponse,
+  AnalyticsResponse,
   FileUploadResponse,
   ListingResponse,
   S3UploadResponse,
   UpdateInventoryBody,
-  analyticsResponse,
 } from './inventory.model';
 import { HttpResponse } from '@angular/common/http';
-import { delay, of } from 'rxjs';
+import { MemoFn, STORAGE_TYPE } from 'src/app/utils/memo.decorator';
 
 @Injectable({
   providedIn: 'root',
@@ -17,10 +17,21 @@ import { delay, of } from 'rxjs';
 export class InventoryService {
   private http = inject(HttpService);
 
-  getAnalytics() {
-    return of(analyticsResponse).pipe(delay(2000));
+  @MemoFn({ ttl: 8000, cacheStrategy: STORAGE_TYPE.IN_MEMORY })
+  getAnalytics(params: Record<string, unknown>) {
+    const endpoint = 'aryabhatta/inventory/statistics';
+    const headers = this.http.getHeaders({
+      'X-Tenant-ID': '', //TODO
+    });
+
+    return this.http.requestToEndpoint<AnalyticsResponse>(
+      endpoint,
+      params,
+      headers,
+    );
   }
 
+  @MemoFn({ ttl: 8000, cacheStrategy: STORAGE_TYPE.IN_MEMORY })
   getListings(params: Record<string, unknown>) {
     const endpoint = 'aryabhatta/inventory/listing';
     const headers = this.http.getHeaders({

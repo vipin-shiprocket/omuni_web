@@ -9,44 +9,8 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MapperPipe } from 'src/app/pipes/mapper.pipe';
 import { FiltersComponent } from 'src/app/components/filters/filters.component';
 import { FilterDataType } from 'src/app/components/index-filters/index-filters.model';
+import { ToolTipRendererDirective } from 'src/app/directives/tool-tip.directive';
 
-// ---------Temp-------------
-export const InventoryTabs = [
-  {
-    name: 'All',
-    filters: {},
-    canUpdate: false,
-    columns: ['name', 'sku', 'available', 'blocked', 'total', 'action'],
-  },
-];
-
-export const analyticsResponse: Record<
-  string,
-  Record<'quantity' | 'percentage', number>
-> = {
-  totalInventory: {
-    quantity: 25,
-    percentage: 167,
-  },
-  totalSku: {
-    quantity: 12,
-    percentage: -149,
-  },
-  totalOutOfStockSku: {
-    quantity: 43,
-    percentage: 51,
-  },
-  totalBlockedSku: {
-    quantity: 67,
-    percentage: -100,
-  },
-  totalAvailableSku: {
-    quantity: 2,
-    percentage: 65,
-  },
-};
-
-// --------------------------
 export const InventoryModules = [
   CdkTableModule,
   CommonModule,
@@ -59,6 +23,7 @@ export const InventoryModules = [
   MatTooltipModule,
   NgOptimizedImage,
   O2SelectComponent,
+  ToolTipRendererDirective,
 ];
 
 export type ErrorResponse = Record<'data', string>;
@@ -75,7 +40,6 @@ export type ListingResponse = {
     totalQuantity: number;
     blockedQuantity: number;
     availableQuantity: number;
-    showImage?: boolean;
   }[];
   hasNext: boolean;
 };
@@ -108,12 +72,25 @@ export type UpdateInventoryBody = {
   transactionType: 'CREDIT' | 'DEBIT' | 'OVERWRITE';
 };
 
-export type AnalyticsResponse = Record<
-  string,
-  Record<'quantity' | 'percentage', number>
->;
+export type AnalyticsResponse = {
+  status: string;
+  correlationId: string;
+  message: string;
+  data: Record<
+    | 'totalInventory'
+    | 'totalSku'
+    | 'totalOutOfStockSku'
+    | 'totalBlockedSku'
+    | 'totalAvailableSku',
+    Record<'quantity' | 'percentage', number>
+  >;
+};
 
-export const analytics = [
+type AnalyticsStructure = Record<'name' | 'image', string> & {
+  key: keyof AnalyticsResponse['data'];
+};
+
+export const analytics: AnalyticsStructure[] = [
   {
     name: 'Total Inventory',
     image: 'assets/images/inventory/inventoryTotal.svg',
