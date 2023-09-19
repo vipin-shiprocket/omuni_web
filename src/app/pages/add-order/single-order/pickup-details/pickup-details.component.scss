@@ -1,1 +1,73 @@
 @forward '../single-order.component.scss';
+@use '../../../../../styles/utils' as u;
+
+.card-custom {
+  border: 1px solid u.$neutral3c;
+
+  &:active {
+    --bs-card-bg: #{u.$secondary5c};
+  }
+}
+
+.selected {
+  background-color: u.$secondary5c;
+  border-color: u.$primary1;
+}
+
+.primary-tag {
+  font-size: u.rem(8);
+  padding: u.rem(4) u.rem(9);
+  border-radius: u.rem(4);
+  background-color: u.$neutral3a;
+  color: u.$neutral2;
+  display: inline-block;
+  margin-bottom: 0.5rem;
+}
+
+.pencil-icon {
+  font-size: u.rem(13);
+  line-height: u.rem(16);
+  width: u.rem(12);
+  height: u.rem(12);
+}
+
+.add-address-btn {
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  color: u.$primary1;
+  border-style: dashed;
+  border-color: u.$primary1;
+}
+
+.trapezoid-unverified {
+  border-top: u.rem(15) solid u.$secondary2;
+
+  .trapezoid-content {
+    &::after {
+      content: 'Unverified';
+    }
+
+    &::before {
+      content: '\e5c9';
+      font-family: 'Material Icons';
+      margin-right: 0.15rem;
+    }
+  }
+}
+
+.trapezoid-verified {
+  border-top: u.rem(15) solid u.$secondary1;
+
+  .trapezoid-content {
+    &::after {
+      content: 'Verified';
+    }
+
+    &::before {
+      content: '\e86c';
+      font-family: 'Material Icons';
+      margin-right: 0.15rem;
+    }
+  }
+}
