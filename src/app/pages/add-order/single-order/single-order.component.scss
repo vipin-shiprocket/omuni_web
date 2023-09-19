@@ -59,3 +59,14 @@
   width: u.rem(20);
   line-height: u.rem(18);
 }
+
+.highlight-section {
+  background-color: u.$secondary5b;
+  font-size: u.rem(14);
+  padding: 1rem;
+  border-radius: u.rem(6);
+}
+
+.highlight2 {
+  background-color: rgba($color: u.$secondary4b, $alpha: 0.3);
+}
