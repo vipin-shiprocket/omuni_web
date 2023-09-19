@@ -1,20 +1,22 @@
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { InventoryService } from './inventory.service';
-import { checkWindowWidth, sleep, verifyFileType } from 'src/app/utils/utils';
+import { checkWindowWidth, verifyFileType } from 'src/app/utils/utils';
 import { ToastrService } from 'ngx-toastr';
 import { SubSink } from 'subsink';
 import {
+  ActionDropdownPositions,
   AnalyticsResponse,
   ErrorResponse,
+  FileUpdateOptions,
   FiltersData,
   InventoryColumns,
   InventoryModules,
+  InventoryUpdateOptions,
   TablePlaceholder,
   analytics,
 } from './inventory.model';
-import { IOption } from 'src/app/components/chip-selectbox/chip-selectbox.model';
 import { NgForm } from '@angular/forms';
-import { switchMap } from 'rxjs';
+import { Subject, switchMap } from 'rxjs';
 import { ITab } from 'src/app/components/index-filters/index-filters.model';
 import { MatPaginatorIntl, PageEvent } from '@angular/material/paginator';
 import { IPaginationData } from 'src/app/components/index-table/index-table.model';
@@ -30,10 +32,7 @@ import { CustomPaginator } from 'src/app/utils/customPaginator';
   providers: [{ provide: MatPaginatorIntl, useClass: CustomPaginator }],
 })
 export class InventoryComponent implements OnInit, OnDestroy {
-  fileOptions: IOption[] = [
-    { display: 'Reset', value: 'RESET' },
-    { display: 'Delta', value: 'DELTA' },
-  ];
+  fileOptions = FileUpdateOptions;
   activeTabIdx = 0;
   analyticsData?: AnalyticsResponse['data'];
   analyticsStructure = analytics;
@@ -43,6 +42,9 @@ export class InventoryComponent implements OnInit, OnDestroy {
   dataSource: MatTableDataSource<never[]> = new MatTableDataSource(
     TablePlaceholder,
   );
+  dropDownClose = new Subject<void>();
+  dropDownPositions = ActionDropdownPositions;
+  overWriteOptions = InventoryUpdateOptions;
   pagination: IPaginationData = {
     pageSizeOptions: [25, 50, 100],
     length: 7,
@@ -127,6 +129,10 @@ export class InventoryComponent implements OnInit, OnDestroy {
     this.tabs.forEach((tab, i) => {
       tab.dropdown = tabIndex === i;
     });
+  }
+
+  closeUpdateDropdown() {
+    this.dropDownClose.next();
   }
 
   getColumnArrangement() {

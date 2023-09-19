@@ -1,5 +1,9 @@
 <div>
-  <div>
+  <div
+    [@openClose]="isOpen ? 'enter' : 'leave'"
+    (@openClose.start)="onAnimationEvent($event)"
+    (@openClose.done)="onAnimationEvent($event)"
+  >
     <ng-template #simpleText>
       {{ text }}
     </ng-template>

@@ -580,12 +580,12 @@ img {
     &::before {
       @extend .arrow-before-base;
       bottom: 1%;
-      border-top: u.rem(9) solid white;
+      border-top: u.rem(9) solid var(--popup-arrow-color);
     }
     &::after {
       @extend .arrow-after-base;
       bottom: 0;
-      border-top: u.rem(9) solid white;
+      border-top: u.rem(9) solid var(--popup-arrow-color);
     }
   }
 
@@ -594,12 +594,20 @@ img {
     &::before {
       @extend .arrow-before-base;
       top: 1%;
-      border-bottom: u.rem(9) solid white;
+      border-bottom: u.rem(9) solid var(--popup-arrow-color);
     }
     &::after {
       @extend .arrow-after-base;
       top: 0;
-      border-bottom: u.rem(9) solid white;
+      border-bottom: u.rem(9) solid var(--popup-arrow-color);
     }
   }
+}
+
+.arrowTop {
+  --popup-open-direction: 50%;
+}
+
+.arrowBottom {
+  --popup-open-direction: -50%;
 }

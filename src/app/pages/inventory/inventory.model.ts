@@ -9,11 +9,13 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MapperPipe } from 'src/app/pipes/mapper.pipe';
 import { FiltersComponent } from 'src/app/components/filters/filters.component';
 import { FilterDataType } from 'src/app/components/index-filters/index-filters.model';
-import { ToolTipRendererDirective } from 'src/app/directives/tool-tip.directive';
+import { DropdownRendererDirective } from 'src/app/directives/dropdown.directive';
+import { ConnectedPosition } from '@angular/cdk/overlay';
 
 export const InventoryModules = [
   CdkTableModule,
   CommonModule,
+  DropdownRendererDirective,
   FiltersComponent,
   FormsModule,
   GlobalSearchComponent,
@@ -23,7 +25,6 @@ export const InventoryModules = [
   MatTooltipModule,
   NgOptimizedImage,
   O2SelectComponent,
-  ToolTipRendererDirective,
 ];
 
 export type ErrorResponse = Record<'data', string>;
@@ -168,4 +169,37 @@ export const TablePlaceholder = [
   {} as never[],
   {} as never[],
   {} as never[],
+];
+
+export const InventoryUpdateOptions = [
+  { display: 'Correction', value: 'CORRECTION' },
+  { display: 'Count', value: 'COUNT' },
+  { display: 'Received', value: 'RECEIVED' },
+  { display: 'Return Stock', value: 'RETURN_STOCK' },
+  { display: 'Damaged', value: 'DAMAGED' },
+  { display: 'Theft or Loss', value: 'THEFT_LOSS' },
+];
+
+export const FileUpdateOptions = [
+  { display: 'Reset', value: 'RESET' },
+  { display: 'Delta', value: 'DELTA' },
+];
+
+export const ActionDropdownPositions: ConnectedPosition[] = [
+  {
+    originX: 'end',
+    originY: 'bottom',
+    overlayX: 'end',
+    overlayY: 'top',
+    offsetY: 6,
+    panelClass: 'arrowTop',
+  },
+  {
+    originX: 'end',
+    originY: 'top',
+    overlayX: 'end',
+    overlayY: 'bottom',
+    offsetY: -6,
+    panelClass: 'arrowBottom',
+  },
 ];
