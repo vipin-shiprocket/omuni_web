@@ -563,6 +563,9 @@ input:checked ~ .customcheckbox:after {
   color: u.$neutral1;
 }
 
+.text-grey {
+  color: u.$neutral5;
+}
 // Text
 @media (max-width: 576px) and (min-width: 480px) {
   // xs
