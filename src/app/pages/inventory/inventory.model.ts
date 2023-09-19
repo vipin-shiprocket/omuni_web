@@ -11,6 +11,7 @@ import { FiltersComponent } from 'src/app/components/filters/filters.component';
 import { FilterDataType } from 'src/app/components/index-filters/index-filters.model';
 import { DropdownRendererDirective } from 'src/app/directives/dropdown.directive';
 import { ConnectedPosition } from '@angular/cdk/overlay';
+import { O2QuantityInputComponent } from 'src/app/components/o2-quantity-input/o2-quantity-input.component';
 
 export const InventoryModules = [
   CdkTableModule,
@@ -25,6 +26,7 @@ export const InventoryModules = [
   MatTooltipModule,
   NgOptimizedImage,
   O2SelectComponent,
+  O2QuantityInputComponent,
 ];
 
 export type ErrorResponse = Record<'data', string>;

@@ -55,6 +55,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
   selectedOption!: string[];
   sortBy = ['name'];
   tabs: ITab[] = [];
+  tempQty?: number;
   private inventoryService = inject(InventoryService);
   private toast = inject(ToastrService);
   private subs = new SubSink();
@@ -132,6 +133,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
   }
 
   closeUpdateDropdown() {
+    this.tempQty = undefined;
     this.dropDownClose.next();
   }
 

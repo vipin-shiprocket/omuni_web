@@ -194,8 +194,14 @@
               </button>
               <ng-template #drop>
                 <div class="border rounded bg-white">
-                  <h5 class="p-2 text-secondary">Adjust Available by</h5>
-                  <div class="px-2 my-2">
+                  <h5 class="px-4 pt-4 text-secondary">Adjust Available by</h5>
+                  <div class="px-4 mt-2 mb-3">
+                    <app-o2-quantity-input
+                      [value]="row.availableQuantity"
+                      (output)="tempQty = $event"
+                    ></app-o2-quantity-input>
+                  </div>
+                  <div class="px-4 my-2">
                     <app-o2-select
                       placeholder="Reason"
                       label="Reason"

@@ -223,6 +223,8 @@ export class GlobalSearchComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   updateActive(route: string) {
+    route = route.replace('dashboard/', '');
+
     this.active =
       Object.keys(this.allowedRoutes).find((key) =>
         this.allowedRoutes[key].startsWith(route),
