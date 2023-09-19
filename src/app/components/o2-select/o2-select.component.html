@@ -9,7 +9,11 @@
     [value]="formatValue(selectedValues)"
     #trigger
   />
-  <mat-icon class="expand-icon">expand_more</mat-icon>
+  <mat-icon
+    [ngClass]="isOpened() ? 'rotate-180' : 'rotate-0'"
+    class="expand-icon"
+    >expand_more</mat-icon
+  >
 </div>
 
 <ng-template #portal>

@@ -19,6 +19,7 @@
   --icon-stroke: #{u.$primary3};
   --down-arrow: rgba(0, 0, 0, 0.87);
   .side-nav-text {
+    transition: color u.$sidebar-open-time;
     color: black;
   }
 }
@@ -75,12 +76,15 @@
 }
 
 .side-nav-text {
+  text-wrap: nowrap;
+  transition: color u.$sidebar-open-time;
   color: #fff;
 }
 
 ::ng-deep .mat-expansion-panel-header {
   --mat-expansion-header-collapsed-state-height: 3em;
-  max-height: 3.5em;
+  max-height: 3em;
+  height: 3em;
 
   .mat-content {
     overflow: visible;
@@ -89,18 +93,25 @@
   .mat-expansion-indicator {
     margin-bottom: 0.5em;
     &::after {
+      transition: color u.$sidebar-open-time;
       color: var(--down-arrow);
     }
   }
 
   @media screen and (min-width: 768px) {
     --mat-expansion-header-collapsed-state-height: 3.5em;
-    max-height: 4em;
+    max-height: 3.5em;
+    height: 3.5em;
 
     .mat-expansion-indicator {
       margin-right: -1em;
     }
   }
+}
+
+::ng-deep .close .mat-expansion-indicator::after {
+  transition: color u.$sidebar-close-time;
+  color: transparent;
 }
 
 .sub-menu {

@@ -18,7 +18,10 @@
       aria-label="Backdrop"
     ></button>
     <app-header />
-    <div class="o2-body overflow-auto custom-scrollbar flex-grow-1">
+    <div
+      class="o2-body overflow-auto custom-scrollbar flex-grow-1"
+      cdkScrollable
+    >
       <router-outlet></router-outlet>
     </div>
     <app-footer

@@ -88,3 +88,8 @@ export function clearIntervals(key: string) {
     intervals.delete(key);
   }
 }
+
+export function verifyFileType(file: File, fileTypes: string[]) {
+  const extension = file.name.substring(file.name.lastIndexOf('.'));
+  return fileTypes.includes(file.type) || fileTypes.includes(extension);
+}

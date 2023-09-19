@@ -4,3 +4,12 @@
   border-top-left-radius: u.rem(8);
   border-bottom-left-radius: u.rem(8);
 }
+
+#moreFilters {
+  width: u.rem(340);
+}
+
+.mat-mdc-chip {
+  height: 2em;
+  background-color: u.$chip-bg-color !important;
+}

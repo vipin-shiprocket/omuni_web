@@ -35,10 +35,10 @@ export class HttpService {
     return headers;
   }
 
-  requestToEndpoint<T>(endpoint: string, params = {}) {
+  requestToEndpoint<T>(endpoint: string, params = {}, headers?: HttpHeaders) {
     params = this.getQueryParam(params);
     const url = `${environment.API_SUBDOMAIN}/${endpoint}`;
-    return this.httpClient.get(url, { params }) as Observable<T>;
+    return this.httpClient.get(url, { params, headers }) as Observable<T>;
   }
 
   postToEndpint<T>(
@@ -62,17 +62,24 @@ export class HttpService {
     return this.httpClient.delete(url) as Observable<T>;
   }
 
-  putToUrl<T>(url: string, body: unknown, params = {}, headers?: HttpHeaders) {
+  putToUrl<T>(
+    url: string,
+    body: unknown,
+    params = {},
+    headers?: HttpHeaders,
+    observe: 'body' | undefined = 'body',
+  ) {
     params = this.getQueryParam(params);
     return this.httpClient.put(url, body, {
       params,
       headers,
+      observe,
     }) as Observable<T>;
   }
 
-  requestByUrl<T>(url: string, params = {}) {
+  requestByUrl<T>(url: string, params = {}, headers?: HttpHeaders) {
     params = this.getQueryParam(params);
-    return this.httpClient.get(url, { params }) as Observable<T>;
+    return this.httpClient.get(url, { params, headers }) as Observable<T>;
   }
 
   postByUrl<T>(url: string, body: unknown, params = {}, headers?: HttpHeaders) {

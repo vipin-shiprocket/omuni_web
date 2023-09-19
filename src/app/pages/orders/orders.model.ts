@@ -8,9 +8,12 @@ import { FiltersComponent } from 'src/app/components/filters/filters.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
 import { NgOptimizedImage } from '@angular/common';
+import { MatDialogModule } from '@angular/material/dialog';
+import { RouterModule } from '@angular/router';
 
 export const OrdersModules = [
   CdkTableModule,
+  RouterModule,
   FormsModule,
   MatIconModule,
   MatSortModule,
@@ -19,6 +22,7 @@ export const OrdersModules = [
   MatButtonModule,
   MatMenuModule,
   NgOptimizedImage,
+  MatDialogModule,
 ];
 
 export const OrderColumns = [
@@ -33,48 +37,42 @@ export const OrderColumns = [
   { name: 'Actions', canHide: true, visible: true },
 ];
 
+export interface ITab {
+  name: string;
+  filters: Record<string, string | (string | number | boolean)[]>;
+  isCustom?: boolean;
+  // columns?: string[];
+  dropdown?: boolean;
+}
+
 export const OrderTabs = [
   {
     name: 'All',
     filters: {},
-    canUpdate: false,
-    columns: ['select', 'name', 'weight', 'symbol', 'position'],
   },
   {
     name: 'Unfulfillable',
     filters: { statuses: [1], query: 'h' },
-    canUpdate: true,
-    columns: ['select', 'name', 'position'],
   },
   {
-    name: 'New',
+    name: 'Unverified',
     filters: {},
-    canUpdate: true,
-    columns: ['select', 'name', 'weight', 'position'],
   },
   {
-    name: 'Open',
+    name: 'Fulfillable',
     filters: {},
-    canUpdate: true,
-    columns: ['select', 'name', 'symbol', 'position'],
   },
   {
     name: 'Invoiced',
     filters: {},
-    canUpdate: true,
-    columns: ['select', 'name', 'weight', 'symbol'],
   },
   {
     name: 'Manifested',
     filters: {},
-    canUpdate: true,
-    columns: ['select', 'weight', 'symbol', 'position'],
   },
   {
-    name: 'Return',
+    name: 'Returns',
     filters: {},
-    canUpdate: true,
-    columns: ['select', 'weight', 'symbol', 'position'],
   },
 ];
 
@@ -82,6 +80,7 @@ export type LooseObject = Record<string, unknown>;
 
 export const FiltersData: FilterDataType = {
   date: {
+    chipVisible: false,
     name: 'date',
     label: '',
     type: 'date',
@@ -89,30 +88,72 @@ export const FiltersData: FilterDataType = {
     value: ['2021-02-03', '2021-03-25'],
     data: [],
   },
-  statuses: {
-    name: 'statuses',
-    label: 'Status',
+  couriers: {
+    name: 'couriers',
+    label: 'Couriers',
+    type: 'select',
+    multiple: true,
+    value: [],
+    data: [
+      { value: 1, display: 'Blue Dart' },
+      { value: 2, display: 'FedEx' },
+      { value: 3, display: 'ARAMEX' },
+      { value: 4, display: 'Amazon Shipping 5Kg' },
+      { value: 5, display: 'OTHER' },
+      { value: 6, display: 'DTDC Surface' },
+      { value: 7, display: 'FEDEX:Packaging' },
+    ],
+  },
+  paymentTypes: {
+    name: 'paymentTypes',
+    label: 'Payment',
     type: 'radio',
-    value: 'all',
+    value: 'cod',
     data: [],
   },
-  secured_shipments: {
-    name: 'secured_shipments',
-    label: 'Secured Shipments',
-    type: 'checkbox',
-    value: true,
+  orderTag: {
+    name: 'orderTag',
+    label: 'order tag',
+    type: 'select',
+    value: ['SR Promise', 'Sonalitag3'],
+    multiple: true,
     data: [
       {
-        display: 'View only Secured Shipments',
-        value: false,
+        value: 'SR Promise',
+        display: 'SR Promise',
+      },
+      {
+        value: 'Sonalitag3',
+        display: 'Sonalitag3',
+      },
+      {
+        value: 'abcssss',
+        display: 'abcssss',
+      },
+      {
+        value: 'ReturnOrderCreated',
+        display: 'ReturnOrderCreated',
       },
     ],
-    placement: 'in',
   },
+  fulfillment_center: {
+    name: 'fulfillment_center',
+    label: 'Fulfillment Center',
+    type: 'select',
+    multiple: true,
+    value: [],
+    data: [
+      { value: 1, display: 'Maven' },
+      { value: 2, display: 'Maven Mumbai' },
+      { value: 3, display: 'Maven Gurgaon' },
+    ],
+  },
+
   channels: {
     name: 'channels',
-    label: 'Channels',
+    label: 'Channel',
     type: 'select',
+    placement: 'out',
     value: [589548, 1749542],
     multiple: true,
     data: [
@@ -147,48 +188,6 @@ export const FiltersData: FilterDataType = {
       {
         value: 4095491,
         display: 'Shopify_4',
-      },
-    ],
-  },
-  paymentTypes: {
-    name: 'paymentTypes',
-    label: 'Payment',
-    type: 'select',
-    value: ['cod'],
-    data: [
-      {
-        value: 'cod',
-        display: 'Cash on Delivery',
-      },
-      {
-        value: 'prepaid',
-        display: 'Prepaid',
-      },
-    ],
-  },
-  orderTag: {
-    name: 'orderTag',
-    label: 'order tag',
-    type: 'select',
-    value: ['SR Promise', 'Sonalitag3'],
-    placement: 'out',
-    multiple: true,
-    data: [
-      {
-        value: 'SR Promise',
-        display: 'SR Promise',
-      },
-      {
-        value: 'Sonalitag3',
-        display: 'Sonalitag3',
-      },
-      {
-        value: 'abcssss',
-        display: 'abcssss',
-      },
-      {
-        value: 'ReturnOrderCreated',
-        display: 'ReturnOrderCreated',
       },
     ],
   },

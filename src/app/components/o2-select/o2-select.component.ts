@@ -10,6 +10,7 @@ import {
   TemplateRef,
   ViewChild,
   ViewContainerRef,
+  signal,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IOption, O2SelectModules } from './o2-select.model';
@@ -50,9 +51,11 @@ export class O2SelectComponent implements ControlValueAccessor, OnDestroy {
   @Input() multiple = false;
   @Input() placeholder = '';
   @Input() selectAll = true;
+  @Input() showLabelWithValue = false;
   @Input() clearBtn = true;
   @Input() className = '';
   overlayRef!: OverlayRef;
+  isOpened = signal(false);
   @Input() set values(value: SELECT_VALUE_TYPE) {
     if (value) {
       this.selectedValues = value;
@@ -95,13 +98,18 @@ export class O2SelectComponent implements ControlValueAccessor, OnDestroy {
     }
 
     if (!this.multiple) {
-      const seclected = this.options.find((option) => {
+      const selected = this.options.find((option) => {
         return option.value === value[0];
       });
 
-      return seclected?.display.toString() || '';
+      return (
+        (this.showLabelWithValue ? this.label + ': ' : '') +
+          selected?.display.toString() || ''
+      );
     }
-    return `${value.length} ${this.label} Selected`;
+    return `${this.allSelected ? 'All' : value.length} ${this.label}${
+      value.length > 1 ? 's' : ''
+    } Selected`;
   }
 
   onSelectionChange(selected: ListboxValueChangeEvent<unknown>) {
@@ -170,11 +178,13 @@ export class O2SelectComponent implements ControlValueAccessor, OnDestroy {
         new TemplatePortal(this.portal, this._viewContainerRef),
       );
       this.syncWidth();
-      this.subs.sink = this.overlayRef.backdropClick().subscribe(() => {
+      this.isOpened.set(true);
+
+      const overlaySubs = this.overlayRef.backdropClick().subscribe(() => {
         this.overlayRef.dispose();
+        this.isOpened.set(false);
+        overlaySubs.unsubscribe();
       });
-    } else {
-      this.overlayRef.dispose();
     }
   }
 

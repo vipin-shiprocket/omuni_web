@@ -4,32 +4,6 @@
   border-radius: 8px;
 }
 
-.px-16 {
-  padding-inline: u.rem(16);
-}
-
-.order-nav.nav {
-  font-size: u.rem(14);
-  font-weight: 500;
-  border-bottom: 1px solid u.$neutral3c;
-
-  .nav-link {
-    color: u.$neutral3;
-  }
-
-  .active {
-    color: u.$primary1;
-    border-bottom: u.rem(5) solid;
-  }
-
-  .dropdown-toggle::after {
-    content: '\e5cf';
-    font-family: 'Material Icons';
-    border-top: unset;
-    vertical-align: unset;
-  }
-}
-
 .add-sync-btn {
   height: u.rem(32);
   font-size: u.rem(12);
@@ -121,5 +95,29 @@
     background-color: u.$neutral3c;
     color: u.$neutral3;
     pointer-events: none;
+  }
+}
+
+.bulk-actions-dropd {
+  font-size: u.rem(12);
+
+  button {
+    &:focus,
+    &:hover {
+      background-color: u.$color11;
+      color: u.$primary1;
+    }
+  }
+}
+
+::ng-deep .update-tab-container {
+  width: 35vw;
+
+  .mat-mdc-dialog-surface {
+    border-radius: 1rem !important;
+  }
+
+  .mdc-dialog__actions button {
+    width: 7rem;
   }
 }

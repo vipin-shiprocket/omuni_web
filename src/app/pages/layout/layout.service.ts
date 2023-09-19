@@ -25,6 +25,7 @@ export class LayoutService {
     const menuFiltered = data?.sidebarItems.reduce(
       (obj: Record<string, MenuItem>, key) => {
         const item = MENU_LIST[key];
+        item['key'] = key;
 
         //normal menu items
         if (!item.parent) {

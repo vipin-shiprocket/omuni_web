@@ -5,6 +5,7 @@
     <div class="float-end">
       <button
         mat-button
+        routerLink="../add-order/single"
         class="me-2 btn add-sync-btn bg-primary-subtle text-primary"
       >
         <mat-icon>add</mat-icon>
@@ -17,7 +18,7 @@
     </div>
   </h1>
 
-  <nav class="nav order-nav mb-3">
+  <nav class="nav o2-nav mb-3">
     <ng-container *ngFor="let tab of tabs; let i = index">
       <div class="nav-item dropdown">
         <button
@@ -25,14 +26,15 @@
           class="nav-link d-inline-flex"
           [attr.data-bs-toggle]="tab.dropdown ? 'dropdown' : null"
           [ngClass]="{
-            'active dropdown-toggle': tabs[activeTabIdx].name === tab['name']
+            active: tabs[activeTabIdx].name === tab['name'],
+            'dropdown-toggle': tab.isCustom
           }"
           (click)="onTabClick(i)"
           (keyup)="onTabClick(i)"
         >
           {{ tab['name'] }}
         </button>
-        <ul class="dropdown-menu">
+        <ul class="dropdown-menu bulk-actions-dropd">
           <li>
             <button class="dropdown-item">Rename view</button>
           </li>
@@ -43,17 +45,53 @@
         </ul>
       </div>
     </ng-container>
+    <div class="nav-item">
+      <button
+        tabindex="-1"
+        class="nav-link d-inline-flex"
+        title="Add new"
+        (click)="openUpdateTabDialog('add')"
+      >
+        <mat-icon>add</mat-icon>
+      </button>
+    </div>
   </nav>
 
   <div class="my-4 position-relative">
     <span class="right-btns-section">
-      <button class="btn more-filter-btn">
-        <img src="src/assets/svg/download.svg" height="18" width="18" alt="" />
+      <button class="btn more-filter-btn border">
+        <img src="assets/svg/download.svg" height="18" width="18" alt="" />
       </button>
-      <button style="width: 168px" class="btn more-filter-btn me-0">
-        Select Bulk Action
-        <mat-icon class="ms-auto">expand_more</mat-icon>
-      </button>
+      <div class="dropdown d-inline mt-2">
+        <button
+          style="width: 168px"
+          class="btn more-filter-btn border me-0"
+          type="button"
+          data-bs-toggle="dropdown"
+          data-bs-offset="5,5"
+          aria-expanded="false"
+        >
+          Select Bulk Action
+          <mat-icon class="ms-auto">expand_more</mat-icon>
+        </button>
+
+        <ul class="dropdown-menu bulk-actions-dropd">
+          <li>
+            <button class="dropdown-item" type="button">QC Verify</button>
+          </li>
+          <li>
+            <button class="dropdown-item" type="button">Pack</button>
+          </li>
+          <li>
+            <button class="dropdown-item" type="button">
+              Generate Manifest
+            </button>
+          </li>
+          <li>
+            <button class="dropdown-item" type="button">Handover</button>
+          </li>
+        </ul>
+      </div>
     </span>
     <app-filters [filtersData]="filtersData" />
   </div>
@@ -103,7 +141,7 @@
           </div>
           <div class="brand-section">
             <img
-              ngSrc="src/assets/svg/settings.svg"
+              ngSrc="assets/svg/settings.svg"
               height="18"
               width="18"
               class="me-2"
@@ -144,7 +182,10 @@
             "
           >
             View Packages
-            <mat-icon>expand_more</mat-icon>
+            <mat-icon
+              [ngClass]="row === expandedElement ? 'rotate-180' : 'rotate-0'"
+              >expand_more</mat-icon
+            >
           </a>
         </cdk-cell>
       </ng-container>
@@ -210,9 +251,51 @@
         </cdk-header-cell>
         <cdk-cell *cdkCellDef="let row" class="actions-section">
           <button class="btn btn-solid_sm me-2">CTA</button>
-          <button class="btn btn-sm more_btn">
-            <mat-icon>more_vert</mat-icon>
-          </button>
+          <div class="dropdown d-inline">
+            <button
+              class="btn btn-sm more_btn"
+              data-bs-toggle="dropdown"
+              data-bs-offset="5,5"
+              aria-expanded="false"
+            >
+              <mat-icon>more_vert</mat-icon>
+            </button>
+
+            <ul class="dropdown-menu bulk-actions-dropd">
+              <li>
+                <button class="dropdown-item" type="button">
+                  Download Invoice
+                </button>
+              </li>
+              <li>
+                <button class="dropdown-item" type="button">Edit Order</button>
+              </li>
+              <li><hr class="dropdown-divider" /></li>
+              <li><p class="dropdown-header fs-12 py-1">VERIFY ORDER</p></li>
+              <li>
+                <button class="dropdown-item" type="button">Call Buyer</button>
+              </li>
+              <li>
+                <button class="dropdown-item" type="button">
+                  Mark Verified
+                </button>
+              </li>
+              <li><hr class="dropdown-divider" /></li>
+              <li>
+                <button class="dropdown-item" type="button">
+                  Add Order Tag
+                </button>
+              </li>
+              <li>
+                <button class="dropdown-item" type="button">Clone Order</button>
+              </li>
+              <li>
+                <button class="dropdown-item text-danger" type="button">
+                  Cancel Order
+                </button>
+              </li>
+            </ul>
+          </div>
         </cdk-cell>
       </ng-container>
 
@@ -225,10 +308,34 @@
             class="d-flex overflow-hidden"
             [@detailExpand]="row === expandedElement ? 'expanded' : 'collapsed'"
           >
-            <div>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga,
-              minus ratione harum officiis eum porro odio a sequi saepe autem
-              impedit magnam, rem quia quas vitae vero laborum, odit sed?
+            <div class="child-table">
+              <div class="child-table-header">
+                <div class="child-table-cell">Name</div>
+                <div class="child-table-cell">HSN</div>
+                <div class="child-table-cell">SKU</div>
+                <div class="child-table-cell">Qty</div>
+                <div class="child-table-cell">Unit Price</div>
+                <div class="child-table-cell">Total</div>
+              </div>
+
+              <ng-container *ngFor="let product of row.products; let i = index">
+                <div class="child-table-row">
+                  <div class="child-table-cell">{{ product.name }}</div>
+                  <div class="child-table-cell">{{ product.hsn }}</div>
+                  <div class="child-table-cell">{{ product.sku }}</div>
+                  <div class="child-table-cell">{{ product.quantity }}</div>
+                  <div class="child-table-cell">
+                    &#x20B9; {{ product.selling_price }}
+                  </div>
+                  <div class="child-table-cell">
+                    &#x20B9; {{ product.discount_including_tax }}
+                  </div>
+                </div>
+                <hr
+                  class="my-0 mx-3 text-black-50"
+                  *ngIf="i < row.products?.length - 1"
+                />
+              </ng-container>
             </div>
           </div>
         </cdk-cell>
@@ -258,3 +365,53 @@
     ></mat-paginator>
   </div>
 </div>
+
+<ng-template #updateTabTemplate let-data>
+  <h1 mat-dialog-title class="h2 d-flex align-items-center mt-2 pb-0">
+    {{ data.title }}
+    <small role="button" mat-dialog-close class="btn-close ms-auto"></small>
+  </h1>
+  <div mat-dialog-content class="pb-0">
+    <div class="mb-3" *ngIf="!['delete'].includes(data.context)">
+      <label for="name" class="form-label"
+        >Name
+        <span *ngIf="data.context === 'add'">({{ tabLen + 1 }}/5)</span></label
+      >
+      <input
+        type="text"
+        [(ngModel)]="data.tab.name"
+        class="form-control"
+        autocomplete="new-password"
+        (ngModelChange)="onUpdateTabName($event)"
+        id="name"
+      />
+    </div>
+    <div class="my-3" *ngIf="['delete'].includes(data.context)">
+      This can’t be undone. {{ data.tab.name }} view will no longer be available
+      in your admin.
+    </div>
+  </div>
+  <div mat-dialog-actions class="justify-content-center mb-3">
+    <button class="btn btn-outlined me-3" mat-dialog-close>Cancel</button>
+    <button
+      class="btn btn-solid"
+      [disabled]="
+        !data.tab.name?.length ||
+        (data.context === 'add' && tabLen > 4) ||
+        isDuplicateName()
+      "
+      [mat-dialog-close]="data.tab"
+      *ngIf="!['delete'].includes(data.context)"
+    >
+      Save
+    </button>
+    <button
+      mat-button
+      mat-dialog-close="delete"
+      *ngIf="['delete'].includes(data.context)"
+      class="text-white bg-danger"
+    >
+      Delete
+    </button>
+  </div>
+</ng-template>

@@ -1,0 +1,261 @@
+<h1 class="content-heading mb-4">Add Buyer's Details</h1>
+<div class="content-data buyer">
+  <form>
+    <h4 class="medium mb-3">
+      To whom is the order being delivered?
+      <span class="text-black-50">(Buyer's Info) </span>
+    </h4>
+    <div class="row mb-3">
+      <div class="col-md-4">
+        <label for="buyerPhoneNumber" class="form-label">Mobile Number</label>
+        <input
+          type="text"
+          class="form-control"
+          id="buyerPhoneNumber"
+          placeholder="Enter buyer's phone number"
+        />
+      </div>
+      <div class="col-md-4">
+        <label for="fullname" class="form-label">Full Name</label>
+        <input
+          type="text"
+          class="form-control"
+          id="fullname"
+          placeholder="Enter Full Name"
+        />
+      </div>
+      <div class="col-md-4">
+        <label for="buyerEmail" class="form-label"
+          >Email ID <span class="text-black-50">(Optional)</span></label
+        >
+        <input
+          type="email"
+          autocomplete="new-password"
+          class="form-control"
+          id="buyerEmail"
+          placeholder="i.e abc@xyz.in"
+        />
+      </div>
+    </div>
+    <a
+      href="javascript:void(0);"
+      class="d-block mb-3 text-decoration-none d-flex align-item-center"
+    >
+      + Add Alternate Mobile Number, Buyer's Company Name, Buyer's GSTIN
+      <mat-icon class="expand_more">expand_more</mat-icon>
+      <span class="text-black-50">(Optional)</span>
+    </a>
+    <div class="row mb-3">
+      <div class="col-md-4">
+        <label for="alternatePhoneNumber" class="form-label"
+          >Alternate Mobile Number</label
+        >
+        <input
+          type="text"
+          class="form-control"
+          id="alternatePhoneNumber"
+          placeholder="Enter buyer's phone number"
+        />
+      </div>
+      <div class="col-md-4">
+        <label for="buyerCompanyName" class="form-label"
+          >Buyer's Company Name</label
+        >
+        <input
+          type="text"
+          class="form-control"
+          id="buyerCompanyName"
+          placeholder="Enter Buyer's Company Name"
+        />
+        <small class="text-black-50"
+          >Note: If you're Shipping B2B, Please Enter the Company's name</small
+        >
+      </div>
+      <div class="col-md-4">
+        <label for="buyerGstin" class="form-label">Buyer's GSTIN </label>
+        <input
+          type="text"
+          class="form-control"
+          id="buyerGstin"
+          placeholder="Enter Buyer's GSTIN"
+        />
+      </div>
+    </div>
+    <h4 class="medium mb-3">
+      Where is the order being delivered to?
+      <span class="text-black-50">(Buyer's Address) </span>
+    </h4>
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <label for="completeAddress" class="form-label">Complete Address</label>
+        <input
+          type="text"
+          class="form-control"
+          id="completeAddress"
+          placeholder="House/Floor No. Building Name or Street, Locality"
+        />
+      </div>
+      <div class="col-md-6">
+        <label for="landmark" class="form-label"
+          >Landmark <span class="text-black-50">(Optional)</span></label
+        >
+        <input
+          type="text"
+          class="form-control"
+          id="landmark"
+          placeholder="Any nearby post office, market, Hospital as the landmark"
+        />
+      </div>
+    </div>
+    <div class="row mb-3">
+      <div class="col-md-3">
+        <label for="pincode" class="form-label">Pincode</label>
+        <input
+          type="text"
+          class="form-control"
+          id="pincode"
+          placeholder="Enter Buyer's Pincode"
+        />
+      </div>
+      <div class="col-md-3">
+        <label for="city" class="form-label">City</label>
+        <input
+          type="text"
+          class="form-control"
+          id="city"
+          placeholder="Enter Buyer's City"
+        />
+      </div>
+      <div class="col-md-3">
+        <label for="state" class="form-label">State</label>
+        <input
+          type="text"
+          class="form-control"
+          id="state"
+          placeholder="Enter Buyer's State"
+        />
+      </div>
+      <div class="col-md-3">
+        <label for="country" class="form-label">Country</label>
+        <input
+          type="text"
+          class="form-control"
+          id="country"
+          placeholder="Enter Buyer's Country"
+        />
+      </div>
+    </div>
+
+    <div class="mt-4">
+      <label class="cursor">
+        <input
+          class="form-check-input checkbox-outlined me-1"
+          type="checkbox"
+        />
+        Billing address is same as the shipping address
+      </label>
+    </div>
+
+    <h2 class="fw-bold my-4">Billing Address</h2>
+    <h4 class="medium mb-3">Buyer's Details</h4>
+    <div class="row mb-3">
+      <div class="col-md-4">
+        <label for="buyerPhoneNumber1" class="form-label">Mobile Number</label>
+        <input
+          type="text"
+          class="form-control"
+          id="buyerPhoneNumber1"
+          placeholder="Enter buyer's phone number"
+        />
+      </div>
+      <div class="col-md-4">
+        <label for="fullname1" class="form-label">Full Name</label>
+        <input
+          type="text"
+          class="form-control"
+          id="fullname1"
+          placeholder="Enter Full Name"
+        />
+      </div>
+      <div class="col-md-4">
+        <label for="buyerEmail1" class="form-label"
+          >Email ID <span class="text-black-50">(Optional)</span></label
+        >
+        <input
+          type="email"
+          autocomplete="new-password"
+          class="form-control"
+          id="buyerEmail1"
+          placeholder="i.e abc@xyz.in"
+        />
+      </div>
+    </div>
+    <hr class="text-black-50 my-4" />
+    <h4 class="medium mb-3">Buyer's Address</h4>
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <label for="completeAddress1" class="form-label"
+          >Complete Address</label
+        >
+        <input
+          type="text"
+          class="form-control"
+          id="completeAddress1"
+          placeholder="House/Floor No. Building Name or Street, Locality"
+        />
+      </div>
+      <div class="col-md-6">
+        <label for="landmark1" class="form-label"
+          >Landmark <span class="text-black-50">(Optional)</span></label
+        >
+        <input
+          type="text"
+          class="form-control"
+          id="landmark1"
+          placeholder="Any nearby post office, market, Hospital as the landmark"
+        />
+      </div>
+    </div>
+    <div class="row mb-3">
+      <div class="col-md-3">
+        <label for="pincode1" class="form-label">Pincode</label>
+        <input
+          type="text"
+          class="form-control"
+          id="pincode1"
+          placeholder="Enter Buyer's Pincode"
+        />
+      </div>
+      <div class="col-md-3">
+        <label for="city1" class="form-label">City</label>
+        <input
+          type="text"
+          class="form-control"
+          id="city1"
+          placeholder="Enter Buyer's City"
+        />
+      </div>
+      <div class="col-md-3">
+        <label for="state1" class="form-label">State</label>
+        <input
+          type="text"
+          class="form-control"
+          id="state1"
+          placeholder="Enter Buyer's State"
+        />
+      </div>
+      <div class="col-md-3">
+        <label for="country1" class="form-label">Country</label>
+        <input
+          type="text"
+          class="form-control"
+          id="country1"
+          placeholder="Enter Buyer's Country"
+        />
+      </div>
+    </div>
+  </form>
+</div>
+<div class="text-end">
+  <button class="btn btn-solid w-100px" (click)="onClickNext()">Next</button>
+</div>

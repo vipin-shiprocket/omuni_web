@@ -1,0 +1,17 @@
+@forward '../single-order.component.scss';
+@use '../../../../../styles/utils' as u;
+
+.add-another-product-btn {
+  padding: u.rem(6) u.rem(19);
+  border-radius: u.rem(4);
+  background-color: u.$secondary5c;
+  color: u.$primary1;
+  font-size: u.rem(12);
+}
+
+.total-section {
+  background-color: u.$secondary5b;
+  font-size: u.rem(14);
+  padding: 1rem;
+  border-radius: u.rem(6);
+}

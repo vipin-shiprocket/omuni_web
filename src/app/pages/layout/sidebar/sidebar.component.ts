@@ -8,6 +8,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MenuItem } from '../layout.model';
 import { LayoutService } from '../layout.service';
 import { SubSink } from 'subsink';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-sidebar',
@@ -33,6 +34,7 @@ export class SidebarComponent implements OnDestroy {
     { length: 12 },
     () => 'col-' + Math.max(3, Math.floor(Math.random() * 10)),
   );
+  accountProgress = new BehaviorSubject<number>(1);
 
   set sidebarOpen(value: boolean) {
     this.layoutService.sideBarOpen.next(value);
@@ -42,6 +44,10 @@ export class SidebarComponent implements OnDestroy {
     this.subSink.sink = this.layoutService.menuItems.subscribe((data) => {
       this.menu = data;
     });
+
+    this.subSink.sink = this.layoutService.userPreferencesService
+      .getAccountProgress()
+      .subscribe((data) => this.accountProgress.next(data));
   }
 
   checkRoute(name: string): boolean {
@@ -73,6 +79,13 @@ export class SidebarComponent implements OnDestroy {
         this.sidebarOpen = false;
       }, 10);
     }
+  }
+
+  showGetStarted(key: string) {
+    return (
+      key !== 'getStarted' ||
+      (key === 'getStarted' && this.accountProgress.value < 5)
+    );
   }
 
   ngOnDestroy(): void {

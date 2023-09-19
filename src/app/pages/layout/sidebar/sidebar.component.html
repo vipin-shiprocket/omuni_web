@@ -16,7 +16,7 @@
         priority
       />
 
-      <h1 class="logo-main ms-2 text-white">Omuni</h1>
+      <h1 class="side-nav-text ms-2 text-white">Omuni</h1>
     </button>
 
     <button class="btn btn-cross" (click)="sidebarOpen = false">
@@ -112,12 +112,8 @@
           [ngClass]="{ active: checkChildRoute(child.route) }"
         >
           <div
-            class="side-nav-text d-flex align-content-center justify-content-start align-items-center"
+            class="side-nav-text d-flex align-content-center justify-content-start align-items-center ps-3"
           >
-            <mat-icon
-              [svgIcon]="child.iconName"
-              class="d-flex overflow-visible mx-2"
-            ></mat-icon>
             <span>{{ child.displayName }}</span>
           </div>
         </mat-list-item>
@@ -128,6 +124,7 @@
 
 <ng-template #withoutSubMenu let-item="item">
   <a
+    *ngIf="showGetStarted(item.key)"
     class="text-decoration-none"
     [routerLink]="[item.route]"
     routerLinkActive="active"
@@ -142,6 +139,11 @@
       ></mat-icon>
       <span class="side-nav-text w-100 ms-2 overflow-x-hidden">
         {{ item.displayName }}
+        {{
+          item.key === 'getStarted'
+            ? ' (' + (accountProgress | async) + '/5)'
+            : ''
+        }}
       </span>
     </div>
   </a>
