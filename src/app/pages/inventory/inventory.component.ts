@@ -1,24 +1,26 @@
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { InventoryService } from './inventory.service';
-import { checkWindowWidth, verifyFileType } from 'src/app/utils/utils';
+import { checkWindowWidth, sleep, verifyFileType } from 'src/app/utils/utils';
 import { ToastrService } from 'ngx-toastr';
 import { SubSink } from 'subsink';
 import {
+  AnalyticsResponse,
   ErrorResponse,
   FiltersData,
   InventoryColumns,
   InventoryModules,
-  RESP,
   TablePlaceholder,
   analytics,
 } from './inventory.model';
 import { IOption } from 'src/app/components/chip-selectbox/chip-selectbox.model';
 import { NgForm } from '@angular/forms';
-import { Observable, delay, of, switchMap } from 'rxjs';
+import { Observable, switchMap } from 'rxjs';
 import { ITab } from 'src/app/components/index-filters/index-filters.model';
-import { PageEvent } from '@angular/material/paginator';
+import { MatPaginatorIntl, PageEvent } from '@angular/material/paginator';
 import { IPaginationData } from 'src/app/components/index-table/index-table.model';
 import { MatTableDataSource } from '@angular/material/table';
+import { CustomPaginator } from 'src/app/utils/customPaginator';
+import * as bootstrap from 'bootstrap';
 
 @Component({
   selector: 'app-inventory',
@@ -26,6 +28,7 @@ import { MatTableDataSource } from '@angular/material/table';
   imports: InventoryModules,
   templateUrl: './inventory.component.html',
   styleUrls: ['./inventory.component.scss'],
+  providers: [{ provide: MatPaginatorIntl, useClass: CustomPaginator }],
 })
 export class InventoryComponent implements OnInit, OnDestroy {
   fileOptions: IOption[] = [
@@ -42,25 +45,22 @@ export class InventoryComponent implements OnInit, OnDestroy {
   );
   pagination: IPaginationData = {
     pageSizeOptions: [25, 50, 100],
-    length: 5,
+    length: 7,
     pageSize: 25,
     currentPage: 0,
   };
   selectedFileInput!: EventTarget | null;
   selectedOption!: string[];
+  sortBy = ['name'];
   tabs: ITab[] = [];
-  private _analyticsResponse$?: Observable<
-    Record<string, Record<'quantity' | 'percentage', number>>
-  >;
+  private _analyticsResponse$?: Observable<AnalyticsResponse>;
   private inventoryService = inject(InventoryService);
   private toast = inject(ToastrService);
   private subs = new SubSink();
   fileTypes =
     '.csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel';
 
-  get analyticsResponse$(): Observable<
-    Record<string, Record<'quantity' | 'percentage', number>>
-  > {
+  get analyticsResponse$(): Observable<AnalyticsResponse> {
     if (!this._analyticsResponse$) {
       this._analyticsResponse$ = this.inventoryService.getAnalytics();
     }
@@ -85,18 +85,33 @@ export class InventoryComponent implements OnInit, OnDestroy {
     this.addDropdownAttrFlag(0);
   }
 
-  getInventoryData() {
-    this.subs.sink = of(RESP)
-      .pipe(delay(2000))
-      .subscribe((data) => {
+  getInventoryData(evt?: string[]) {
+    if (evt) this.sortBy = evt;
+
+    this.dataSource.data = TablePlaceholder;
+    const params = {
+      sortField: this.sortBy[0],
+      pageNum: this.pagination.currentPage,
+      pageSize: this.pagination.pageSize,
+      fcId: 'FC_123',
+      viewId: 'VIEW_123',
+    };
+    this.subs.sink = this.inventoryService.getListings(params).subscribe(
+      (data) => {
         this.dataSource.data = data.data as never;
         this.pagination = {
           ...this.pagination,
-          length: data.meta.pagination.total,
-          pageSize: +data.meta.pagination.per_page,
-          currentPage: data.meta.pagination.current_page,
+          length: data.hasNext ? 999 : data.data.length,
         };
-      });
+      },
+      (err) => {
+        console.log(err);
+      },
+      async () => {
+        await sleep(0);
+        this.setPopovers();
+      },
+    );
   }
 
   abs(val: number) {
@@ -111,15 +126,15 @@ export class InventoryComponent implements OnInit, OnDestroy {
 
   getColumnArrangement() {
     return this.columns
-      .filter((d) => d.visible)
+      .filter((d) => !d.canHide || d.visible)
       .map((d) => d.name)
       .slice();
   }
 
   handlePageEvent(event: PageEvent) {
-    console.log(event);
-
-    return;
+    this.pagination.currentPage = event.pageIndex;
+    this.pagination.pageSize = event.pageSize;
+    this.getInventoryData();
   }
 
   isEmpty(obj: object) {
@@ -190,6 +205,29 @@ export class InventoryComponent implements OnInit, OnDestroy {
           console.log(err);
         },
       });
+  }
+
+  filterChanged(evt: Record<string, unknown>[]) {
+    if (!evt[0]) return;
+    const cols = evt[0]['columns'] as string[];
+    this.columns.map((columnData) => {
+      columnData.visible = cols.includes(columnData.name);
+    });
+    this.columnsToDisplay = [...this.getColumnArrangement()];
+    this.getInventoryData();
+  }
+
+  setPopovers() {
+    const popoverTriggerList = document.querySelectorAll(
+      '[data-bs-toggle="popover"]',
+    );
+    popoverTriggerList.forEach((popoverTriggerEl) => {
+      const url = popoverTriggerEl.getAttribute('data-bs-content');
+      const title = popoverTriggerEl.getAttribute('data-bs-title2');
+      new bootstrap.Popover(popoverTriggerEl, {
+        content: `<img src="${url}" alt ="${title}">`,
+      });
+    });
   }
 
   ngOnDestroy(): void {
