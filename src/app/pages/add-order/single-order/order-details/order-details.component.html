@@ -37,13 +37,18 @@
   </div>
   <a
     href="javascript:void(0);"
+    (click)="showOrderTag = !showOrderTag"
     class="d-block mb-3 text-decoration-none d-flex align-item-center"
   >
     + Add Order Tag, Reseller's Name
-    <mat-icon class="expand_more">expand_more</mat-icon>
+    <mat-icon
+      [ngClass]="showOrderTag ? 'rotate-180' : 'rotate-0'"
+      class="expand_more"
+      >expand_more</mat-icon
+    >
     <span class="text-black-50">(Optional)</span>
   </a>
-  <div class="row mb-3">
+  <div *ngIf="showOrderTag" class="row mb-3">
     <div class="col-md-6">
       <label for="orderTag" class="form-label">Order Tag </label>
       <input type="text" class="form-control" id="orderTag" />
@@ -106,14 +111,19 @@
 
   <a
     href="javascript:void(0);"
+    (click)="showHsnCodeSKU = !showHsnCodeSKU"
     class="d-block mb-3 text-decoration-none d-flex align-item-center"
   >
     + Add HSN Code, SKU, Tax Rate and Discount
-    <mat-icon class="expand_more">expand_more</mat-icon>
+    <mat-icon
+      [ngClass]="showHsnCodeSKU ? 'rotate-180' : 'rotate-0'"
+      class="expand_more"
+      >expand_more</mat-icon
+    >
     <span class="text-black-50">(Optional)</span>
   </a>
 
-  <div class="row mb-3">
+  <div *ngIf="showHsnCodeSKU" class="row mb-3">
     <div class="col-md-4">
       <label for="hsnCode1" class="form-label"
         >HSN Code
@@ -196,13 +206,18 @@
   </section>
   <a
     href="javascript:void(0);"
+    (click)="showShippingCharges = !showShippingCharges"
     class="d-block mb-3 text-decoration-none d-flex align-item-center"
   >
     + Add Shipping Charges, Giftwrap, Transaction fee
-    <mat-icon class="expand_more">expand_more</mat-icon>
+    <mat-icon
+      [ngClass]="showShippingCharges ? 'rotate-180' : 'rotate-0'"
+      class="expand_more"
+      >expand_more</mat-icon
+    >
     <span class="text-black-50">(Optional)</span>
   </a>
-  <div class="row mb-3">
+  <div *ngIf="showShippingCharges" class="row mb-3">
     <div class="col-md-2">
       <label for="shippingCharges" class="form-label">Shipping Charges</label>
       <input

@@ -10,6 +10,7 @@ import { BuyerDetailsComponent } from './single-order/buyer-details/buyer-detail
 import { PickupDetailsComponent } from './single-order/pickup-details/pickup-details.component';
 import { PackageDetailsComponent } from './single-order/package-details/package-details.component';
 import { OrderDetailsComponent } from './single-order/order-details/order-details.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,8 @@ import { OrderDetailsComponent } from './single-order/order-details/order-detail
   ],
   imports: [
     CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
     AddOrdersRoutingModule,
     MatIconModule,
     MatTabsModule,

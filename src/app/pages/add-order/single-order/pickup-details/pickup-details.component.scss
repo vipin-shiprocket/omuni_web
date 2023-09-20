@@ -71,3 +71,19 @@
     }
   }
 }
+
+.input-icon {
+  position: relative;
+
+  & .mat-icon {
+    position: absolute;
+    top: u.rem(6);
+    left: u.rem(20);
+    opacity: 0.8;
+  }
+
+  & input[type='search'] {
+    padding-left: u.rem(40);
+    background: u.$bg-color;
+  }
+}

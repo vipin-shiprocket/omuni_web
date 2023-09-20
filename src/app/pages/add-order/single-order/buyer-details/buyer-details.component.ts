@@ -1,6 +1,6 @@
 import { Component, ViewEncapsulation, inject } from '@angular/core';
 import { SingleOrderService } from '../single-order.service';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-buyer-details',
@@ -9,6 +9,8 @@ import { FormBuilder } from '@angular/forms';
   encapsulation: ViewEncapsulation.None,
 })
 export class BuyerDetailsComponent {
+  showGSTN = false;
+  shippingIsBilling = new FormControl(true);
   soService = inject(SingleOrderService);
 
   constructor(private fb: FormBuilder) {}
