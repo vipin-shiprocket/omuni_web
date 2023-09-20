@@ -12,7 +12,9 @@ import {
   InventoryColumns,
   InventoryModules,
   InventoryUpdateOptions,
+  ListingResponse,
   TablePlaceholder,
+  UpdateInventoryBody,
   analytics,
 } from './inventory.model';
 import { NgForm } from '@angular/forms';
@@ -82,7 +84,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
 
   getAnalyticsData() {
     this.analyticsData = undefined;
-    const params = { fcId: '' };
+    const params = { fcId: '' }; //TODO
     this.subs.sink = this.inventoryService.getAnalytics(params).subscribe({
       next: (data: AnalyticsResponse) => {
         this.analyticsData = data.data;
@@ -104,12 +106,13 @@ export class InventoryComponent implements OnInit, OnDestroy {
       sortField: this.sortBy[0],
       pageNum: this.pagination.currentPage,
       pageSize: this.pagination.pageSize,
-      fcId: 'FC_123',
-      viewId: 'VIEW_123',
+      fcId: 'FC_123', //TODO
+      viewId: 'VIEW_123', //TODO
     };
 
     this.subs.sink = this.inventoryService.getListings(params).subscribe({
       next: (data) => {
+        data.data = data.data.filter((val) => (val.reason = ['CORRECTION']));
         this.dataSource.data = data.data as never;
         this.pagination = {
           ...this.pagination,
@@ -124,6 +127,10 @@ export class InventoryComponent implements OnInit, OnDestroy {
 
   abs(val: number) {
     return Math.abs(val);
+  }
+
+  add(el: HTMLInputElement, val: number) {
+    el.value = Math.max(0, parseInt(el.value) + val).toString();
   }
 
   addDropdownAttrFlag(tabIndex: number) {
@@ -162,6 +169,40 @@ export class InventoryComponent implements OnInit, OnDestroy {
     }
     this.activeTabIdx = tabIdx;
     this.getInventoryData();
+  }
+
+  updateDelta(row: ListingResponse['data'][0], val: string) {
+    const quantity = parseInt(val);
+    if (Number.isNaN(quantity)) {
+      this.toast.error('Please provide a proper input for quantity');
+      return;
+    }
+
+    if (!row.reason?.length) {
+      this.toast.error('Please provide a valid reason for update');
+      return;
+    }
+
+    const body: UpdateInventoryBody = {
+      sku: row.sku,
+      fcId: 'test123', //TODO
+      quantity: val,
+      transactionType: 'OVERWRITE',
+      reason: row.reason[0],
+    };
+
+    this.subs.sink = this.inventoryService.updateInventory(body).subscribe({
+      next: (data) => {
+        this.toast.success(data.message);
+      },
+      error: (err) => {
+        this.toast.error(err.error.message);
+      },
+      complete: () => {
+        this.getInventoryData();
+        this.closeUpdateDropdown();
+      },
+    });
   }
 
   uploadFile(form: NgForm) {

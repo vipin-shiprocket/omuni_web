@@ -196,10 +196,33 @@
                 <div class="border rounded bg-white">
                   <h5 class="px-4 pt-4 text-secondary">Adjust Available by</h5>
                   <div class="px-4 mt-2 mb-3">
-                    <app-o2-quantity-input
-                      [value]="row.availableQuantity"
-                      (output)="tempQty = $event"
-                    ></app-o2-quantity-input>
+                    <div class="o2-group">
+                      <span
+                        tabindex="-1"
+                        role="button"
+                        class="o2-prefix btn text-primary"
+                        (click)="add(quantityInput, -1)"
+                        (keyup)="add(quantityInput, -1)"
+                        >–</span
+                      >
+                      <input
+                        #quantityInput
+                        appOnlyNumbers
+                        type="text"
+                        class="form-control prefix-p sufix-p"
+                        placeholder="Available Quantity"
+                        [noLeadingZeros]="true"
+                        [value]="row.availableQuantity"
+                      />
+                      <span
+                        tabindex="-1"
+                        role="button"
+                        class="o2-sufix btn text-primary"
+                        (click)="add(quantityInput, 1)"
+                        (keyup)="add(quantityInput, 1)"
+                        >+</span
+                      >
+                    </div>
                   </div>
                   <div class="px-4 my-2">
                     <app-o2-select
@@ -208,6 +231,7 @@
                       [values]="['CORRECTION']"
                       [options]="overWriteOptions"
                       [showLabelWithValue]="true"
+                      (selectionChange)="row.reason = $event"
                     ></app-o2-select>
                   </div>
                   <hr class="mt-3 mb-0" />
@@ -225,6 +249,7 @@
                     <button
                       type="button"
                       class="btn btn-sm btn-outline-primary border-0 dropdown-buttons"
+                      (click)="updateDelta(row, quantityInput.value)"
                     >
                       Save
                     </button>
