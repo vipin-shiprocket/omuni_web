@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 56 56">
+    <defs>
+        <style>
+            .cls-4{fill:none;stroke-linecap:square;stroke-miterlimit:10;stroke:#6964e2;stroke-width:4px}
+        </style>
+    </defs>
+    <g id="Group_22429" data-name="Group 22429" transform="translate(-976 -4255)">
+        <g id="Group_21745" data-name="Group 21745" transform="translate(976 4255)">
+            <rect id="Rectangle_7853" data-name="Rectangle 7853" width="56" height="56" rx="28" style="fill:#f4f8ff"/>
+        </g>
+        <g id="_2873978_file_share_upload_icon" data-name="2873978_file_share_upload_icon" transform="translate(992.8 4268.067)">
+            <path id="Path_33688" data-name="Path 33688" d="m38.922 9.647 6.515 6.507-5.537 1.485s-2.037-3.5-2-3.626 1.022-4.366 1.022-4.366z" transform="translate(-23.39 -9.225)" style="fill:#6964e2"/>
+            <path id="Path_33689" data-name="Path 33689" d="M35.156 15.493h-3.734a1.272 1.272 0 0 1-1.244-1.3V10.3A1.272 1.272 0 0 0 28.933 9H15.244A1.272 1.272 0 0 0 14 10.3v27.27a1.272 1.272 0 0 0 1.244 1.3h19.912a1.272 1.272 0 0 0 1.244-1.3V16.791a1.272 1.272 0 0 0-1.244-1.298z" transform="translate(-14 -9)" style="fill:#bfbcff"/>
+            <path id="Line_325" data-name="Line 325" class="cls-4" transform="translate(11.2 10.844)" d="M0 8.976V0"/>
+            <path id="Path_33690" data-name="Path 33690" class="cls-4" d="M37.9 33.827 33.077 29l-4.827 4.827" transform="translate(-21.877 -19.106)"/>
+            <path id="Line_326" data-name="Line 326" transform="translate(7.615 24.325)" style="stroke:#fff;stroke-width:3px;fill:none;stroke-linecap:square;stroke-miterlimit:10" d="M0 0h7.171"/>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 56 56">
+    <defs>
+        <style>
+            .cls-3{fill:#6964e2}.cls-4{fill:#fff}
+        </style>
+    </defs>
+    <g id="Group_22420" data-name="Group 22420" transform="translate(-976 -3799)">
+        <g id="Group_21727" data-name="Group 21727" transform="translate(976 3799)">
+            <rect id="Rectangle_7853" data-name="Rectangle 7853" width="56" height="56" rx="28" style="fill:#f4f8ff"/>
+        </g>
+        <g id="Group_21828" data-name="Group 21828" transform="translate(982.533 3812.067)">
+            <g id="_4156443_delivery_shipping_truck_icon" data-name="4156443_delivery_shipping_truck_icon">
+                <path id="Path_33659" data-name="Path 33659" d="M35.179 37.982H9.6a1.6 1.6 0 0 1-1.6-1.6V15.6A1.6 1.6 0 0 1 9.6 14h23.98a1.6 1.6 0 0 1 1.6 1.6z" transform="translate(-6.401 -14)" style="fill:#bfbcff"/>
+                <path id="Path_33660" data-name="Path 33660" class="cls-3" d="M42 26h3.2a8.017 8.017 0 0 1 7.994 7.994v6.4H42z" transform="translate(-12.79 -16.781)"/>
+                <path id="Path_33661" data-name="Path 33661" class="cls-4" d="M45 35.4V29h.8a5.561 5.561 0 0 1 5.6 5.6v.8z" transform="translate(-13.392 -17.321)"/>
+                <path id="Path_33662" data-name="Path 33662" class="cls-3" d="M46.788 46.4H7.212A1.236 1.236 0 0 1 6 45.2 1.236 1.236 0 0 1 7.212 44h39.576A1.236 1.236 0 0 1 48 45.2a1.236 1.236 0 0 1-1.212 1.2z" transform="translate(-6 -20.645)"/>
+                <circle id="Ellipse_575" data-name="Ellipse 575" class="cls-3" cx="4.2" cy="4.2" r="4.2" transform="translate(5.173 21.467)"/>
+                <circle id="Ellipse_576" data-name="Ellipse 576" class="cls-4" cx="1.4" cy="1.4" r="1.4" transform="translate(7.957 24.267)"/>
+                <circle id="Ellipse_577" data-name="Ellipse 577" class="cls-3" cx="4.2" cy="4.2" r="4.2" transform="translate(30.294 21.467)"/>
+                <circle id="Ellipse_578" data-name="Ellipse 578" class="cls-4" cx="1.4" cy="1.4" r="1.4" transform="translate(33.094 24.267)"/>
+            </g>
+            <g id="Group_21736" data-name="Group 21736" transform="translate(9.042 6.639)">
+                <circle id="Ellipse_580" data-name="Ellipse 580" class="cls-4" cx="2.203" cy="2.203" r="2.203"/>
+                <circle id="Ellipse_581" data-name="Ellipse 581" class="cls-4" cx="2.203" cy="2.203" transform="translate(7.568 7.442)" r="2.203"/>
+                <path id="Line_324" data-name="Line 324" transform="translate(1.462 1.468)" style="fill:none;stroke:#fff;stroke-miterlimit:10;stroke-width:2px" d="M9.055 0 0 9.055"/>
+            </g>
+        </g>
+    </g>
+</svg>

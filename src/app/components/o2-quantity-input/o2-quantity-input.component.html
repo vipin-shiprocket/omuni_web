@@ -1,0 +1,23 @@
+<div class="input-group" role="group" aria-label="quantity input group">
+  <button
+    type="button"
+    class="btn btn-outlined_sm-secondary fs-5"
+    (click)="add(el, -1)"
+  >
+    -
+  </button>
+  <input
+    #el
+    class="form-control text-primary text-center fw-500"
+    type="number"
+    step="1"
+    [(ngModel)]="value"
+  />
+  <button
+    type="button"
+    class="btn btn-outlined_sm-secondary fs-5"
+    (click)="add(el, 1)"
+  >
+    +
+  </button>
+</div>

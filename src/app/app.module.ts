@@ -11,7 +11,7 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 // import { RECAPTCHA_V3_SITE_KEY, ReCaptchaV3Service } from 'ng-recaptcha';
 // import { environment } from 'src/environments/environment';
 import { MatDialogModule } from '@angular/material/dialog';
-import { HttpconfigInterceptor } from './utils/common.interceptors';
+import { HttpconfigInterceptor } from './core/api.interceptor';
 // import { OnlyNumbersDirective } from './utils/only-numbers.directive'
 
 @NgModule({

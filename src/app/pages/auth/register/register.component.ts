@@ -23,6 +23,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
     private toastr: ToastrService,
     private http: HttpService,
   ) {}
+  tabactive = 'first';
 
   ngOnInit(): void {
     console.log('hi');
@@ -42,6 +43,11 @@ export class RegisterComponent implements OnInit, OnDestroy {
   }
   onSignupFormSubmit() {
     // onSignupFormSubmit
+  }
+
+  changeclass(selected: string): void {
+    // int
+    this.tabactive = selected;
   }
   ngOnDestroy(): void {
     this.subs.unsubscribe();

@@ -83,37 +83,37 @@ export class AppLauncherComponent implements OnInit, OnDestroy {
     //   mergeMap(() => this.auth.checkOmsUserFirstTime(email)),
     //   mergeMap(() => this.auth.getOMSMenu()),
     // )
-    this.subs.sink = this.auth.getOMSMenu().subscribe({
-      next: (resp) => {
-        const { origin } = window.location;
-        if (resp) {
-          this.$localStorage.set('menu', JSON.stringify(resp));
-          if (resp && resp[0]['href'] !== undefined) {
-            window.location.href = origin + '/oms/#' + resp[0]['href'];
-          } else {
-            const subMenu = resp[0]['subMenu'];
-            window.location.href = origin + '/oms/#' + subMenu[0]['href'];
-          }
-        }
-      },
-      error(err) {
-        console.error(err);
-      },
-    });
+    // this.subs.sink = this.auth.getOMSMenu().subscribe({
+    //   next: (resp) => {
+    //     const { origin } = window.location;
+    //     if (resp) {
+    //       this.$localStorage.set('menu', JSON.stringify(resp));
+    //       if (resp && resp[0]['href'] !== undefined) {
+    //         window.location.href = origin + '/oms/#' + resp[0]['href'];
+    //       } else {
+    //         const subMenu = resp[0]['subMenu'];
+    //         window.location.href = origin + '/oms/#' + subMenu[0]['href'];
+    //       }
+    //     }
+    //   },
+    //   error(err) {
+    //     console.error(err);
+    //   },
+    // });
   }
 
   redirectToFMS() {
-    this.subs.sink = this.auth.getFMSMenu().subscribe({
-      next: (resp) => {
-        const menu = resp.data;
-        this.$localStorage.set('FMS', JSON.stringify({ menu }));
-        // this.$localStorage.set('userdata', null);
-        document.location.href = window.location.origin + '/fms/#/';
-      },
-      error(err) {
-        console.error(err);
-      },
-    });
+    // this.subs.sink = this.auth.getFMSMenu().subscribe({
+    //   next: (resp) => {
+    //     const menu = resp.data;
+    //     this.$localStorage.set('FMS', JSON.stringify({ menu }));
+    //     // this.$localStorage.set('userdata', null);
+    //     document.location.href = window.location.origin + '/fms/#/';
+    //   },
+    //   error(err) {
+    //     console.error(err);
+    //   },
+    // });
   }
 
   redirectToWMS() {
