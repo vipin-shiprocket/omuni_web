@@ -11,6 +11,7 @@ import { PickupDetailsComponent } from './single-order/pickup-details/pickup-det
 import { PackageDetailsComponent } from './single-order/package-details/package-details.component';
 import { OrderDetailsComponent } from './single-order/order-details/order-details.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { O2SelectComponent } from 'src/app/components/o2-select/o2-select.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     FormsModule,
     ReactiveFormsModule,
     AddOrdersRoutingModule,
+    O2SelectComponent,
     MatIconModule,
     MatTabsModule,
     MatIconModule,

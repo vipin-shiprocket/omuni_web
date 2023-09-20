@@ -27,11 +27,12 @@
           <mat-icon>help</mat-icon>
         </span></label
       >
-      <input
-        type="text"
-        class="form-control"
-        id="orderChannel"
+      <app-o2-select
         placeholder="i.e abc@xyz.in"
+        [options]="[
+          { display: 'Channel 1', value: 1 },
+          { display: 'Channel 2', value: 2 }
+        ]"
       />
     </div>
   </div>
@@ -79,21 +80,28 @@
     </div>
     <div class="col-md-2">
       <label for="unitPrice" class="form-label">Unit Price </label>
-      <input
-        type="text"
-        class="form-control"
-        id="unitPrice"
-        placeholder="Reseller's Name "
-      />
+      <div class="o2-group">
+        <span class="o2-prefix">&#x20B9;</span>
+        <input
+          type="text"
+          class="form-control prefix-p"
+          id="unitPrice"
+          placeholder="Reseller's Name "
+        />
+      </div>
     </div>
     <div class="col-md-2">
       <label for="quantity" class="form-label">Quantity </label>
-      <input
-        type="text"
-        class="form-control"
-        id="quantity"
-        placeholder="Reseller's Name "
-      />
+      <div class="o2-group">
+        <span role="button" class="o2-prefix">–</span>
+        <input
+          type="text"
+          class="form-control prefix-p sufix-p"
+          id="quantity"
+          placeholder="Reseller's Name "
+        />
+        <span role="button" class="o2-sufix">+</span>
+      </div>
     </div>
     <div class="col-md-3">
       <label for="productCategory" class="form-label">Product Category </label>

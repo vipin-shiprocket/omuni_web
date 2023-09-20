@@ -831,3 +831,42 @@ input:checked ~ .customcheckbox:after {
 .signUpChannelsSection {
   background-color: u.$secondary5c;
 }
+
+.o2-group {
+  position: relative;
+
+  .o2-prefix {
+    position: absolute;
+    width: u.rem(32);
+    font-weight: 500;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    inset: 1px;
+    border-right: 1px solid var(--bs-border-color);
+    border-radius: 0.5rem 0 0 0.5rem;
+    background-color: u.$secondary5c;
+    color: u.$neutral2;
+  }
+
+  .prefix-p {
+    padding-left: u.rem(40);
+  }
+
+  .o2-sufix {
+    position: absolute;
+    width: u.rem(32);
+    font-weight: 500;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    inset: 1px 1px 1px auto;
+    border-radius: 0 0.5rem 0.5rem 0;
+    border-left: 1px solid var(--bs-border-color);
+    background-color: u.$secondary5c;
+    color: u.$neutral2;
+  }
+  .sufix-p {
+    padding-right: u.rem(40);
+  }
+}
