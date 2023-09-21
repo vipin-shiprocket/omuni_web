@@ -153,7 +153,7 @@ export class DropdownRendererDirective implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.closeToolTip();
     this.subs.unsubscribe();
-    this._overlayRef.dispose();
+    if (this._overlayRef) this._overlayRef.dispose();
   }
 
   private async closeToolTip() {

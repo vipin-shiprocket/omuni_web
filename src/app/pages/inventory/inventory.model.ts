@@ -11,7 +11,7 @@ import { FiltersComponent } from 'src/app/components/filters/filters.component';
 import { FilterDataType } from 'src/app/components/index-filters/index-filters.model';
 import { DropdownRendererDirective } from 'src/app/directives/dropdown.directive';
 import { ConnectedPosition } from '@angular/cdk/overlay';
-import { O2QuantityInputComponent } from 'src/app/components/o2-quantity-input/o2-quantity-input.component';
+import { OnlyNumbersDirective } from 'src/app/utils/only-numbers.directive';
 
 export const InventoryModules = [
   CdkTableModule,
@@ -26,7 +26,7 @@ export const InventoryModules = [
   MatTooltipModule,
   NgOptimizedImage,
   O2SelectComponent,
-  O2QuantityInputComponent,
+  OnlyNumbersDirective,
 ];
 
 export type ErrorResponse = Record<'data', string>;
@@ -43,6 +43,7 @@ export type ListingResponse = {
     totalQuantity: number;
     blockedQuantity: number;
     availableQuantity: number;
+    reason?: UpdateReasons[];
   }[];
   hasNext: boolean;
 };
@@ -68,11 +69,34 @@ export type AcknowledgeUploadResponse = {
   status: boolean;
 };
 
+export type UpdateDeltaResponse = {
+  status: string;
+  correlationId: string;
+  message: string;
+  data: {
+    message: string;
+  };
+  error: {
+    code: string;
+    message: string;
+  };
+  status_code: number;
+};
+
+type UpdateReasons =
+  | 'CORRECTION'
+  | 'COUNT'
+  | 'RECEIVED'
+  | 'RETURN_STOCK'
+  | 'DAMAGED'
+  | 'THEFT_LOSS';
+
 export type UpdateInventoryBody = {
-  ean: string;
   fcId: string;
+  sku: string;
   quantity: string;
   transactionType: 'CREDIT' | 'DEBIT' | 'OVERWRITE';
+  reason: UpdateReasons;
 };
 
 export type AnalyticsResponse = {
@@ -173,7 +197,10 @@ export const TablePlaceholder = [
   {} as never[],
 ];
 
-export const InventoryUpdateOptions = [
+export const InventoryUpdateOptions: Record<
+  'display' | 'value',
+  string | UpdateReasons
+>[] = [
   { display: 'Correction', value: 'CORRECTION' },
   { display: 'Count', value: 'COUNT' },
   { display: 'Received', value: 'RECEIVED' },
