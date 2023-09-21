@@ -4,34 +4,71 @@
     Where is the order being sent from?
     <span class="text-black-50">(Your Address)</span>
   </h4>
+
   <div class="row">
     <div class="col-md-6 input-icon">
       <mat-icon>search</mat-icon>
       <input
         type="search"
         class="form-control"
+        [formControl]="control"
+        [matAutocomplete]="pickupAuto"
         placeholder="Search your pick up address here by nickname or phone number"
       />
     </div>
+    <mat-autocomplete #pickupAuto="matAutocomplete" [displayWith]="displayFn">
+      <ng-container *ngFor="let addrId of filteredAddress | async">
+        <mat-option
+          class="pickupAuto"
+          *ngIf="addresses && addresses[addrId] as option"
+          [value]="option"
+        >
+          <span class="medium text-capitalize">{{ option['name'] }}</span>
+          {{ option['address'] }}
+
+          <div
+            class="float-end badge"
+            ngClass="{{
+              option['phone_verified'] ? 'text-bg-success' : 'text-bg-danger'
+            }}"
+          >
+            {{ option['phone_verified'] ? 'Verified' : 'Unverified' }}
+          </div>
+        </mat-option>
+      </ng-container>
+    </mat-autocomplete>
   </div>
   <hr class="text-black-50 my-4" />
   <h4 class="medium mb-3">Recently Used Addresses</h4>
   <div class="row">
-    <div class="col-md-3 col-sm-6">
-      <ng-container [ngTemplateOutlet]="addressCard"></ng-container>
+    <div class="col-md-3 col-sm-6" *ngFor="let addrId of recentlyUsedAddr">
+      <ng-container
+        *ngIf="addresses && addresses[addrId] as address"
+        [ngTemplateOutlet]="addressCard"
+        [ngTemplateOutletContext]="{ data: address }"
+      ></ng-container>
     </div>
   </div>
   <hr class="my-4" />
   <h4 class="medium mb-3">Other Addresses</h4>
   <div class="row">
-    <div class="col-md-3 col-sm-6">
+    <div class="col-md-3 col-sm-6 mb-3">
       <button class="card card-custom add-address-btn">
         <mat-icon class="mx-auto">add_location_alt</mat-icon>
         <div class="mx-auto">Add New Pickup Address</div>
       </button>
     </div>
-    <div class="col-md-3 col-sm-6">
-      <ng-container [ngTemplateOutlet]="addressCard"></ng-container>
+    <div
+      class="col-md-3 col-sm-6 mb-3"
+      *ngFor="let addrId of restAllAddr; let i = index"
+    >
+      <ng-container *ngIf="addresses && addresses[addrId] as address">
+        <ng-container
+          *ngIf="i < maxAddressToShow"
+          [ngTemplateOutlet]="addressCard"
+          [ngTemplateOutletContext]="{ data: address }"
+        ></ng-container>
+      </ng-container>
     </div>
   </div>
 </div>
@@ -42,23 +79,47 @@
   <button class="btn btn-solid w-100px" (click)="onClickNext()">Next</button>
 </div>
 
-<ng-template #addressCard>
-  <div class="card card-custom selected">
-    <div class="trapezoid trapezoid-unverified">
+<ng-template #addressCard let-data="data">
+  <div
+    class="card card-custom h-100"
+    [ngClass]="{
+      selected: control && control.value && control.value['id'] === data?.id
+    }"
+  >
+    <div
+      class="trapezoid"
+      ngClass="{{
+        data?.phone_verified ? 'trapezoid-verified' : 'trapezoid-unverified'
+      }}"
+    >
       <span class="trapezoid-content"></span>
     </div>
-    <div class="card-body">
-      <span class="primary-tag">Primary Address</span>
-      <h5 class="medium mb-3">Sudip Gurgaon</h5>
-      <p class="mb-3">Plot 416,Phase III,Udyog Vihar,,Sector 19,Gurugra ...</p>
-      <p>Mobile : 9999999999</p>
+    <div class="card-body d-flex flex-column">
+      <div>
+        <span class="primary-tag" *ngIf="data?.status === 2"
+          >Primary Address</span
+        >
+      </div>
+      <h5 class="medium mb-3">{{ data?.name | titlecase }}</h5>
+      <p class="mb-3">
+        {{ data?.address }},{{ data?.address_2 }}, {{ data?.city }},{{
+          data?.state
+        }},{{ data?.country }},{{ data?.pin_code }}
+      </p>
+      <p>Mobile : {{ data?.phone }}</p>
+      <div class="flex-grow-1"></div>
       <hr />
-      <div class="d-flex align-item-center">
+      <div class="d-flex align-items-center">
         <a class="text-decoration-none" href="javascript:void(0);">
           <mat-icon class="pencil-icon">edit</mat-icon>
           Edit Address</a
         >
-        <button class="btn btn-sm btn-solid_sm ms-auto">Verify Address</button>
+        <button
+          *ngIf="!data?.phone_verified"
+          class="btn btn-sm btn-solid_sm ms-auto"
+        >
+          Verify Address
+        </button>
       </div>
     </div>
   </div>

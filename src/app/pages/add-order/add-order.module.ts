@@ -12,6 +12,7 @@ import { PackageDetailsComponent } from './single-order/package-details/package-
 import { OrderDetailsComponent } from './single-order/order-details/order-details.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { O2SelectComponent } from 'src/app/components/o2-select/o2-select.component';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { O2SelectComponent } from 'src/app/components/o2-select/o2-select.compon
     ReactiveFormsModule,
     AddOrdersRoutingModule,
     O2SelectComponent,
+    MatAutocompleteModule,
     MatIconModule,
     MatTabsModule,
     MatIconModule,

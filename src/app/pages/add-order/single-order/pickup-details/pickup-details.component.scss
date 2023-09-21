@@ -34,6 +34,7 @@
 .add-address-btn {
   justify-content: center;
   width: 100%;
+  min-height: 13rem;
   height: 100%;
   color: u.$primary1;
   border-style: dashed;
@@ -85,5 +86,11 @@
   & input[type='search'] {
     padding-left: u.rem(40);
     background: u.$bg-color;
+  }
+}
+
+.pickupAuto {
+  & span {
+    width: 100%;
   }
 }
