@@ -23,7 +23,12 @@ import {
   ILoginOTPForm,
   LoginOTPDTO,
 } from './login.model';
-import { Endpoints, PasswordPattern } from '../auth.model';
+import {
+  Endpoints,
+  PasswordPattern,
+  emailPattern,
+  mobilePattern,
+} from '../auth.model';
 
 @Component({
   selector: 'app-login',
@@ -105,8 +110,8 @@ export class LoginComponent implements OnDestroy {
       { type: 'pattern', message: 'Please enter a valid Mobile Number' },
     ],
   };
-  emailPattern = '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,4}$';
-  mobilePattern = '^[0-9]{10}$';
+  emailPattern = emailPattern;
+  mobilePattern = mobilePattern;
 
   ctrlByName(ctrlName: string): AbstractControl {
     return this.userForm.get(ctrlName) as AbstractControl;

@@ -53,6 +53,10 @@ export interface IErrorResp {
 export const PasswordPattern = new RegExp(
   '^(?=.*[A-Za-z])(?=.*\\d)(?=.*[$@$!%*#?&])[A-Za-z\\d$@$!%*#?&]{6}$',
 );
+export const emailPattern = new RegExp(
+  '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,4}$',
+);
+export const mobilePattern = new RegExp('^[0-9]{10}$');
 
 export const Endpoints = {
   LOGIN_VIA_EMAIL: 'auth/login',
