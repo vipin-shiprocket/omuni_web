@@ -2,12 +2,9 @@
   <!-- Header -->
   <div class="d-flex align-items-center flex-wrap">
     <h1 class="h2 fw-bold my-4">Catalog</h1>
-    <div class="col-4 mx-auto">
-      <app-global-search *ngIf="!showSearch"></app-global-search>
-    </div>
     <button
       mat-button
-      class="me-2 btn rounded fs-12 bg-primary-subtle text-primary d-flex align-items-center"
+      class="ms-auto me-2 btn rounded fs-12 bg-primary-subtle text-primary d-flex align-items-center"
     >
       <mat-icon class="me-2">add</mat-icon>
       Add Product
@@ -25,7 +22,6 @@
             active: tabs[activeTabIdx].name === tab['name']
           }"
           (click)="onTabClick(i)"
-          (keyup)="onTabClick(i)"
         >
           {{ tab['name'] }}
         </button>
@@ -95,14 +91,11 @@
               [contentTemplate]="popup"
               [dropDownMode]="'toolTip'"
             >
-              <span>{{ row.productDetails?.name }}</span>
+              <span>{{ row.name }}</span>
             </div>
             <ng-template #popup>
               <div class="bg-white p-2 rounded shadow-lg popover-arrow">
-                <img
-                  [src]="row.productDetails?.image"
-                  [alt]="row.productDetails?.name"
-                />
+                <img [src]="row.images[0]" [alt]="row.name" />
               </div>
             </ng-template>
             <ng-container
@@ -169,7 +162,14 @@
             Dimension
           </cdk-header-cell>
           <cdk-cell *cdkCellDef="let row">
-            <span>{{ row.dimension }}</span>
+            <ng-container *ngIf="!isEmpty(row)">
+              <span
+                >{{ row.length }} cm x {{ row.breadth }} cm x
+                {{ row.height }} cm</span
+              >
+              <br />
+              <span>{{ row.weight }} Kg</span>
+            </ng-container>
             <ng-container
               *ngIf="isEmpty(row)"
               [ngTemplateOutlet]="placeholder"

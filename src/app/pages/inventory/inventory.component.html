@@ -2,10 +2,6 @@
   <!-- Header -->
   <div class="d-flex align-items-center justify-content-between">
     <h1 class="h2 fw-bold my-4 flex-grow-1">Inventory</h1>
-    <div class="col-4">
-      <app-global-search *ngIf="!showSearch"></app-global-search>
-    </div>
-    <div class="flex-grow-1"></div>
   </div>
 
   <!-- Analytics -->
@@ -65,15 +61,17 @@
       >
         <mat-icon svgIcon="assets:upload"></mat-icon>
       </button>
-      <app-o2-select
-        [label]="'Sort By'"
-        [options]="filtersData['columns'].data"
-        [showLabelWithValue]="true"
-        [values]="sortBy"
-        placeholder="Sort By"
-        (selectionChange)="getInventoryData($event)"
-      >
-      </app-o2-select>
+      <div class="select-dropdown">
+        <app-o2-select
+          [label]="'Sort By'"
+          [options]="filtersData['columns'].data"
+          [showLabelWithValue]="true"
+          [values]="sortBy"
+          placeholder="Sort By"
+          (selectionChange)="getInventoryData($event)"
+        >
+        </app-o2-select>
+      </div>
     </div>
   </div>
 
@@ -197,14 +195,14 @@
                   <h5 class="px-4 pt-4 text-secondary">Adjust Available by</h5>
                   <div class="px-4 mt-2 mb-3">
                     <div class="o2-group">
-                      <span
+                      <button
                         tabindex="-1"
                         role="button"
                         class="o2-prefix btn text-primary"
                         (click)="add(quantityInput, -1)"
-                        (keyup)="add(quantityInput, -1)"
-                        >–</span
                       >
+                        –
+                      </button>
                       <input
                         #quantityInput
                         appOnlyNumbers
@@ -214,14 +212,14 @@
                         [noLeadingZeros]="true"
                         [value]="row.availableQuantity"
                       />
-                      <span
+                      <button
                         tabindex="-1"
                         role="button"
                         class="o2-sufix btn text-primary"
                         (click)="add(quantityInput, 1)"
-                        (keyup)="add(quantityInput, 1)"
-                        >+</span
                       >
+                        +
+                      </button>
                     </div>
                   </div>
                   <div class="px-4 my-2">

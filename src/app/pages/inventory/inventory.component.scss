@@ -64,14 +64,14 @@
 
 .cdk-column-name {
   @extend .base-column;
-  flex: 1 0 28% !important;
-  width: 28% !important;
+  flex: 1 0 10% !important;
+  width: 10% !important;
 }
 
 .cdk-column-sku {
   @extend .base-column;
-  flex: 1 0 28% !important;
-  width: 28% !important;
+  flex: 1 0 10% !important;
+  width: 10% !important;
 }
 
 .cdk-column-Actions {
@@ -82,4 +82,8 @@
 
 .dropdown-buttons {
   width: 100px;
+}
+
+.select-dropdown {
+  min-width: 200px;
 }

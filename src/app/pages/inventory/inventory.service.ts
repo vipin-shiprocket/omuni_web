@@ -94,7 +94,7 @@ export class InventoryService {
     );
   }
 
-  updateInventory(body: UpdateInventoryBody) {
+  updateInventory(body: UpdateInventoryBody[]) {
     const endpoint = 'syncwave/inventory/update';
     const headers = this.http.getHeaders({
       'X-Tenant-ID': '', //TODO

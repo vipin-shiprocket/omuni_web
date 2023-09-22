@@ -7,4 +7,7 @@
   >
     <mat-icon svgIcon="assets:menu"></mat-icon>
   </button>
+  <div class="col-5 col-lg-4 col-xl-3" *ngIf="!showSearch">
+    <app-global-search />
+  </div>
 </mat-toolbar>

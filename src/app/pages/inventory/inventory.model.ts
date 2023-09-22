@@ -4,7 +4,6 @@ import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { O2SelectComponent } from 'src/app/components/o2-select/o2-select.component';
-import { GlobalSearchComponent } from '../../components/global-search/global-search.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MapperPipe } from 'src/app/pipes/mapper.pipe';
 import { FiltersComponent } from 'src/app/components/filters/filters.component';
@@ -19,7 +18,6 @@ export const InventoryModules = [
   DropdownRendererDirective,
   FiltersComponent,
   FormsModule,
-  GlobalSearchComponent,
   MapperPipe,
   MatIconModule,
   MatPaginatorModule,

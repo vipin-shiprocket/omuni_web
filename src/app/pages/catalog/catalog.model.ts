@@ -5,7 +5,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { FiltersComponent } from 'src/app/components/filters/filters.component';
-import { GlobalSearchComponent } from 'src/app/components/global-search/global-search.component';
 import { O2SelectComponent } from 'src/app/components/o2-select/o2-select.component';
 import { DropdownRendererDirective } from 'src/app/directives/dropdown.directive';
 import { MapperPipe } from 'src/app/pipes/mapper.pipe';
@@ -16,7 +15,6 @@ export const CatalogModules = [
   DropdownRendererDirective,
   FiltersComponent,
   FormsModule,
-  GlobalSearchComponent,
   MapperPipe,
   MatIconModule,
   MatPaginatorModule,
@@ -80,3 +78,37 @@ export const SortBy = [
     display: 'MRP',
   },
 ];
+
+export const RequiredFields = [
+  'sku',
+  'name',
+  'category',
+  'hsn',
+  'images',
+  'mrp',
+  'length',
+  'breadth',
+  'height',
+  'weight',
+  'active',
+];
+
+export type ListingResponse = {
+  data: {
+    masterCatalog: {
+      sku: string;
+      name: string;
+      category: string;
+      tax: number;
+      hsn: string;
+      images: string[];
+      active: boolean;
+      mrp: number;
+      length: number;
+      breadth: number;
+      height: number;
+      weight: number;
+    }[];
+  };
+  hasNext: boolean;
+};

@@ -1,10 +1,6 @@
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { InventoryService } from './inventory.service';
-import {
-  checkWindowWidth,
-  isEmptyObject,
-  verifyFileType,
-} from 'src/app/utils/utils';
+import { isEmptyObject, verifyFileType } from 'src/app/utils/utils';
 import { ToastrService } from 'ngx-toastr';
 import { SubSink } from 'subsink';
 import {
@@ -75,10 +71,6 @@ export class InventoryComponent implements OnInit, OnDestroy {
   get selectedFile() {
     const files = (this.selectedFileInput as HTMLInputElement)?.files ?? null;
     return files ? files[0] : null;
-  }
-
-  get showSearch() {
-    return checkWindowWidth();
   }
 
   ngOnInit(): void {
@@ -185,13 +177,15 @@ export class InventoryComponent implements OnInit, OnDestroy {
       return;
     }
 
-    const body: UpdateInventoryBody = {
-      sku: row.sku,
-      fcId: 'test123', //TODO
-      quantity: val,
-      transactionType: 'OVERWRITE',
-      reason: row.reason[0],
-    };
+    const body: UpdateInventoryBody[] = [
+      {
+        sku: row.sku,
+        fcId: 'test123', //TODO
+        quantity: val,
+        transactionType: 'OVERWRITE',
+        reason: row.reason[0],
+      },
+    ];
 
     this.subs.sink = this.inventoryService.updateInventory(body).subscribe({
       next: (data) => {
