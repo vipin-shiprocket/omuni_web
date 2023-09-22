@@ -1,0 +1,203 @@
+<button
+  class="btn btn-primary"
+  type="button"
+  hidden
+  #offcanvasBtn
+  data-bs-toggle="offcanvas"
+  data-bs-target="#addressWizard"
+  aria-controls="offcanvasWithBothOptions"
+></button>
+
+<div
+  class="offcanvas offcanvas-end br-s-8 w-75"
+  data-bs-scroll="true"
+  #addressWizard
+  tabindex="-1"
+  id="addressWizard"
+  aria-labelledby="offcanvasWithBothOptionsLabel"
+>
+  <div class="offcanvas-header border-bottom">
+    <h1 class="offcanvas-title fs-18" id="offcanvasWithBothOptionsLabel">
+      Add New Pick Up Address
+    </h1>
+    <button
+      type="button"
+      class="btn-close"
+      data-bs-dismiss="offcanvas"
+      aria-label="Close"
+    ></button>
+  </div>
+  <div class="offcanvas-body">
+    <form class="d-flex flex-column h-100" [formGroup]="addressForm">
+      <div class="flex-grow-1">
+        <div class="d-flex align-items-center">
+          <div class="h4 fw-500">Tag this address as</div>
+          <span class="text-black-50 ms-1 form-label-icon">
+            <mat-icon>help</mat-icon>
+          </span>
+
+          <ng-container *ngFor="let item of availableAddress">
+            <input
+              hidden
+              [id]="item.value"
+              [value]="item.value"
+              type="radio"
+              formControlName="address_tag"
+            />
+            <label class="address-pill" for="{{ item.value }}">
+              {{ item.label }}
+            </label>
+          </ng-container>
+          <div
+            class="ms-2"
+            *ngIf="addressForm.get('address_tag')?.value === 'other'"
+          >
+            <input
+              type="text"
+              class="form-control"
+              formControlName="other_address_tag"
+              placeholder="save address as"
+            />
+          </div>
+        </div>
+        <hr class="text-black-50" />
+        <h4 class="medium mb-3">Contact information for this location</h4>
+        <div class="row mb-3">
+          <div class="col-md-3">
+            <label for="contactPerson " class="form-label"
+              >Contact Person</label
+            >
+            <input
+              type="text"
+              class="form-control prefix-p"
+              id="contactPerson"
+              formControlName="name"
+              placeholder="Name of the person to be contacted"
+            />
+          </div>
+          <div class="col-md-3">
+            <label for="contactNumber" class="form-label">Contact Number</label>
+            <input
+              type="text"
+              appOnlyNumbers
+              class="form-control"
+              maxlength="10"
+              id="contactNumber"
+              formControlName="phone"
+              placeholder="Enter 10 digit mobile number"
+            />
+          </div>
+          <div class="col-md-3">
+            <label for="emailForAddress" class="form-label"
+              >Email Address
+            </label>
+            <input
+              type="email"
+              autocomplete="new-password"
+              class="form-control"
+              formControlName="email"
+              id="emailForAddress"
+              placeholder="i.e abc@xyz.in"
+            />
+          </div>
+          <div class="col-md-3">
+            <label for="alternateMobForAddr" class="form-label"
+              >Alternate Phone No.
+              <span class="text-black-50">(Optional)</span></label
+            >
+            <input
+              type="text"
+              appOnlyNumbers
+              maxlength="10"
+              class="form-control"
+              formControlName="alternate_phone"
+              id="alternateMobForAddr"
+              placeholder="Enter 10 digit mobile number"
+            />
+          </div>
+        </div>
+        <hr class="text-black-50" />
+        <h4 class="medium mb-3">
+          How can the delivery person reach the address?
+        </h4>
+        <div class="row mb-3">
+          <div class="col-md-6">
+            <label for="completeAddrForAddress " class="form-label"
+              >Complete address</label
+            >
+            <input
+              type="text"
+              class="form-control prefix-p"
+              id="completeAddrForAddress"
+              formControlName="complete_address"
+              placeholder="House/Floor No., Building Name or Street, Locality"
+            />
+          </div>
+          <div class="col-md-6">
+            <label for="cityForAddress" class="form-label">Landmark</label>
+            <input
+              type="text"
+              class="form-control"
+              id="cityForAddress"
+              formControlName="landmark"
+              placeholder="Any nearby post office, market,Hospital as the landmark"
+            />
+          </div>
+        </div>
+        <div class="row mb-3">
+          <div class="col-md-3">
+            <label for="pincodeForAddress " class="form-label">Pincode</label>
+            <input
+              type="text"
+              class="form-control prefix-p"
+              id="pincodeForAddress"
+              formControlName="pincode"
+              placeholder="Enter pincode"
+            />
+          </div>
+          <div class="col-md-3">
+            <label for="cityForAddress" class="form-label">City</label>
+            <input
+              type="text"
+              class="form-control"
+              id="cityForAddress"
+              formControlName="city"
+              placeholder="Enter City"
+            />
+          </div>
+          <div class="col-md-3">
+            <label for="stateForAddress" class="form-label">State</label>
+            <input
+              type="text"
+              class="form-control"
+              id="stateForAddress"
+              formControlName="state"
+              placeholder="Enter state"
+            />
+          </div>
+          <div class="col-md-3">
+            <label for="countryForAddr" class="form-label">Country</label>
+            <input
+              type="text"
+              class="form-control"
+              id="countryForAddr"
+              formControlName="country"
+              placeholder="Enter country"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div class="d-flex justify-content-end">
+        <button
+          type="button"
+          class="btn btn-outlined me-3"
+          data-bs-dismiss="offcanvas"
+        >
+          Cancel
+        </button>
+        <button class="btn btn-solid">Save Address</button>
+      </div>
+    </form>
+  </div>
+</div>

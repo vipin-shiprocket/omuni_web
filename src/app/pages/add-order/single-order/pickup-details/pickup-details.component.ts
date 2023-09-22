@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { SingleOrderService } from '../single-order.service';
 import { SubSink } from 'subsink';
-import { Observable, map, of, startWith } from 'rxjs';
+import { BehaviorSubject, Observable, map, of, startWith } from 'rxjs';
 import Fuse from 'fuse.js';
 import { FormControl } from '@angular/forms';
 
@@ -23,6 +23,7 @@ export class PickupDetailsComponent implements OnInit, OnDestroy {
   control = new FormControl(null);
   filteredAddress: Observable<number[]> = of([]);
   maxAddressToShow = 7;
+  showWizard = new BehaviorSubject(false);
 
   constructor(private soService: SingleOrderService) {
     this.filteredAddress = this.control.valueChanges.pipe(
@@ -99,6 +100,10 @@ export class PickupDetailsComponent implements OnInit, OnDestroy {
 
   onClickBack() {
     this.soService.onTabChange('prev');
+  }
+
+  openWizard() {
+    this.showWizard.next(true);
   }
 
   ngOnDestroy(): void {

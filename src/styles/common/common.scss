@@ -626,7 +626,7 @@ order-2 {
 .form-label-icon > .mat-icon {
   width: u.rem(13);
   height: u.rem(14);
-  line-height: u.rem(16);
+  vertical-align: middle;
   font-size: u.rem(14);
 }
 
@@ -869,4 +869,9 @@ input:checked ~ .customcheckbox:after {
   .sufix-p {
     padding-right: u.rem(40);
   }
+}
+
+.br-s-8 {
+  border-top-left-radius: u.rem(8);
+  border-bottom-left-radius: u.rem(8);
 }

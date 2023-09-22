@@ -53,7 +53,7 @@
   <h4 class="medium mb-3">Other Addresses</h4>
   <div class="row">
     <div class="col-md-3 col-sm-6 mb-3">
-      <button class="card card-custom add-address-btn">
+      <button class="card card-custom add-address-btn" (click)="openWizard()">
         <mat-icon class="mx-auto">add_location_alt</mat-icon>
         <div class="mx-auto">Add New Pickup Address</div>
       </button>
@@ -124,3 +124,5 @@
     </div>
   </div>
 </ng-template>
+
+<app-address-wizard [showWizard]="showWizard"></app-address-wizard>

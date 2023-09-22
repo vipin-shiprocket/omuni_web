@@ -13,6 +13,7 @@ import { OrderDetailsComponent } from './single-order/order-details/order-detail
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { O2SelectComponent } from 'src/app/components/o2-select/o2-select.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { AddressWizardComponent } from 'src/app/components/address-wizard/address-wizard.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     MatIconModule,
     MatTabsModule,
     MatIconModule,
+    AddressWizardComponent,
   ],
 })
 export class AddOrderModule {}
