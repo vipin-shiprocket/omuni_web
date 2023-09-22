@@ -1,6 +1,10 @@
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { InventoryService } from './inventory.service';
-import { checkWindowWidth, verifyFileType } from 'src/app/utils/utils';
+import {
+  checkWindowWidth,
+  isEmptyObject,
+  verifyFileType,
+} from 'src/app/utils/utils';
 import { ToastrService } from 'ngx-toastr';
 import { SubSink } from 'subsink';
 import {
@@ -157,9 +161,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
     this.getInventoryData();
   }
 
-  isEmpty(obj: object) {
-    return Object.keys(obj).length === 0 && obj.constructor === Object;
-  }
+  isEmpty = isEmptyObject;
 
   onTabClick(tabIdx: number) {
     if (tabIdx !== this.activeTabIdx) {

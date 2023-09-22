@@ -12,7 +12,7 @@
   <ng-container [ngTemplateOutlet]="analytics"></ng-container>
 
   <!-- Views -->
-  <nav class="navbar mb-3" *ngIf="tabs.length">
+  <nav class="nav o2-nav mb-3">
     <ng-container *ngFor="let tab of tabs; let i = index">
       <div class="nav-item dropdown">
         <button
@@ -20,14 +20,14 @@
           class="nav-link d-inline-flex"
           [attr.data-bs-toggle]="tab.dropdown ? 'dropdown' : null"
           [ngClass]="{
-            'active dropdown-toggle': tabs[activeTabIdx].name === tab['name']
+            active: tabs[activeTabIdx].name === tab['name']
           }"
           (click)="onTabClick(i)"
           (keyup)="onTabClick(i)"
         >
           {{ tab['name'] }}
         </button>
-        <ul class="dropdown-menu">
+        <ul class="dropdown-menu bulk-actions-dropd">
           <li>
             <button class="dropdown-item">Rename view</button>
           </li>
