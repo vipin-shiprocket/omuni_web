@@ -5,6 +5,8 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { LayoutService } from '../layout.service';
 import { GlobalSearchComponent } from 'src/app/components/global-search/global-search.component';
 import { checkWindowWidth } from 'src/app/utils/utils';
+import { MatButtonModule } from '@angular/material/button';
+import { MatMenuModule } from '@angular/material/menu';
 
 @Component({
   selector: 'app-header',
@@ -13,8 +15,10 @@ import { checkWindowWidth } from 'src/app/utils/utils';
   styleUrls: ['./header.component.scss'],
   imports: [
     CommonModule,
-    MatToolbarModule,
+    MatButtonModule,
     MatIconModule,
+    MatMenuModule,
+    MatToolbarModule,
     GlobalSearchComponent,
   ],
 })

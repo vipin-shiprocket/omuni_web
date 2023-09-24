@@ -1,0 +1,40 @@
+@use 'src/styles/utils' as u;
+
+.header-icon {
+  font-size: 24px !important;
+  width: 24px !important;
+  height: 24px !important;
+}
+
+.header-button {
+  min-width: 48px;
+  width: 48px !important;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+
+  & mat-icon {
+    @extend .header-icon;
+    margin: 0;
+  }
+}
+
+::ng-deep .user-menu {
+  .mat-mdc-menu-item {
+    color: u.$neutral2;
+    font-size: small;
+    min-width: u.rem(218);
+
+    mat-icon {
+      color: var(--bs-tertiary-color);
+    }
+
+    &:hover {
+      color: u.$primary1;
+      mat-icon {
+        color: u.$primary1;
+      }
+    }
+  }
+}
