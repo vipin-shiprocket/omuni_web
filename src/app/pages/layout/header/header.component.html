@@ -6,7 +6,7 @@
   >
     <mat-icon svgIcon="assets:menu"></mat-icon>
   </button>
-  <div class="col-6 col-xl-5" *ngIf="!showSearch">
+  <div class="col-6 col-xl-5" *ngIf="!isMobile">
     <app-global-search />
   </div>
 
@@ -16,28 +16,30 @@
   <div class="d-flex text-body-tertiary">
     location
     <div class="vr mx-2"></div>
-    wallet
-    <div class="vr mx-2"></div>
-    <button mat-button class="header-button">
-      <mat-icon>apps</mat-icon>
-    </button>
-    <button mat-button [matMenuTriggerFor]="menu">
-      <mat-icon class="header-icon">person</mat-icon>
-      <mat-icon>expand_more</mat-icon>
-    </button>
-    <mat-menu
-      #menu="matMenu"
-      xPosition="before"
-      [class]="'user-menu text-body-tertiary'"
-    >
-      <button mat-menu-item>
-        <mat-icon>person</mat-icon>
-        <span>Test Account</span>
+    <app-wallet [isMobile]="isMobile" />
+    <ng-container *ngIf="!isMobile">
+      <div class="vr mx-2"></div>
+      <button mat-button class="header-button">
+        <mat-icon>apps</mat-icon>
       </button>
-      <button mat-menu-item>
-        <mat-icon>power_settings_new</mat-icon>
-        <span>Log out</span>
+      <button mat-button [matMenuTriggerFor]="menu">
+        <mat-icon class="header-icon">person</mat-icon>
+        <mat-icon>expand_more</mat-icon>
       </button>
-    </mat-menu>
+      <mat-menu
+        #menu="matMenu"
+        xPosition="before"
+        [class]="'user-menu text-body-tertiary'"
+      >
+        <button mat-menu-item>
+          <mat-icon>person</mat-icon>
+          <span>Test Account</span>
+        </button>
+        <button mat-menu-item>
+          <mat-icon>power_settings_new</mat-icon>
+          <span>Log out</span>
+        </button>
+      </mat-menu>
+    </ng-container>
   </div>
 </mat-toolbar>

@@ -1,0 +1,59 @@
+<div class="d-flex align-items-center h-100">
+  <div
+    class="d-flex align-items-center wallet-chip cursor user-select-none"
+    appDropdown
+    [contentTemplate]="walletDropDown"
+    [dropDownMode]="'toolTip'"
+    [showDropdown]="!isMobile"
+    (mousedown)="isMobile ? openRechargeDialog() : null"
+  >
+    <mat-icon class="me-1" svgIcon="assets:wallet"></mat-icon>
+    <span>{{
+      usableAmount | currency: currencyCode : undefined : undefined : locale
+    }}</span>
+  </div>
+  <span
+    class="d-flex"
+    *ngIf="isMobile"
+    appDropdown
+    [contentTemplate]="walletDropDown"
+    [connectedPositions]="connectedPositions"
+    [dropDownMode]="'dropDown'"
+    (dropEvents)="mobileDropArrowUp = $event === 'open' ? false : true"
+  >
+    <mat-icon [ngClass]="!mobileDropArrowUp ? 'rotate-180' : 'rotate-0'">
+      expand_more
+    </mat-icon>
+  </span>
+  <ng-container *ngIf="!isMobile">
+    <button
+      mat-button
+      class="ms-2 text-primary fs-14 bg-recharge"
+      (click)="openRechargeDialog()"
+    >
+      Recharge Wallet
+    </button>
+  </ng-container>
+</div>
+
+<ng-template #walletDropDown>
+  <div
+    class="bg-white p-2 rounded shadow-lg popover-arrow wallet-drop text-center"
+    [ngClass]="{ 'popover-arrow-right': isMobile }"
+  >
+    <div class="py-2">
+      Usable Amount:
+      {{
+        usableAmount | currency: currencyCode : undefined : undefined : locale
+      }}
+    </div>
+    <hr class="my-0" />
+    <div class="py-2">
+      Available Amount:
+      {{
+        availableAmount
+          | currency: currencyCode : undefined : undefined : locale
+      }}
+    </div>
+  </div>
+</ng-template>

@@ -7,6 +7,7 @@ import { GlobalSearchComponent } from 'src/app/components/global-search/global-s
 import { checkWindowWidth } from 'src/app/utils/utils';
 import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
+import { WalletComponent } from '../wallet/wallet.component';
 
 @Component({
   selector: 'app-header',
@@ -20,12 +21,13 @@ import { MatMenuModule } from '@angular/material/menu';
     MatMenuModule,
     MatToolbarModule,
     GlobalSearchComponent,
+    WalletComponent,
   ],
 })
 export class HeaderComponent {
   sidebarOpen = inject(LayoutService).sideBarOpen;
 
-  get showSearch() {
+  get isMobile() {
     return checkWindowWidth();
   }
 

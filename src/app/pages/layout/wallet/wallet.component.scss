@@ -1,0 +1,20 @@
+.bg-recharge {
+  background-color: #745be71a;
+}
+
+.wallet-chip {
+  @media screen and (max-width: 768px) {
+    background-color: #745be71a;
+    border-radius: 10px;
+    color: black;
+    padding: 0 1em;
+  }
+}
+
+.wallet-drop {
+  min-width: 200px;
+}
+
+.popover-arrow-right {
+  --popup-arrow-x-pos: 80%;
+}
