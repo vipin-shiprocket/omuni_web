@@ -1,0 +1,59 @@
+<div mat-dialog-title class="p-4">
+  <h3 class="fs-18">
+    Address Verification
+
+    <button
+      type="button"
+      class="btn-close float-end fs-14"
+      aria-label="Close"
+      (click)="dialogRef.close()"
+    ></button>
+  </h3>
+</div>
+<div mat-dialog-content class="px-4 pb-4">
+  <section class="mb-3 bg-danger-subtle rounded-2 p-3">
+    <div class="text-danger mb-3">
+      <span class="warning-icon">
+        <mat-icon>warning</mat-icon>
+      </span>
+      Unverified Address
+    </div>
+    <h4 class="mb-2 medium">{{ data['name'] }}</h4>
+    <p class="mb-2">{{ data['address'] }}</p>
+    <p class="mb-2 medium"><b>Mobile : </b> +91 {{ data['phone'] }}</p>
+  </section>
+  <p class="h4 mb-2">Verify phone number to verify address</p>
+  <p class="mb-2 text-black-50">OTP will be sent on this phone number.</p>
+
+  <form class="row row-cols-lg-auto g-3 align-items-center flex-grow-1">
+    <div class="col-12 flex-grow-1">
+      <label class="visually-hidden" for="verifyPhoneNum">Phone Number</label>
+      <input
+        type="text"
+        appOnlyNumbers
+        class="form-control"
+        maxlength="10"
+        id="verifyPhoneNum"
+        [formControl]="control"
+        placeholder="Enter phone number"
+      />
+    </div>
+
+    <div class="col-12">
+      <button type="button" (click)="sendOTP()" class="btn btn-solid">
+        Send OTP
+      </button>
+    </div>
+  </form>
+  <hr class="my-4 or-icon" />
+  <div class="text-center">
+    <a
+      href="javascript:void(0)"
+      (click)="verifyThroughIVR()"
+      class="verify-ivr"
+    >
+      <mat-icon>phone_in_talk</mat-icon>
+      Verify throught IVR</a
+    >
+  </div>
+</div>

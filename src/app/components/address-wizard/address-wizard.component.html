@@ -30,9 +30,9 @@
   <div class="offcanvas-body">
     <form class="d-flex flex-column h-100" [formGroup]="addressForm">
       <div class="flex-grow-1">
-        <div class="d-flex align-items-center">
-          <div class="h4 fw-500">Tag this address as</div>
-          <span class="text-black-50 ms-1 form-label-icon">
+        <div class="d-flex align-items-center flex-wrap">
+          <div class="h4 fw-500 mb-3 mb-sm-0">Tag this address as</div>
+          <span class="text-black-50 ms-1 form-label-icon mb-3 mb-sm-0">
             <mat-icon>help</mat-icon>
           </span>
 
@@ -44,12 +44,12 @@
               type="radio"
               formControlName="address_tag"
             />
-            <label class="address-pill" for="{{ item.value }}">
+            <label class="address-pill mb-3 mb-sm-0" for="{{ item.value }}">
               {{ item.label }}
             </label>
           </ng-container>
           <div
-            class="ms-2"
+            class="ms-2 mb-3 mb-sm-0"
             *ngIf="addressForm.get('address_tag')?.value === 'other'"
           >
             <input
@@ -188,7 +188,7 @@
         </div>
       </div>
 
-      <div class="d-flex justify-content-end">
+      <div class="text-center text-sm-end pb-3">
         <button
           type="button"
           class="btn btn-outlined me-3"

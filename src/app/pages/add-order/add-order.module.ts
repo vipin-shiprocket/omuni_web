@@ -14,6 +14,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { O2SelectComponent } from 'src/app/components/o2-select/o2-select.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { AddressWizardComponent } from 'src/app/components/address-wizard/address-wizard.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { AddressWizardComponent } from 'src/app/components/address-wizard/addres
     MatAutocompleteModule,
     MatIconModule,
     MatTabsModule,
+    MatDialogModule,
     MatIconModule,
     AddressWizardComponent,
   ],

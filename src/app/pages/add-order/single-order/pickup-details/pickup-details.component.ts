@@ -4,6 +4,8 @@ import { SubSink } from 'subsink';
 import { BehaviorSubject, Observable, map, of, startWith } from 'rxjs';
 import Fuse from 'fuse.js';
 import { FormControl } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { AddressVerifierComponent } from 'src/app/components/address-verifier/address-verifier.component';
 
 type AddressType = Record<string, unknown>;
 
@@ -25,7 +27,10 @@ export class PickupDetailsComponent implements OnInit, OnDestroy {
   maxAddressToShow = 7;
   showWizard = new BehaviorSubject(false);
 
-  constructor(private soService: SingleOrderService) {
+  constructor(
+    private soService: SingleOrderService,
+    private dialog: MatDialog,
+  ) {
     this.filteredAddress = this.control.valueChanges.pipe(
       startWith(' '),
       map((value) => this._filter(value || '')),
@@ -104,6 +109,13 @@ export class PickupDetailsComponent implements OnInit, OnDestroy {
 
   openWizard() {
     this.showWizard.next(true);
+  }
+
+  openVerifyDialog(data: AddressType) {
+    this.dialog.open(AddressVerifierComponent, {
+      data,
+      minWidth: '30%',
+    });
   }
 
   ngOnDestroy(): void {

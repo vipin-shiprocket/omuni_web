@@ -100,6 +100,7 @@ export class AddressWizardComponent
       'hide.bs.offcanvas',
     ).subscribe(() => {
       this.showWizard.next(false);
+      this.addressForm.reset();
     });
   }
 

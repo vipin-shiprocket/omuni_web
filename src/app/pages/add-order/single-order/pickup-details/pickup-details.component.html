@@ -115,6 +115,7 @@
           Edit Address</a
         >
         <button
+          (click)="openVerifyDialog(data)"
           *ngIf="!data?.phone_verified"
           class="btn btn-sm btn-solid_sm ms-auto"
         >
