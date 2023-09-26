@@ -106,6 +106,7 @@
             <ng-template #popup>
               <div class="bg-white p-2 rounded shadow-lg popover-arrow">
                 <img
+                  class="object-fit-contain popup-image"
                   [src]="row.productDetails?.image"
                   [alt]="row.productDetails?.name"
                 />
@@ -159,7 +160,7 @@
 
         <ng-container cdkColumnDef="total">
           <cdk-header-cell *cdkHeaderCellDef mat-sort-header class="bold">
-            Total Inventory
+            Total
           </cdk-header-cell>
           <cdk-cell *cdkCellDef="let row">
             <span>{{ row.totalQuantity }}</span>

@@ -15,4 +15,5 @@ export enum SvgEnum {
   close = 'cross_light',
   search = 'search',
   upload = 'upload',
+  wallet = 'wallet',
 }

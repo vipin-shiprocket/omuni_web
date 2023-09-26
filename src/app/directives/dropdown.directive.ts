@@ -6,6 +6,8 @@ import {
   ComponentRef,
   OnInit,
   OnDestroy,
+  Output,
+  EventEmitter,
 } from '@angular/core';
 import {
   ConnectedPosition,
@@ -28,26 +30,10 @@ export class DropdownRendererDirective implements OnInit, OnDestroy {
   @Input() showDropdown = true;
   @Input() closeSignal?: Observable<void>;
   @Input() contentTemplate?: TemplateRef<unknown>;
-  @Input() connectedPositions: ConnectedPosition[] = [
-    {
-      originX: 'center',
-      originY: 'bottom',
-      overlayX: 'center',
-      overlayY: 'top',
-      offsetY: 6,
-      panelClass: 'arrowTop',
-    },
-    {
-      originX: 'center',
-      originY: 'top',
-      overlayX: 'center',
-      overlayY: 'bottom',
-      offsetY: -6,
-      panelClass: 'arrowBottom',
-    },
-  ];
+  @Input() connectedPositions!: ConnectedPosition[];
   @Input() contentText = '';
   @Input({ required: true }) dropDownMode!: 'dropDown' | 'toolTip';
+  @Output() dropEvents = new EventEmitter<'open' | 'close'>();
   scrollStrategy: unknown;
   private _overlayRef!: OverlayRef;
   private subs = new SubSink();
@@ -56,7 +42,28 @@ export class DropdownRendererDirective implements OnInit, OnDestroy {
   constructor(
     private _overlay: Overlay,
     private _elementRef: ElementRef,
-  ) {}
+  ) {
+    if (!this.connectedPositions) {
+      this.connectedPositions = [
+        {
+          originX: 'center',
+          originY: 'bottom',
+          overlayX: 'center',
+          overlayY: 'top',
+          offsetY: 6,
+          panelClass: 'arrowTop',
+        },
+        {
+          originX: 'center',
+          originY: 'top',
+          overlayX: 'center',
+          overlayY: 'bottom',
+          offsetY: -6,
+          panelClass: 'arrowBottom',
+        },
+      ];
+    }
+  }
 
   ngOnInit() {
     if (!this.showDropdown) {
@@ -92,6 +99,9 @@ export class DropdownRendererDirective implements OnInit, OnDestroy {
     }
 
     this._overlayRef = this._overlay.create(new OverlayConfig(options));
+    this.subs.sink = this._overlayRef
+      .backdropClick()
+      .subscribe(() => this.hide());
   }
 
   bindEvents() {
@@ -144,9 +154,11 @@ export class DropdownRendererDirective implements OnInit, OnDestroy {
       this.toolTipRef.instance.contentTemplate = this.contentTemplate;
       this.toolTipRef.instance.isOpen = true;
     }
+    this.dropEvents.emit('open');
   }
 
   hide() {
+    this.dropEvents.emit('close');
     this.closeToolTip();
   }
 
