@@ -6,7 +6,7 @@
   </h4>
 
   <div class="row">
-    <div class="col-md-6 input-icon">
+    <div class="col-lg-6 input-icon">
       <mat-icon>search</mat-icon>
       <input
         type="search"
@@ -40,8 +40,11 @@
   </div>
   <hr class="text-black-50 my-4" />
   <h4 class="medium mb-3">Recently Used Addresses</h4>
-  <div class="row">
-    <div class="col-md-3 col-sm-6" *ngFor="let addrId of recentlyUsedAddr">
+  <div class="row justify-content-center justify-content-md-start">
+    <div
+      class="col-lg-3 col-md-6 col-sm-8"
+      *ngFor="let addrId of recentlyUsedAddr"
+    >
       <ng-container
         *ngIf="addresses && addresses[addrId] as address"
         [ngTemplateOutlet]="addressCard"
@@ -51,15 +54,15 @@
   </div>
   <hr class="my-4" />
   <h4 class="medium mb-3">Other Addresses</h4>
-  <div class="row">
-    <div class="col-md-3 col-sm-6 mb-3">
+  <div class="row justify-content-center">
+    <div class="col-lg-3 col-md-6 col-sm-8 mb-3">
       <button class="card card-custom add-address-btn" (click)="openWizard()">
         <mat-icon class="mx-auto">add_location_alt</mat-icon>
         <div class="mx-auto">Add New Pickup Address</div>
       </button>
     </div>
     <div
-      class="col-md-3 col-sm-6 mb-3"
+      class="col-lg-3 col-md-6 col-sm-8 mb-3"
       *ngFor="let addrId of restAllAddr; let i = index"
     >
       <ng-container *ngIf="addresses && addresses[addrId] as address">

@@ -1,5 +1,4 @@
 import { Component, inject } from '@angular/core';
-import { TabListSingleOrder } from '../add-order.model';
 import { SingleOrderService } from './single-order.service';
 
 @Component({

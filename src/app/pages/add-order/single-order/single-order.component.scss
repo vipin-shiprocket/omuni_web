@@ -69,3 +69,11 @@
 .highlight2 {
   background-color: rgba($color: u.$secondary4b, $alpha: 0.3);
 }
+
+.left-section {
+  width: 20%;
+
+  @media screen and (max-width: 768px) {
+    width: 100%;
+  }
+}

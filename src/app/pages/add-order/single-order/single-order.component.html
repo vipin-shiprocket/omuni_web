@@ -1,10 +1,17 @@
-<div class="container d-flex my-5">
-  <section style="width: 15%">
+<div class="container d-flex flex-column flex-lg-row my-5 px-4">
+  <section
+    class="d-flex justify-content-center justify-content-lg-start d-lg-block left-section"
+  >
     <ng-container *ngFor="let tab of tabs; let i = index">
-      <div class="tab" [ngClass]="{ active: soService.currentTab === i }">
+      <div
+        class="tab me-3 me-lg-0"
+        [ngClass]="{ active: soService.currentTab === i }"
+      >
         <span *ngIf="tab.status !== 0" class="num-icon">{{ i + 1 }}</span>
         <mat-icon class="done" *ngIf="tab.status === 0">check_circle</mat-icon>
-        {{ tab.name }}
+        <span class="d-none d-md-inline-block">
+          {{ tab.name }}
+        </span>
       </div>
     </ng-container>
   </section>
