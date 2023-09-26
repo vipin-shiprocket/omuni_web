@@ -57,6 +57,23 @@ export class HttpService {
     }) as Observable<T>;
   }
 
+  putToEndpint<T>(
+    endpoint: string,
+    body: unknown,
+    params = {},
+    headers?: HttpHeaders,
+    observe: 'body' | undefined = 'body',
+  ) {
+    const url = `${environment.API_SUBDOMAIN}/${endpoint}`;
+
+    params = this.getQueryParam(params);
+    return this.httpClient.put(url, body, {
+      headers,
+      params,
+      observe,
+    }) as Observable<T>;
+  }
+
   deleteRequest<T>(endpoint: string) {
     const url = `${window.location.origin}/api/auth${endpoint}`;
     return this.httpClient.delete(url) as Observable<T>;

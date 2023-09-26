@@ -37,6 +37,13 @@ const routes: Routes = [
           },
         ],
       },
+      {
+        path: 'settings',
+        loadComponent: () =>
+          import('../settings/settings.component').then(
+            (c) => c.SettingsComponent,
+          ),
+      },
     ],
     // canActivate: [authGuard],
   },
