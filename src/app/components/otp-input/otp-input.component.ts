@@ -1,152 +1,27 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnDestroy,
-  OnInit,
-  Output,
-} from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Subscription } from 'rxjs';
-import { sleep } from 'src/app/utils/utils';
+import { CommonModule } from '@angular/common';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { OnlyNumbersDirective } from 'src/app/utils/only-numbers.directive';
 
 @Component({
   selector: 'app-otp-input',
+  standalone: true,
+  imports: [CommonModule, FormsModule, OnlyNumbersDirective],
   templateUrl: './otp-input.component.html',
   styleUrls: ['./otp-input.component.scss'],
 })
 export class OtpInputComponent {
-  // private sink = new Subscription();
+  @Output() isvalid = new EventEmitter<boolean>(false);
+  @Output() values = new EventEmitter<number>();
+  @Input() panelClass = '';
   otp1 = '';
   otp2 = '';
   otp3 = '';
   otp4 = '';
   otp5 = '';
   otp6 = '';
-  // inputForm: FormGroup = this.formBuilder.group({
-  //   loginOtp1: ['', [Validators.required]],
-  //   loginOtp2: ['', [Validators.required]],
-  //   loginOtp3: ['', [Validators.required]],
-  //   loginOtp4: ['', [Validators.required]],
-  //   loginOtp5: ['', [Validators.required]],
-  //   loginOtp6: ['', [Validators.required]],
-  // });
-  @Output() isvalid = new EventEmitter<boolean>(false);
-  @Output() values = new EventEmitter<number>();
-  @Input() panelClass = '';
 
-  constructor(private formBuilder: FormBuilder) {}
-
-  // ngOnInit(): void {
-  //   // this.initInputs();
-  //   this.sink.add(
-  //     this.inputForm.valueChanges.subscribe((val) => {
-  //       const value = Object.values(val).join('');
-  //       this.values.emit(+value);
-  //       this.isvalid.emit(this.inputForm.valid);
-  //     }),
-  //   );
-  // }
-
-  // initInputs(): void {
-  //   document
-  //     .querySelectorAll('.digit-group input')
-  //     // .find('input')
-  //     .forEach(function (self) {
-  //       /**
-  //        * Don't allow paste on this ke
-  //        */
-  //       self.addEventListener('paste', function (e: Event) {
-  //         const Event = e as KeyboardEvent;
-  //         Event.preventDefault();
-  //       });
-
-  //       self.addEventListener('keyup', function (e: Event) {
-  //         /**
-  //          * add Event listener on Key up because Arrow key event is handled via Key Up
-  //          ** Not Via keypress
-  //          */
-  //         const Event = e as KeyboardEvent;
-  //         const Target = Event.target as HTMLInputElement;
-  //         const parent = Target.parentElement as HTMLFormElement;
-  //         if (Event.which === 37) {
-  //           const prev = parent?.querySelectorAll(
-  //             'input#' + Target?.dataset['previous'],
-  //           );
-
-  //           if (prev && prev.length) {
-  //             const prevElement = prev[0] as HTMLInputElement;
-  //             setTimeout(() => {
-  //               prevElement.focus();
-  //               prevElement.select();
-  //             }, 0);
-  //           }
-  //         } else if (Event.which === 39) {
-  //           const next = parent?.querySelectorAll(
-  //             'input#' + Target?.dataset['next'],
-  //           );
-  //           if (next && next.length) {
-  //             // $(next).select();
-  //             const nextElement = next[0] as HTMLInputElement;
-  //             setTimeout(() => {
-  //               nextElement.focus();
-  //               nextElement.select();
-  //             }, 0);
-  //           }
-  //         } else if (Event.which == 9) {
-  //           /**
-  //            * On Press enter key This code will run
-  //            * on this we have to do nothing just Prevent Default
-  //            */
-  //           Event.preventDefault();
-  //         }
-  //       });
-  //       self.addEventListener('keypress', function (e: Event) {
-  //         const Event = e as KeyboardEvent;
-  //         const Target = Event.target as HTMLInputElement;
-  //         const parent = Target.parentElement as HTMLFormElement;
-
-  //         const eventArray = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
-
-  //         if (Event.which === 8) {
-  //           const prev = parent?.querySelectorAll(
-  //             'input#' + Target?.dataset['previous'],
-  //           );
-
-  //           if (prev && prev.length) {
-  //             const prevElement = prev[0] as HTMLInputElement;
-  //             setTimeout(() => {
-  //               prevElement.focus();
-  //               prevElement.select();
-  //             }, 0);
-  //           }
-  //         } else if (eventArray.includes(Event.key) && Event.which !== 9) {
-  //           // var next = parent.find('input#' + $(this).data('next'));
-  //           const next = parent?.querySelectorAll(
-  //             'input#' + Target?.dataset['next'],
-  //           );
-  //           if (next && next.length) {
-  //             // $(next).select();
-  //             const nextElement = next[0] as HTMLInputElement;
-  //             setTimeout(() => {
-  //               nextElement.focus();
-  //               nextElement.select();
-  //             }, 0);
-  //           } else {
-  //             if (parent?.dataset['autosubmit'] == 'true') {
-  //               parent.submit();
-  //             }
-  //           }
-  //         } else if (Event.which !== 9) {
-  //           Event.preventDefault();
-  //           Target.value = '';
-  //         }
-  //       });
-  //     });
-  // }
-
-  async onInputChange(event: KeyboardEvent) {
-    await sleep(0);
+  onInputChange(event: KeyboardEvent) {
     if (event.keyCode !== 8 && isNaN(+event.key)) {
       return;
     }
@@ -195,8 +70,4 @@ export class OtpInputComponent {
     this.values.emit(+value);
     this.isvalid.emit(value.length === 6);
   }
-
-  // ngOnDestroy(): void {
-  //   this.sink.unsubscribe();
-  // }
 }
