@@ -22,6 +22,38 @@
     <p class="mb-2">{{ data['address'] }}</p>
     <p class="mb-2 medium"><b>Mobile : </b> +91 {{ data['phone'] }}</p>
   </section>
+
+  <ng-container
+    [ngTemplateOutlet]="showOtpInput ? otpTemplate : mobileFormTemplate"
+  ></ng-container>
+  <hr class="my-4 or-icon" />
+  <div class="text-center">
+    <a
+      href="javascript:void(0)"
+      (click)="verifyThroughIVR()"
+      class="verify-ivr"
+    >
+      <mat-icon>phone_in_talk</mat-icon>
+      Verify throught IVR</a
+    >
+  </div>
+</div>
+
+<ng-template #otpTemplate>
+  <p class="h4 mb-2">Enter OTP</p>
+  <p class="mb-2 text-black-50">
+    OTP has been sent to
+    <span class="medium">{{ control.value }}</span
+    >. Please enter the OTP below.
+  </p>
+  <app-otp-input class="mb-3" (values)="getOtpInputs($event)" />
+  <p class="fs-12px text-brown-grey ls-24 lh-16px mt-2">
+    Did not receive OTP yet?
+    <a href="javascript:void(0);" (click)="sendOTP()">Resend OTP</a>
+  </p>
+</ng-template>
+
+<ng-template #mobileFormTemplate>
   <p class="h4 mb-2">Verify phone number to verify address</p>
   <p class="mb-2 text-black-50">OTP will be sent on this phone number.</p>
 
@@ -45,15 +77,4 @@
       </button>
     </div>
   </form>
-  <hr class="my-4 or-icon" />
-  <div class="text-center">
-    <a
-      href="javascript:void(0)"
-      (click)="verifyThroughIVR()"
-      class="verify-ivr"
-    >
-      <mat-icon>phone_in_talk</mat-icon>
-      Verify throught IVR</a
-    >
-  </div>
-</div>
+</ng-template>
