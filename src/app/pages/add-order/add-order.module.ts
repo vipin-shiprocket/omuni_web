@@ -7,14 +7,15 @@ import { AddOrdersRoutingModule } from './add-order.routing.module';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTabsModule } from '@angular/material/tabs';
 import { BuyerDetailsComponent } from './single-order/buyer-details/buyer-details.component';
-import { PickupDetailsComponent } from './single-order/pickup-details/pickup-details.component';
-import { PackageDetailsComponent } from './single-order/package-details/package-details.component';
+// import { PickupDetailsComponent } from './single-order/pickup-details/pickup-details.component';
+// import { PackageDetailsComponent } from './single-order/package-details/package-details.component';
 import { OrderDetailsComponent } from './single-order/order-details/order-details.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { O2SelectComponent } from 'src/app/components/o2-select/o2-select.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { AddressWizardComponent } from 'src/app/components/address-wizard/address-wizard.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { OnlyNumbersDirective } from 'src/app/utils/only-numbers.directive';
 
 @NgModule({
   declarations: [
@@ -22,8 +23,8 @@ import { MatDialogModule } from '@angular/material/dialog';
     SingleOrderComponent,
     BulkOrderComponent,
     BuyerDetailsComponent,
-    PickupDetailsComponent,
-    PackageDetailsComponent,
+    // PickupDetailsComponent,
+    // PackageDetailsComponent,
     OrderDetailsComponent,
   ],
   imports: [
@@ -37,6 +38,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatTabsModule,
     MatDialogModule,
     MatIconModule,
+    OnlyNumbersDirective,
     AddressWizardComponent,
   ],
 })

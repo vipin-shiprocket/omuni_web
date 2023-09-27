@@ -1,6 +1,6 @@
 <h1 class="content-heading mb-4">Add Buyer's Details</h1>
-<div class="content-data buyer">
-  <form>
+<form>
+  <div class="content-data buyer">
     <h4 class="medium mb-3">
       To whom is the order being delivered?
       <span class="text-black-50">(Buyer's Info) </span>
@@ -153,6 +153,52 @@
         />
       </div>
     </div>
+    <a
+      href="javascript:void(0);"
+      (click)="showShippingName = !showShippingName"
+      class="d-block mb-3 text-decoration-none d-flex align-item-center"
+    >
+      + Add Shipping name,Shipping phone,Shipping email
+      <mat-icon
+        [ngClass]="showShippingName ? 'rotate-180' : 'rotate-0'"
+        class="expand_more"
+        >expand_more</mat-icon
+      >
+      <span class="text-black-50">(Optional)</span>
+    </a>
+
+    <div *ngIf="showShippingName" class="row">
+      <div class="col-md-4 mb-3">
+        <label for="shippingName" class="form-label">Shipping Name</label>
+        <input
+          type="text"
+          class="form-control"
+          id="shippingName"
+          placeholder="Enter shipping name"
+        />
+      </div>
+      <div class="col-md-4 mb-3">
+        <label for="shippingPhone" class="form-label">Shipping Phone</label>
+        <input
+          type="text"
+          appOnlyNumbers
+          maxlength="10"
+          class="form-control"
+          id="shippingPhone"
+          placeholder="Enter shipping phone"
+        />
+      </div>
+      <div class="col-md-4 mb-3">
+        <label for="shippingEmail" class="form-label">Shipping Email</label>
+        <input
+          type="email"
+          autocomplete="new-password"
+          class="form-control"
+          id="shippingEmail"
+          placeholder="Enter shipping email"
+        />
+      </div>
+    </div>
 
     <div class="mt-4">
       <label class="cursor">
@@ -267,8 +313,37 @@
         </div>
       </div>
     </div>
-  </form>
-</div>
+  </div>
+  <div class="content-data buyer">
+    <h4 class="medium mb-3">
+      Where is the order being sent from?
+      <span class="text-black-50">(Your Address)</span>
+    </h4>
+    <div class="row">
+      <div class="col-lg-6 input-icon mb-3">
+        <mat-icon>search</mat-icon>
+        <input
+          type="search"
+          class="form-control"
+          [formControl]="addressControl"
+          [matAutocomplete]="pickupAuto"
+          placeholder="Search your pick up address here by nickname or phone number"
+        />
+      </div>
+      <mat-autocomplete #pickupAuto="matAutocomplete" [displayWith]="displayFn">
+        <ng-container *ngFor="let option of filteredAddress | async">
+          <mat-option class="pickupAuto" [value]="option">
+            <span class="medium text-capitalize">{{ option['name'] }}</span>
+            {{ option['address'] }}
+          </mat-option>
+        </ng-container>
+      </mat-autocomplete>
+    </div>
+    <div class="row">
+      <div class="col-12">No address selected</div>
+    </div>
+  </div>
+</form>
 <div class="text-end">
   <button class="btn btn-solid w-100px" (click)="onClickNext()">Next</button>
 </div>

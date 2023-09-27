@@ -16,18 +16,8 @@ export const TabListSingleOrder: ITabSingleOrder[] = [
     status: EnumTabStatus.pristine,
   },
   {
-    id: 'pickup',
-    name: 'Pickup Details',
-    status: EnumTabStatus.pristine,
-  },
-  {
     id: 'order',
     name: 'Order Details',
-    status: EnumTabStatus.pristine,
-  },
-  {
-    id: 'package',
-    name: 'Package Details',
     status: EnumTabStatus.pristine,
   },
 ];

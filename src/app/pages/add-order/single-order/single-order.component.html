@@ -17,10 +17,10 @@
   </section>
   <section class="content w-100">
     <app-buyer-details *ngIf="soService.currentTab === 0"></app-buyer-details>
-    <app-pickup-details *ngIf="soService.currentTab === 1"></app-pickup-details>
-    <app-order-details *ngIf="soService.currentTab === 2"></app-order-details>
-    <app-package-details
+    <!-- <app-pickup-details *ngIf="soService.currentTab === 1"></app-pickup-details> -->
+    <app-order-details *ngIf="soService.currentTab === 1"></app-order-details>
+    <!-- <app-package-details
       *ngIf="soService.currentTab === 3"
-    ></app-package-details>
+    ></app-package-details> -->
   </section>
 </div>
