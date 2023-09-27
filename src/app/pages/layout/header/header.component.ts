@@ -4,6 +4,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { LayoutService } from '../layout.service';
 import { GlobalSearchComponent } from 'src/app/components/global-search/global-search.component';
+import { checkWindowWidth } from 'src/app/utils/utils';
+import { MatButtonModule } from '@angular/material/button';
+import { MatMenuModule } from '@angular/material/menu';
+import { WalletComponent } from '../wallet/wallet.component';
 
 @Component({
   selector: 'app-header',
@@ -12,13 +16,20 @@ import { GlobalSearchComponent } from 'src/app/components/global-search/global-s
   styleUrls: ['./header.component.scss'],
   imports: [
     CommonModule,
-    MatToolbarModule,
+    MatButtonModule,
     MatIconModule,
+    MatMenuModule,
+    MatToolbarModule,
     GlobalSearchComponent,
+    WalletComponent,
   ],
 })
 export class HeaderComponent {
   sidebarOpen = inject(LayoutService).sideBarOpen;
+
+  get isMobile() {
+    return checkWindowWidth();
+  }
 
   openSideBar() {
     this.sidebarOpen.next(true);

@@ -8,11 +8,10 @@ import { SingleOrderService } from '../single-order.service';
   encapsulation: ViewEncapsulation.None,
 })
 export class OrderDetailsComponent {
+  showOrderTag = false;
+  showHsnCodeSKU = false;
+  showShippingCharges = false;
   soService = inject(SingleOrderService);
-
-  onClickNext() {
-    this.soService.onTabChange('next');
-  }
 
   onClickBack() {
     this.soService.onTabChange('prev');

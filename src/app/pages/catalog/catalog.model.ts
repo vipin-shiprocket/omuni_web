@@ -1,0 +1,159 @@
+import { CdkTableModule } from '@angular/cdk/table';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { MatIconModule } from '@angular/material/icon';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { FiltersComponent } from 'src/app/components/filters/filters.component';
+import { FilterDataType } from 'src/app/components/index-filters/index-filters.model';
+import { DropdownRendererDirective } from 'src/app/directives/dropdown.directive';
+import { MapperPipe } from 'src/app/pipes/mapper.pipe';
+
+export const CatalogModules = [
+  CdkTableModule,
+  CommonModule,
+  DropdownRendererDirective,
+  FiltersComponent,
+  FormsModule,
+  MapperPipe,
+  MatIconModule,
+  MatPaginatorModule,
+  MatTooltipModule,
+  NgOptimizedImage,
+];
+
+export const CatalogTabs = [
+  {
+    name: 'All',
+    filters: {},
+  },
+  {
+    name: 'Active',
+    filters: { statuses: [1], query: 'h' },
+  },
+  {
+    name: 'Inactive',
+    filters: {},
+  },
+  {
+    name: 'Combos',
+    filters: {},
+  },
+];
+
+export const CatalogColumns = [
+  { name: 'sku', canHide: false, visible: true },
+  { name: 'name', canHide: false, visible: true },
+  { name: 'category', canHide: false, visible: true },
+  { name: 'tax', canHide: false, visible: true },
+  { name: 'hsn', canHide: false, visible: true },
+  { name: 'mrp', canHide: false, visible: true },
+  { name: 'dimension', canHide: false, visible: true },
+  { name: 'status', canHide: false, visible: true },
+];
+
+export const SortBy = [
+  {
+    value: 'sku',
+    display: 'Master SKU',
+  },
+  {
+    value: 'name',
+    display: 'Product Name',
+  },
+  {
+    value: 'category',
+    display: 'Category',
+  },
+  {
+    value: 'tax',
+    display: 'Tax',
+  },
+  {
+    value: 'hsn',
+    display: 'HSN',
+  },
+  {
+    value: 'mrp',
+    display: 'MRP',
+  },
+];
+
+export const RequiredFields = [
+  'sku',
+  'name',
+  'category',
+  'hsn',
+  'images',
+  'mrp',
+  'length',
+  'breadth',
+  'height',
+  'weight',
+  'active',
+  'color',
+  'brand',
+];
+
+export const FiltersData: FilterDataType = {
+  category: {
+    name: 'category',
+    label: 'Category',
+    type: 'select',
+    placement: 'out',
+    multiple: true,
+    value: [],
+    data: [
+      {
+        value: 'electronics',
+        display: 'Electronics',
+      },
+      {
+        value: 'clothing',
+        display: 'Clothing',
+      },
+    ],
+  },
+  hsn: {
+    name: 'hsn',
+    label: 'HSN',
+    type: 'select',
+    placement: 'out',
+    multiple: true,
+    value: [],
+    data: [
+      {
+        value: '12345',
+        display: '12345',
+      },
+      {
+        value: '987654',
+        display: '987654',
+      },
+    ],
+  },
+};
+
+export type ListingResponse = {
+  data: {
+    masterCatalog: {
+      sku: string;
+      name: string;
+      category: string;
+      tax: number;
+      hsn: string;
+      images: string[];
+      active: boolean;
+      mrp: number;
+      length: number;
+      breadth: number;
+      height: number;
+      weight: number;
+    }[];
+  };
+  hasNext: boolean;
+};
+
+export type UpdateStatusResponse = {
+  data: string;
+};

@@ -1,68 +1,50 @@
-<form
-  (submit)="onSubmit()"
-  [formGroup]="inputForm"
-  class="d-flex justify-content-between"
-  data-group-name="digits"
-  data-autosubmit="false"
-  autocomplete="off"
-  novalidate
->
+<div class="d-flex justify-content-between {{ panelClass }}">
   <input
+    appOnlyNumbers
     type="tel"
-    formControlName="loginOtp1"
-    minlength="1"
-    maxlength="1"
-    id="digit-1"
-    name="digit-1"
-    data-next="digit-2"
+    class="form-control text-center otp-input"
+    required
+    [(ngModel)]="otp1"
+    (keyup)="onInputChange($event)"
+  />
+  <input
+    appOnlyNumbers
+    type="tel"
+    class="form-control text-center otp-input"
+    required
+    [(ngModel)]="otp2"
+    (keyup)="onInputChange($event)"
+  />
+  <input
+    appOnlyNumbers
+    type="tel"
+    class="form-control text-center otp-input"
+    required
+    [(ngModel)]="otp3"
+    (keyup)="onInputChange($event)"
+  />
+  <input
+    appOnlyNumbers
+    type="tel"
+    class="form-control text-center otp-input"
+    required
+    [(ngModel)]="otp4"
+    (keyup)="onInputChange($event)"
+  />
+  <input
+    appOnlyNumbers
+    type="tel"
+    class="form-control text-center otp-input"
+    required
+    [(ngModel)]="otp5"
+    (keyup)="onInputChange($event)"
   />
   <input
     type="tel"
-    formControlName="loginOtp2"
-    minlength="1"
-    maxlength="1"
-    id="digit-2"
-    name="digit-2"
-    data-next="digit-3"
-    data-previous="digit-1"
+    appOnlyNumbers
+    class="form-control text-center otp-input"
+    required
+    [(ngModel)]="otp6"
+    (keyup)="onInputChange($event)"
   />
-  <input
-    type="tel"
-    formControlName="loginOtp3"
-    minlength="1"
-    maxlength="1"
-    id="digit-3"
-    name="digit-3"
-    data-next="digit-4"
-    data-previous="digit-2"
-  />
-  <input
-    type="tel"
-    formControlName="loginOtp4"
-    minlength="1"
-    maxlength="1"
-    id="digit-4"
-    name="digit-4"
-    data-next="digit-5"
-    data-previous="digit-3"
-  />
-  <input
-    type="tel"
-    formControlName="loginOtp5"
-    minlength="1"
-    maxlength="1"
-    id="digit-5"
-    name="digit-5"
-    data-next="digit-6"
-    data-previous="digit-4"
-  />
-  <input
-    type="tel"
-    formControlName="loginOtp6"
-    minlength="1"
-    maxlength="1"
-    id="digit-6"
-    name="digit-6"
-    data-previous="digit-5"
-  />
-</form>
+</div>

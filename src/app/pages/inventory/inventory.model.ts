@@ -4,26 +4,27 @@ import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { O2SelectComponent } from 'src/app/components/o2-select/o2-select.component';
-import { GlobalSearchComponent } from '../../components/global-search/global-search.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MapperPipe } from 'src/app/pipes/mapper.pipe';
 import { FiltersComponent } from 'src/app/components/filters/filters.component';
 import { FilterDataType } from 'src/app/components/index-filters/index-filters.model';
-import { ToolTipRendererDirective } from 'src/app/directives/tool-tip.directive';
+import { DropdownRendererDirective } from 'src/app/directives/dropdown.directive';
+import { ConnectedPosition } from '@angular/cdk/overlay';
+import { OnlyNumbersDirective } from 'src/app/utils/only-numbers.directive';
 
 export const InventoryModules = [
   CdkTableModule,
   CommonModule,
+  DropdownRendererDirective,
   FiltersComponent,
   FormsModule,
-  GlobalSearchComponent,
   MapperPipe,
   MatIconModule,
   MatPaginatorModule,
   MatTooltipModule,
   NgOptimizedImage,
   O2SelectComponent,
-  ToolTipRendererDirective,
+  OnlyNumbersDirective,
 ];
 
 export type ErrorResponse = Record<'data', string>;
@@ -40,6 +41,7 @@ export type ListingResponse = {
     totalQuantity: number;
     blockedQuantity: number;
     availableQuantity: number;
+    reason?: UpdateReasons[];
   }[];
   hasNext: boolean;
 };
@@ -65,11 +67,34 @@ export type AcknowledgeUploadResponse = {
   status: boolean;
 };
 
+export type UpdateDeltaResponse = {
+  status: string;
+  correlationId: string;
+  message: string;
+  data: {
+    message: string;
+  };
+  error: {
+    code: string;
+    message: string;
+  };
+  status_code: number;
+};
+
+type UpdateReasons =
+  | 'CORRECTION'
+  | 'COUNT'
+  | 'RECEIVED'
+  | 'RETURN_STOCK'
+  | 'DAMAGED'
+  | 'THEFT_LOSS';
+
 export type UpdateInventoryBody = {
-  ean: string;
   fcId: string;
+  sku: string;
   quantity: string;
   transactionType: 'CREDIT' | 'DEBIT' | 'OVERWRITE';
+  reason: UpdateReasons;
 };
 
 export type AnalyticsResponse = {
@@ -168,4 +193,40 @@ export const TablePlaceholder = [
   {} as never[],
   {} as never[],
   {} as never[],
+];
+
+export const InventoryUpdateOptions: Record<
+  'display' | 'value',
+  string | UpdateReasons
+>[] = [
+  { display: 'Correction', value: 'CORRECTION' },
+  { display: 'Count', value: 'COUNT' },
+  { display: 'Received', value: 'RECEIVED' },
+  { display: 'Return Stock', value: 'RETURN_STOCK' },
+  { display: 'Damaged', value: 'DAMAGED' },
+  { display: 'Theft or Loss', value: 'THEFT_LOSS' },
+];
+
+export const FileUpdateOptions = [
+  { display: 'Reset', value: 'RESET' },
+  { display: 'Delta', value: 'DELTA' },
+];
+
+export const ActionDropdownPositions: ConnectedPosition[] = [
+  {
+    originX: 'end',
+    originY: 'bottom',
+    overlayX: 'end',
+    overlayY: 'top',
+    offsetY: 6,
+    panelClass: 'arrowTop',
+  },
+  {
+    originX: 'end',
+    originY: 'top',
+    overlayX: 'end',
+    overlayY: 'bottom',
+    offsetY: -6,
+    panelClass: 'arrowBottom',
+  },
 ];

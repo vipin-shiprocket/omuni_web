@@ -1,0 +1,39 @@
+@use '../../../styles/utils' as u;
+
+.warning-icon {
+  background-color: u.$secondary2;
+  border-radius: 50%;
+  display: inline-block;
+  height: u.rem(20);
+  width: u.rem(20);
+  margin-right: 0.25rem;
+
+  .mat-icon {
+    height: u.rem(14);
+    margin-bottom: u.rem(1);
+    margin-inline: u.rem(3);
+    color: white;
+    width: u.rem(14);
+    font-size: u.rem(14);
+    vertical-align: middle;
+  }
+}
+
+.or-icon {
+  &::before {
+    content: 'OR';
+    position: absolute;
+    left: 47%;
+    bottom: 12%;
+    padding: 10px;
+    background: white;
+  }
+}
+
+.verify-ivr {
+  .mat-icon {
+    vertical-align: middle;
+    height: 16px;
+    font-size: 16px;
+  }
+}

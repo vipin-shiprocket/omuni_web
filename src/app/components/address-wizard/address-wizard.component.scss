@@ -1,0 +1,17 @@
+@use '../../../styles/utils' as u;
+
+.address-pill {
+  margin-left: u.rem(15);
+  padding: u.rem(2.5) u.rem(30);
+  border-radius: u.rem(12);
+  border: 0.5px solid u.$neutral3c;
+  background-color: white;
+  color: u.$neutral2;
+  cursor: pointer;
+}
+
+input[type='radio']:checked + .address-pill {
+  border: 0.5px solid u.$primary1;
+  background-color: u.$secondary5c;
+  color: u.$primary1;
+}

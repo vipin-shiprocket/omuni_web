@@ -1,20 +1,24 @@
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { InventoryService } from './inventory.service';
-import { checkWindowWidth, sleep, verifyFileType } from 'src/app/utils/utils';
+import { isEmptyObject, verifyFileType } from 'src/app/utils/utils';
 import { ToastrService } from 'ngx-toastr';
 import { SubSink } from 'subsink';
 import {
+  ActionDropdownPositions,
   AnalyticsResponse,
   ErrorResponse,
+  FileUpdateOptions,
   FiltersData,
   InventoryColumns,
   InventoryModules,
+  InventoryUpdateOptions,
+  ListingResponse,
   TablePlaceholder,
+  UpdateInventoryBody,
   analytics,
 } from './inventory.model';
-import { IOption } from 'src/app/components/chip-selectbox/chip-selectbox.model';
 import { NgForm } from '@angular/forms';
-import { switchMap } from 'rxjs';
+import { Subject, switchMap } from 'rxjs';
 import { ITab } from 'src/app/components/index-filters/index-filters.model';
 import { MatPaginatorIntl, PageEvent } from '@angular/material/paginator';
 import { IPaginationData } from 'src/app/components/index-table/index-table.model';
@@ -30,10 +34,7 @@ import { CustomPaginator } from 'src/app/utils/customPaginator';
   providers: [{ provide: MatPaginatorIntl, useClass: CustomPaginator }],
 })
 export class InventoryComponent implements OnInit, OnDestroy {
-  fileOptions: IOption[] = [
-    { display: 'Reset', value: 'RESET' },
-    { display: 'Delta', value: 'DELTA' },
-  ];
+  fileOptions = FileUpdateOptions;
   activeTabIdx = 0;
   analyticsData?: AnalyticsResponse['data'];
   analyticsStructure = analytics;
@@ -43,6 +44,9 @@ export class InventoryComponent implements OnInit, OnDestroy {
   dataSource: MatTableDataSource<never[]> = new MatTableDataSource(
     TablePlaceholder,
   );
+  dropDownClose = new Subject<void>();
+  dropDownPositions = ActionDropdownPositions;
+  overWriteOptions = InventoryUpdateOptions;
   pagination: IPaginationData = {
     pageSizeOptions: [25, 50, 100],
     length: 7,
@@ -53,6 +57,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
   selectedOption!: string[];
   sortBy = ['name'];
   tabs: ITab[] = [];
+  tempQty?: number;
   private inventoryService = inject(InventoryService);
   private toast = inject(ToastrService);
   private subs = new SubSink();
@@ -68,10 +73,6 @@ export class InventoryComponent implements OnInit, OnDestroy {
     return files ? files[0] : null;
   }
 
-  get showSearch() {
-    return checkWindowWidth();
-  }
-
   ngOnInit(): void {
     this.getInventoryData();
     this.addDropdownAttrFlag(0);
@@ -79,7 +80,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
 
   getAnalyticsData() {
     this.analyticsData = undefined;
-    const params = { fcId: '' };
+    const params = { fcId: '' }; //TODO
     this.subs.sink = this.inventoryService.getAnalytics(params).subscribe({
       next: (data: AnalyticsResponse) => {
         this.analyticsData = data.data;
@@ -101,12 +102,13 @@ export class InventoryComponent implements OnInit, OnDestroy {
       sortField: this.sortBy[0],
       pageNum: this.pagination.currentPage,
       pageSize: this.pagination.pageSize,
-      fcId: 'FC_123',
-      viewId: 'VIEW_123',
+      fcId: 'FC_123', //TODO
+      viewId: 'VIEW_123', //TODO
     };
 
     this.subs.sink = this.inventoryService.getListings(params).subscribe({
       next: (data) => {
+        data.data = data.data.filter((val) => (val.reason = ['CORRECTION']));
         this.dataSource.data = data.data as never;
         this.pagination = {
           ...this.pagination,
@@ -123,10 +125,19 @@ export class InventoryComponent implements OnInit, OnDestroy {
     return Math.abs(val);
   }
 
+  add(el: HTMLInputElement, val: number) {
+    el.value = Math.max(0, parseInt(el.value) + val).toString();
+  }
+
   addDropdownAttrFlag(tabIndex: number) {
     this.tabs.forEach((tab, i) => {
       tab.dropdown = tabIndex === i;
     });
+  }
+
+  closeUpdateDropdown() {
+    this.tempQty = undefined;
+    this.dropDownClose.next();
   }
 
   getColumnArrangement() {
@@ -142,9 +153,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
     this.getInventoryData();
   }
 
-  isEmpty(obj: object) {
-    return Object.keys(obj).length === 0 && obj.constructor === Object;
-  }
+  isEmpty = isEmptyObject;
 
   onTabClick(tabIdx: number) {
     if (tabIdx !== this.activeTabIdx) {
@@ -154,6 +163,42 @@ export class InventoryComponent implements OnInit, OnDestroy {
     }
     this.activeTabIdx = tabIdx;
     this.getInventoryData();
+  }
+
+  updateDelta(row: ListingResponse['data'][0], val: string) {
+    const quantity = parseInt(val);
+    if (Number.isNaN(quantity)) {
+      this.toast.error('Please provide a proper input for quantity');
+      return;
+    }
+
+    if (!row.reason?.length) {
+      this.toast.error('Please provide a valid reason for update');
+      return;
+    }
+
+    const body: UpdateInventoryBody[] = [
+      {
+        sku: row.sku,
+        fcId: 'test123', //TODO
+        quantity: val,
+        transactionType: 'OVERWRITE',
+        reason: row.reason[0],
+      },
+    ];
+
+    this.subs.sink = this.inventoryService.updateInventory(body).subscribe({
+      next: (data) => {
+        this.toast.success(data.message);
+      },
+      error: (err) => {
+        this.toast.error(err.error.message);
+      },
+      complete: () => {
+        this.getInventoryData();
+        this.closeUpdateDropdown();
+      },
+    });
   }
 
   uploadFile(form: NgForm) {

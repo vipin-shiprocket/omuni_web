@@ -1,7 +1,7 @@
 <h1 class="content-heading mb-4">Order Details</h1>
 <div class="content-data buyer">
-  <div class="row mb-3">
-    <div class="col-md-3">
+  <div class="row">
+    <div class="col-lg-3 col-md-4 mb-3">
       <label for="orderId" class="form-label"
         >Order ID <span class="text-black-50">(Auto Generated)</span></label
       >
@@ -12,7 +12,7 @@
         placeholder="0000001"
       />
     </div>
-    <div class="col-md-3">
+    <div class="col-md-3 mb-3">
       <label for="orderDate" class="form-label">Order Date</label>
       <input
         type="date"
@@ -21,34 +21,40 @@
         placeholder="Enter Full Name"
       />
     </div>
-    <div class="col-md-3">
+    <div class="col-md-3 mb-3">
       <label for="orderChannel" class="form-label"
         >Order Channel<span class="text-black-50 ms-1 form-label-icon">
           <mat-icon>help</mat-icon>
         </span></label
       >
-      <input
-        type="text"
-        class="form-control"
-        id="orderChannel"
+      <app-o2-select
         placeholder="i.e abc@xyz.in"
+        [options]="[
+          { display: 'Channel 1', value: 1 },
+          { display: 'Channel 2', value: 2 }
+        ]"
       />
     </div>
   </div>
   <a
     href="javascript:void(0);"
+    (click)="showOrderTag = !showOrderTag"
     class="d-block mb-3 text-decoration-none d-flex align-item-center"
   >
     + Add Order Tag, Reseller's Name
-    <mat-icon class="expand_more">expand_more</mat-icon>
+    <mat-icon
+      [ngClass]="showOrderTag ? 'rotate-180' : 'rotate-0'"
+      class="expand_more"
+      >expand_more</mat-icon
+    >
     <span class="text-black-50">(Optional)</span>
   </a>
-  <div class="row mb-3">
-    <div class="col-md-6">
+  <div *ngIf="showOrderTag" class="row">
+    <div class="col-md-6 mb-3">
       <label for="orderTag" class="form-label">Order Tag </label>
       <input type="text" class="form-control" id="orderTag" />
     </div>
-    <div class="col-md-3">
+    <div class="col-lg-3 col-md-4 mb-3">
       <label for="resellerName" class="form-label"
         >Reseller's Name <span class="text-black-50 fs-10px">(Optional)</span>
       </label>
@@ -62,8 +68,8 @@
   </div>
   <hr class="my-4 text-black-50" />
   <h4 class="medium mb-3">Product Details</h4>
-  <div class="row mb-3">
-    <div class="col-md-4">
+  <div class="row">
+    <div class="col-lg-4 col-md-5 mb-3">
       <label for="product1Name" class="form-label">Product 1 name</label>
       <input
         type="text"
@@ -72,25 +78,32 @@
         placeholder="Enter or search your product name"
       />
     </div>
-    <div class="col-md-2">
+    <div class="col-lg-2 col-md-3 mb-3">
       <label for="unitPrice" class="form-label">Unit Price </label>
-      <input
-        type="text"
-        class="form-control"
-        id="unitPrice"
-        placeholder="Reseller's Name "
-      />
+      <div class="o2-group">
+        <span class="o2-prefix">&#x20B9;</span>
+        <input
+          type="text"
+          class="form-control prefix-p"
+          id="unitPrice"
+          placeholder="0.00"
+        />
+      </div>
     </div>
-    <div class="col-md-2">
+    <div class="col-lg-2 col-md-3 mb-3">
       <label for="quantity" class="form-label">Quantity </label>
-      <input
-        type="text"
-        class="form-control"
-        id="quantity"
-        placeholder="Reseller's Name "
-      />
+      <div class="o2-group">
+        <span role="button" class="o2-prefix">–</span>
+        <input
+          type="text"
+          class="form-control prefix-p sufix-p"
+          id="quantity"
+          placeholder="0"
+        />
+        <span role="button" class="o2-sufix">+</span>
+      </div>
     </div>
-    <div class="col-md-3">
+    <div class="col-lg-3 col-md-4 mb-3">
       <label for="productCategory" class="form-label">Product Category </label>
       <input
         type="text"
@@ -99,22 +112,27 @@
         placeholder="Enter Product Category"
       />
     </div>
-    <div class="col-1 align-self-end text-danger cursor">
+    <div class="col-1 mb-3 align-self-end text-danger cursor">
       <mat-icon>delete</mat-icon>
     </div>
   </div>
 
   <a
     href="javascript:void(0);"
+    (click)="showHsnCodeSKU = !showHsnCodeSKU"
     class="d-block mb-3 text-decoration-none d-flex align-item-center"
   >
     + Add HSN Code, SKU, Tax Rate and Discount
-    <mat-icon class="expand_more">expand_more</mat-icon>
+    <mat-icon
+      [ngClass]="showHsnCodeSKU ? 'rotate-180' : 'rotate-0'"
+      class="expand_more"
+      >expand_more</mat-icon
+    >
     <span class="text-black-50">(Optional)</span>
   </a>
 
-  <div class="row mb-3">
-    <div class="col-md-4">
+  <div *ngIf="showHsnCodeSKU" class="row">
+    <div class="col-lg-4 col-md-5 mb-3">
       <label for="hsnCode1" class="form-label"
         >HSN Code
         <span class="text-black-50 ms-1 form-label-icon">
@@ -128,7 +146,7 @@
         placeholder="Enter your product HSN code"
       />
     </div>
-    <div class="col-md-2">
+    <div class="col-lg-2 col-md-3 mb-3">
       <label for="sku1" class="form-label"
         >SKU
         <span class="text-black-50 ms-1 form-label-icon">
@@ -142,11 +160,11 @@
         placeholder="Enter Product SKU"
       />
     </div>
-    <div class="col-md-2">
+    <div class="col-lg-2 col-md-3 mb-3">
       <label for="taxRate1" class="form-label">Tax Rate</label>
       <input type="number" class="form-control" id="taxRate1" placeholder="%" />
     </div>
-    <div class="col-md-3">
+    <div class="col-lg-3 col-md-4 mb-3">
       <label for="productDiscount1" class="form-label"
         >Product Discount
         <span class="text-black-50 ms-1 form-label-icon">
@@ -196,13 +214,18 @@
   </section>
   <a
     href="javascript:void(0);"
+    (click)="showShippingCharges = !showShippingCharges"
     class="d-block mb-3 text-decoration-none d-flex align-item-center"
   >
     + Add Shipping Charges, Giftwrap, Transaction fee
-    <mat-icon class="expand_more">expand_more</mat-icon>
+    <mat-icon
+      [ngClass]="showShippingCharges ? 'rotate-180' : 'rotate-0'"
+      class="expand_more"
+      >expand_more</mat-icon
+    >
     <span class="text-black-50">(Optional)</span>
   </a>
-  <div class="row mb-3">
+  <div *ngIf="showShippingCharges" class="row mb-3">
     <div class="col-md-2">
       <label for="shippingCharges" class="form-label">Shipping Charges</label>
       <input
@@ -251,7 +274,7 @@
     </div>
   </div>
 
-  <section class="total-section mt-5">
+  <section class="highlight-section mt-5">
     <p class="mb-2">
       Sub-total for Product <span class="float-end">&#x20B9; 0.00</span>
     </p>
@@ -267,5 +290,5 @@
   <button class="btn btn-outlined w-100px me-2" (click)="onClickBack()">
     Back
   </button>
-  <button class="btn btn-solid w-100px" (click)="onClickNext()">Next</button>
+  <button class="btn btn-solid w-100px">Add Order</button>
 </div>

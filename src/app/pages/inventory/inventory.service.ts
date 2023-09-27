@@ -6,6 +6,7 @@ import {
   FileUploadResponse,
   ListingResponse,
   S3UploadResponse,
+  UpdateDeltaResponse,
   UpdateInventoryBody,
 } from './inventory.model';
 import { HttpResponse } from '@angular/common/http';
@@ -17,7 +18,7 @@ import { MemoFn, STORAGE_TYPE } from 'src/app/utils/memo.decorator';
 export class InventoryService {
   private http = inject(HttpService);
 
-  @MemoFn({ ttl: 8000, cacheStrategy: STORAGE_TYPE.IN_MEMORY })
+  @MemoFn({ ttl: 4000, cacheStrategy: STORAGE_TYPE.IN_MEMORY })
   getAnalytics(params: Record<string, unknown>) {
     const endpoint = 'aryabhatta/inventory/statistics';
     const headers = this.http.getHeaders({
@@ -31,7 +32,6 @@ export class InventoryService {
     );
   }
 
-  @MemoFn({ ttl: 8000, cacheStrategy: STORAGE_TYPE.IN_MEMORY })
   getListings(params: Record<string, unknown>) {
     const endpoint = 'aryabhatta/inventory/listing';
     const headers = this.http.getHeaders({
@@ -94,18 +94,14 @@ export class InventoryService {
     );
   }
 
-  updateInventory(inventories: UpdateInventoryBody[], createdDateTime: string) {
-    const endpoint = 'narcos/delta/inventory';
+  updateInventory(body: UpdateInventoryBody[]) {
+    const endpoint = 'syncwave/inventory/update';
     const headers = this.http.getHeaders({
       'X-Tenant-ID': '', //TODO
       'X-USER-ID': '', //TODO
     });
-    const body = {
-      inventories: inventories,
-      createdDateTime: createdDateTime,
-    };
 
-    return this.http.postToEndpint<AcknowledgeUploadResponse>(
+    return this.http.postToEndpint<UpdateDeltaResponse>(
       endpoint,
       body,
       {},

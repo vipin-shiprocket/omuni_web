@@ -93,3 +93,7 @@ export function verifyFileType(file: File, fileTypes: string[]) {
   const extension = file.name.substring(file.name.lastIndexOf('.'));
   return fileTypes.includes(file.type) || fileTypes.includes(extension);
 }
+
+export function isEmptyObject(obj: unknown) {
+  return obj && Object.keys(obj).length === 0 && obj.constructor === Object;
+}

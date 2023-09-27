@@ -107,8 +107,8 @@ export class O2SelectComponent implements ControlValueAccessor, OnDestroy {
           selected?.display.toString() || ''
       );
     }
-    return `${this.allSelected ? 'All' : value.length} ${this.label}${
-      value.length > 1 ? 's' : ''
+    return `${this.allSelected ? 'All' : value.length} ${
+      value.length > 1 ? this.label.plural : this.label
     } Selected`;
   }
 

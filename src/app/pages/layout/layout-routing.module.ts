@@ -5,7 +5,7 @@ import { authGuard } from 'src/app/core/auth.guard';
 
 const routes: Routes = [
   {
-    path: 'dashboard',
+    path: '',
     component: LayoutComponent,
     children: [
       {
@@ -37,8 +37,15 @@ const routes: Routes = [
           },
         ],
       },
+      {
+        path: 'settings',
+        loadComponent: () =>
+          import('../settings/settings.component').then(
+            (c) => c.SettingsComponent,
+          ),
+      },
     ],
-    canActivate: [authGuard],
+    // canActivate: [authGuard],
   },
   {
     path: '',

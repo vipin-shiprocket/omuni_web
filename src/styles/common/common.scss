@@ -626,7 +626,7 @@ order-2 {
 .form-label-icon > .mat-icon {
   width: u.rem(13);
   height: u.rem(14);
-  line-height: u.rem(16);
+  vertical-align: middle;
   font-size: u.rem(14);
 }
 
@@ -659,13 +659,13 @@ order-2 {
     margin-bottom: u.rem(9);
     &::before {
       @extend .arrow-before-base;
-      bottom: 1%;
-      border-top: u.rem(9) solid white;
+      bottom: 2%;
+      border-top: u.rem(9) solid var(--popup-arrow-color);
     }
     &::after {
       @extend .arrow-after-base;
       bottom: 0;
-      border-top: u.rem(9) solid white;
+      border-top: u.rem(9) solid var(--popup-arrow-color);
     }
   }
 
@@ -673,15 +673,30 @@ order-2 {
     margin-top: u.rem(9);
     &::before {
       @extend .arrow-before-base;
-      top: 1%;
-      border-bottom: u.rem(9) solid white;
+      top: 2%;
+      border-bottom: u.rem(9) solid var(--popup-arrow-color);
     }
     &::after {
       @extend .arrow-after-base;
       top: 0;
-      border-bottom: u.rem(9) solid white;
+      border-bottom: u.rem(9) solid var(--popup-arrow-color);
     }
   }
+}
+
+.popover-arrow-right {
+  &::before,
+  &::after {
+    left: var(--popup-arrow-x-pos) !important;
+  }
+}
+
+.arrowTop {
+  --popup-open-direction: 50%;
+}
+
+.arrowBottom {
+  --popup-open-direction: -50%;
 }
 
 .customcheckbox {
@@ -822,4 +837,88 @@ input:checked ~ .customcheckbox:after {
 }
 .signUpChannelsSection {
   background-color: u.$secondary5c;
+}
+
+.o2-group {
+  position: relative;
+
+  .o2-prefix {
+    position: absolute;
+    width: u.rem(32);
+    font-weight: 500;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    inset: 1px;
+    border-right: 1px solid var(--bs-border-color);
+    border-radius: 0.5rem 0 0 0.5rem;
+    background-color: u.$secondary5c;
+    color: u.$neutral2;
+  }
+
+  .prefix-p {
+    padding-left: u.rem(40);
+  }
+
+  .o2-sufix {
+    position: absolute;
+    width: u.rem(32);
+    font-weight: 500;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    inset: 1px 1px 1px auto;
+    border-radius: 0 0.5rem 0.5rem 0;
+    border-left: 1px solid var(--bs-border-color);
+    background-color: u.$secondary5c;
+    color: u.$neutral2;
+  }
+  .sufix-p {
+    padding-right: u.rem(40);
+  }
+}
+
+.br-s-8 {
+  border-top-left-radius: u.rem(8);
+  border-bottom-left-radius: u.rem(8);
+}
+
+.hide-spinners {
+  /* Chrome, Safari, Edge, Opera */
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  /* Firefox */
+  &[type='number'] {
+    -moz-appearance: textfield;
+    appearance: textfield;
+  }
+}
+
+// checkbox
+.o2-check-input {
+  box-shadow: none;
+}
+.o2-check-input:checked {
+  background-color: #ebf7e8;
+  border-color: #418f29;
+}
+.o2-switch .o2-check-input:checked {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%23008e27'/%3e%3c/svg%3e");
+}
+.o2-check-input {
+  background-color: #fff2f2;
+  border-color: #ff2222;
+}
+.o2-switch .o2-check-input {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%23ff2222'/%3e%3c/svg%3e");
+}
+.o2-switch .o2-check-input:focus {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%23ff2222'/%3e%3c/svg%3e");
+}
+.o2-switch .o2-check-input:checked:focus {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%23008e27'/%3e%3c/svg%3e");
 }

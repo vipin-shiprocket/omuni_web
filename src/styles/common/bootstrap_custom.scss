@@ -51,7 +51,10 @@
 .btn-outlined_sm-secondary {
   @extend .btn-outlined_sm;
   --bs-btn-color: #{u.$neutral3};
-  --bs-btn-border-color: #{u.$neutral3};
+  --bs-btn-border-color: var(--bs-border-color);
+  --bs-btn-active-color: #{u.$neutral4};
+  --bs-btn-active-border-color: #{u.$primary1a};
+  --bs-btn-active-bg: #{u.$primary1a};
 }
 
 .checkbox-outlined {

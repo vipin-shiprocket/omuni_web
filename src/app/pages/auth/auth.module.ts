@@ -12,7 +12,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { RegisterComponent } from './register/register.component';
 import { FooterComponent } from './footer/footer.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
-import { OtpInputModule } from 'src/app/components/otp-input/otp-input.module';
+import { OtpInputComponent } from 'src/app/components/otp-input/otp-input.component';
 @NgModule({
   declarations: [
     LoginComponent,
@@ -31,7 +31,7 @@ import { OtpInputModule } from 'src/app/components/otp-input/otp-input.module';
     MatButtonModule,
     MatCheckboxModule,
     FooterComponent,
-    OtpInputModule,
+    OtpInputComponent,
   ],
   providers: [],
 })
