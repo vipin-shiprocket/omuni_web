@@ -5,7 +5,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { FiltersComponent } from 'src/app/components/filters/filters.component';
-import { O2SelectComponent } from 'src/app/components/o2-select/o2-select.component';
+import { FilterDataType } from 'src/app/components/index-filters/index-filters.model';
 import { DropdownRendererDirective } from 'src/app/directives/dropdown.directive';
 import { MapperPipe } from 'src/app/pipes/mapper.pipe';
 
@@ -20,7 +20,6 @@ export const CatalogModules = [
   MatPaginatorModule,
   MatTooltipModule,
   NgOptimizedImage,
-  O2SelectComponent,
 ];
 
 export const CatalogTabs = [
@@ -50,6 +49,7 @@ export const CatalogColumns = [
   { name: 'hsn', canHide: false, visible: true },
   { name: 'mrp', canHide: false, visible: true },
   { name: 'dimension', canHide: false, visible: true },
+  { name: 'status', canHide: false, visible: true },
 ];
 
 export const SortBy = [
@@ -91,7 +91,48 @@ export const RequiredFields = [
   'height',
   'weight',
   'active',
+  'color',
+  'brand',
 ];
+
+export const FiltersData: FilterDataType = {
+  category: {
+    name: 'category',
+    label: 'Category',
+    type: 'select',
+    placement: 'out',
+    multiple: true,
+    value: [],
+    data: [
+      {
+        value: 'electronics',
+        display: 'Electronics',
+      },
+      {
+        value: 'clothing',
+        display: 'Clothing',
+      },
+    ],
+  },
+  hsn: {
+    name: 'hsn',
+    label: 'HSN',
+    type: 'select',
+    placement: 'out',
+    multiple: true,
+    value: [],
+    data: [
+      {
+        value: '12345',
+        display: '12345',
+      },
+      {
+        value: '987654',
+        display: '987654',
+      },
+    ],
+  },
+};
 
 export type ListingResponse = {
   data: {
@@ -111,4 +152,8 @@ export type ListingResponse = {
     }[];
   };
   hasNext: boolean;
+};
+
+export type UpdateStatusResponse = {
+  data: string;
 };

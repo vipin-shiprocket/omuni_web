@@ -9,6 +9,7 @@ import { IPaginationData } from 'src/app/components/index-table/index-table.mode
 import { MatPaginatorIntl, PageEvent } from '@angular/material/paginator';
 import { SubSink } from 'subsink';
 import { CustomPaginator } from 'src/app/utils/customPaginator';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-catalog',
@@ -24,6 +25,7 @@ export class CatalogComponent implements OnDestroy, OnInit {
   dataSource: MatTableDataSource<never[]> = new MatTableDataSource(
     TablePlaceholder,
   );
+  filterData = Model.FiltersData;
   filters: Record<string, unknown> = {};
   pagination: IPaginationData = {
     pageSizeOptions: [25, 50, 100],
@@ -35,6 +37,7 @@ export class CatalogComponent implements OnDestroy, OnInit {
   subs = new SubSink();
   tabs: ITab[] = Model.CatalogTabs as ITab[];
   private catalogService = inject(CatalogService);
+  private toast = inject(ToastrService);
 
   ngOnInit(): void {
     this.getCatalogData();
@@ -90,6 +93,26 @@ export class CatalogComponent implements OnDestroy, OnInit {
         break;
     }
     this.getCatalogData();
+  }
+
+  updateStatus(checkBox: HTMLInputElement, ean: string) {
+    const params = {
+      activate: checkBox.checked,
+    };
+
+    const body = {
+      eans: [ean],
+    };
+
+    this.subs.sink = this.catalogService.updateStatus(params, body).subscribe({
+      next: (data) => {
+        this.toast.success(data.data);
+      },
+      error: (err) => {
+        this.toast.error(err.error.message);
+        checkBox.checked = !checkBox.checked;
+      },
+    });
   }
 
   ngOnDestroy(): void {

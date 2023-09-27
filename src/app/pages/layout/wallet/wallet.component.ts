@@ -60,6 +60,7 @@ export class WalletComponent {
       data: data,
       panelClass: 'recharge-popup',
       width: '400px',
+      maxHeight: window.innerHeight * 0.8 + 'px',
     });
   }
 }

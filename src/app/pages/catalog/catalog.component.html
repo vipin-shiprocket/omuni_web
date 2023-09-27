@@ -29,31 +29,27 @@
     </ng-container>
   </nav>
 
-  <!-- Sort by -->
-  <div class="my-4 d-flex flex-row-reverse flex-wrap-reverse">
-    <app-o2-select
-      [label]="'Sort By'"
-      [options]="sortBy"
-      [showLabelWithValue]="true"
-      [values]="['sku']"
-      placeholder="Sort By"
-      (selectionChange)="($event)"
-    >
-    </app-o2-select>
-    <button
-      matTooltip="Import Inventory"
-      matTooltipPosition="above"
-      class="btn more-filter-btn border mb-3 mb-sm-0"
-    >
-      <mat-icon svgIcon="assets:upload"></mat-icon>
-    </button>
-    <button
-      matTooltip="Export Inventory"
-      matTooltipPosition="above"
-      class="btn more-filter-btn border mb-3 mb-sm-0"
-    >
-      <mat-icon>save_alt</mat-icon>
-    </button>
+  <!-- Filters -->
+  <div class="my-4 d-flex justify-content-between flex-wrap">
+    <div>
+      <app-filters [filtersData]="filterData" />
+    </div>
+    <div>
+      <button
+        matTooltip="Export Catalog"
+        matTooltipPosition="above"
+        class="btn more-filter-btn border mb-3 mb-sm-0"
+      >
+        <mat-icon>save_alt</mat-icon>
+      </button>
+      <button
+        matTooltip="Upload Catalog"
+        matTooltipPosition="above"
+        class="btn more-filter-btn border mb-3 mb-sm-0"
+      >
+        <mat-icon svgIcon="assets:upload"></mat-icon>
+      </button>
+    </div>
   </div>
 
   <!-- Table -->
@@ -91,7 +87,10 @@
               [contentTemplate]="popup"
               [dropDownMode]="'toolTip'"
             >
-              <span>{{ row.name }}</span>
+              <span class="d-block mb-1">{{ row.name }}</span>
+              <span class="rounded p-1 bg-dark-subtle text-black-50">
+                {{ row.color }} / {{ row.brand }}</span
+              >
             </div>
             <ng-template #popup>
               <div class="bg-white p-2 rounded shadow-lg popover-arrow">
@@ -170,6 +169,28 @@
               <br />
               <span>{{ row.weight }} Kg</span>
             </ng-container>
+            <ng-container
+              *ngIf="isEmpty(row)"
+              [ngTemplateOutlet]="placeholder"
+            ></ng-container>
+          </cdk-cell>
+        </ng-container>
+
+        <ng-container cdkColumnDef="status">
+          <cdk-header-cell *cdkHeaderCellDef mat-sort-header class="bold">
+            Status
+          </cdk-header-cell>
+          <cdk-cell *cdkCellDef="let row">
+            <div class="form-check form-switch o2-switch" *ngIf="!isEmpty(row)">
+              <input
+                #statusInput
+                class="form-check-input o2-check-input"
+                type="checkbox"
+                role="switch"
+                [checked]="row.active"
+                (click)="updateStatus(statusInput, row.sku)"
+              />
+            </div>
             <ng-container
               *ngIf="isEmpty(row)"
               [ngTemplateOutlet]="placeholder"

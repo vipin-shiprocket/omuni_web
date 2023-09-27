@@ -897,3 +897,28 @@ input:checked ~ .customcheckbox:after {
     appearance: textfield;
   }
 }
+
+// checkbox
+.o2-check-input {
+  box-shadow: none;
+}
+.o2-check-input:checked {
+  background-color: #ebf7e8;
+  border-color: #418f29;
+}
+.o2-switch .o2-check-input:checked {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%23008e27'/%3e%3c/svg%3e");
+}
+.o2-check-input {
+  background-color: #fff2f2;
+  border-color: #ff2222;
+}
+.o2-switch .o2-check-input {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%23ff2222'/%3e%3c/svg%3e");
+}
+.o2-switch .o2-check-input:focus {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%23ff2222'/%3e%3c/svg%3e");
+}
+.o2-switch .o2-check-input:checked:focus {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%23008e27'/%3e%3c/svg%3e");
+}
