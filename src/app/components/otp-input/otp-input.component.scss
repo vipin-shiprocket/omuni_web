@@ -1,4 +1,4 @@
-@use '/src/styles/utils/' as u;
+@use '../../../../src/styles/utils/' as u;
 
 input.ng-invalid.ng-touched {
   border: 1px solid u.$secondary2;
