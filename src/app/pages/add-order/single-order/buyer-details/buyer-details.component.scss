@@ -16,3 +16,11 @@
     background: u.$bg-color;
   }
 }
+
+.buyer {
+  input[type='text'] {
+    &:read-only {
+      background: u.$bg-color;
+    }
+  }
+}

@@ -1,17 +1,19 @@
-import {
-  Component,
-  OnDestroy,
-  OnInit,
-  ViewEncapsulation,
-  inject,
-} from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { SingleOrderService } from '../single-order.service';
-import { FormBuilder, FormControl } from '@angular/forms';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { Observable, map, of, startWith } from 'rxjs';
 import Fuse from 'fuse.js';
 import { SubSink } from 'subsink';
+import { ToastrService } from 'ngx-toastr';
 
 type LooseObject = Record<string, unknown>;
+const PHONE_RE = /[6789]{1}[0-9]{9}/gi;
 
 @Component({
   selector: 'app-buyer-details',
@@ -23,23 +25,89 @@ export class BuyerDetailsComponent implements OnInit, OnDestroy {
   private subs = new SubSink();
   showGSTN = false;
   showShippingName = false;
-  shippingIsBilling = new FormControl(true);
+  shippingIsBilling = new FormControl(null, [Validators.required]);
   addressControl = new FormControl(null);
-  soService = inject(SingleOrderService);
   filteredAddress: Observable<LooseObject[]> = of([]);
   searchObject: Fuse<LooseObject> | null = null;
   addresses: LooseObject[] = [];
   keysToSearch: string[] = ['name', 'address'];
+  buyerDetailForm: FormGroup;
 
-  constructor(private fb: FormBuilder) {
+  constructor(
+    private fb: FormBuilder,
+    private soService: SingleOrderService,
+    private toastr: ToastrService,
+  ) {
+    this.buyerDetailForm = this.fb.group({
+      shipping: this.fb.group({
+        fullname: ['', [Validators.required]],
+        phone: ['', [Validators.required, Validators.pattern(PHONE_RE)]],
+        email: ['', [Validators.email]],
+        altPhone: ['', [Validators.pattern(PHONE_RE)]],
+        companyName: [''],
+        companyGstin: [''],
+        companyAddr: ['', [Validators.required]],
+        landmark: [''],
+        pincode: ['', [Validators.required]],
+        city: ['delhi', [Validators.required]],
+        state: ['delhi', [Validators.required]],
+        country: ['India', [Validators.required]],
+        callingCode: ['+91', [Validators.required]],
+        shippingName: [''],
+        shippingPhone: ['', [Validators.pattern(PHONE_RE)]],
+        shippingEmail: ['', [Validators.email]],
+      }),
+
+      billing: this.fb.group({
+        phone: ['', [Validators.required, Validators.pattern(PHONE_RE)]],
+        fullname: ['', [Validators.required]],
+        email: ['', [Validators.email]],
+        companyAddr: ['', [Validators.required]],
+        landmark: [''],
+        pincode: ['', [Validators.required]],
+        city: ['', [Validators.required]],
+        state: ['', [Validators.required]],
+        country: ['India', [Validators.required]],
+        callingCode: ['+91', [Validators.required]],
+      }),
+
+      pickupAddr: ['', [Validators.required]],
+    });
     this.filteredAddress = this.addressControl.valueChanges.pipe(
       startWith(' '),
       map((value) => this._filter(value || '')),
     );
+
+    this.subs.sink = this.addressControl.valueChanges.subscribe((value) => {
+      if (this.hideAddress || !value) return;
+      this.buyerDetailForm.get('pickupAddr')?.patchValue(value['id']);
+    });
+
+    this.subs.sink = this.shippingIsBilling.valueChanges.subscribe((value) => {
+      const billing = this.buyerDetailForm.get('billing');
+      if (value) {
+        const shipping = this.buyerDetailForm.get('shipping');
+        billing?.patchValue(shipping?.value);
+      } else {
+        billing?.reset();
+      }
+    });
   }
 
   ngOnInit(): void {
     this.fetchAllAddress();
+  }
+
+  getShippingCtrl(ctrlName: string): AbstractControl {
+    return this.buyerDetailForm
+      .get('shipping')
+      ?.get(ctrlName) as AbstractControl;
+  }
+
+  getBillingCtrl(ctrlName: string): AbstractControl {
+    return this.buyerDetailForm
+      .get('billing')
+      ?.get(ctrlName) as AbstractControl;
   }
 
   onClickNext() {
@@ -66,6 +134,25 @@ export class BuyerDetailsComponent implements OnInit, OnDestroy {
       },
       error: console.error,
     });
+  }
+
+  get hideAddress(): boolean {
+    return (
+      !this.addressControl.value ||
+      typeof this.addressControl.value !== 'object'
+    );
+  }
+
+  onFormSubmit() {
+    if (this.buyerDetailForm.invalid) {
+      this.buyerDetailForm.markAllAsTouched();
+      this.addressControl.markAllAsTouched();
+      this.toastr.error(
+        'Fields are missing in the form, Please check',
+        'Error',
+      );
+    }
+    console.log(this.buyerDetailForm);
   }
 
   ngOnDestroy(): void {

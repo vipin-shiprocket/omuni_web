@@ -77,3 +77,11 @@
     width: 100%;
   }
 }
+
+input.ng-invalid.ng-touched {
+  border-color: u.$secondary2;
+}
+
+.text-red {
+  color: var(--secondary2) !important;
+}
