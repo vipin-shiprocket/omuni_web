@@ -1,5 +1,4 @@
 <h1 class="content-heading mb-4">Add Buyer's Details</h1>
-{{ buyerDetailForm.value | json }}
 <form [formGroup]="buyerDetailForm" (submit)="onFormSubmit()">
   <div class="content-data buyer">
     <h4 class="medium mb-3">
@@ -153,7 +152,9 @@
         <div class="col-md-3">
           <label for="pincode" class="form-label">Pincode</label>
           <input
-            type="text"
+            type="tel"
+            appOnlyNumbers
+            maxlength="6"
             class="form-control"
             id="pincode"
             formControlName="pincode"
@@ -352,7 +353,9 @@
         <div class="col-md-3">
           <label for="pincode1" class="form-label">Pincode</label>
           <input
-            type="text"
+            type="tel"
+            appOnlyNumbers
+            maxlength="6"
             class="form-control"
             id="pincode1"
             formControlName="pincode"

@@ -11,9 +11,10 @@ import { Observable, map, of, startWith } from 'rxjs';
 import Fuse from 'fuse.js';
 import { SubSink } from 'subsink';
 import { ToastrService } from 'ngx-toastr';
+import { IBuyerDetail } from '../single-order.model';
 
 type LooseObject = Record<string, unknown>;
-const PHONE_RE = /[6789]{1}[0-9]{9}/gi;
+const PHONE_RE = /^[6789]\d{9}$/;
 
 @Component({
   selector: 'app-buyer-details',
@@ -41,7 +42,7 @@ export class BuyerDetailsComponent implements OnInit, OnDestroy {
     this.buyerDetailForm = this.fb.group({
       shipping: this.fb.group({
         fullname: ['', [Validators.required]],
-        phone: ['', [Validators.required, Validators.pattern(PHONE_RE)]],
+        phone: [null, [Validators.required, Validators.pattern(PHONE_RE)]],
         email: ['', [Validators.email]],
         altPhone: ['', [Validators.pattern(PHONE_RE)]],
         companyName: [''],
@@ -59,7 +60,7 @@ export class BuyerDetailsComponent implements OnInit, OnDestroy {
       }),
 
       billing: this.fb.group({
-        phone: ['', [Validators.required, Validators.pattern(PHONE_RE)]],
+        phone: [null, [Validators.required, Validators.pattern(PHONE_RE)]],
         fullname: ['', [Validators.required]],
         email: ['', [Validators.email]],
         companyAddr: ['', [Validators.required]],
@@ -71,7 +72,7 @@ export class BuyerDetailsComponent implements OnInit, OnDestroy {
         callingCode: ['+91', [Validators.required]],
       }),
 
-      pickupAddr: ['', [Validators.required]],
+      pickupAddr: [null, [Validators.required]],
     });
     this.filteredAddress = this.addressControl.valueChanges.pipe(
       startWith(' '),
@@ -96,6 +97,14 @@ export class BuyerDetailsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.fetchAllAddress();
+    this.fillBuyerForm();
+  }
+
+  fillBuyerForm() {
+    const { buyer } = this.soService.orderDetailDump.value ?? {};
+    if (!buyer) return;
+
+    this.buyerDetailForm.patchValue(buyer);
   }
 
   getShippingCtrl(ctrlName: string): AbstractControl {
@@ -151,8 +160,11 @@ export class BuyerDetailsComponent implements OnInit, OnDestroy {
         'Fields are missing in the form, Please check',
         'Error',
       );
+      return;
     }
-    console.log(this.buyerDetailForm);
+
+    this.soService.orderDetailDump.next({ buyer: this.buyerDetailForm.value });
+    this.onClickNext();
   }
 
   ngOnDestroy(): void {

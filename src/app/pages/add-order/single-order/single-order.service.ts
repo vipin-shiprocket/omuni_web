@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { EnumTabStatus, TabListSingleOrder } from '../add-order.model';
+import { BehaviorSubject } from 'rxjs';
+import { IBuyerDetail } from './single-order.model';
 
 @Injectable({
   providedIn: 'root',
@@ -7,6 +9,7 @@ import { EnumTabStatus, TabListSingleOrder } from '../add-order.model';
 export class SingleOrderService {
   tabs = TabListSingleOrder;
   currentTab = 0;
+  orderDetailDump = new BehaviorSubject<{ buyer: IBuyerDetail } | null>(null);
 
   onTabChange(context: 'next' | 'prev') {
     if (context === 'next') {
