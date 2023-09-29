@@ -11,7 +11,6 @@ import { Observable, map, of, startWith } from 'rxjs';
 import Fuse from 'fuse.js';
 import { SubSink } from 'subsink';
 import { ToastrService } from 'ngx-toastr';
-import { IBuyerDetail } from '../single-order.model';
 
 type LooseObject = Record<string, unknown>;
 const PHONE_RE = /^[6789]\d{9}$/;
@@ -26,8 +25,7 @@ export class BuyerDetailsComponent implements OnInit, OnDestroy {
   private subs = new SubSink();
   showGSTN = false;
   showShippingName = false;
-  shippingIsBilling = new FormControl(null, [Validators.required]);
-  addressControl = new FormControl(null);
+  addressControl = new FormControl<LooseObject | string>('');
   filteredAddress: Observable<LooseObject[]> = of([]);
   searchObject: Fuse<LooseObject> | null = null;
   addresses: LooseObject[] = [];
@@ -73,6 +71,7 @@ export class BuyerDetailsComponent implements OnInit, OnDestroy {
       }),
 
       pickupAddr: [null, [Validators.required]],
+      shippingIsBilling: [null, [Validators.required]],
     });
     this.filteredAddress = this.addressControl.valueChanges.pipe(
       startWith(' '),
@@ -80,19 +79,21 @@ export class BuyerDetailsComponent implements OnInit, OnDestroy {
     );
 
     this.subs.sink = this.addressControl.valueChanges.subscribe((value) => {
-      if (this.hideAddress || !value) return;
+      if (this.hideAddress || !value || typeof value === 'string') return;
       this.buyerDetailForm.get('pickupAddr')?.patchValue(value['id']);
     });
 
-    this.subs.sink = this.shippingIsBilling.valueChanges.subscribe((value) => {
-      const billing = this.buyerDetailForm.get('billing');
-      if (value) {
-        const shipping = this.buyerDetailForm.get('shipping');
-        billing?.patchValue(shipping?.value);
-      } else {
-        billing?.reset();
-      }
-    });
+    this.subs.sink = this.buyerDetailForm
+      .get('shippingIsBilling')
+      ?.valueChanges.subscribe((value) => {
+        const billing = this.buyerDetailForm.get('billing');
+        if (value) {
+          const shipping = this.buyerDetailForm.get('shipping');
+          billing?.patchValue(shipping?.value);
+        } else {
+          billing?.reset();
+        }
+      });
   }
 
   ngOnInit(): void {
@@ -105,6 +106,15 @@ export class BuyerDetailsComponent implements OnInit, OnDestroy {
     if (!buyer) return;
 
     this.buyerDetailForm.patchValue(buyer);
+    this.fillAddress();
+  }
+
+  fillAddress() {
+    const pickupAddr = this.buyerDetailForm.get('pickupAddr')?.value;
+    const addr = this.addresses.find((addr) => addr['id'] === pickupAddr);
+    if (addr) {
+      this.addressControl.patchValue(addr);
+    }
   }
 
   getShippingCtrl(ctrlName: string): AbstractControl {
@@ -123,7 +133,7 @@ export class BuyerDetailsComponent implements OnInit, OnDestroy {
     this.soService.onTabChange('next');
   }
 
-  private _filter(value: string): LooseObject[] {
+  private _filter(value: string | LooseObject): LooseObject[] {
     if (!this.searchObject || typeof value !== 'string') return [];
     return this.searchObject.search(value).map((res) => res.item);
   }
@@ -163,7 +173,9 @@ export class BuyerDetailsComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.soService.orderDetailDump.next({ buyer: this.buyerDetailForm.value });
+    const existingDump = this.soService.orderDetailDump.value ?? {};
+    existingDump['buyer'] = this.buyerDetailForm.value;
+    this.soService.orderDetailDump.next(existingDump);
     this.onClickNext();
   }
 

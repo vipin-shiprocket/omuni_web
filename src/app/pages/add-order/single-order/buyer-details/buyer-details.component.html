@@ -258,18 +258,21 @@
         <input
           class="form-check-input checkbox-outlined me-1"
           type="checkbox"
-          [formControl]="shippingIsBilling"
+          formControlName="shippingIsBilling"
         />
         Billing address is same as the shipping address
       </label>
       <small
-        *ngIf="shippingIsBilling.hasError('required')"
+        *ngIf="buyerDetailForm.get('shippingIsBilling')?.hasError('required')"
         class="text-red ms-2"
         >(Required)</small
       >
     </div>
 
-    <div *ngIf="shippingIsBilling.value === false" formGroupName="billing">
+    <div
+      *ngIf="buyerDetailForm.get('shippingIsBilling')?.value === false"
+      formGroupName="billing"
+    >
       <h2 class="fw-bold my-4">Billing Address</h2>
       <h4 class="medium mb-3">Buyer's Details</h4>
       <div class="row mb-3">

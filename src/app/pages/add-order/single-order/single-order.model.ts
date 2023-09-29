@@ -23,5 +23,33 @@ export interface IShippingDetail extends IDetail {
 export interface IBuyerDetail {
   billing: IDetail;
   pickupAddr: number | null;
+  shippingIsBilling: boolean | null;
   shipping: IShippingDetail;
+}
+
+export interface IOrderDetail {
+  channelOrderId: string;
+  channelOrderDate: string;
+  channel: string[];
+  tags: string[];
+  items: IProduct[];
+  paymentType: string;
+  shippingCharge: number;
+  transactionFee: number;
+  discount: number;
+  giftwrapCharge: number;
+  subTotal: number;
+  otherCharges: number;
+  netAmount: number;
+}
+
+export interface IProduct {
+  name: string;
+  category: string;
+  unitPrice: number;
+  quantity: number;
+  hsn: string;
+  discount: number;
+  taxRate: number;
+  skuId: string;
 }
