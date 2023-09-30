@@ -16,6 +16,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { AddressWizardComponent } from 'src/app/components/address-wizard/address-wizard.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { OnlyNumbersDirective } from 'src/app/utils/only-numbers.directive';
+import { ChipboxInputComponent } from 'src/app/components/chipbox-input/chipbox-input.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import { OnlyNumbersDirective } from 'src/app/utils/only-numbers.directive';
     MatIconModule,
     OnlyNumbersDirective,
     AddressWizardComponent,
+    ChipboxInputComponent,
   ],
 })
 export class AddOrderModule {}

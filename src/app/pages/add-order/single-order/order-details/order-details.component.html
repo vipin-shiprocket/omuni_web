@@ -56,7 +56,11 @@
     <div *ngIf="showOrderTag" class="row">
       <div class="col-md-6 mb-3">
         <label for="orderTag" class="form-label">Order Tag </label>
-        <input type="text" class="form-control" id="orderTag" />
+        <app-chipbox-input
+          [searchKeywords]="existingTags"
+          (valueChange)="onUpdateTags($event)"
+          placeholder="Add tags"
+        />
       </div>
     </div>
     <hr class="my-4 text-black-50" />

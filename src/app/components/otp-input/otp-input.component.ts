@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { OnlyNumbersDirective } from 'src/app/utils/only-numbers.directive';
+import { BACKSPACE } from '@angular/cdk/keycodes';
 
 @Component({
   selector: 'app-otp-input',
@@ -48,7 +49,7 @@ export class OtpInputComponent {
       return;
     }
 
-    if (event.keyCode === 8) {
+    if (event.keyCode === BACKSPACE) {
       // Focus on the previous field if the user presses the delete button.
       if (this.otp1.length === 0) {
         return;

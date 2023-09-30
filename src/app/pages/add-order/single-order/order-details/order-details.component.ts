@@ -10,6 +10,7 @@ import {
 import { ToastrService } from 'ngx-toastr';
 import { SubSink } from 'subsink';
 import { merge } from 'rxjs';
+import { generate10DigitRndNum } from 'src/app/utils/utils';
 
 @Component({
   selector: 'app-order-details',
@@ -22,6 +23,7 @@ export class OrderDetailsComponent implements OnInit, OnDestroy {
   showOrderTag = false;
   showShippingCharges = false;
   orderDetailForm: FormGroup;
+  existingTags: string[] = ['angular', 'how-to', 'tutorial', 'accessibility'];
 
   constructor(
     private soService: SingleOrderService,
@@ -29,7 +31,7 @@ export class OrderDetailsComponent implements OnInit, OnDestroy {
     private toastr: ToastrService,
   ) {
     this.orderDetailForm = this.fb.group({
-      channelOrderId: ['', [Validators.required]],
+      channelOrderId: [generate10DigitRndNum(), [Validators.required]],
       channelOrderDate: ['', [Validators.required]],
       channel: [[], [Validators.required]],
       tags: [[]],
@@ -173,6 +175,10 @@ export class OrderDetailsComponent implements OnInit, OnDestroy {
 
     this.updateDump();
     console.log(this.soService.orderDetailDump.value);
+  }
+
+  onUpdateTags(tags: string[]) {
+    this.ctrlByName('tags').patchValue(tags);
   }
 
   ngOnDestroy(): void {
