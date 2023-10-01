@@ -54,8 +54,8 @@ export class OrderDetailsComponent implements OnInit, OnDestroy {
       unitPrice: ['', [Validators.required]],
       quantity: ['', [Validators.required]],
       hsn: [''],
-      discount: [''],
-      taxRate: [''],
+      discount: [null],
+      taxRate: [null],
       skuId: [''],
     });
   }
@@ -174,7 +174,8 @@ export class OrderDetailsComponent implements OnInit, OnDestroy {
     }
 
     this.updateDump();
-    console.log(this.soService.orderDetailDump.value);
+    const payload = this.soService.updatePayloadMapping();
+    console.log('🚀 ~ onSubmit ~ payload:', payload);
   }
 
   onUpdateTags(tags: string[]) {
