@@ -13,6 +13,7 @@ import { RegisterComponent } from './register/register.component';
 import { FooterComponent } from './footer/footer.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { OtpInputComponent } from 'src/app/components/otp-input/otp-input.component';
+import { AllowStringDirective } from 'src/app/directives/allowString.directive';
 @NgModule({
   declarations: [
     LoginComponent,
@@ -32,52 +33,8 @@ import { OtpInputComponent } from 'src/app/components/otp-input/otp-input.compon
     MatCheckboxModule,
     FooterComponent,
     OtpInputComponent,
+    AllowStringDirective,
   ],
   providers: [],
 })
-export class AuthModule {
-  constructor() {
-    setTimeout(() => {
-      // Fingerprint2.get(function (components) {
-      //   var id = Fingerprint2.x64hash128(
-      //     components
-      //       .map(function (pair) {
-      //         return pair.value;
-      //       })
-      //       .join(),
-      //     31,
-      //   );
-      //   function getCookie(name) {
-      //     var dc = document.cookie;
-      //     var prefix = name + '=';
-      //     var begin = dc.indexOf('; ' + prefix);
-      //     if (begin == -1) {
-      //       begin = dc.indexOf(prefix);
-      //       if (begin != 0) return null;
-      //     } else {
-      //       begin += 2;
-      //       var end = document.cookie.indexOf(';', begin);
-      //       if (end == -1) {
-      //         end = dc.length;
-      //       }
-      //     }
-      //     return decodeURI(dc.substring(begin + prefix.length, end));
-      //   }
-      //   var uid = id;
-      //   var d = new Date();
-      //   var n = d.getTime();
-      //   uid = uid + '' + n;
-      //   var cus_device = getCookie('cus_device');
-      //   var cus_device2 = getCookie('cus_device2');
-      //   if (!cus_device || !cus_device2) {
-      //     var date = new Date();
-      //     date.setDate(date.getDate() + 365);
-      //     document.cookie =
-      //       'cus_device' + '=' + id + '; expires=' + date + '; path=/';
-      //     document.cookie =
-      //       'cus_device2' + '=' + uid + '; expires=' + date + '; path=/';
-      //   }
-      // });
-    }, 2000);
-  }
-}
+export class AuthModule {}
