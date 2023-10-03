@@ -12,7 +12,7 @@ import { environment } from 'src/environments/environment';
 import { ToastrService } from 'ngx-toastr';
 // import { ReCaptchaV3Service } from 'ng-recaptcha';
 import { focusOnFirstDigitInOTP, toggleEye } from 'src/app/utils/utils';
-import { v4 as uuidv4 } from 'uuid';
+
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import {
@@ -23,12 +23,7 @@ import {
   ILoginOTPForm,
   LoginOTPDTO,
 } from './login.model';
-import {
-  Endpoints,
-  PasswordPattern,
-  emailPattern,
-  mobilePattern,
-} from '../auth.model';
+import { Endpoints, emailPattern, mobilePattern } from '../auth.model';
 
 @Component({
   selector: 'app-login',
@@ -266,7 +261,7 @@ export class LoginComponent implements OnDestroy {
     const data = {
       email: email,
       password: password,
-      device_id: uuidv4(),
+      device_id: crypto.randomUUID(),
     };
     // const recaptcha$ = this.recaptchaService.execute('login');
     // const recaptchaToken = await firstValueFrom(recaptcha$);
