@@ -96,7 +96,7 @@
     <app-filters [filtersData]="filtersData" />
   </div>
 
-  <div class="table-responsive mb-3">
+  <!-- <div class="table-responsive mb-3">
     <cdk-table
       matSort
       multiTemplateDataRows
@@ -355,6 +355,17 @@
         *cdkRowDef="let row; columns: ['expandedDetail']"
       ></cdk-row>
     </cdk-table>
+    <mat-paginator
+      *ngIf="pagination"
+      [pageSizeOptions]="pagination.pageSizeOptions"
+      [length]="pagination.length"
+      [pageSize]="pagination.pageSize"
+      [pageIndex]="pagination.currentPage"
+      (page)="handlePageEvent($event)"
+    ></mat-paginator>
+  </div> -->
+  <div class="table-responsive mb-3">
+    <app-generic-tab [dataSource]="dataSource" />
     <mat-paginator
       *ngIf="pagination"
       [pageSizeOptions]="pagination.pageSizeOptions"
