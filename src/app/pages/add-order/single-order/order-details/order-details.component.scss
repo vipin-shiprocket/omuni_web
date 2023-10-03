@@ -8,3 +8,9 @@
   color: u.$primary1;
   font-size: u.rem(12);
 }
+
+.product-section {
+  & hr:last-of-type {
+    display: none;
+  }
+}

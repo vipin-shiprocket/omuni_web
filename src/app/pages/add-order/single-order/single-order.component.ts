@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, OnDestroy, inject } from '@angular/core';
 import { SingleOrderService } from './single-order.service';
 
 @Component({
@@ -6,7 +6,11 @@ import { SingleOrderService } from './single-order.service';
   templateUrl: './single-order.component.html',
   styleUrls: ['./single-order.component.scss'],
 })
-export class SingleOrderComponent {
+export class SingleOrderComponent implements OnDestroy {
   soService = inject(SingleOrderService);
   tabs = this.soService.tabs;
+
+  ngOnDestroy(): void {
+    this.soService.orderDetailDump.next(null);
+  }
 }

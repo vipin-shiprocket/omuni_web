@@ -1,294 +1,367 @@
-<h1 class="content-heading mb-4">Order Details</h1>
-<div class="content-data buyer">
-  <div class="row">
-    <div class="col-lg-3 col-md-4 mb-3">
-      <label for="orderId" class="form-label"
-        >Order ID <span class="text-black-50">(Auto Generated)</span></label
-      >
-      <input
-        type="text"
-        class="form-control"
-        id="orderId"
-        placeholder="0000001"
-      />
-    </div>
-    <div class="col-md-3 mb-3">
-      <label for="orderDate" class="form-label">Order Date</label>
-      <input
-        type="date"
-        class="form-control"
-        id="orderDate"
-        placeholder="Enter Full Name"
-      />
-    </div>
-    <div class="col-md-3 mb-3">
-      <label for="orderChannel" class="form-label"
-        >Order Channel<span class="text-black-50 ms-1 form-label-icon">
-          <mat-icon>help</mat-icon>
-        </span></label
-      >
-      <app-o2-select
-        placeholder="i.e abc@xyz.in"
-        [options]="[
-          { display: 'Channel 1', value: 1 },
-          { display: 'Channel 2', value: 2 }
-        ]"
-      />
-    </div>
-  </div>
-  <a
-    href="javascript:void(0);"
-    (click)="showOrderTag = !showOrderTag"
-    class="d-block mb-3 text-decoration-none d-flex align-item-center"
-  >
-    + Add Order Tag, Reseller's Name
-    <mat-icon
-      [ngClass]="showOrderTag ? 'rotate-180' : 'rotate-0'"
-      class="expand_more"
-      >expand_more</mat-icon
-    >
-    <span class="text-black-50">(Optional)</span>
-  </a>
-  <div *ngIf="showOrderTag" class="row">
-    <div class="col-md-6 mb-3">
-      <label for="orderTag" class="form-label">Order Tag </label>
-      <input type="text" class="form-control" id="orderTag" />
-    </div>
-    <div class="col-lg-3 col-md-4 mb-3">
-      <label for="resellerName" class="form-label"
-        >Reseller's Name <span class="text-black-50 fs-10px">(Optional)</span>
-      </label>
-      <input
-        type="text"
-        class="form-control"
-        id="resellerName"
-        placeholder="Reseller's Name "
-      />
-    </div>
-  </div>
-  <hr class="my-4 text-black-50" />
-  <h4 class="medium mb-3">Product Details</h4>
-  <div class="row">
-    <div class="col-lg-4 col-md-5 mb-3">
-      <label for="product1Name" class="form-label">Product 1 name</label>
-      <input
-        type="text"
-        class="form-control"
-        id="product1Name"
-        placeholder="Enter or search your product name"
-      />
-    </div>
-    <div class="col-lg-2 col-md-3 mb-3">
-      <label for="unitPrice" class="form-label">Unit Price </label>
-      <div class="o2-group">
-        <span class="o2-prefix">&#x20B9;</span>
+<form [formGroup]="orderDetailForm" (submit)="onSubmit()">
+  <h1 class="content-heading mb-4">Order Details</h1>
+  <div class="content-data buyer">
+    <div class="row">
+      <div class="col-lg-3 col-md-4 mb-3">
+        <label for="orderId" class="form-label"
+          >Order ID <span class="text-black-50">(Auto Generated)</span></label
+        >
         <input
           type="text"
-          class="form-control prefix-p"
-          id="unitPrice"
+          class="form-control"
+          id="orderId"
+          formControlName="channelOrderId"
+          placeholder="0000001"
+        />
+      </div>
+      <div class="col-md-3 mb-3">
+        <label for="orderDate" class="form-label">Order Date</label>
+        <input
+          type="date"
+          class="form-control"
+          id="orderDate"
+          formControlName="channelOrderDate"
+        />
+      </div>
+      <div class="col-md-3 mb-3">
+        <div class="form-label">
+          Order Channel<span class="text-black-50 ms-1 form-label-icon">
+            <mat-icon>help</mat-icon>
+          </span>
+        </div>
+        <app-o2-select
+          placeholder="i.e abc@xyz.in"
+          [values]="[]"
+          formControlName="channel"
+          [options]="[
+            { display: 'Channel 1', value: 1 },
+            { display: 'Channel 2', value: 2 }
+          ]"
+        />
+      </div>
+    </div>
+    <a
+      href="javascript:void(0);"
+      (click)="showOrderTag = !showOrderTag"
+      class="d-block mb-3 text-decoration-none d-inline-flex align-item-center"
+    >
+      + Add Order Tag, Reseller's Name
+      <mat-icon
+        [ngClass]="showOrderTag ? 'rotate-180' : 'rotate-0'"
+        class="expand_more"
+        >expand_more</mat-icon
+      >
+      <span class="text-black-50">(Optional)</span>
+    </a>
+    <div *ngIf="showOrderTag" class="row">
+      <div class="col-md-6 mb-3">
+        <label for="orderTag" class="form-label">Order Tag </label>
+        <app-chipbox-input
+          [searchKeywords]="existingTags"
+          (valueChange)="onUpdateTags($event)"
+          placeholder="Add tags"
+        />
+      </div>
+    </div>
+    <hr class="my-4 text-black-50" />
+    <h4 class="medium mb-3">Product Details</h4>
+
+    <section formArrayName="items" class="product-section">
+      <ng-container *ngFor="let item of items.controls; let i = index">
+        <ng-container [formGroupName]="i">
+          <div class="row">
+            <div class="col-lg-4 col-md-5 mb-3">
+              <label [for]="'productName' + i" class="form-label"
+                >Product {{ i + 1 }} name</label
+              >
+              <input
+                type="text"
+                class="form-control"
+                [id]="'productName' + i"
+                formControlName="name"
+                placeholder="Enter or search your product name"
+              />
+            </div>
+            <div class="col-lg-2 col-md-3 mb-3">
+              <label [for]="'unitPrice' + i" class="form-label"
+                >Unit Price
+              </label>
+              <div class="o2-group">
+                <span class="o2-prefix">&#x20B9;</span>
+                <input
+                  type="tel"
+                  appOnlyNumbers
+                  step="0.01"
+                  class="form-control prefix-p"
+                  [id]="'unitPrice' + i"
+                  formControlName="unitPrice"
+                  placeholder="0.00"
+                />
+              </div>
+            </div>
+            <div class="col-lg-2 col-md-3 mb-3">
+              <label [for]="'quantity' + i" class="form-label">Quantity </label>
+              <div class="o2-group">
+                <span
+                  tabindex="-1"
+                  role="button"
+                  (click)="updateQuantity(i, 'sub')"
+                  (keypress)="updateQuantity(i, 'sub')"
+                  class="o2-prefix"
+                  >–</span
+                >
+                <input
+                  type="text"
+                  class="form-control prefix-p sufix-p text-center"
+                  [id]="'quantity' + i"
+                  formControlName="quantity"
+                  placeholder="0"
+                />
+                <span
+                  tabindex="-1"
+                  role="button"
+                  (click)="updateQuantity(i, 'add')"
+                  (keypress)="updateQuantity(i, 'add')"
+                  class="o2-sufix"
+                  >+</span
+                >
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-4 mb-3">
+              <label [for]="'productCategory' + i" class="form-label"
+                >Product Category
+              </label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="category"
+                [id]="'productCategory' + i"
+                placeholder="Enter Product Category"
+              />
+            </div>
+            <div class="col-1 mb-3 align-self-end text-danger cursor">
+              <mat-icon role="button" (click)="deleteItem(i)">delete</mat-icon>
+            </div>
+          </div>
+
+          <a
+            href="javascript:void(0);"
+            (click)="hsnRow.hidden = !hsnRow.hidden"
+            class="d-block mb-3 text-decoration-none d-inline-flex align-item-center"
+          >
+            + Add HSN Code, SKU, Tax Rate and Discount
+            <mat-icon
+              [ngClass]="hsnRow.hidden ? 'rotate-0' : 'rotate-180'"
+              class="expand_more"
+              >expand_more</mat-icon
+            >
+            <span class="text-black-50">(Optional)</span>
+          </a>
+
+          <div hidden #hsnRow class="row">
+            <div class="col-lg-4 col-md-5 mb-3">
+              <label for="hsnCode1" class="form-label"
+                >HSN Code
+                <span class="text-black-50 ms-1 form-label-icon">
+                  <mat-icon>help</mat-icon>
+                </span></label
+              >
+              <input
+                type="text"
+                class="form-control"
+                id="hsnCode1"
+                formControlName="hsn"
+                placeholder="Enter your product HSN code"
+              />
+            </div>
+            <div class="col-lg-2 col-md-3 mb-3">
+              <label for="sku1" class="form-label"
+                >SKU
+                <span class="text-black-50 ms-1 form-label-icon">
+                  <mat-icon>help</mat-icon>
+                </span></label
+              >
+              <input
+                type="text"
+                class="form-control"
+                id="sku1"
+                formControlName="skuId"
+                placeholder="Enter Product SKU"
+              />
+            </div>
+            <div class="col-lg-2 col-md-3 mb-3">
+              <label for="taxRate1" class="form-label">Tax Rate</label>
+              <input
+                type="number"
+                class="form-control"
+                id="taxRate1"
+                formControlName="taxRate"
+                placeholder="%"
+              />
+            </div>
+            <div class="col-lg-3 col-md-4 mb-3">
+              <label for="productDiscount1" class="form-label"
+                >Product Discount
+                <span class="text-black-50 ms-1 form-label-icon">
+                  <mat-icon>help</mat-icon>
+                </span></label
+              >
+              <input
+                type="number"
+                class="form-control"
+                formControlName="discount"
+                id="productDiscount1"
+                placeholder="0.00"
+              />
+            </div>
+          </div>
+          <hr class="text-black-50" />
+        </ng-container>
+      </ng-container>
+    </section>
+    <hr class="my-4 text-black-50" />
+    <button
+      type="button"
+      class="btn btn-solid add-another-product-btn medium"
+      (click)="addAnotherProduct()"
+    >
+      + Add Another Product
+    </button>
+    <hr class="my-4 text-black-50" />
+    <h4 class="medium mb-3">Payment Details</h4>
+    <p class="text-black-50 mb-3">
+      Select mode of payment that your buyer has chosen for the order
+    </p>
+    <section class="mb-3">
+      <label class="me-3">
+        <input
+          class="form-check-input radio-outlined me-1"
+          type="radio"
+          formControlName="paymentType"
+          name="paymentType"
+          value="PREPAID"
+        />
+        Prepaid
+        <span class="text-black-50 ms-1 form-label-icon">
+          <mat-icon>help</mat-icon>
+        </span>
+      </label>
+      <label>
+        <input
+          class="form-check-input radio-outlined me-1"
+          type="radio"
+          formControlName="paymentType"
+          name="paymentType"
+          value="COD"
+        />
+        Cash On Delhivery
+        <span class="text-black-50 ms-1 form-label-icon">
+          <mat-icon>help</mat-icon>
+        </span>
+      </label>
+    </section>
+    <a
+      href="javascript:void(0);"
+      (click)="showShippingCharges = !showShippingCharges"
+      class="d-block mb-3 text-decoration-none d-inline-flex align-item-center"
+    >
+      + Add Shipping Charges, Giftwrap, Transaction fee
+      <mat-icon
+        [ngClass]="showShippingCharges ? 'rotate-180' : 'rotate-0'"
+        class="expand_more"
+        >expand_more</mat-icon
+      >
+      <span class="text-black-50">(Optional)</span>
+    </a>
+    <div *ngIf="showShippingCharges" class="row mb-3">
+      <div class="col-md-2">
+        <label for="shippingCharges" class="form-label">Shipping Charges</label>
+        <input
+          type="number"
+          class="form-control"
+          id="shippingCharges"
+          formControlName="shippingCharge"
+          placeholder="0.00"
+        />
+      </div>
+      <div class="col-md-2">
+        <label for="giftWrap" class="form-label">Gift Wrap</label>
+        <input
+          type="number"
+          class="form-control"
+          id="giftWrap"
+          formControlName="giftwrapCharge"
+          placeholder="0.00"
+        />
+      </div>
+      <div class="col-md-2">
+        <label for="transactionFee" class="form-label"
+          >Transaction Fee
+          <span class="text-black-50 ms-1 form-label-icon">
+            <mat-icon>help</mat-icon>
+          </span></label
+        >
+        <input
+          type="number"
+          class="form-control"
+          id="transactionFee"
+          formControlName="transactionFee"
+          placeholder="0.00"
+        />
+      </div>
+      <div class="col-md-2">
+        <label for="discounts" class="form-label"
+          >Discounts
+          <span class="text-black-50 ms-1 form-label-icon">
+            <mat-icon>help</mat-icon>
+          </span></label
+        >
+        <input
+          type="number"
+          class="form-control"
+          formControlName="discount"
+          id="discounts"
           placeholder="0.00"
         />
       </div>
     </div>
-    <div class="col-lg-2 col-md-3 mb-3">
-      <label for="quantity" class="form-label">Quantity </label>
-      <div class="o2-group">
-        <span role="button" class="o2-prefix">–</span>
-        <input
-          type="text"
-          class="form-control prefix-p sufix-p"
-          id="quantity"
-          placeholder="0"
-        />
-        <span role="button" class="o2-sufix">+</span>
-      </div>
-    </div>
-    <div class="col-lg-3 col-md-4 mb-3">
-      <label for="productCategory" class="form-label">Product Category </label>
-      <input
-        type="text"
-        class="form-control"
-        id="productCategory"
-        placeholder="Enter Product Category"
-      />
-    </div>
-    <div class="col-1 mb-3 align-self-end text-danger cursor">
-      <mat-icon>delete</mat-icon>
-    </div>
-  </div>
 
-  <a
-    href="javascript:void(0);"
-    (click)="showHsnCodeSKU = !showHsnCodeSKU"
-    class="d-block mb-3 text-decoration-none d-flex align-item-center"
-  >
-    + Add HSN Code, SKU, Tax Rate and Discount
-    <mat-icon
-      [ngClass]="showHsnCodeSKU ? 'rotate-180' : 'rotate-0'"
-      class="expand_more"
-      >expand_more</mat-icon
+    <section class="highlight-section mt-5">
+      <p class="mb-2">
+        Sub-total for Product
+        <span class="float-end"
+          >&#x20B9; {{ ctrlByName('subTotal').value | number: '0.2-2' }}</span
+        >
+      </p>
+      <p class="mb-3">
+        Other Charges
+        <span class="float-end"
+          >&#x20B9;
+          {{ ctrlByName('otherCharges').value | number: '0.2-2' }}</span
+        >
+      </p>
+      <p class="mb-3" *ngIf="ctrlByName('discount').value">
+        Discount
+        <span class="float-end"
+          >&#x20B9; {{ ctrlByName('discount').value | number: '0.2-2' }}</span
+        >
+      </p>
+      <h4 class="medium">
+        Total Order Value
+        <span class="float-end"
+          >&#x20B9; {{ ctrlByName('netAmount').value | number: '0.2-2' }}</span
+        >
+      </h4>
+    </section>
+  </div>
+  <div class="text-end">
+    <button
+      type="button"
+      class="btn btn-outlined w-100px me-2"
+      (click)="onClickBack()"
     >
-    <span class="text-black-50">(Optional)</span>
-  </a>
-
-  <div *ngIf="showHsnCodeSKU" class="row">
-    <div class="col-lg-4 col-md-5 mb-3">
-      <label for="hsnCode1" class="form-label"
-        >HSN Code
-        <span class="text-black-50 ms-1 form-label-icon">
-          <mat-icon>help</mat-icon>
-        </span></label
-      >
-      <input
-        type="text"
-        class="form-control"
-        id="hsnCode1"
-        placeholder="Enter your product HSN code"
-      />
-    </div>
-    <div class="col-lg-2 col-md-3 mb-3">
-      <label for="sku1" class="form-label"
-        >SKU
-        <span class="text-black-50 ms-1 form-label-icon">
-          <mat-icon>help</mat-icon>
-        </span></label
-      >
-      <input
-        type="text"
-        class="form-control"
-        id="sku1"
-        placeholder="Enter Product SKU"
-      />
-    </div>
-    <div class="col-lg-2 col-md-3 mb-3">
-      <label for="taxRate1" class="form-label">Tax Rate</label>
-      <input type="number" class="form-control" id="taxRate1" placeholder="%" />
-    </div>
-    <div class="col-lg-3 col-md-4 mb-3">
-      <label for="productDiscount1" class="form-label"
-        >Product Discount
-        <span class="text-black-50 ms-1 form-label-icon">
-          <mat-icon>help</mat-icon>
-        </span></label
-      >
-      <input
-        type="number"
-        class="form-control"
-        id="productDiscount1"
-        placeholder="0.00"
-      />
-    </div>
+      Back
+    </button>
+    <button type="submit" class="btn btn-solid w-100px">Add Order</button>
   </div>
-  <hr class="my-4 text-black-50" />
-  <button class="btn btn-solid add-another-product-btn medium">
-    + Add Another Product
-  </button>
-  <hr class="my-4 text-black-50" />
-  <h4 class="medium mb-3">Payment Details</h4>
-  <p class="text-black-50 mb-3">
-    Select mode of payment that your buyer has chosen for the order
-  </p>
-  <section class="mb-3">
-    <label class="me-3">
-      <input
-        class="form-check-input radio-outlined me-1"
-        type="radio"
-        name="paymentMode"
-      />
-      Prepaid
-      <span class="text-black-50 ms-1 form-label-icon">
-        <mat-icon>help</mat-icon>
-      </span>
-    </label>
-    <label>
-      <input
-        class="form-check-input radio-outlined me-1"
-        type="radio"
-        name="paymentMode"
-      />
-      Cash On Delhivery
-      <span class="text-black-50 ms-1 form-label-icon">
-        <mat-icon>help</mat-icon>
-      </span>
-    </label>
-  </section>
-  <a
-    href="javascript:void(0);"
-    (click)="showShippingCharges = !showShippingCharges"
-    class="d-block mb-3 text-decoration-none d-flex align-item-center"
-  >
-    + Add Shipping Charges, Giftwrap, Transaction fee
-    <mat-icon
-      [ngClass]="showShippingCharges ? 'rotate-180' : 'rotate-0'"
-      class="expand_more"
-      >expand_more</mat-icon
-    >
-    <span class="text-black-50">(Optional)</span>
-  </a>
-  <div *ngIf="showShippingCharges" class="row mb-3">
-    <div class="col-md-2">
-      <label for="shippingCharges" class="form-label">Shipping Charges</label>
-      <input
-        type="number"
-        class="form-control"
-        id="shippingCharges"
-        placeholder="0.00"
-      />
-    </div>
-    <div class="col-md-2">
-      <label for="giftWrap" class="form-label">Gift Wrap</label>
-      <input
-        type="number"
-        class="form-control"
-        id="giftWrap"
-        placeholder="0.00"
-      />
-    </div>
-    <div class="col-md-2">
-      <label for="transactionFee" class="form-label"
-        >Transaction Fee
-        <span class="text-black-50 ms-1 form-label-icon">
-          <mat-icon>help</mat-icon>
-        </span></label
-      >
-      <input
-        type="number"
-        class="form-control"
-        id="transactionFee"
-        placeholder="0.00"
-      />
-    </div>
-    <div class="col-md-2">
-      <label for="discounts" class="form-label"
-        >Discounts
-        <span class="text-black-50 ms-1 form-label-icon">
-          <mat-icon>help</mat-icon>
-        </span></label
-      >
-      <input
-        type="number"
-        class="form-control"
-        id="discounts"
-        placeholder="0.00"
-      />
-    </div>
-  </div>
-
-  <section class="highlight-section mt-5">
-    <p class="mb-2">
-      Sub-total for Product <span class="float-end">&#x20B9; 0.00</span>
-    </p>
-    <p class="mb-3">
-      Other Charges <span class="float-end">&#x20B9; 0.00</span>
-    </p>
-    <h4 class="medium">
-      Total Order Value <span class="float-end">&#x20B9; 0.00</span>
-    </h4>
-  </section>
-</div>
-<div class="text-end">
-  <button class="btn btn-outlined w-100px me-2" (click)="onClickBack()">
-    Back
-  </button>
-  <button class="btn btn-solid w-100px">Add Order</button>
-</div>
+</form>

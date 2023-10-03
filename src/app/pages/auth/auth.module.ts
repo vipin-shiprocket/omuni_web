@@ -6,7 +6,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { RouterModule } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { RecaptchaV3Module } from 'ng-recaptcha';
-import { LoginComponent } from './login/login.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { RegisterComponent } from './register/register.component';
@@ -16,7 +15,6 @@ import { OtpInputComponent } from 'src/app/components/otp-input/otp-input.compon
 import { AllowStringDirective } from 'src/app/directives/allowString.directive';
 @NgModule({
   declarations: [
-    LoginComponent,
     ForgotPasswordComponent,
     RegisterComponent,
     ResetPasswordComponent,

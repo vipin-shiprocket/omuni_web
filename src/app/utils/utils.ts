@@ -97,3 +97,9 @@ export function verifyFileType(file: File, fileTypes: string[]) {
 export function isEmptyObject(obj: unknown) {
   return obj && Object.keys(obj).length === 0 && obj.constructor === Object;
 }
+
+export function generate10DigitRndNum() {
+  const min = 999999;
+  const max = 9999999999;
+  return Math.floor(Math.random() * (max - min + 1) + min);
+}

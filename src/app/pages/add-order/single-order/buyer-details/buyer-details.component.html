@@ -1,202 +1,255 @@
 <h1 class="content-heading mb-4">Add Buyer's Details</h1>
-<form>
+<form [formGroup]="buyerDetailForm" (submit)="onFormSubmit()">
   <div class="content-data buyer">
     <h4 class="medium mb-3">
       To whom is the order being delivered?
       <span class="text-black-50">(Buyer's Info) </span>
     </h4>
-    <div class="row mb-3">
-      <div class="col-md-4">
-        <label for="buyerPhoneNumber " class="form-label">Mobile Number</label>
-        <div class="o2-group">
-          <span class="o2-prefix">+91</span>
+    <div formGroupName="shipping">
+      <div class="row mb-3">
+        <div class="col-md-4">
+          <label for="buyerPhoneNumber " class="form-label"
+            >Mobile Number</label
+          >
+          <div class="o2-group mb-1">
+            <span class="o2-prefix">+91</span>
+            <input
+              type="text"
+              appOnlyNumbers
+              maxlength="10"
+              formControlName="phone"
+              class="form-control prefix-p"
+              id="buyerPhoneNumber"
+              placeholder="Enter buyer's phone number"
+            />
+          </div>
+          <small
+            class="text-red"
+            *ngIf="getShippingCtrl('phone').hasError('pattern')"
+            >Mobile number should start with '9/8/7/6'
+          </small>
+        </div>
+        <div class="col-md-4">
+          <label for="fullname" class="form-label">Full Name</label>
           <input
             type="text"
-            class="form-control prefix-p"
-            id="buyerPhoneNumber"
+            class="form-control"
+            id="fullname"
+            formControlName="fullname"
+            placeholder="Enter Full Name"
+          />
+        </div>
+        <div class="col-md-4">
+          <label for="buyerEmail" class="form-label"
+            >Email ID <span class="text-black-50">(Optional)</span></label
+          >
+          <input
+            type="email"
+            autocomplete="new-password"
+            class="form-control mb-1"
+            id="buyerEmail"
+            formControlName="email"
+            placeholder="i.e abc@xyz.in"
+          />
+          <small
+            class="text-red"
+            *ngIf="getShippingCtrl('email').hasError('email')"
+            >Invalid email ID</small
+          >
+        </div>
+      </div>
+      <a
+        href="javascript:void(0);"
+        (click)="showGSTN = !showGSTN"
+        class="d-block mb-3 text-decoration-none d-inline-flex align-item-center"
+      >
+        + Add Alternate Mobile Number, Buyer's Company Name, Buyer's GSTIN
+        <mat-icon
+          [ngClass]="showGSTN ? 'rotate-180' : 'rotate-0'"
+          class="expand_more"
+          >expand_more</mat-icon
+        >
+        <span class="text-black-50">(Optional)</span>
+      </a>
+      <div *ngIf="showGSTN" class="row mb-3">
+        <div class="col-md-4">
+          <label for="alternatePhoneNumber" class="form-label"
+            >Alternate Mobile Number</label
+          >
+          <input
+            type="text"
+            appOnlyNumbers
+            maxlength="10"
+            class="form-control mb-1"
+            formControlName="altPhone"
+            id="alternatePhoneNumber"
             placeholder="Enter buyer's phone number"
+          />
+          <small
+            class="text-red"
+            *ngIf="getShippingCtrl('altPhone').hasError('pattern')"
+            >Mobile number should start with '9/8/7/6'
+          </small>
+        </div>
+        <div class="col-md-4">
+          <label for="buyerCompanyName" class="form-label"
+            >Buyer's Company Name</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            id="buyerCompanyName"
+            formControlName="companyName"
+            placeholder="Enter Buyer's Company Name"
+          />
+          <small class="text-black-50"
+            >Note: If you're Shipping B2B, Please Enter the Company's
+            name</small
+          >
+        </div>
+        <div class="col-md-4">
+          <label for="buyerGstin" class="form-label">Buyer's GSTIN </label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="companyGstin"
+            id="buyerGstin"
+            placeholder="Enter Buyer's GSTIN"
           />
         </div>
       </div>
-      <div class="col-md-4">
-        <label for="fullname" class="form-label">Full Name</label>
-        <input
-          type="text"
-          class="form-control"
-          id="fullname"
-          placeholder="Enter Full Name"
-        />
+      <h4 class="medium mb-3">
+        Where is the order being delivered to?
+        <span class="text-black-50">(Buyer's Address) </span>
+      </h4>
+      <div class="row mb-3">
+        <div class="col-md-6">
+          <label for="completeAddress" class="form-label"
+            >Complete Address</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            formControlName="companyAddr"
+            id="completeAddress"
+            placeholder="House/Floor No. Building Name or Street, Locality"
+          />
+        </div>
+        <div class="col-md-6">
+          <label for="landmark" class="form-label"
+            >Landmark <span class="text-black-50">(Optional)</span></label
+          >
+          <input
+            type="text"
+            class="form-control"
+            formControlName="landmark"
+            id="landmark"
+            placeholder="Any nearby post office, market, Hospital as the landmark"
+          />
+        </div>
       </div>
-      <div class="col-md-4">
-        <label for="buyerEmail" class="form-label"
-          >Email ID <span class="text-black-50">(Optional)</span></label
-        >
-        <input
-          type="email"
-          autocomplete="new-password"
-          class="form-control"
-          id="buyerEmail"
-          placeholder="i.e abc@xyz.in"
-        />
+      <div class="row mb-3">
+        <div class="col-md-3">
+          <label for="pincode" class="form-label">Pincode</label>
+          <input
+            type="tel"
+            appOnlyNumbers
+            maxlength="6"
+            class="form-control"
+            id="pincode"
+            formControlName="pincode"
+            placeholder="Enter Buyer's Pincode"
+          />
+        </div>
+        <div class="col-md-3">
+          <label for="city" class="form-label">City</label>
+          <input
+            readonly
+            type="text"
+            class="form-control"
+            id="city"
+            formControlName="city"
+            placeholder="Enter Buyer's City"
+          />
+        </div>
+        <div class="col-md-3">
+          <label for="state" class="form-label">State</label>
+          <input
+            readonly
+            type="text"
+            class="form-control"
+            id="state"
+            formControlName="state"
+            placeholder="Enter Buyer's State"
+          />
+        </div>
+        <div class="col-md-3">
+          <label for="country" class="form-label">Country</label>
+          <input
+            readonly
+            type="text"
+            class="form-control"
+            id="country"
+            formControlName="country"
+            placeholder="Enter Buyer's Country"
+          />
+        </div>
       </div>
-    </div>
-    <a
-      href="javascript:void(0);"
-      (click)="showGSTN = !showGSTN"
-      class="d-block mb-3 text-decoration-none d-flex align-item-center"
-    >
-      + Add Alternate Mobile Number, Buyer's Company Name, Buyer's GSTIN
-      <mat-icon
-        [ngClass]="showGSTN ? 'rotate-180' : 'rotate-0'"
-        class="expand_more"
-        >expand_more</mat-icon
+      <a
+        href="javascript:void(0);"
+        (click)="showShippingName = !showShippingName"
+        class="d-block mb-3 text-decoration-none d-inline-flex align-item-center"
       >
-      <span class="text-black-50">(Optional)</span>
-    </a>
-    <div *ngIf="showGSTN" class="row mb-3">
-      <div class="col-md-4">
-        <label for="alternatePhoneNumber" class="form-label"
-          >Alternate Mobile Number</label
+        + Add Shipping name,Shipping phone,Shipping email
+        <mat-icon
+          [ngClass]="showShippingName ? 'rotate-180' : 'rotate-0'"
+          class="expand_more"
+          >expand_more</mat-icon
         >
-        <input
-          type="text"
-          class="form-control"
-          id="alternatePhoneNumber"
-          placeholder="Enter buyer's phone number"
-        />
-      </div>
-      <div class="col-md-4">
-        <label for="buyerCompanyName" class="form-label"
-          >Buyer's Company Name</label
-        >
-        <input
-          type="text"
-          class="form-control"
-          id="buyerCompanyName"
-          placeholder="Enter Buyer's Company Name"
-        />
-        <small class="text-black-50"
-          >Note: If you're Shipping B2B, Please Enter the Company's name</small
-        >
-      </div>
-      <div class="col-md-4">
-        <label for="buyerGstin" class="form-label">Buyer's GSTIN </label>
-        <input
-          type="text"
-          class="form-control"
-          id="buyerGstin"
-          placeholder="Enter Buyer's GSTIN"
-        />
-      </div>
-    </div>
-    <h4 class="medium mb-3">
-      Where is the order being delivered to?
-      <span class="text-black-50">(Buyer's Address) </span>
-    </h4>
-    <div class="row mb-3">
-      <div class="col-md-6">
-        <label for="completeAddress" class="form-label">Complete Address</label>
-        <input
-          type="text"
-          class="form-control"
-          id="completeAddress"
-          placeholder="House/Floor No. Building Name or Street, Locality"
-        />
-      </div>
-      <div class="col-md-6">
-        <label for="landmark" class="form-label"
-          >Landmark <span class="text-black-50">(Optional)</span></label
-        >
-        <input
-          type="text"
-          class="form-control"
-          id="landmark"
-          placeholder="Any nearby post office, market, Hospital as the landmark"
-        />
-      </div>
-    </div>
-    <div class="row mb-3">
-      <div class="col-md-3">
-        <label for="pincode" class="form-label">Pincode</label>
-        <input
-          type="text"
-          class="form-control"
-          id="pincode"
-          placeholder="Enter Buyer's Pincode"
-        />
-      </div>
-      <div class="col-md-3">
-        <label for="city" class="form-label">City</label>
-        <input
-          type="text"
-          class="form-control"
-          id="city"
-          placeholder="Enter Buyer's City"
-        />
-      </div>
-      <div class="col-md-3">
-        <label for="state" class="form-label">State</label>
-        <input
-          type="text"
-          class="form-control"
-          id="state"
-          placeholder="Enter Buyer's State"
-        />
-      </div>
-      <div class="col-md-3">
-        <label for="country" class="form-label">Country</label>
-        <input
-          type="text"
-          class="form-control"
-          id="country"
-          placeholder="Enter Buyer's Country"
-        />
-      </div>
-    </div>
-    <a
-      href="javascript:void(0);"
-      (click)="showShippingName = !showShippingName"
-      class="d-block mb-3 text-decoration-none d-flex align-item-center"
-    >
-      + Add Shipping name,Shipping phone,Shipping email
-      <mat-icon
-        [ngClass]="showShippingName ? 'rotate-180' : 'rotate-0'"
-        class="expand_more"
-        >expand_more</mat-icon
-      >
-      <span class="text-black-50">(Optional)</span>
-    </a>
+        <span class="text-black-50">(Optional)</span>
+      </a>
 
-    <div *ngIf="showShippingName" class="row">
-      <div class="col-md-4 mb-3">
-        <label for="shippingName" class="form-label">Shipping Name</label>
-        <input
-          type="text"
-          class="form-control"
-          id="shippingName"
-          placeholder="Enter shipping name"
-        />
-      </div>
-      <div class="col-md-4 mb-3">
-        <label for="shippingPhone" class="form-label">Shipping Phone</label>
-        <input
-          type="text"
-          appOnlyNumbers
-          maxlength="10"
-          class="form-control"
-          id="shippingPhone"
-          placeholder="Enter shipping phone"
-        />
-      </div>
-      <div class="col-md-4 mb-3">
-        <label for="shippingEmail" class="form-label">Shipping Email</label>
-        <input
-          type="email"
-          autocomplete="new-password"
-          class="form-control"
-          id="shippingEmail"
-          placeholder="Enter shipping email"
-        />
+      <div *ngIf="showShippingName" class="row">
+        <div class="col-md-4 mb-3">
+          <label for="shippingName" class="form-label">Shipping Name</label>
+          <input
+            type="text"
+            class="form-control"
+            id="shippingName"
+            placeholder="Enter shipping name"
+          />
+        </div>
+        <div class="col-md-4 mb-3">
+          <label for="shippingPhone" class="form-label">Shipping Phone</label>
+          <input
+            type="text"
+            appOnlyNumbers
+            maxlength="10"
+            class="form-control mb-1"
+            id="shippingPhone"
+            placeholder="Enter shipping phone"
+          />
+          <small
+            class="text-red"
+            *ngIf="getShippingCtrl('shippingPhone').hasError('pattern')"
+            >Mobile number should start with '9/8/7/6'
+          </small>
+        </div>
+        <div class="col-md-4 mb-3">
+          <label for="shippingEmail" class="form-label">Shipping Email</label>
+          <input
+            type="email"
+            autocomplete="new-password"
+            class="form-control mb-1"
+            id="shippingEmail"
+            placeholder="Enter shipping email"
+          />
+          <small
+            class="text-red"
+            *ngIf="getShippingCtrl('shippingEmail').hasError('email')"
+            >Invalid email ID
+          </small>
+        </div>
       </div>
     </div>
 
@@ -205,13 +258,21 @@
         <input
           class="form-check-input checkbox-outlined me-1"
           type="checkbox"
-          [formControl]="shippingIsBilling"
+          formControlName="shippingIsBilling"
         />
         Billing address is same as the shipping address
       </label>
+      <small
+        *ngIf="buyerDetailForm.get('shippingIsBilling')?.hasError('required')"
+        class="text-red ms-2"
+        >(Required)</small
+      >
     </div>
 
-    <div *ngIf="!shippingIsBilling.value">
+    <div
+      *ngIf="buyerDetailForm.get('shippingIsBilling')?.value === false"
+      formGroupName="billing"
+    >
       <h2 class="fw-bold my-4">Billing Address</h2>
       <h4 class="medium mb-3">Buyer's Details</h4>
       <div class="row mb-3">
@@ -221,10 +282,18 @@
           >
           <input
             type="text"
-            class="form-control"
+            appOnlyNumbers
+            maxlength="10"
+            class="form-control mb-1"
             id="buyerPhoneNumber1"
+            formControlName="phone"
             placeholder="Enter buyer's phone number"
           />
+          <small
+            class="text-red"
+            *ngIf="getBillingCtrl('phone').hasError('pattern')"
+            >Mobile number should start with '9/8/7/6'
+          </small>
         </div>
         <div class="col-md-4">
           <label for="fullname1" class="form-label">Full Name</label>
@@ -232,6 +301,7 @@
             type="text"
             class="form-control"
             id="fullname1"
+            formControlName="fullname"
             placeholder="Enter Full Name"
           />
         </div>
@@ -242,10 +312,16 @@
           <input
             type="email"
             autocomplete="new-password"
-            class="form-control"
+            class="form-control mb-1"
             id="buyerEmail1"
+            formControlName="email"
             placeholder="i.e abc@xyz.in"
           />
+          <small
+            class="text-red"
+            *ngIf="getBillingCtrl('email').hasError('pattern')"
+            >Invalid email id
+          </small>
         </div>
       </div>
       <hr class="text-black-50 my-4" />
@@ -258,6 +334,7 @@
           <input
             type="text"
             class="form-control"
+            formControlName="companyAddr"
             id="completeAddress1"
             placeholder="House/Floor No. Building Name or Street, Locality"
           />
@@ -269,6 +346,7 @@
           <input
             type="text"
             class="form-control"
+            formControlName="landmark"
             id="landmark1"
             placeholder="Any nearby post office, market, Hospital as the landmark"
           />
@@ -278,17 +356,22 @@
         <div class="col-md-3">
           <label for="pincode1" class="form-label">Pincode</label>
           <input
-            type="text"
+            type="tel"
+            appOnlyNumbers
+            maxlength="6"
             class="form-control"
             id="pincode1"
+            formControlName="pincode"
             placeholder="Enter Buyer's Pincode"
           />
         </div>
         <div class="col-md-3">
           <label for="city1" class="form-label">City</label>
           <input
+            readonly
             type="text"
             class="form-control"
+            formControlName="city"
             id="city1"
             placeholder="Enter Buyer's City"
           />
@@ -296,8 +379,10 @@
         <div class="col-md-3">
           <label for="state1" class="form-label">State</label>
           <input
+            readonly
             type="text"
             class="form-control"
+            formControlName="state"
             id="state1"
             placeholder="Enter Buyer's State"
           />
@@ -305,9 +390,11 @@
         <div class="col-md-3">
           <label for="country1" class="form-label">Country</label>
           <input
+            readonly
             type="text"
             class="form-control"
             id="country1"
+            formControlName="country"
             placeholder="Enter Buyer's Country"
           />
         </div>
@@ -325,6 +412,7 @@
         <input
           type="search"
           class="form-control"
+          required
           [formControl]="addressControl"
           [matAutocomplete]="pickupAuto"
           placeholder="Search your pick up address here by nickname or phone number"
@@ -340,10 +428,27 @@
       </mat-autocomplete>
     </div>
     <div class="row">
-      <div class="col-12">No address selected</div>
+      <div class="col-12">
+        <ng-container
+          [ngTemplateOutlet]="hideAddress ? noAddr : addrTemplate"
+          [ngTemplateOutletContext]="{ data: addressControl.value }"
+        ></ng-container>
+      </div>
     </div>
   </div>
+  <div class="text-end">
+    <button class="btn btn-solid w-100px" type="submit">Next</button>
+  </div>
 </form>
-<div class="text-end">
-  <button class="btn btn-solid w-100px" (click)="onClickNext()">Next</button>
-</div>
+
+<ng-template #addrTemplate let-data="data">
+  <div class="d-flex align-items-center mb-2">
+    <p class="medium">{{ data.name }},</p>
+    <p class="text-black-50">{{ data.address }}</p>
+  </div>
+  <p class="text-black-50">
+    <span class="medium">Mobile: </span> {{ data.phone }}
+  </p>
+</ng-template>
+
+<ng-template #noAddr> No address selected </ng-template>

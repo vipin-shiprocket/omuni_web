@@ -23,10 +23,17 @@ import {
   ILoginOTPForm,
   LoginOTPDTO,
 } from './login.model';
-import { Endpoints, emailPattern, mobilePattern } from '../auth.model';
+import {
+  Endpoints,
+  emailPattern,
+  mobilePattern,
+  authModule1,
+} from '../auth.model';
 
 @Component({
   selector: 'app-login',
+  standalone: true,
+  imports: [authModule1],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
 })
