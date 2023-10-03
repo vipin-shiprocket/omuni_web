@@ -1,7 +1,9 @@
 <div class="d-flex justify-content-between {{ panelClass }}">
   <input
+    id="digit-1"
     appOnlyNumbers
     type="tel"
+    maxlength="1"
     class="form-control text-center otp-input"
     required
     [(ngModel)]="otp1"
@@ -10,6 +12,8 @@
   <input
     appOnlyNumbers
     type="tel"
+    id="digit-2"
+    maxlength="1"
     class="form-control text-center otp-input"
     required
     [(ngModel)]="otp2"
@@ -18,6 +22,8 @@
   <input
     appOnlyNumbers
     type="tel"
+    id="digit-3"
+    maxlength="1"
     class="form-control text-center otp-input"
     required
     [(ngModel)]="otp3"
@@ -26,6 +32,8 @@
   <input
     appOnlyNumbers
     type="tel"
+    maxlength="1"
+    id="digit-4"
     class="form-control text-center otp-input"
     required
     [(ngModel)]="otp4"
@@ -34,6 +42,8 @@
   <input
     appOnlyNumbers
     type="tel"
+    id="digit-5"
+    maxlength="1"
     class="form-control text-center otp-input"
     required
     [(ngModel)]="otp5"
@@ -42,6 +52,8 @@
   <input
     type="tel"
     appOnlyNumbers
+    id="digit-6"
+    maxlength="1"
     class="form-control text-center otp-input"
     required
     [(ngModel)]="otp6"
