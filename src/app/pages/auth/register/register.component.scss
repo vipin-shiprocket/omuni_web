@@ -189,3 +189,10 @@
   min-width: 55%;
   max-width: 55%;
 }
+
+.min-height-700 {
+  min-height: u.rem(700);
+}
+.max-height-330 {
+  max-height: u.rem(330);
+}

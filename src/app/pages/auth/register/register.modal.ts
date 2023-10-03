@@ -8,3 +8,19 @@ export interface signupFormInterface {
   password: FormControl<string | null>;
   phone_number: FormControl<number | null>;
 }
+
+export interface signupAPIInterface {
+  firstName: string;
+  lastName: string;
+  companyName: string;
+  email: string;
+  password: string;
+  mobile: string;
+}
+export interface registerAPIResponse {
+  success?: string;
+  token?: string;
+}
+export interface signupOTPFormInterface {
+  otp: FormControl<number | undefined>;
+}
