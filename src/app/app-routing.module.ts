@@ -8,14 +8,8 @@ import { ResetPasswordComponent } from './pages/auth/reset-password/reset-passwo
 
 const routes: Routes = [
   {
-    path: 'dashboard',
-    loadChildren: () =>
-      import('./pages/layout/layout.module').then((m) => m.LayoutModule),
-  },
-  {
     path: 'login',
     component: LoginComponent,
-    // canMatch:()=>{},
     loadChildren: () =>
       import('src/app/pages/auth/auth.module').then((m) => m.AuthModule),
   },
@@ -44,18 +38,16 @@ const routes: Routes = [
       import('src/app/pages/auth/auth.module').then((m) => m.AuthModule),
   },
   {
-    path: 'apps',
-    loadComponent: () =>
-      import('./pages/app-launcher/app-launcher.component').then(
-        (c) => c.AppLauncherComponent,
-      ),
-    canActivate: [authGuard],
-  },
-  {
     path: 'docs',
     loadComponent: () =>
       import('./components/docs/docs.component').then((c) => c.DocsComponent),
   },
+  {
+    path: '',
+    loadChildren: () =>
+      import('./pages/layout/layout.module').then((m) => m.LayoutModule),
+  },
+
   {
     path: '',
     redirectTo: '/login',
