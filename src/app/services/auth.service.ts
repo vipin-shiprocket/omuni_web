@@ -3,8 +3,6 @@ import { CookieService } from 'ngx-cookie-service';
 // import { AuthenticateResp } from '../pages/auth/auth.model';
 import { HttpService } from './http.service';
 import { SubSink } from 'subsink';
-// import { Observable } from 'rxjs';
-// import { IMenu } from '../pages/app-launcher/app-launcher.model';
 
 @Injectable({
   providedIn: 'root',
