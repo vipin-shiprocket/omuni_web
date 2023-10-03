@@ -9,7 +9,7 @@ import { ToastrService } from 'ngx-toastr';
 import { HttpService } from 'src/app/services/http.service';
 import { SubSink } from 'subsink';
 import { Router } from '@angular/router';
-import { Endpoints } from '../auth.model';
+import { Endpoints, preAuthorizationModules } from '../auth.model';
 import { environment } from 'src/environments/environment';
 import {
   ForgotPasswordInterface,
@@ -26,6 +26,8 @@ import {
 
 @Component({
   selector: 'app-forgot-password',
+  standalone: true,
+  imports: [preAuthorizationModules],
   templateUrl: './forgot-password.component.html',
   styleUrls: ['./forgot-password.component.scss'],
 })

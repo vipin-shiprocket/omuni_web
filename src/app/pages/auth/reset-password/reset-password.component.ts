@@ -7,7 +7,7 @@ import {
 } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { HttpService } from 'src/app/services/http.service';
-import { PasswordPattern } from '../auth.model';
+import { PasswordPattern, preAuthorizationModules } from '../auth.model';
 import { SubSink } from 'subsink';
 import { ActivatedRoute } from '@angular/router';
 
@@ -23,6 +23,8 @@ interface IResetQP {
 
 @Component({
   selector: 'app-reset-password',
+  standalone: true,
+  imports: [preAuthorizationModules],
   templateUrl: './reset-password.component.html',
   styleUrls: ['./reset-password.component.scss'],
 })

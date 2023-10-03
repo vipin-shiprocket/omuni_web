@@ -11,17 +11,24 @@ import { HttpService } from 'src/app/services/http.service';
 import { SubSink } from 'subsink';
 // import { signupFormInterface } from './register.modal';
 import { focusOnFirstDigitInOTP, toggleEye } from 'src/app/utils/utils';
-import { Endpoints, emailPattern, mobilePattern } from '../auth.model';
+import {
+  Endpoints,
+  emailPattern,
+  mobilePattern,
+  preAuthorizationModules,
+} from '../auth.model';
 import {
   registerAPIResponse,
   signupAPIInterface,
   signupOTPFormInterface,
 } from './register.modal';
-import { environment } from 'src/environments/environment';
+// import { environment } from 'src/environments/environment';
 // import { PasswordPattern } from '../auth.model';
 
 @Component({
   selector: 'app-register',
+  standalone: true,
+  imports: [preAuthorizationModules],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss'],
 })

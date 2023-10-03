@@ -27,13 +27,13 @@ import {
   Endpoints,
   emailPattern,
   mobilePattern,
-  authModule1,
+  preAuthorizationModules,
 } from '../auth.model';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [authModule1],
+  imports: [preAuthorizationModules],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
 })

@@ -1,8 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ForgotPasswordComponent } from './pages/auth/forgot-password/forgot-password.component';
-import { RegisterComponent } from './pages/auth/register/register.component';
-import { ResetPasswordComponent } from './pages/auth/reset-password/reset-password.component';
+// import { RegisterComponent } from './pages/auth/register/register.component';
+// import { ResetPasswordComponent } from './pages/auth/reset-password/reset-password.component';
 
 const routes: Routes = [
   {
@@ -14,27 +13,24 @@ const routes: Routes = [
   },
   {
     path: 'forgotpassword',
-    component: ForgotPasswordComponent,
-    loadChildren: () =>
-      import('src/app/pages/auth/auth.module').then((m) => m.AuthModule),
-  },
-  {
-    path: 'register',
-    component: RegisterComponent,
-    loadChildren: () =>
-      import('src/app/pages/auth/auth.module').then((m) => m.AuthModule),
+    loadComponent: () =>
+      import(
+        'src/app/pages/auth/forgot-password/forgot-password.component'
+      ).then((c) => c.ForgotPasswordComponent),
   },
   {
     path: 'signup',
-    component: RegisterComponent,
-    loadChildren: () =>
-      import('src/app/pages/auth/auth.module').then((m) => m.AuthModule),
+    loadComponent: () =>
+      import('src/app/pages/auth/register/register.component').then(
+        (m) => m.RegisterComponent,
+      ),
   },
   {
     path: 'resetpassword',
-    component: ResetPasswordComponent,
-    loadChildren: () =>
-      import('src/app/pages/auth/auth.module').then((m) => m.AuthModule),
+    loadComponent: () =>
+      import('src/app/pages/auth/reset-password/reset-password.component').then(
+        (m) => m.ResetPasswordComponent,
+      ),
   },
   {
     path: 'docs',
