@@ -1,3 +1,28 @@
+import { CommonModule, NgOptimizedImage } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
+import { MatIconModule } from '@angular/material/icon';
+import { RouterModule } from '@angular/router';
+import { MatButtonModule } from '@angular/material/button';
+import { RecaptchaV3Module } from 'ng-recaptcha';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { FooterComponent } from './footer/footer.component';
+import { OtpInputComponent } from 'src/app/components/otp-input/otp-input.component';
+
+export const authModule1 = [
+  CommonModule,
+  FormsModule,
+  ReactiveFormsModule,
+  NgOptimizedImage,
+  RouterModule,
+  RecaptchaV3Module,
+  MatIconModule,
+  MatButtonModule,
+  MatCheckboxModule,
+  FooterComponent,
+  OtpInputComponent,
+];
+
 export interface IVerifyEmailResp {
   idtableUserId: number;
   isSelf: null | boolean;
