@@ -11,6 +11,7 @@ import { NgOptimizedImage } from '@angular/common';
 import { MatDialogModule } from '@angular/material/dialog';
 import { RouterModule } from '@angular/router';
 import { GenericTabComponent } from './generic-tab/generic-tab.component';
+import { ManifestTabComponent } from './manifest-tab/manifest-tab.component';
 
 export const OrdersModules = [
   RouterModule,
@@ -20,12 +21,17 @@ export const OrdersModules = [
   FiltersComponent,
   MatButtonModule,
   MatMenuModule,
-  NgOptimizedImage,
   MatDialogModule,
   GenericTabComponent,
+  ManifestTabComponent,
 ];
 
-export const GenericTabModules = [CdkTableModule, MatSortModule, MatIconModule];
+export const GenericTabModules = [
+  CdkTableModule,
+  MatSortModule,
+  MatIconModule,
+  NgOptimizedImage,
+];
 
 export const OrderColumns = [
   { name: 'select', canHide: false, visible: true },

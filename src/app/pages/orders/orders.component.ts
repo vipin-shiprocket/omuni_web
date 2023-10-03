@@ -61,6 +61,10 @@ export class OrdersComponent implements OnInit, AfterViewInit, OnDestroy {
     return this.tabs.filter((t) => t.isCustom).length;
   }
 
+  get isManifestTab(): boolean {
+    return this.tabs[this.activeTabIdx]?.name?.toLowerCase() === 'manifested';
+  }
+
   ngOnInit(): void {
     this.getOrderFilters();
     this.getOrderData();

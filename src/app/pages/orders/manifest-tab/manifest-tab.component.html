@@ -1,0 +1,253 @@
+<cdk-table
+  matSort
+  multiTemplateDataRows
+  #sort="matSort"
+  [matSortDisabled]="disableSort"
+  [dataSource]="dataSource"
+  class="o2-table"
+>
+  <ng-container cdkColumnDef="select">
+    <cdk-header-cell *cdkHeaderCellDef>
+      <input
+        class="form-check-input"
+        type="checkbox"
+        (change)="$event ? toggleAllRows() : null"
+        [checked]="selection.hasValue() && isAllSelected()"
+        [indeterminate]="selection.hasValue() && !isAllSelected()"
+        [attr.aria-label]="checkboxLabel()"
+        checked
+      />
+    </cdk-header-cell>
+    <cdk-cell *cdkCellDef="let row" class="select-box">
+      <input
+        type="checkbox"
+        class="form-check-input"
+        (click)="$event.stopPropagation()"
+        [attr.aria-label]="checkboxLabel(row)"
+        (change)="$event ? selection.toggle(row) : null"
+        [checked]="selection.isSelected(row)"
+      />
+    </cdk-cell>
+  </ng-container>
+
+  <ng-container cdkColumnDef="Order Details">
+    <cdk-header-cell *cdkHeaderCellDef mat-sort-header>
+      Order Details
+    </cdk-header-cell>
+    <cdk-cell *cdkCellDef="let row" class="text-truncate">
+      <a href="javascript:void(0);" [title]="row.id">{{ row.id }}</a>
+      <div class="create_at">
+        {{ row.created_at | date: 'dd-MMM-yyyy' }} |
+        {{ row.created_at | date: 'hh:mm a' }}
+      </div>
+      <div class="brand-section">
+        <img
+          ngSrc="src/assets/svg/settings.svg"
+          height="18"
+          width="18"
+          class="me-2"
+          alt=""
+        />
+        <span>{{ row.channel_name }}</span>
+      </div>
+    </cdk-cell>
+  </ng-container>
+
+  <ng-container cdkColumnDef="Customer details">
+    <cdk-header-cell *cdkHeaderCellDef mat-sort-header>
+      Customer details
+    </cdk-header-cell>
+    <cdk-cell *cdkCellDef="let row" class="text-truncate">
+      <div class="customer-name">{{ row.customer_name }}</div>
+      <div class="customer-name">{{ row.customer_email }}</div>
+      <div class="customer-name">{{ row.customer_phone }}</div>
+    </cdk-cell>
+  </ng-container>
+
+  <ng-container cdkColumnDef="Product Details">
+    <cdk-header-cell *cdkHeaderCellDef mat-sort-header>
+      Product Details
+    </cdk-header-cell>
+    <cdk-cell *cdkCellDef="let row">
+      <div class="item underline">
+        {{ row.products?.length }}
+        {{ row.products?.length > 1 ? 'items' : 'item' }}
+      </div>
+      <a
+        class="text-primary cursor d-flex align-items-center"
+        href="javascript:void(0);"
+        role="button"
+        (click)="
+          expandedElement = expandedElement === row ? null : row;
+          $event.stopPropagation()
+        "
+      >
+        View Packages
+        <mat-icon
+          [ngClass]="row === expandedElement ? 'rotate-180' : 'rotate-0'"
+          >expand_more</mat-icon
+        >
+      </a>
+    </cdk-cell>
+  </ng-container>
+
+  <ng-container cdkColumnDef="Payment">
+    <cdk-header-cell *cdkHeaderCellDef mat-sort-header>
+      Payment
+    </cdk-header-cell>
+    <cdk-cell *cdkCellDef="let row">
+      <div class="mb-2">
+        {{ row.currency ? row.currency : '&#x20B9;' }}
+        {{ row.total ?? 0 }}
+      </div>
+      <div
+        class="payment"
+        [ngClass]="{
+          prepaid: row.payment_method === 'prepaid',
+          cod: row.payment_method === 'cod'
+        }"
+      >
+        {{ row.payment_method }}
+      </div>
+    </cdk-cell>
+  </ng-container>
+
+  <ng-container cdkColumnDef="Order Statuses">
+    <cdk-header-cell *cdkHeaderCellDef mat-sort-header>
+      Order Status
+    </cdk-header-cell>
+    <cdk-cell *cdkCellDef="let row">
+      <div class="alert alert-warning p-0 text-center w-50 mb-2">
+        {{ row.status | titlecase }}
+      </div>
+      <div>Reason:</div>
+      <div class="text-truncate">
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Est, impedit.
+      </div>
+    </cdk-cell>
+  </ng-container>
+
+  <ng-container cdkColumnDef="Fulfilled By">
+    <cdk-header-cell *cdkHeaderCellDef mat-sort-header>
+      Fulfill By
+    </cdk-header-cell>
+    <cdk-cell *cdkCellDef="let row">
+      <div>{{ row.others.fulfillmentTat | date: 'dd-MMM-yyyy' }}</div>
+      <div>{{ row.others.fulfillmentTat | date: 'hh:mm a' }}</div>
+    </cdk-cell>
+  </ng-container>
+  <ng-container cdkColumnDef="Fulfillment Center">
+    <cdk-header-cell *cdkHeaderCellDef mat-sort-header>
+      Fulfillment Center
+    </cdk-header-cell>
+    <cdk-cell *cdkCellDef="let row">
+      {{ row.others.marketplace_name | titlecase }}
+    </cdk-cell>
+  </ng-container>
+
+  <ng-container cdkColumnDef="Actions">
+    <cdk-header-cell *cdkHeaderCellDef mat-sort-header>
+      Actions
+    </cdk-header-cell>
+    <cdk-cell *cdkCellDef="let row" class="actions-section">
+      <button class="btn btn-solid_sm me-2">CTA</button>
+      <div class="dropdown d-inline">
+        <button
+          class="btn btn-sm more_btn"
+          data-bs-toggle="dropdown"
+          data-bs-offset="5,5"
+          aria-expanded="false"
+        >
+          <mat-icon>more_vert</mat-icon>
+        </button>
+
+        <ul class="dropdown-menu bulk-actions-dropd">
+          <li>
+            <button class="dropdown-item" type="button">
+              Download Invoice
+            </button>
+          </li>
+          <li>
+            <button class="dropdown-item" type="button">Edit Order</button>
+          </li>
+          <li><hr class="dropdown-divider" /></li>
+          <li><p class="dropdown-header fs-12 py-1">VERIFY ORDER</p></li>
+          <li>
+            <button class="dropdown-item" type="button">Call Buyer</button>
+          </li>
+          <li>
+            <button class="dropdown-item" type="button">Mark Verified</button>
+          </li>
+          <li><hr class="dropdown-divider" /></li>
+          <li>
+            <button class="dropdown-item" type="button">Add Order Tag</button>
+          </li>
+          <li>
+            <button class="dropdown-item" type="button">Clone Order</button>
+          </li>
+          <li>
+            <button class="dropdown-item text-danger" type="button">
+              Cancel Order
+            </button>
+          </li>
+        </ul>
+      </div>
+    </cdk-cell>
+  </ng-container>
+
+  <ng-container cdkColumnDef="expandedDetail">
+    <cdk-cell
+      *cdkCellDef="let row"
+      [attr.colspan]="columnsToDisplayWithExpand.length"
+    >
+      <div
+        class="d-flex overflow-hidden"
+        [@detailExpand]="row === expandedElement ? 'expanded' : 'collapsed'"
+      >
+        <div class="child-table">
+          <div class="child-table-header">
+            <div class="child-table-cell">Name</div>
+            <div class="child-table-cell">HSN</div>
+            <div class="child-table-cell">SKU</div>
+            <div class="child-table-cell">Qty</div>
+            <div class="child-table-cell">Unit Price</div>
+            <div class="child-table-cell">Total</div>
+          </div>
+
+          <ng-container *ngFor="let product of row.products; let i = index">
+            <div class="child-table-row">
+              <div class="child-table-cell">{{ product.name }}</div>
+              <div class="child-table-cell">{{ product.hsn }}</div>
+              <div class="child-table-cell">{{ product.sku }}</div>
+              <div class="child-table-cell">{{ product.quantity }}</div>
+              <div class="child-table-cell">
+                &#x20B9; {{ product.selling_price }}
+              </div>
+              <div class="child-table-cell">
+                &#x20B9; {{ product.discount_including_tax }}
+              </div>
+            </div>
+            <hr
+              class="my-0 mx-3 text-black-50"
+              *ngIf="i < row.products?.length - 1"
+            />
+          </ng-container>
+        </div>
+      </div>
+    </cdk-cell>
+  </ng-container>
+
+  <cdk-header-row
+    class="o2-header-row"
+    *cdkHeaderRowDef="columnsToDisplayWithExpand"
+  ></cdk-header-row>
+  <cdk-row
+    class="o2-row"
+    *cdkRowDef="let row; columns: columnsToDisplayWithExpand"
+  ></cdk-row>
+  <cdk-row
+    mat-row
+    class="o2-row expand-row"
+    *cdkRowDef="let row; columns: ['expandedDetail']"
+  ></cdk-row>
+</cdk-table>
