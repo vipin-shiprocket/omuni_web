@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { AddOrderComponent } from './add-order.component';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { SingleOrderComponent } from './single-order/single-order.component';
 import { BulkOrderComponent } from './bulk-order/bulk-order.component';
 import { AddOrdersRoutingModule } from './add-order.routing.module';
@@ -32,6 +32,7 @@ import { ChipboxInputComponent } from 'src/app/components/chipbox-input/chipbox-
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
+    NgOptimizedImage,
     AddOrdersRoutingModule,
     O2SelectComponent,
     MatAutocompleteModule,

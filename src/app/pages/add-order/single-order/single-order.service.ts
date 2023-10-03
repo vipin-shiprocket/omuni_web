@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { EnumTabStatus, TabListSingleOrder } from '../add-order.model';
 import { BehaviorSubject } from 'rxjs';
 import {
@@ -8,11 +8,13 @@ import {
   IProduct,
   ProductItemMapping,
 } from './single-order.model';
+import { HttpService } from 'src/app/services/http.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SingleOrderService {
+  private http = inject(HttpService);
   tabs = TabListSingleOrder;
   currentTab = 0;
   orderDetailDump = new BehaviorSubject<{
@@ -38,6 +40,11 @@ export class SingleOrderService {
         tab.status = EnumTabStatus.done;
       }
     });
+  }
+
+  addSingleOrder(params: CustomOrderPayloadMapping) {
+    const endpoint = '';
+    return this.http.requestToEndpoint<unknown>(endpoint, params);
   }
 
   updatePayloadMapping() {
