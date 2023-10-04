@@ -76,20 +76,11 @@
         </button>
 
         <ul class="dropdown-menu bulk-actions-dropd">
-          <li>
-            <button class="dropdown-item" type="button">QC Verify</button>
-          </li>
-          <li>
-            <button class="dropdown-item" type="button">Pack</button>
-          </li>
-          <li>
-            <button class="dropdown-item" type="button">
-              Generate Manifest
-            </button>
-          </li>
-          <li>
-            <button class="dropdown-item" type="button">Handover</button>
-          </li>
+          <ng-container
+            [ngTemplateOutlet]="
+              isManifestTab ? bulkForManifest : bulkForGeneric
+            "
+          ></ng-container>
         </ul>
       </div>
     </span>
@@ -158,4 +149,31 @@
       Delete
     </button>
   </div>
+</ng-template>
+
+<ng-template #bulkForGeneric>
+  <li>
+    <button class="dropdown-item" type="button">QC Verify</button>
+  </li>
+  <li>
+    <button class="dropdown-item" type="button">Pack</button>
+  </li>
+  <li>
+    <button class="dropdown-item" type="button">Generate Manifest</button>
+  </li>
+  <li>
+    <button class="dropdown-item" type="button">Handover</button>
+  </li>
+</ng-template>
+
+<ng-template #bulkForManifest>
+  <li>
+    <button class="dropdown-item" type="button">Handover</button>
+  </li>
+  <li>
+    <button class="dropdown-item" type="button">Complete</button>
+  </li>
+  <li>
+    <button class="dropdown-item text-danger" type="button">Delete</button>
+  </li>
 </ng-template>

@@ -45,6 +45,15 @@ export const OrderColumns = [
   { name: 'Actions', canHide: true, visible: true },
 ];
 
+export const ManifestColumns = [
+  { name: 'select', canHide: false, visible: true },
+  { name: 'Manifest ID', canHide: false, visible: true },
+  { name: 'Courier', canHide: true, visible: true },
+  { name: 'Order Count', canHide: true, visible: true },
+  { name: 'Created Time', canHide: true, visible: true },
+  { name: 'Actions', canHide: true, visible: true },
+];
+
 export interface ITab {
   name: string;
   filters: Record<string, string | (string | number | boolean)[]>;

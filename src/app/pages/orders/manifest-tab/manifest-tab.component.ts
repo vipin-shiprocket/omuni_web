@@ -1,9 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
-import { GenericTabModules, OrderColumns } from '../orders.model';
+import { GenericTabModules, ManifestColumns } from '../orders.model';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Expand } from 'src/app/utils/animation';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-manifest-tab',
@@ -17,7 +18,7 @@ export class ManifestTabComponent {
   @Input() dataSource: MatTableDataSource<never[]> = new MatTableDataSource(
     undefined,
   );
-  columns = OrderColumns;
+  columns = ManifestColumns;
   disableSort = true;
   selection = new SelectionModel<never[]>(true, []);
   expandedElement: never | null = null;

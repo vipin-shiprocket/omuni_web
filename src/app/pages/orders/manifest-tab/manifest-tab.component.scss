@@ -4,7 +4,9 @@
 
 .actions-section {
   border-bottom-right-radius: unset !important;
-  min-width: 8rem;
+  // min-width: 8rem;
+  display: inline-flex;
+  align-items: center;
 }
 
 .cdk-row {
