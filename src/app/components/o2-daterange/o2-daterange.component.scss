@@ -1,0 +1,110 @@
+@use '../../../styles/utils' as u;
+
+.more-filter-btn {
+  width: u.rem(219);
+  margin-right: unset;
+}
+
+.o2-listbox-container {
+  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.161);
+}
+
+.o2-listbox {
+  max-height: unset;
+  width: unset;
+  min-width: u.rem(219);
+  border-bottom-left-radius: u.rem(5);
+}
+
+.o2-option {
+  padding: 0.5rem 1rem;
+
+  &::before {
+    left: unset;
+    right: 1rem;
+  }
+}
+
+.range-select {
+  &[aria-selected='true']::before {
+    content: '\e876';
+    color: u.$primary1;
+  }
+
+  &:hover::before {
+    content: '\e876';
+  }
+}
+
+.calendar {
+  display: flex;
+
+  &-one,
+  &-two {
+    width: 15rem;
+    background-color: white;
+  }
+}
+
+.btn-outlined_sm {
+  color: u.$neutral3;
+  border-color: u.$neutral3;
+}
+
+.right-section {
+  background-color: u.$bg-color;
+  padding: 1rem 1rem 0;
+  border-top-right-radius: u.rem(5);
+  border-bottom-right-radius: u.rem(5);
+  transition: all 0.4s;
+}
+
+.info-section {
+  width: 80%;
+  color: u.$neutral3b;
+  margin-top: 0.5rem;
+  max-width: u.rem(219);
+
+  .mat-icon {
+    width: u.rem(30);
+  }
+}
+
+::ng-deep .mat-calendar {
+  // & .mat-calendar-body-cell.month-view {
+  //   // background-color: $green;
+  //   height: 90%;
+  //   width: 90%;
+  //   border-radius: 100%;
+  // }
+
+  // & .mat-calendar-body-disabled.month-view {
+  //   // background: var(--bs-danger-border-subtle);
+  //   cursor: default;
+  // }
+
+  // & .mat-focus-indicator {
+  //   // background: u.$primary1;
+  // }
+
+  // & .mat-calendar-body-selected {
+  //   box-shadow: none !important;
+  //   // background: lavender;
+  // }
+
+  // .mat-calendar-body-active.month-view {
+  //   background: u.$primary1;
+  //   color: white;
+  // }
+
+  // .mat-calendar-body-range-start.month-view,
+  // .mat-calendar-body-range-end.month-view {
+  //   &::before {
+  //     background: u.$primary1;
+  //   }
+
+  //   & .mat-calendar-body-selected {
+  //     background: u.$primary1;
+  //   }
+  // }
+}

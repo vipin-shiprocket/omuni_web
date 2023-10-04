@@ -1,0 +1,67 @@
+@use '../utils' as u;
+
+.medium {
+  font-weight: 500;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.regular {
+  font-weight: normal;
+}
+
+h1,
+.h1 {
+  font-size: u.rem(24);
+  line-height: 1.2;
+  margin-bottom: 0;
+  @extend .medium;
+}
+
+h2,
+.h2 {
+  font-size: u.rem(20);
+  line-height: 1.2;
+  margin-bottom: 0;
+  @extend .medium;
+}
+
+h3,
+.h3 {
+  font-size: u.rem(16);
+  line-height: 1.25;
+  margin-bottom: 0;
+  @extend .regular;
+}
+
+h4,
+.h4 {
+  font-size: u.rem(14);
+  line-height: 1.43;
+  margin-bottom: 0;
+  @extend .regular;
+}
+
+h5,
+.h5 {
+  font-size: u.rem(12);
+  line-height: 1.33;
+  margin-bottom: 0;
+  @extend .regular;
+}
+
+h6,
+.h6 {
+  font-size: u.rem(10);
+  line-height: 1.33;
+  margin-bottom: 0;
+  @extend .regular;
+}
+
+p {
+  font-size: u.rem(12);
+  line-height: 1.33;
+  margin-bottom: 0;
+}

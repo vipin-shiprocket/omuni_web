@@ -1,0 +1,123 @@
+@use '../../../styles/utils' as u;
+
+.mat-mdc-paginator {
+  border-radius: 8px;
+}
+
+.add-sync-btn {
+  height: u.rem(32);
+  font-size: u.rem(12);
+  border-radius: u.rem(4);
+}
+
+.right-btns-section {
+  position: absolute;
+  right: 0;
+
+  button {
+    height: u.rem(36);
+  }
+}
+
+.o2-table {
+  min-width: 70rem;
+}
+
+.cdk-row {
+  margin-bottom: unset;
+}
+
+.cdk-row.expand-row {
+  margin-bottom: 0.5rem;
+}
+
+.cdk-cell {
+  min-width: 7rem;
+  padding-bottom: unset;
+}
+
+.cdk-column-select {
+  flex: unset;
+  min-width: unset;
+}
+
+.select-box {
+  border-bottom-left-radius: unset !important;
+}
+
+.actions-section {
+  border-bottom-right-radius: unset !important;
+  min-width: 8rem;
+}
+
+.cdk-column-Product-Details {
+  min-width: 9rem;
+  .item {
+    display: inline-block;
+    color: u.$primary1;
+  }
+}
+
+.cdk-column-Customer-details {
+  color: u.$neutral2;
+  min-width: 10rem;
+}
+
+.cdk-column-Order-Details {
+  color: u.$neutral2;
+  min-width: 9rem;
+  font-size: u.rem(12);
+
+  a {
+    &:hover {
+      color: u.$primary1;
+    }
+  }
+
+  .create_at {
+    font-size: u.rem(11);
+    margin-bottom: u.rem(8);
+    color: u.$neutral3;
+  }
+}
+
+.more_btn {
+  height: u.rem(32);
+  border-radius: 50%;
+  padding-inline: u.rem(3);
+  color: u.$primary1;
+
+  &:hover {
+    background-color: var(--bs-primary-bg-subtle);
+  }
+
+  &:disabled {
+    background-color: u.$neutral3c;
+    color: u.$neutral3;
+    pointer-events: none;
+  }
+}
+
+.bulk-actions-dropd {
+  font-size: u.rem(12);
+
+  button {
+    &:focus,
+    &:hover {
+      background-color: u.$color11;
+      color: u.$primary1;
+    }
+  }
+}
+
+::ng-deep .update-tab-container {
+  width: 35vw;
+
+  .mat-mdc-dialog-surface {
+    border-radius: 1rem !important;
+  }
+
+  .mdc-dialog__actions button {
+    width: 7rem;
+  }
+}

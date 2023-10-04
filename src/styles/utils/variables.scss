@@ -1,0 +1,79 @@
+$ff: 'SF Pro', sans-serif; // font-family
+
+// Primary Colors
+$primary1: #745be7;
+$primary1a: #927bfc;
+$primary1b: #533fb2;
+$primary2: #0ec6a8;
+$primary3: #06064d;
+
+// Secondary Colors
+$secondary1: #008e27;
+$secondary1a: #d7fad4;
+
+$secondary2: #ff2222;
+$secondary2a: #fff2f2;
+
+$secondary3: #d6a907;
+$secondary3a: #fdf3d0;
+$secondary3b: #fffceb;
+
+$secondary4: #00a2c9;
+$secondary4a: #42cff0;
+$secondary4b: #a7eeff;
+
+$secondary5: #3887ff;
+$secondary5a: #afcfff;
+$secondary5b: #f2f8ff;
+$secondary5c: #f4f5ff;
+
+// Neutral Colors
+$neutral1: #191919;
+
+$neutral2: #4c4c4c;
+$neutral2a: rgba(0, 0, 0, 0.9);
+
+$neutral3: #7f7f7f;
+$neutral3a: #e0e0e0;
+$neutral3b: rgba(153, 153, 153, 0.7);
+$neutral3c: #d3d3d3;
+$neutral3d: #fafafc;
+
+$neutral4: #fff;
+$neutral5: #969696;
+
+// Extra Colors
+$color1: rgba(217, 84, 75);
+$color2: #989898;
+$color3: #00ace4;
+$color4: #23527c;
+$color5: #f0592b;
+$color6: #676767;
+$color7: #ccc;
+$color8: #f7f7f7;
+$color9: #f3f3f3;
+$color10: #2ab62a;
+$color11: rgba(110, 95, 221, 0.1);
+$color12: #f8f8f8;
+
+$gra1: radial-gradient(#efd6a6 10%, #ffa800 100%);
+$gra2: radial-gradient(#b4e1f1 15%, #e8f7fc 100%);
+$gra3: radial-gradient(#fba9b7 15%, #d95066 100%);
+
+$bg-color: #f4f4f4;
+$chip-bg-color: #ece9f9;
+
+//time variables
+$sidebar-open-time: 0.8s;
+$sidebar-close-time: 0.4s;
+$sidebar-spinner-count: 12;
+$delay-increment: 0.1s;
+
+html {
+  --side-bar-bg: #{$primary3};
+  --icon-stroke: #{$neutral4};
+  --down-arrow: #{$neutral4};
+  --popup-arrow-color: white;
+  --popup-open-direction: 50%;
+  --popup-arrow-x-pos: 70%;
+}

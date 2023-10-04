@@ -1,0 +1,74 @@
+.dropdown-menu {
+  inset: 0.25em auto auto auto !important;
+}
+
+.search-bar {
+  max-width: 30rem;
+}
+
+.search-icon {
+  width: 14px;
+  position: absolute;
+  inset: 5px auto auto 15px;
+  transition: color 0.4s;
+  z-index: 5;
+}
+
+.option-icons {
+  width: 14px;
+}
+
+.search-input {
+  transition: padding 0.5s;
+  padding-left: 40px;
+  border-top-right-radius: 0.5rem !important;
+  border-bottom-right-radius: 0.5rem !important;
+  @media screen and (min-width: 768px) {
+    padding-right: 6.5em;
+  }
+
+  &.cdk-focused + .search-icon {
+    color: transparent !important;
+  }
+
+  &:focus {
+    padding-left: 1em;
+    box-shadow: none !important;
+  }
+}
+
+.search-result {
+  & > div {
+    max-height: 10em;
+  }
+
+  &.show {
+    inset: 2.85em auto auto auto !important;
+  }
+}
+
+.shortcut {
+  display: none;
+  background-color: white;
+  font-size: x-small;
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  min-width: 7em;
+  z-index: 5;
+
+  @media screen and (min-width: 768px) {
+    display: block;
+  }
+}
+
+.shortcut,
+.shortcut > kbd {
+  transition: all 0.4s;
+
+  &.hide,
+  &.hide > kbd {
+    color: transparent !important;
+    background-color: transparent !important;
+  }
+}

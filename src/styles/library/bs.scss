@@ -1,0 +1,11 @@
+// Overrides bootstrap here
+@use './bs.component.scss' as *;
+
+// regular style toast
+@import 'ngx-toastr/toastr';
+
+// Import all of Bootstrap's CSS
+@import 'bootstrap/scss/bootstrap';
+
+// boostrap 5
+@import 'ngx-toastr/toastr-bs5-alert';

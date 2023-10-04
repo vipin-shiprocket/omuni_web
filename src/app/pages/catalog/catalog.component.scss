@@ -1,0 +1,12 @@
+.table-responsive {
+  min-width: 900px;
+  max-height: 65vh;
+  @media (min-width: 768px) {
+    max-height: 60vh;
+  }
+}
+
+.cdk-column-status {
+  flex: 0 0 7.5% !important;
+  width: 7.5% !important;
+}

@@ -1,0 +1,149 @@
+@use '../../../../styles/utils' as u;
+
+.signup-success {
+  .mat-icon {
+    width: u.rem(56);
+    height: u.rem(56);
+    font-size: u.rem(56);
+    color: u.$color10;
+  }
+
+  h1 {
+    font-size: u.rem(27);
+    color: u.$color10;
+  }
+}
+
+::ng-deep .footer {
+  & small {
+    color: var(--bs-gray-900) !important;
+  }
+}
+.bg-blueclr {
+  background-color: u.$secondary5c;
+}
+
+.product-detail.active {
+  border: 1px solid #745be7;
+  box-shadow: 0 2px 26px 0 rgba(0, 0, 0, 0.06);
+}
+
+.product-detail {
+  margin: 10px 52px 24px 0;
+  padding: 20px 35px;
+  border-radius: 16px;
+  border: 1px solid #d3d3d3;
+  cursor: pointer;
+}
+
+.product-detail h3 {
+  font-size: 18px;
+  font-weight: 500;
+  // font-family: SFProDisplay-Semibold;
+  color: #191919;
+}
+.product-detail.active h3 {
+  color: #745be7;
+}
+
+.orderSection {
+  background-color: u.$color12;
+  & h2 {
+    font-weight: 600;
+  }
+  & h3 {
+    font-weight: 500;
+  }
+}
+
+@media screen and (max-width: 575px) {
+  .setFlex {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+}
+
+.finger_box {
+  margin-bottom: u.rem(20);
+  & h3 {
+    margin-bottom: u.rem(5);
+  }
+  @media screen and (min-width: 575px) {
+    & h3 {
+      font-size: 18px;
+      font-weight: 600;
+    }
+  }
+  @media screen and (max-width: 575px) {
+    & h3 {
+      font-size: 17px;
+      font-weight: 400;
+      text-align: center;
+    }
+  }
+  p {
+    font-size: 14px;
+    color: u.$neutral2;
+  }
+}
+
+.custm-banner {
+  background: url(/src/assets/svg/signup-back.svg);
+  background-size: cover;
+  background-repeat: no-repeat;
+
+  border-radius: 20px;
+  color: u.$neutral4;
+  @media screen and (max-width: 575px) {
+    // For upto xs screens size
+    height: 230px;
+  }
+  @media screen and (min-width: 576px) {
+    // For above xs screens size
+    height: 230px;
+  }
+
+  & a {
+    background: #fff;
+    height: 50px;
+    color: #745be7;
+    text-decoration: none;
+    border-radius: 8px;
+    padding: 10px 44px 13px;
+    display: inline-block;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    font-size: 20px;
+  }
+  & h3 {
+    text-align: center;
+    font-weight: 600;
+    margin-top: u.rem(40);
+  }
+}
+
+.signUpChannelsSection {
+  background-color: u.$color12;
+  h3 {
+    text-align: center;
+    font-weight: 600;
+  }
+
+  p {
+    font-size: 14px;
+    text-align: center;
+  }
+}
+
+.signupFooter {
+  background-color: #131e26;
+  color: #fff !important;
+  & p {
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
+    margin-bottom: 0;
+    color: u.$neutral5;
+  }
+}

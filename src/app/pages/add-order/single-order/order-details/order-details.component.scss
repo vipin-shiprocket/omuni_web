@@ -1,0 +1,16 @@
+@forward '../single-order.component.scss';
+@use '../../../../../styles/utils' as u;
+
+.add-another-product-btn {
+  padding: u.rem(6) u.rem(19);
+  border-radius: u.rem(4);
+  background-color: u.$secondary5c;
+  color: u.$primary1;
+  font-size: u.rem(12);
+}
+
+.product-section {
+  & hr:last-of-type {
+    display: none;
+  }
+}

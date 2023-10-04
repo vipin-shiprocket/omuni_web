@@ -1,0 +1,38 @@
+.chipbox {
+  padding: unset;
+
+  &-grid {
+    padding: 0.5rem 0.75rem;
+  }
+
+  &-input {
+    padding: 0.5rem 1rem;
+    border: unset;
+    margin: unset;
+    background-color: transparent;
+    width: 100%;
+
+    &:focus {
+      outline: unset;
+    }
+  }
+}
+
+.chipbox-focus {
+  color: var(--bs-body-color);
+  background-color: var(--bs-body-bg);
+  border-color: var(--bs-primary);
+  outline: 0;
+  box-shadow: 0 0.125rem 0.5rem 0 #e0e0e0;
+}
+
+::ng-deep .hello {
+  &.mat-mdc-standard-chip {
+    --mdc-chip-container-height: 25px;
+  }
+
+  & .mat-mdc-chip-remove {
+    padding-left: 5px !important;
+    padding-right: 5px !important;
+  }
+}

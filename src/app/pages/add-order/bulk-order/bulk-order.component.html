@@ -1,0 +1,68 @@
+<div class="container">
+  <h1 class="h2 fw-bold mt-5 mb-4">Bulk Order</h1>
+  <div class="bg-white rounded-3 p-4">
+    <div class="row mb-4">
+      <div class="col-md-6">
+        <h3 class="mb-2 fw-bold">Import Bulk Orders</h3>
+        <p class="text-black-50">
+          Download the sample file and replace its data with your order data.
+          Make sure all mandatory fields are filled. <br />Save the file and
+          upload it back.
+        </p>
+      </div>
+      <div class="col"></div>
+      <div class="col-md-2">
+        <div class="dropdown d-inline mt-2">
+          <button
+            class="btn more-filter-btn"
+            type="button"
+            data-bs-toggle="dropdown"
+            data-bs-offset="5,5"
+            aria-expanded="false"
+          >
+            <mat-icon class="fs-18 me-1 download-icon">download</mat-icon>
+            Download Template
+            <mat-icon class="ms-auto">expand_more</mat-icon>
+          </button>
+
+          <ul class="dropdown-menu bulk-actions-dropd">
+            <li>
+              <button class="dropdown-item" type="button">Template 1</button>
+            </li>
+            <li>
+              <button class="dropdown-item" type="button">Template 2</button>
+            </li>
+            <li>
+              <button class="dropdown-item" type="button">Template 3</button>
+            </li>
+            <li>
+              <button class="dropdown-item" type="button">Template 4</button>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div
+      class="dd-container"
+      (dragover)="$event.preventDefault()"
+      (drop)="onDrop($event)"
+    >
+      <mat-icon class="text-primary material-icons-outlined">backup</mat-icon>
+      <p class="text-black-50 mb-2">Drag And Drop to upload the files here.</p>
+      <div class="mb-2 medium">OR</div>
+      <label class="btn btn-solid mb-2">
+        <input
+          hidden
+          [accept]="fileTypes"
+          (change)="onChange($event)"
+          type="file"
+        />
+        Browse and Upload
+      </label>
+      <p class="text-black-50">
+        Only <span class="medium text-black">csv, xls & xlsx</span> file formal
+        will be accepted.
+      </p>
+    </div>
+  </div>
+</div>

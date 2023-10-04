@@ -1,0 +1,104 @@
+@use '../utils' as u;
+
+.btn-solid {
+  --bs-btn-font-weight: 600;
+  --bs-btn-color: #{u.$neutral4};
+  --bs-btn-bg: #{u.$primary1};
+  --bs-btn-border-radius: #{u.rem(6)};
+  --bs-btn-hover-color: #{u.$neutral4};
+  --bs-btn-hover-bg: #{u.$primary1a};
+  --bs-btn-active-color: #{u.$neutral4};
+  --bs-btn-active-bg: #{u.$primary1b};
+  --bs-btn-disabled-color: #{u.$neutral3};
+  --bs-btn-disabled-bg: #{u.$neutral3a};
+  --bs-btn-disabled-border-color: #{u.$neutral3a};
+  --bs-btn-padding-y: #{u.rem(6.5)};
+  font-size: u.rem(14);
+  letter-spacing: u.rem(0.28);
+}
+
+.btn-outlined {
+  @extend .btn-solid;
+  --bs-btn-bg: #{u.$neutral4};
+  --bs-btn-color: #{u.$primary1};
+  --bs-btn-border-color: #{u.$primary1};
+  --bs-btn-hover-bg: #{u.$neutral4};
+  --bs-btn-hover-color: #{u.$primary1a};
+  --bs-btn-hover-border-color: #{u.$primary1a};
+  --bs-btn-active-bg: #{u.$neutral4};
+  --bs-btn-active-color: #{u.$primary1b};
+  --bs-btn-disabled-color: #{u.$neutral3};
+  --bs-btn-disabled-bg: #{u.$neutral4};
+  --bs-btn-disabled-border-color: #{u.$neutral3a};
+}
+
+.btn-solid_sm {
+  @extend .btn-solid;
+  --bs-btn-font-weight: 500;
+  --bs-btn-padding-y: #{u.rem(3)};
+  font-size: u.rem(12);
+  letter-spacing: u.rem(0.24);
+}
+
+.btn-outlined_sm {
+  @extend .btn-outlined;
+  --bs-btn-font-weight: 500;
+  --bs-btn-padding-y: #{u.rem(3)};
+  font-size: u.rem(12);
+  letter-spacing: u.rem(0.24);
+}
+
+.btn-outlined_sm-secondary {
+  @extend .btn-outlined_sm;
+  --bs-btn-color: #{u.$neutral3};
+  --bs-btn-border-color: var(--bs-border-color);
+  --bs-btn-active-color: #{u.$neutral4};
+  --bs-btn-active-border-color: #{u.$primary1a};
+  --bs-btn-active-bg: #{u.$primary1a};
+}
+
+.checkbox-outlined {
+  &:checked[type='checkbox'] {
+    --bs-form-check-bg-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23745be7' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='m6 10 3 3 6-6'/%3e%3c/svg%3e");
+    background-color: white;
+  }
+
+  &_success[type='checkbox'] {
+    &:checked {
+      background-color: u.$secondary1;
+      border-color: u.$secondary1;
+    }
+    border-radius: 50%;
+  }
+}
+
+.radio-outlined {
+  &:checked[type='radio'] {
+    --bs-form-check-bg-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%23745be7'/%3e%3c/svg%3e");
+    background-color: white;
+  }
+}
+
+.switch-success {
+  &:checked {
+    background-color: u.$secondary1;
+    border-color: u.$secondary1;
+  }
+}
+
+// card
+.card-custom {
+  --bs-card-border-radius: #{u.rem(8)};
+  --bs-card-box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.04);
+  --bs-card-border-color: white;
+  box-shadow: var(--bs-card-box-shadow);
+  cursor: pointer;
+
+  &:hover {
+    --bs-card-border-color: #{u.$secondary5a};
+  }
+
+  &:active {
+    --bs-card-bg: #{u.$secondary5b};
+  }
+}

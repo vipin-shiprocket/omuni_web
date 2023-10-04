@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="Process_NDR" data-name="Process NDR" transform="translate(-22 -217)">
+    <rect id="Rectangle_5420" data-name="Rectangle 5420" width="24" height="24" transform="translate(22 217)" fill="none"/>
+    <g id="Group_16371" data-name="Group 16371" transform="translate(-1.904 -1.914)">
+      <g id="noun-products-5180674" transform="translate(25.788 220.746)">
+        <path id="Path_20013" data-name="Path 20013" d="M190.48,306.379l4.5-2.6,4.5,2.6-4.5,2.6-4.5-2.6Zm9.372.645v5.2l-4.871,2.812-4.872-2.813v-5.2l4.685,2.7h0a.372.372,0,0,0,.372,0l4.686-2.705Z" transform="translate(-179.62 -294.696)" fill="var(--icon-stroke)" fill-rule="evenodd"/>
+        <path id="Path_20014" data-name="Path 20014" d="M16.953,157.718l-4.664,2.693a.372.372,0,0,1-.393.013L7.21,157.718v5.2l4.873,2.813,4.871-2.812v-5.2Zm-9.372-.645,4.5-2.6,4.5,2.6-4.5,2.6-4.5-2.6ZM22.2,148.634v5.2l-4.871,2.813-4.871-2.813v-5.2l4.685,2.7a.372.372,0,0,0,.393-.013l4.664-2.693Zm-9.372-.645,4.5-2.6,4.5,2.6-4.5,2.6Z" transform="translate(-7.21 -145.39)" fill="#6964e2" fill-rule="evenodd"/>
+      </g>
+    </g>
+  </g>
+</svg>

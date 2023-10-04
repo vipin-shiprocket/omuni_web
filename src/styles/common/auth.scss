@@ -1,0 +1,57 @@
+@use '../utils' as u;
+
+.auth-layout {
+  height: 100vh;
+  overflow-y: scroll;
+  background-color: u.$secondary5c;
+  background-image: url('../../assets/images/bg-login.png');
+  background-position: 50%;
+  background-size: 100% 60%;
+  background-repeat: no-repeat;
+}
+
+.auth-container {
+  background: url('../../assets/images/bg-image.jpg') rgba(0, 0, 0, 0.7);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-blend-mode: multiply;
+  height: 100vh;
+}
+
+.auth {
+  justify-content: center;
+
+  &-card {
+    // margin-top: 3rem;
+    background-color: white;
+    box-shadow: 0 3px u.rem(18) rgba(0, 0, 0, 0.26);
+    border-radius: u.rem(16);
+    max-width: u.rem(550);
+  }
+
+  &-form {
+    // padding: u.rem(35);
+  }
+
+  &-note {
+    text-align: center;
+    color: u.$color2;
+    font-size: u.rem(14);
+  }
+
+  &-ack {
+    font-size: u.rem(13);
+    .mat-mdc-checkbox .mdc-form-field {
+      color: u.$color2 !important;
+    }
+  }
+
+  &-app__checkbox {
+    // position: absolute;
+    // top: 8rem;
+    // left: 0;
+    // width: 100%;
+    // padding: u.rem(8) u.rem(40);
+    // background: u.$color8;
+  }
+}

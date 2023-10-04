@@ -1,0 +1,227 @@
+<div class="container-fluid px-16">
+  <!-- Header -->
+  <div class="d-flex align-items-center flex-wrap">
+    <h1 class="h2 fw-bold my-4">Catalog</h1>
+    <button
+      mat-button
+      class="ms-auto me-2 btn rounded fs-12 bg-primary-subtle text-primary d-flex align-items-center"
+    >
+      <mat-icon class="me-2">add</mat-icon>
+      Add Product
+    </button>
+  </div>
+
+  <!-- Views -->
+  <nav class="nav o2-nav my-3">
+    <ng-container *ngFor="let tab of tabs; let i = index">
+      <div class="nav-item">
+        <button
+          tabindex="-1"
+          class="nav-link d-inline-flex h4 px-5"
+          [ngClass]="{
+            active: tabs[activeTabIdx].name === tab['name']
+          }"
+          (click)="onTabClick(i)"
+        >
+          {{ tab['name'] }}
+        </button>
+      </div>
+    </ng-container>
+  </nav>
+
+  <!-- Filters -->
+  <div class="my-4 d-flex justify-content-between flex-wrap">
+    <div>
+      <app-filters [filtersData]="filterData" />
+    </div>
+    <div>
+      <button
+        matTooltip="Export Catalog"
+        matTooltipPosition="above"
+        class="btn more-filter-btn border mb-3 mb-sm-0"
+      >
+        <mat-icon>save_alt</mat-icon>
+      </button>
+      <button
+        matTooltip="Upload Catalog"
+        matTooltipPosition="above"
+        class="btn more-filter-btn border mb-3 mb-sm-0"
+      >
+        <mat-icon svgIcon="assets:upload"></mat-icon>
+      </button>
+    </div>
+  </div>
+
+  <!-- Table -->
+  <div class="w-100 overflow-auto rounded">
+    <div class="table-responsive mb-3 custom-scrollbar" cdkScrollable>
+      <cdk-table
+        cdkScrollable
+        matSort
+        multiTemplateDataRows
+        [dataSource]="dataSource || [{}, {}, {}]"
+        class="o2-table"
+      >
+        <ng-container cdkColumnDef="sku">
+          <cdk-header-cell *cdkHeaderCellDef mat-sort-header class="bold">
+            Master SKU
+          </cdk-header-cell>
+          <cdk-cell *cdkCellDef="let row" class="text-truncate">
+            <span>{{ row.sku }}</span>
+            <ng-container
+              *ngIf="isEmpty(row)"
+              [ngTemplateOutlet]="placeholder"
+            ></ng-container>
+          </cdk-cell>
+        </ng-container>
+
+        <ng-container cdkColumnDef="name">
+          <cdk-header-cell *cdkHeaderCellDef mat-sort-header class="bold">
+            Product Name
+          </cdk-header-cell>
+          <cdk-cell *cdkCellDef="let row" class="text-truncate">
+            <div
+              *ngIf="!isEmpty(row)"
+              class="cursor"
+              appDropdown
+              [contentTemplate]="popup"
+              [dropDownMode]="'toolTip'"
+            >
+              <span class="d-block mb-1">{{ row.name }}</span>
+              <span class="rounded p-1 bg-dark-subtle text-black-50">
+                {{ row.color }} / {{ row.brand }}</span
+              >
+            </div>
+            <ng-template #popup>
+              <div class="bg-white p-2 rounded shadow-lg popover-arrow">
+                <img [src]="row.images[0]" [alt]="row.name" />
+              </div>
+            </ng-template>
+            <ng-container
+              *ngIf="isEmpty(row)"
+              [ngTemplateOutlet]="placeholder"
+            ></ng-container>
+          </cdk-cell>
+        </ng-container>
+
+        <ng-container cdkColumnDef="category">
+          <cdk-header-cell *cdkHeaderCellDef mat-sort-header class="bold">
+            Category
+          </cdk-header-cell>
+          <cdk-cell *cdkCellDef="let row">
+            <span>{{ row.category }}</span>
+            <ng-container
+              *ngIf="isEmpty(row)"
+              [ngTemplateOutlet]="placeholder"
+            ></ng-container>
+          </cdk-cell>
+        </ng-container>
+
+        <ng-container cdkColumnDef="tax">
+          <cdk-header-cell *cdkHeaderCellDef mat-sort-header class="bold">
+            Tax
+          </cdk-header-cell>
+          <cdk-cell *cdkCellDef="let row">
+            <span>{{ row.tax }}</span>
+            <ng-container
+              *ngIf="isEmpty(row)"
+              [ngTemplateOutlet]="placeholder"
+            ></ng-container>
+          </cdk-cell>
+        </ng-container>
+
+        <ng-container cdkColumnDef="hsn">
+          <cdk-header-cell *cdkHeaderCellDef mat-sort-header class="bold">
+            HSN
+          </cdk-header-cell>
+          <cdk-cell *cdkCellDef="let row">
+            <span>{{ row.hsn }}</span>
+            <ng-container
+              *ngIf="isEmpty(row)"
+              [ngTemplateOutlet]="placeholder"
+            ></ng-container>
+          </cdk-cell>
+        </ng-container>
+
+        <ng-container cdkColumnDef="mrp">
+          <cdk-header-cell *cdkHeaderCellDef mat-sort-header class="bold">
+            MRP
+          </cdk-header-cell>
+          <cdk-cell *cdkCellDef="let row">
+            <span>{{ row.mrp }}</span>
+            <ng-container
+              *ngIf="isEmpty(row)"
+              [ngTemplateOutlet]="placeholder"
+            ></ng-container>
+          </cdk-cell>
+        </ng-container>
+
+        <ng-container cdkColumnDef="dimension">
+          <cdk-header-cell *cdkHeaderCellDef mat-sort-header class="bold">
+            Dimension
+          </cdk-header-cell>
+          <cdk-cell *cdkCellDef="let row">
+            <ng-container *ngIf="!isEmpty(row)">
+              <span
+                >{{ row.length }} cm x {{ row.breadth }} cm x
+                {{ row.height }} cm</span
+              >
+              <br />
+              <span>{{ row.weight }} Kg</span>
+            </ng-container>
+            <ng-container
+              *ngIf="isEmpty(row)"
+              [ngTemplateOutlet]="placeholder"
+            ></ng-container>
+          </cdk-cell>
+        </ng-container>
+
+        <ng-container cdkColumnDef="status">
+          <cdk-header-cell *cdkHeaderCellDef mat-sort-header class="bold">
+            Status
+          </cdk-header-cell>
+          <cdk-cell *cdkCellDef="let row">
+            <div class="form-check form-switch o2-switch" *ngIf="!isEmpty(row)">
+              <input
+                #statusInput
+                class="form-check-input o2-check-input"
+                type="checkbox"
+                role="switch"
+                [checked]="row.active"
+                (click)="updateStatus(statusInput, row.sku)"
+              />
+            </div>
+            <ng-container
+              *ngIf="isEmpty(row)"
+              [ngTemplateOutlet]="placeholder"
+            ></ng-container>
+          </cdk-cell>
+        </ng-container>
+
+        <cdk-header-row
+          class="o2-header-row"
+          *cdkHeaderRowDef="columnsToDisplay; sticky: true"
+        ></cdk-header-row>
+        <cdk-row
+          class="o2-row"
+          *cdkRowDef="let row; columns: columnsToDisplay"
+        ></cdk-row>
+      </cdk-table>
+    </div>
+  </div>
+  <mat-paginator
+    class="mb-3"
+    *ngIf="pagination"
+    [pageSizeOptions]="pagination.pageSizeOptions"
+    [length]="pagination.length"
+    [pageSize]="pagination.pageSize"
+    [pageIndex]="pagination.currentPage"
+    (page)="handlePageEvent($event)"
+  ></mat-paginator>
+</div>
+
+<ng-template #placeholder>
+  <div class="placeholder-glow">
+    <span class="col-8 placeholder"></span>
+  </div>
+</ng-template>

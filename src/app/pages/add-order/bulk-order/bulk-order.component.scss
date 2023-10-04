@@ -1,0 +1,24 @@
+@use '../../../../styles/utils' as u;
+
+.more-filter-btn {
+  color: var(--bs-primary);
+  margin-right: 0;
+  border: 1px solid;
+  width: 100%;
+}
+
+.download-icon {
+  height: u.rem(18);
+  width: u.rem(18);
+  font-size: u.rem(18);
+}
+
+.dd-container {
+  width: 100%;
+  padding: 2rem;
+  border: u.rem(1) dashed u.$primary1;
+  text-align: center;
+  background-color: u.$secondary5b;
+  border-radius: u.rem(10);
+  min-height: u.rem(190);
+}

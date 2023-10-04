@@ -1,0 +1,379 @@
+<div class="container-fluid px-16">
+  <!-- Header -->
+  <div class="d-flex align-items-center justify-content-between">
+    <h1 class="h2 fw-bold my-4 flex-grow-1">Inventory</h1>
+  </div>
+
+  <!-- Analytics -->
+  <ng-container [ngTemplateOutlet]="analytics"></ng-container>
+
+  <!-- Views -->
+  <nav class="nav o2-nav mb-3">
+    <ng-container *ngFor="let tab of tabs; let i = index">
+      <div class="nav-item dropdown">
+        <button
+          tabindex="-1"
+          class="nav-link d-inline-flex"
+          [attr.data-bs-toggle]="tab.dropdown ? 'dropdown' : null"
+          [ngClass]="{
+            active: tabs[activeTabIdx].name === tab['name']
+          }"
+          (click)="onTabClick(i)"
+          (keyup)="onTabClick(i)"
+        >
+          {{ tab['name'] }}
+        </button>
+        <ul class="dropdown-menu bulk-actions-dropd">
+          <li>
+            <button class="dropdown-item">Rename view</button>
+          </li>
+
+          <li>
+            <button class="dropdown-item text-danger">Delete view</button>
+          </li>
+        </ul>
+      </div>
+    </ng-container>
+  </nav>
+
+  <!-- Filters -->
+  <div
+    class="my-4 d-flex flex-column flex-sm-row align-items-stretch justify-content-between flex-wrap"
+  >
+    <div class="d-flex align-items-center mb-4 mb-sm-0">
+      <app-filters
+        [filtersData]="filtersData"
+        (filterChanged)="filterChanged($event)"
+      />
+    </div>
+    <div class="d-flex flex-wrap h-100">
+      <button
+        matTooltip="Export Inventory"
+        matTooltipPosition="above"
+        class="btn more-filter-btn border mb-3 mb-sm-0"
+      >
+        <mat-icon>save_alt</mat-icon>
+      </button>
+      <button
+        matTooltip="Import Inventory"
+        matTooltipPosition="above"
+        class="btn more-filter-btn border mb-3 mb-sm-0"
+      >
+        <mat-icon svgIcon="assets:upload"></mat-icon>
+      </button>
+      <div class="select-dropdown">
+        <app-o2-select
+          [label]="'Sort By'"
+          [options]="filtersData['columns'].data"
+          [showLabelWithValue]="true"
+          [values]="sortBy"
+          placeholder="Sort By"
+          (selectionChange)="getInventoryData($event)"
+        >
+        </app-o2-select>
+      </div>
+    </div>
+  </div>
+
+  <!-- Table -->
+  <div class="w-100 overflow-auto rounded">
+    <div class="table-responsive mb-3 custom-scrollbar" cdkScrollable>
+      <cdk-table
+        cdkScrollable
+        matSort
+        multiTemplateDataRows
+        [dataSource]="dataSource || [{}, {}, {}]"
+        class="o2-table"
+      >
+        <ng-container cdkColumnDef="name">
+          <cdk-header-cell *cdkHeaderCellDef mat-sort-header class="bold">
+            Product Name
+          </cdk-header-cell>
+          <cdk-cell *cdkCellDef="let row" class="text-truncate">
+            <div
+              *ngIf="!isEmpty(row)"
+              class="cursor"
+              appDropdown
+              [contentTemplate]="popup"
+              [dropDownMode]="'toolTip'"
+            >
+              <span class="d-block mb-1">{{ row.productDetails?.name }}</span>
+              <span class="rounded p-1 bg-dark-subtle text-black-50"
+                >{{ row.productDetails?.size }} /
+                {{ row.productDetails?.colour }}</span
+              >
+            </div>
+            <ng-template #popup>
+              <div class="bg-white p-2 rounded shadow-lg popover-arrow">
+                <img
+                  class="object-fit-contain popup-image"
+                  [src]="row.productDetails?.image"
+                  [alt]="row.productDetails?.name"
+                />
+              </div>
+            </ng-template>
+            <ng-container
+              *ngIf="isEmpty(row)"
+              [ngTemplateOutlet]="placeholder"
+            ></ng-container>
+          </cdk-cell>
+        </ng-container>
+
+        <ng-container cdkColumnDef="sku">
+          <cdk-header-cell *cdkHeaderCellDef mat-sort-header class="bold">
+            SKU
+          </cdk-header-cell>
+          <cdk-cell *cdkCellDef="let row" class="text-truncate">
+            <span>{{ row.sku }}</span>
+            <ng-container
+              *ngIf="isEmpty(row)"
+              [ngTemplateOutlet]="placeholder"
+            ></ng-container>
+          </cdk-cell>
+        </ng-container>
+
+        <ng-container cdkColumnDef="available">
+          <cdk-header-cell *cdkHeaderCellDef mat-sort-header class="bold">
+            Available
+          </cdk-header-cell>
+          <cdk-cell *cdkCellDef="let row">
+            <span>{{ row.availableQuantity }}</span>
+            <ng-container
+              *ngIf="isEmpty(row)"
+              [ngTemplateOutlet]="placeholder"
+            ></ng-container>
+          </cdk-cell>
+        </ng-container>
+
+        <ng-container cdkColumnDef="blocked">
+          <cdk-header-cell *cdkHeaderCellDef mat-sort-header class="bold">
+            Blocked
+          </cdk-header-cell>
+          <cdk-cell *cdkCellDef="let row">
+            <span>{{ row.blockedQuantity }}</span>
+            <ng-container
+              *ngIf="isEmpty(row)"
+              [ngTemplateOutlet]="placeholder"
+            ></ng-container>
+          </cdk-cell>
+        </ng-container>
+
+        <ng-container cdkColumnDef="total">
+          <cdk-header-cell *cdkHeaderCellDef mat-sort-header class="bold">
+            Total
+          </cdk-header-cell>
+          <cdk-cell *cdkCellDef="let row">
+            <span>{{ row.totalQuantity }}</span>
+            <ng-container
+              *ngIf="isEmpty(row)"
+              [ngTemplateOutlet]="placeholder"
+            ></ng-container>
+          </cdk-cell>
+        </ng-container>
+
+        <ng-container cdkColumnDef="Actions">
+          <cdk-header-cell *cdkHeaderCellDef mat-sort-header class="bold">
+            Actions
+          </cdk-header-cell>
+          <cdk-cell
+            *cdkCellDef="let row; let i = index"
+            class="actions-section"
+          >
+            <div class="dropdown">
+              <button
+                class="btn btn-sm more_btn d-flex align-items-center justify-content-around"
+                appDropdown
+                [contentTemplate]="drop"
+                [closeSignal]="dropDownClose.asObservable()"
+                [disabled]="isEmpty(row)"
+                [dropDownMode]="'dropDown'"
+                [connectedPositions]="dropDownPositions"
+              >
+                <mat-icon>more_horiz</mat-icon>
+              </button>
+              <ng-template #drop>
+                <div class="border rounded bg-white">
+                  <h5 class="px-4 pt-4 text-secondary">Adjust Available by</h5>
+                  <div class="px-4 mt-2 mb-3">
+                    <div class="o2-group">
+                      <button
+                        tabindex="-1"
+                        role="button"
+                        class="o2-prefix btn text-primary"
+                        (click)="add(quantityInput, -1)"
+                      >
+                        –
+                      </button>
+                      <input
+                        #quantityInput
+                        appOnlyNumbers
+                        type="text"
+                        class="form-control prefix-p sufix-p"
+                        placeholder="Available Quantity"
+                        [noLeadingZeros]="true"
+                        [value]="row.availableQuantity"
+                      />
+                      <button
+                        tabindex="-1"
+                        role="button"
+                        class="o2-sufix btn text-primary"
+                        (click)="add(quantityInput, 1)"
+                      >
+                        +
+                      </button>
+                    </div>
+                  </div>
+                  <div class="px-4 my-2">
+                    <app-o2-select
+                      placeholder="Reason"
+                      label="Reason"
+                      [values]="['CORRECTION']"
+                      [options]="overWriteOptions"
+                      [showLabelWithValue]="true"
+                      (selectionChange)="row.reason = $event"
+                    ></app-o2-select>
+                  </div>
+                  <hr class="mt-3 mb-0" />
+                  <div
+                    class="px-3 py-2 d-flex align-items-center justify-content-between"
+                  >
+                    <button
+                      type="button"
+                      class="btn btn-sm btn-outline-secondary border-0 dropdown-buttons"
+                      (click)="closeUpdateDropdown()"
+                    >
+                      Cancel
+                    </button>
+                    <div class="vr mx-2"></div>
+                    <button
+                      type="button"
+                      class="btn btn-sm btn-outline-primary border-0 dropdown-buttons"
+                      (click)="updateDelta(row, quantityInput.value)"
+                    >
+                      Save
+                    </button>
+                  </div>
+                </div>
+              </ng-template>
+            </div>
+          </cdk-cell>
+        </ng-container>
+
+        <cdk-header-row
+          class="o2-header-row"
+          *cdkHeaderRowDef="columnsToDisplay; sticky: true"
+        ></cdk-header-row>
+        <cdk-row
+          class="o2-row"
+          *cdkRowDef="let row; columns: columnsToDisplay"
+        ></cdk-row>
+      </cdk-table>
+    </div>
+  </div>
+  <mat-paginator
+    class="mb-3"
+    *ngIf="pagination"
+    [pageSizeOptions]="pagination.pageSizeOptions"
+    [length]="pagination.length"
+    [pageSize]="pagination.pageSize"
+    [pageIndex]="pagination.currentPage"
+    (page)="handlePageEvent($event)"
+  ></mat-paginator>
+</div>
+
+<ng-template #analytics>
+  <div class="rounded bg-secondary-subtle container-fluid">
+    <div class="row justify-content-between px-3 pt-3">
+      <div class="card mb-3" *ngFor="let item of analyticsStructure">
+        <div
+          class="g-0 d-flex flex-column flex-sm-row align-items-center justify-content-around justify-content-sm-start"
+        >
+          <div class="p-2">
+            <img
+              class="img-fluid rounded-start"
+              [ngSrc]="item.image"
+              width="46"
+              height="46"
+              [alt]="item.name"
+            />
+          </div>
+          <div>
+            <div class="card-body">
+              <h5 class="card-title">{{ item.name }}</h5>
+              <ng-container *ngIf="analyticsData === undefined">
+                <div class="placeholder-glow">
+                  <h2 class="placeholder">Lorem ...</h2>
+                </div>
+              </ng-container>
+              <ng-container *ngIf="analyticsData">
+                <div class="d-flex align-items-center">
+                  <h3>{{ analyticsData[item.key].quantity }}</h3>
+                  <span
+                    class="ms-2 d-inline-flex align-items-center"
+                    [ngClass]="
+                      analyticsData[item.key].percentage >= 0
+                        ? 'text-success'
+                        : 'text-danger'
+                    "
+                  >
+                    <mat-icon class="me-2">
+                      {{
+                        analyticsData[item.key].percentage >= 0
+                          ? 'trending_up'
+                          : 'trending_down'
+                      }}
+                    </mat-icon>
+                    {{ analyticsData[item.key].percentage | mapper: abs }} %
+                  </span>
+                </div>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #placeholder>
+  <div class="placeholder-glow">
+    <span class="col-8 placeholder"></span>
+  </div>
+</ng-template>
+
+<!-- bulk upload -->
+<!-- <form
+  class="container text-center my-4"
+  (submit)="uploadFile(uploadForm)"
+  #uploadForm="ngForm"
+>
+  <div class="row my-2">
+    <div class="col-12 col-sm-8 mb-2 mb-sm-0">
+      <input
+        #fileInput
+        class="form-control"
+        name="uploadFile"
+        type="file"
+        [accept]="fileTypes"
+        (change)="selectedFileInput = $event.target"
+      />
+    </div>
+    <div class="col-12 col-sm-4">
+      <app-o2-select
+        [(ngModel)]="selectedOption"
+        name="fileType"
+        required
+        [options]="fileOptions"
+        placeholder="Select file type"
+      >
+      </app-o2-select>
+    </div>
+  </div>
+  <button
+    type="submit"
+    class="btn btn-primary float-end"
+    [disabled]="!uploadForm.form.valid || !fileInput.value"
+  >
+    Upload
+  </button>
+</form> -->

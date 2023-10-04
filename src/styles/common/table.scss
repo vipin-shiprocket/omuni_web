@@ -1,0 +1,143 @@
+@use '../utils' as u;
+
+// .o2-table {
+//   display: table;
+//   width: 100%;
+//   border-spacing: 0 0.5rem;
+
+//   .o2-header-row,
+//   .o2-row {
+//     display: table-row;
+//   }
+
+//   .cdk-cell,
+//   .cdk-header-cell {
+//     display: table-cell;
+//     padding: u.rem(16);
+//     text-align: left;
+//     background-color: #fff;
+//   }
+
+//   .cdk-header-cell {
+//     font-weight: 500;
+//   }
+
+//   .cdk-cell:first-child,
+//   .cdk-header-cell:first-child {
+//     width: 3rem;
+//   }
+//   .cdk-cell:first-child,
+//   .cdk-header-cell:first-child {
+//     border-top-left-radius: u.rem(8);
+//     border-bottom-left-radius: u.rem(8);
+//   }
+//   .cdk-cell:last-child,
+//   .cdk-header-cell:last-child {
+//     border-top-right-radius: u.rem(8);
+//     border-bottom-right-radius: u.rem(8);
+//   }
+// }
+
+.o2-table {
+  display: block;
+
+  cdk-row,
+  cdk-header-row,
+  cdk-footer-row {
+    display: flex;
+  }
+
+  .cdk-row {
+    margin-bottom: 0.5rem;
+  }
+
+  .cdk-header-row {
+    margin-bottom: 1rem;
+    font-weight: 500;
+    box-shadow: 0 3px 3px rgba(0, 0, 0, 0.102);
+  }
+
+  .expand-row {
+    margin-bottom: 0.5rem;
+    background-color: transparent;
+
+    & > .cdk-cell:first-child {
+      border-top-left-radius: unset;
+      border-bottom-left-radius: u.rem(8);
+    }
+    & > .cdk-cell:last-child {
+      border-top-right-radius: unset;
+      border-bottom-right-radius: u.rem(8);
+    }
+  }
+
+  cdk-cell,
+  cdk-header-cell,
+  cdk-footer-cell {
+    flex: 1;
+    padding: u.rem(16);
+    text-align: left;
+    background-color: #fff;
+  }
+
+  .cdk-cell:first-child {
+    border-top-left-radius: u.rem(8);
+  }
+
+  .cdk-cell:first-child,
+  .cdk-header-cell:first-child {
+    border-top-left-radius: u.rem(8);
+    border-bottom-left-radius: u.rem(8);
+  }
+
+  .cdk-cell:last-child,
+  .cdk-header-cell:last-child {
+    border-top-right-radius: u.rem(8);
+    border-bottom-right-radius: u.rem(8);
+  }
+}
+
+.child-table {
+  width: 100%;
+  background-color: u.$bg-color;
+  margin-bottom: 1rem;
+  padding: 1rem;
+  border-radius: u.rem(6);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+
+  &-header,
+  &-row {
+    display: flex;
+    background-color: #fff;
+  }
+
+  &-header {
+    padding-inline: 1rem;
+    margin-bottom: 0.8rem;
+    border-radius: u.rem(6);
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.102);
+  }
+
+  & &-row:first-of-type {
+    background-color: azure;
+  }
+
+  &-row {
+    padding-inline: 1rem;
+
+    &:first-of-type {
+      border-top-left-radius: u.rem(6);
+      border-top-right-radius: u.rem(6);
+    }
+
+    &:last-of-type {
+      border-bottom-left-radius: u.rem(6);
+      border-bottom-right-radius: u.rem(6);
+    }
+  }
+
+  &-cell {
+    flex: 1;
+    padding: 0.5rem;
+  }
+}

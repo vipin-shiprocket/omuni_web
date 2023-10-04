@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+    <defs>
+        <style>
+            .cls-2{fill:#90949d}
+        </style>
+    </defs>
+    <g id="Group_26904" data-name="Group 26904" transform="translate(-1551 -3157)">
+        <path id="Rectangle_5683" data-name="Rectangle 5683" transform="translate(1551 3157)" style="fill:none" d="M0 0h24v24H0z"/>
+        <g id="icons" transform="translate(1522.9 3121.2)">
+            <g id="Group_26919" data-name="Group 26919" transform="translate(31.1 40.8)">
+                <path id="Path_20013" data-name="Path 20013" class="cls-2" d="M31.1 60.417A1.384 1.384 0 0 1 32.442 59h15.316a1.384 1.384 0 0 1 1.342 1.417 1.384 1.384 0 0 1-1.342 1.417H32.47a1.354 1.354 0 0 1-1.37-1.417z" transform="translate(-31.1 -53.448)"/>
+                <path id="Path_20014" data-name="Path 20014" class="cls-2" d="M31.3 42.217a1.419 1.419 0 0 1 1.417-1.417h6.594a1.419 1.419 0 0 1 1.417 1.417 1.419 1.419 0 0 1-1.417 1.417h-6.594a1.384 1.384 0 0 1-1.417-1.417z" transform="translate(-31.242 -40.8)"/>
+                <path id="Path_20015" data-name="Path 20015" class="cls-2" d="M43.649 78.817a1.419 1.419 0 0 0-1.418-1.417h-9.514a1.419 1.419 0 0 0-1.417 1.417 1.419 1.419 0 0 0 1.417 1.417h9.514a1.419 1.419 0 0 0 1.418-1.417z" transform="translate(-31.242 -66.234)"/>
+            </g>
+        </g>
+    </g>
+</svg>

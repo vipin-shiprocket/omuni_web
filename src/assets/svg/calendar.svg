@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+    <g data-name="Group 16378">
+        <g data-name="Group 16377">
+            <g data-name="Icon feather-calendar" style="opacity:.8">
+                <path data-name="Path 4" d="M5.882 6h9.678a1.379 1.379 0 0 1 1.382 1.376v9.634a1.379 1.379 0 0 1-1.382 1.376H5.882A1.379 1.379 0 0 1 4.5 17.01V7.376A1.379 1.379 0 0 1 5.882 6z" transform="translate(1.5 .439)" style="stroke:#000;stroke-linecap:round;stroke-linejoin:round;fill:none"/>
+                <path data-name="Path 5" d="M24 3v2.877" transform="translate(-9.014 2)" style="stroke:#000;stroke-linecap:round;stroke-linejoin:round;fill:none"/>
+                <path data-name="Path 6" d="M12 3v2.877" transform="translate(-2.544 2)" style="stroke:#000;stroke-linecap:round;stroke-linejoin:round;fill:none"/>
+                <path data-name="Path 7" d="M4.5 15h12.442" transform="translate(1.5 -4.47)" style="stroke:#000;stroke-linecap:round;stroke-linejoin:round;fill:none"/>
+            </g>
+            <path data-name="Rectangle 974" transform="translate(4 4)" style="fill:none" d="M0 0h16v16H0z"/>
+        </g>
+        <path data-name="Rectangle 5712" style="fill:none" d="M0 0h24v24H0z"/>
+    </g>
+</svg>

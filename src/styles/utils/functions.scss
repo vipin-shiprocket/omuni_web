@@ -1,0 +1,6 @@
+@use 'sass:math';
+
+@function rem($pixel, $context: 16) {
+  // TODO: handle type of pixel to be number
+  @return math.div($pixel, $context) * 1rem;
+}

@@ -1,0 +1,94 @@
+@use '../../../styles/utils' as u;
+
+.card {
+  flex: 0 0 auto;
+  width: 98%;
+
+  @media (min-width: 576px) {
+    width: 49%;
+  }
+
+  @media (min-width: 768px) {
+    width: 32%;
+  }
+
+  @media (min-width: 992px) {
+    width: 24%;
+  }
+
+  @media (min-width: 1200px) {
+    width: 19%;
+  }
+}
+
+.table-responsive {
+  min-width: 900px;
+  max-height: 65vh;
+  @media (min-width: 768px) {
+    max-height: 50vh;
+  }
+}
+
+.more_btn {
+  width: u.rem(32);
+  height: u.rem(32);
+  border-radius: 50%;
+  padding-inline: u.rem(3);
+  color: u.$primary1;
+  background-color: var(--bs-primary-bg-subtle);
+
+  &:hover {
+    border-color: var(--bs-primary);
+  }
+
+  &:disabled {
+    background-color: u.$neutral3c;
+    color: u.$neutral3;
+    pointer-events: none;
+  }
+}
+
+.base-column {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+
+  word-break: break-word;
+
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
+
+.cdk-column-name {
+  @extend .base-column;
+  flex: 1 0 10% !important;
+  width: 10% !important;
+}
+
+.cdk-column-sku {
+  @extend .base-column;
+  flex: 1 0 10% !important;
+  width: 10% !important;
+}
+
+.cdk-column-Actions {
+  @extend .base-column;
+  flex: 0 0 9% !important;
+  width: 9% !important;
+}
+
+.dropdown-buttons {
+  width: 100px;
+}
+
+.select-dropdown {
+  min-width: 200px;
+}
+
+.popup-image {
+  max-width: 150px;
+  max-height: 150px;
+}

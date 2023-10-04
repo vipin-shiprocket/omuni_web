@@ -1,0 +1,45 @@
+@use './functions' as fn;
+
+@mixin height-vh($height, $class: '') {
+  $name: if($class == '', $height, $class);
+
+  .h-vh-#{$name} {
+    height: #{$height}vh;
+  }
+}
+
+@include height-vh(5);
+@include height-vh(6);
+@include height-vh(7);
+@include height-vh(7.5, '7-5');
+@include height-vh(10);
+
+@mixin fontSize($size) {
+  .fs-#{$size} {
+    font-size: #{fn.rem($size)};
+  }
+}
+
+@mixin background($color) {
+  .bg-#{$color} {
+    background-color: $color;
+  }
+}
+
+@mixin textColor($color) {
+  .text-#{$color} {
+    color: $color;
+  }
+}
+
+@function calculate-delay($spinner-count, $delay-increment) {
+  $delay: 0s;
+  $delay-list: ();
+
+  @for $i from 1 through $spinner-count {
+    $delay: $delay + $delay-increment;
+    $delay-list: append($delay-list, $delay);
+  }
+
+  @return $delay-list;
+}

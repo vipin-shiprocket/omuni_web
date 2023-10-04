@@ -1,0 +1,32 @@
+<mat-drawer-container class="o2-layout">
+  <mat-drawer
+    class="o2-sidebar overflow-x-hidden"
+    mode="side"
+    opened
+    [ngClass]="(layoutService.sideBarOpen | async) ? 'open' : 'close'"
+    (mouseenter)="sidebarOpen = true"
+    (mouseleave)="sidebarOpen = false"
+    color="drawer-background"
+  >
+    <app-sidebar class="d-flex h-100" />
+  </mat-drawer>
+  <mat-drawer-content class="o2-layout-content d-flex flex-column">
+    <button
+      *ngIf="layoutService.sideBarOpen | async"
+      class="o2-backdrop border-0 p-0"
+      (click)="close()"
+      aria-label="Backdrop"
+    ></button>
+    <app-header />
+    <div
+      class="o2-body overflow-auto custom-scrollbar flex-grow-1"
+      cdkScrollable
+    >
+      <router-outlet></router-outlet>
+    </div>
+    <app-footer
+      *ngIf="showFooter()"
+      class="d-flex flex-shrink-0 h-vh-7 btn-group"
+    />
+  </mat-drawer-content>
+</mat-drawer-container>

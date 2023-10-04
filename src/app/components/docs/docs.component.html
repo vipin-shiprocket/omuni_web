@@ -1,0 +1,222 @@
+<div class="container pb-5">
+  <div class="my-3">
+    <a routerLink="." fragment="typography" class="h2 font-light text-uppercase"
+      >Typography</a
+    >
+  </div>
+  <h1>H1: Quick Brown Fox Jumps Over Little Lazy Dog.</h1>
+  <h2>H2: Quick Brown Fox Jumps Over Little Lazy Dog.</h2>
+  <h3>H3: Quick Brown Fox Jumps Over Little Lazy Dog.</h3>
+  <h4>H4: Quick Brown Fox Jumps Over Little Lazy Dog.</h4>
+  <h5>H5: Quick Brown Fox Jumps Over Little Lazy Dog.</h5>
+  <h6>H6: Quick Brown Fox Jumps Over Little Lazy Dog.</h6>
+  <p>p: Quick Brown Fox Jumps Over Little Lazy Dog.</p>
+
+  <div class="my-3">
+    <a routerLink="." fragment="buttons" class="h2 font-light text-uppercase"
+      >buttons</a
+    >
+  </div>
+  <button class="m-3 btn btn-solid">Default</button>
+  <button class="m-3 btn btn-solid" disabled>Disabled</button>
+  <button class="m-3 btn btn-outlined">Default</button>
+  <button class="m-3 btn btn-outlined" disabled>Disabled</button>
+  <div class="vr" style="height: 3rem; margin-bottom: -1.25rem"></div>
+  <button class="m-3 btn btn-solid_sm">Default Small</button>
+  <button class="m-3 btn btn-solid_sm" disabled>Disabled Small</button>
+  <button class="m-3 btn btn-outlined_sm">Default small</button>
+  <button class="m-3 btn btn-outlined_sm" disabled>Disabled small</button>
+
+  <div class="my-3">
+    <a
+      routerLink="."
+      fragment="input forms"
+      class="h2 font-light text-uppercase"
+      >input forms</a
+    >
+  </div>
+  <div class="d-flex">
+    <div class="mb-3 ms-3">
+      <label for="exampleFormControlInput1" class="form-label">Email ID</label>
+      <input
+        type="email"
+        class="form-control"
+        autocomplete="new-password"
+        id="exampleFormControlInput1"
+        placeholder="Enter your email id"
+      />
+    </div>
+    <div class="mb-3 ms-3">
+      <label for="exampleFormControlInput2" class="form-label">Password</label>
+      <input
+        type="password"
+        autocomplete="new-password"
+        class="form-control"
+        id="exampleFormControlInput2"
+        placeholder="Password"
+      />
+    </div>
+    <div class="vr ms-3"></div>
+    <div class="mb-3 ms-3">
+      <label for="exampleFormControlInput3" class="form-label">Email ID</label>
+      <input
+        type="email"
+        class="form-control"
+        autocomplete="new-password"
+        id="exampleFormControlInput3"
+        placeholder="Enter your email id"
+        value="name@example.com"
+      />
+    </div>
+    <div class="mb-3 ms-3 position-relative eye">
+      <label for="exampleFormControlInput4" class="form-label">Password</label>
+      <input
+        #pass
+        type="password"
+        autocomplete="new-password"
+        class="form-control"
+        id="exampleFormControlInput4"
+        placeholder="Password"
+        value="password"
+      />
+      <mat-icon (click)="toggle(pass)">
+        {{ pass.type === 'password' ? 'visibility_off' : 'visibility' }}
+      </mat-icon>
+    </div>
+    <div class="vr ms-3"></div>
+    <div class="mb-3 ms-3">
+      <label for="exampleFormControlInput5" class="form-label">Email ID</label>
+      <input
+        type="email"
+        disabled
+        class="form-control"
+        autocomplete="new-password"
+        id="exampleFormControlInput5"
+        placeholder="Enter your email id"
+        value="name@example.com"
+      />
+    </div>
+    <div class="vr ms-3"></div>
+
+    <div class="mb-3 ms-3">
+      <label for="exampleFormControlInput6" class="form-label">Email ID</label>
+      <input
+        type="email"
+        class="form-control is-invalid"
+        autocomplete="new-password"
+        id="exampleFormControlInput6"
+        placeholder="Enter your email id"
+        value="nameexample.com"
+      />
+      <div class="invalid-feedback">Please provide a valid email id.</div>
+    </div>
+  </div>
+  <div class="my-3">
+    <a routerLink="." fragment="checkbox" class="h2 font-light text-uppercase"
+      >checkbox</a
+    >
+  </div>
+  <div>
+    <input class="form-check-input ms-3" type="checkbox" value="" />
+    <input class="form-check-input ms-3" type="checkbox" checked />
+    <input class="form-check-input ms-3" type="checkbox" disabled />
+    <div class="vr ms-3"></div>
+    <input
+      class="form-check-input checkbox-outlined ms-3"
+      type="checkbox"
+      value=""
+    />
+    <input
+      class="form-check-input checkbox-outlined ms-3"
+      type="checkbox"
+      checked
+    />
+    <input class="form-check-input ms-3" type="checkbox" disabled />
+    <div class="vr ms-3"></div>
+    <input
+      class="form-check-input checkbox-outlined_success ms-3"
+      type="checkbox"
+      value=""
+    />
+    <input
+      class="form-check-input checkbox-outlined_success ms-3"
+      type="checkbox"
+      checked
+    />
+    <input
+      class="form-check-input checkbox-outlined_success ms-3"
+      type="checkbox"
+      disabled
+    />
+    <div class="vr ms-3"></div>
+  </div>
+
+  <div class="my-3">
+    <a routerLink="." fragment="radio" class="h2 font-light text-uppercase"
+      >radio</a
+    >
+  </div>
+  <div class="d-flex">
+    <input
+      class="form-check-input radio-outlined ms-3"
+      type="radio"
+      name="radioExample"
+    />
+    <input
+      class="form-check-input radio-outlined ms-3"
+      type="radio"
+      name="radioExample"
+      checked
+    />
+    <input
+      class="form-check-input radio-outlined ms-3"
+      type="radio"
+      name="radioExample"
+      disabled
+    />
+    <div class="vr ms-3 me-0"></div>
+    <div class="form-check form-switch ps-3">
+      <input
+        class="form-check-input switch-success ms-3"
+        type="checkbox"
+        role="switch"
+      />
+      <input
+        class="form-check-input switch-success ms-3"
+        type="checkbox"
+        role="switch"
+        checked
+      />
+      <input
+        class="form-check-input switch-success ms-3"
+        type="checkbox"
+        role="switch"
+        disabled
+      />
+      <input
+        class="form-check-input switch-success ms-3"
+        type="checkbox"
+        role="switch"
+        disabled
+        checked
+      />
+    </div>
+  </div>
+
+  <div class="my-3">
+    <a routerLink="." fragment="card" class="h2 font-light text-uppercase"
+      >card</a
+    >
+  </div>
+  <div class="d-flex">
+    <div class="card card-custom">
+      <div class="card-body">Click Me</div>
+    </div>
+    <div class="card card-custom ms-3">
+      <div class="card-body">Hovered over me</div>
+    </div>
+    <div class="card card-custom ms-3">
+      <div class="card-body">Normal Card</div>
+    </div>
+  </div>
+</div>

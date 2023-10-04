@@ -1,0 +1,28 @@
+/* You can add global styles to this file, and also import other style files */
+
+html {
+  font-size: 100%;
+  box-sizing: border-box;
+}
+
+*,
+*::after,
+*::before {
+  box-sizing: inherit;
+}
+
+html,
+body {
+  height: 100%;
+  font-family: var(--font);
+
+  @media screen and (max-width: 767px) {
+    font-size: large;
+  }
+}
+
+body {
+  font-size: 12px;
+  margin: 0;
+  padding: 0;
+}
