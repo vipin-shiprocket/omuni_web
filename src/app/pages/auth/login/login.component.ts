@@ -12,7 +12,7 @@ import { environment } from 'src/environments/environment';
 import { ToastrService } from 'ngx-toastr';
 // import { ReCaptchaV3Service } from 'ng-recaptcha';
 import { focusOnFirstDigitInOTP, toggleEye } from 'src/app/utils/utils';
-import { v4 as uuidv4 } from 'uuid';
+
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import {
@@ -23,12 +23,17 @@ import {
   ILoginOTPForm,
   LoginOTPDTO,
 } from './login.model';
-import { Endpoints, authModule1 } from '../auth.model';
+import {
+  Endpoints,
+  emailPattern,
+  mobilePattern,
+  preAuthorizationModules,
+} from '../auth.model';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [authModule1],
+  imports: [preAuthorizationModules],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
 })
@@ -107,8 +112,8 @@ export class LoginComponent implements OnDestroy {
       { type: 'pattern', message: 'Please enter a valid Mobile Number' },
     ],
   };
-  emailPattern = '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,4}$';
-  mobilePattern = '^[0-9]{10}$';
+  emailPattern = emailPattern;
+  mobilePattern = mobilePattern;
 
   ctrlByName(ctrlName: string): AbstractControl {
     return this.userForm.get(ctrlName) as AbstractControl;
@@ -263,7 +268,7 @@ export class LoginComponent implements OnDestroy {
     const data = {
       email: email,
       password: password,
-      device_id: uuidv4(),
+      device_id: crypto.randomUUID(),
     };
     // const recaptcha$ = this.recaptchaService.execute('login');
     // const recaptchaToken = await firstValueFrom(recaptcha$);

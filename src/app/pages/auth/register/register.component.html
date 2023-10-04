@@ -11,232 +11,532 @@
           class=""
         />
       </div>
-      <div class="col-md-12 row">
+      <div
+        class="col-md-12 row"
+        [ngClass]="!showSignupForm ? 'min-height-700' : ''"
+      >
         <div
           style="z-index: 1"
+          [ngClass]="!showSignupForm ? 'max-height-330' : ''"
           class="col-md-6 col-lg-6 col-sm-11 col-xs-11 auth-card signup px-2rem order-m-2 order-s-1 mb-4"
         >
-          <div class="panel-body">
-            <h3
-              class="text-center -Semibold text-left fs-20px mt-2 mt-md-3 mb-4 font-weight-bold"
-            >
-              Get started with a free account
-            </h3>
-          </div>
-          <!--Small Screen Socail Media Icons -->
-          <div class="row d-flex d-md-none mt-15 justify-content-center">
-            <div class="col col-3 mb-2 text-center text-opacity-90 mx-2">
-              <button
-                class="btn mb-1 btn-light rounded-5rem border bg-white fs-14px py-2"
-                (click)="registerWithGoogle()"
+          <div *ngIf="showSignupForm">
+            <div class="panel-body">
+              <h3
+                class="text-center -Semibold text-left fs-20px mt-2 mt-md-3 mb-4 font-weight-bold"
               >
-                <img
-                  class=""
-                  src="./assets/images/google.png"
-                  alt="google"
-                  width="20px"
-                  height="20px"
-                />
-              </button>
-              <br />
-              Google
+                Get started with a free account
+              </h3>
             </div>
-            <div class="col col-3 mb-2 text-opacity-90 mx-2">
-              <button
-                class="btn mb-1 btn-light rounded-5rem border bg-white fs-14px py-2"
-                (click)="registerWithShopify()"
-              >
-                <img
-                  class=""
-                  src="./assets/images/shopify-sm.svg"
-                  alt="Shopify"
-                  width="20px"
-                  height="20px"
-                />
-              </button>
-              <br />
-              Shopofy
-            </div>
-          </div>
-          <div class="socialMediaTabs">
-            <div class="row d-none d-md-flex mt-15 justify-content-center">
-              <div
-                tabindex="0"
-                class="col-md-6 col-xs-6 pr-sm col-6"
-                (click)="registerWithGoogle()"
-                (keyup.enter)="registerWithGoogle()"
-              >
-                <a class="btn btn-block btn-social btn-border">
+            <!--Small Screen Socail Media Icons -->
+            <div class="row d-flex d-md-none mt-15 justify-content-center">
+              <div class="col col-3 mb-2 text-center text-opacity-90 mx-2">
+                <button
+                  class="btn mb-1 btn-light rounded-5rem border bg-white fs-14px py-2"
+                  (click)="registerWithGoogle()"
+                >
                   <img
-                    class="w-20px mr-2"
-                    src="./assets/images/google.png"
+                    class=""
+                    ngSrc="./assets/images/google.png"
                     alt="google"
-                    width="20px"
-                    height="20px"
+                    width="20"
+                    height="20"
                   />
-                  Google
-                </a>
+                </button>
+                <br />
+                Google
               </div>
-
-              <div
-                tabindex="0"
-                class="col-md-6 col-xs-6 pr-sm col-6"
-                (click)="registerWithShopify()"
-                (keyup.enter)="registerWithShopify()"
-              >
-                <a class="btn btn-block btn-social btn-border">
+              <div class="col col-3 mb-2 text-opacity-90 mx-2">
+                <button
+                  class="btn mb-1 btn-light rounded-5rem border bg-white fs-14px py-2"
+                  (click)="registerWithShopify()"
+                >
                   <img
-                    class="w-20px"
-                    src="./assets/images/shopify-sm.svg"
+                    class=""
+                    ngSrc="./assets/svg/shopify-sm.svg"
                     alt="Shopify"
-                    width="20px"
-                    height="20px"
+                    width="20"
+                    height="20"
                   />
-                  Shopify
-                </a>
+                </button>
+                <br />
+                Shopofy
               </div>
             </div>
-          </div>
-
-          <!-- .. OR -->
-          <div class="text-center ptb-tenpx">
-            <p class="my-1 text-center fs-16px">
-              <span class="dashed-border mb-2px"> </span> or
-              <span class="dashed-border mb-2px"></span>
-            </p>
-          </div>
-
-          <form novalidate (submit)="onSignupFormSubmit()" class="row g-3">
-            <div class="col-xs-12 mb-3">
-              <div class="row mb-md-2">
-                <div class="col-xs col-md-12 col-lg-6 my-2">
-                  <label for="firstName" class="form-label">First Name </label>
-                  <input
-                    type="text"
-                    id="firstName"
-                    class="form-control"
-                    placeholder="First name"
-                    aria-label="First name"
-                    placeholder="Enter First Name"
-                  />
-                </div>
-                <div class="col-xs col-md-12 col-lg-6 my-2">
-                  <label for="lastName" class="form-label">Last Name </label>
-                  <input
-                    type="text"
-                    id="lastName"
-                    class="form-control"
-                    placeholder="Last name"
-                    placeholder="Enter Last Name"
-                    aria-label="Last name"
-                  />
-                </div>
-              </div>
-
-              <div class="row mb-md-2">
-                <div class="col-xs-12 my-2">
-                  <label for="companyName" class="form-label"
-                    >Company Name</label
-                  >
-                  <input
-                    type="text"
-                    id="companyName"
-                    class="form-control"
-                    placeholder="Enter Company Name"
-                    aria-label="Company name"
-                  />
+            <div class="socialMediaTabs">
+              <div class="row d-none d-md-flex mt-15 justify-content-center">
+                <div
+                  tabindex="-1"
+                  class="col-md-6 col-xs-6 pr-sm col-6"
+                  (click)="registerWithGoogle()"
+                  (keyup.enter)="registerWithGoogle()"
+                >
+                  <a class="btn btn-block btn-social btn-border">
+                    <img
+                      class="w-20px mx-2"
+                      ngSrc="./assets/images/google.png"
+                      alt="google"
+                      width="20"
+                      height="20"
+                    />
+                    Google
+                  </a>
                 </div>
 
-                <div class="col-xs-12 my-2">
-                  <label for="emailId" class="form-label">Email ID</label>
-                  <input
-                    type="text"
-                    id="emailId"
-                    class="form-control"
-                    aria-label="Email Id"
-                    autocomplete="nope"
-                    placeholder="Enter Email Id"
-                  />
-                </div>
-
-                <div class="col-xs-12 my-2">
-                  <label for="emailId" class="form-label">Password</label>
-                  <input
-                    type="password"
-                    id="password"
-                    class="form-control"
-                    aria-label="password"
-                    autocomplete="nope"
-                    placeholder="Enter Password"
-                  />
+                <div
+                  tabindex="-1"
+                  class="col-md-6 col-xs-6 pr-sm col-6"
+                  (click)="registerWithShopify()"
+                  (keyup.enter)="registerWithShopify()"
+                >
+                  <a class="btn btn-block btn-social btn-border">
+                    <img
+                      class="w-20px mx-2"
+                      ngSrc="./assets/svg/shopify-sm.svg"
+                      alt="Shopify"
+                      width="20"
+                      height="20"
+                    />
+                    Shopify
+                  </a>
                 </div>
               </div>
+            </div>
 
-              <div class="col-12 mb-3 mt">
-                <label for="emailId" class="form-label">
-                  How many orders do you ship in a month ?
-                </label>
-                <select class="form-select" aria-label="Default select example">
-                  <option selected>Please select</option>
-                  <option value="Setting up a new business">
-                    Setting up a new business
-                  </option>
-                  <option value="Between 1-10 orders">
-                    Between 1-10 orders
-                  </option>
-                  <option value="11-100 orders">11-100 orders</option>
-                  <option value="101-1000 orders">101-1000 orders</option>
-                  <option value="1001-5000 orders">1001-5000 orders</option>
-                  <option value="More than 5000 orders">
-                    More than 5000 orders
-                  </option>
-                </select>
-              </div>
-              <div
-                class="checkbox col-12 form-group fs-10px mb-0 ml-1 mt-1 px-0 text-left position-relative"
-              >
-                <label class="pl-2 col-12">
-                  <input type="checkbox" class="d-none" />
-                  <span class="block-center ms-4 fs-8px">
-                    <span
-                      >By clicking Sign up for Free, you agree to
-                      Shiprocket's</span
+            <!-- .. OR -->
+            <div class="text-center ptb-tenpx">
+              <p class="my-1 text-center fs-16px">
+                <span class="dashed-border mb-2px"> </span> or
+                <span class="dashed-border mb-2px"></span>
+              </p>
+            </div>
+
+            <form
+              novalidate
+              autocomplete="off"
+              (submit)="onSignupFormSubmit()"
+              [formGroup]="signupForm"
+              *ngIf="showSignupForm"
+              class="row g-3"
+            >
+              <div class="col-xs-12 mb-3">
+                <div class="row mb-md-2">
+                  <div class="col-xs col-md-12 col-lg-6 my-2">
+                    <label for="firstName" class="form-label"
+                      >First Name
+                    </label>
+                    <input
+                      appAllowString
+                      type="text"
+                      id="firstName"
+                      class="form-control"
+                      formControlName="first_name"
+                      aria-label="First name"
+                      placeholder="Enter First Name"
+                      autocomplete="off"
+                    />
+                    <div class="row">
+                      <div
+                        *ngFor="
+                          let validation of signupValidationMessage.first_name
+                        "
+                        class="text-danger col-12"
+                      >
+                        <span
+                          *ngIf="
+                            ctrlByName('first_name').hasError(
+                              validation.type
+                            ) && ctrlByName('first_name').dirty
+                          "
+                        >
+                          {{ validation.message }}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-xs col-md-12 col-lg-6 my-2">
+                    <label for="lastName" class="form-label">Last Name </label>
+                    <input
+                      type="text"
+                      id="lastName"
+                      appAllowString
+                      class="form-control"
+                      formControlName="last_name"
+                      placeholder="Last name"
+                      placeholder="Enter Last Name"
+                      aria-label="Last name"
+                    />
+                    <div class="row">
+                      <div
+                        *ngFor="
+                          let validation of signupValidationMessage.last_name
+                        "
+                        class="text-danger col-12"
+                      >
+                        <span
+                          *ngIf="
+                            ctrlByName('last_name').hasError(validation.type) &&
+                            ctrlByName('last_name').dirty
+                          "
+                        >
+                          {{ validation.message }}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row mb-md-2">
+                  <div class="col-xs-12 my-2">
+                    <label for="companyName" class="form-label"
+                      >Company Name</label
                     >
-                    <a
-                      href="https://www.shiprocket.in/merchant-agreement/"
-                      target="_blank"
-                      rel="noopener"
-                      class="text-blue ms-1"
-                      >Terms Of Service
-                    </a>
-                    and
-                    <a
-                      href="https://www.shiprocket.in/privacy-policy/"
-                      rel="noopener"
-                      target="_blank"
-                      class="text-blue ms-1"
-                      >Privacy Policy.</a
-                    > </span
-                  ><span class="customcheckbox"></span
-                ></label>
-              </div>
+                    <input
+                      type="text"
+                      id="companyName"
+                      formControlName="company_name"
+                      class="form-control"
+                      placeholder="Enter Company Name"
+                      aria-label="Company name"
+                    />
+                    <div class="row">
+                      <div
+                        *ngFor="
+                          let validation of signupValidationMessage.company_name
+                        "
+                        class="text-danger col-12"
+                      >
+                        <span
+                          *ngIf="
+                            ctrlByName('company_name').hasError(
+                              validation.type
+                            ) && ctrlByName('company_name').dirty
+                          "
+                        >
+                          {{ validation.message }}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
 
-              <div class="d-grid gap-2 col-12 mt-4">
-                <button type="submit" class="btn btn-solid">
-                  Sign up for Free
-                </button>
-              </div>
+                  <div class="col-xs-12 my-2">
+                    <label for="emailId" class="form-label">Email ID</label>
+                    <input
+                      type="text"
+                      id="emailId"
+                      formControlName="email"
+                      class="form-control"
+                      aria-label="Email Id"
+                      autocomplete="nope"
+                      placeholder="Enter Email Id"
+                    />
+                    <div class="row">
+                      <div
+                        *ngFor="let validation of signupValidationMessage.email"
+                        class="text-danger col-12"
+                      >
+                        <span
+                          *ngIf="
+                            ctrlByName('email').hasError(validation.type) &&
+                            ctrlByName('email').dirty
+                          "
+                        >
+                          {{ validation.message }}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
 
-              <div class="col-12 mt-2">
-                <p class="tc-all fs-14px text-grey" style="color: #969696">
-                  Already have an account?
-                  <a
-                    routerLink="/login"
-                    class="a-link link-primary fs-12 pointer ml-2"
+                  <div class="col-xs-12 my-2 position-relative">
+                    <label for="password" class="form-label">Password</label>
+                    <input
+                      #pass
+                      [type]="'password'"
+                      formControlName="password"
+                      autocomplete="new-password"
+                      class="form-control parentElement"
+                      id="password"
+                      (input)="checkPassword()"
+                      placeholder="Enter Password"
+                    />
+                    <span
+                      tabindex="-1"
+                      class="position-absolute pointer resposive-position"
+                      (click)="toggle(pass)"
+                      (keyup.enter)="toggle(pass)"
+                    >
+                      <img
+                        *ngIf="pass.type === 'text'"
+                        ngSrc="./assets/images/eyeopen.png"
+                        alt="Show password image "
+                        class="w-20px"
+                        width="20"
+                        height="20"
+                      />
+                      <img
+                        *ngIf="pass.type !== 'text'"
+                        ngSrc="./assets/images/eyeopen.png"
+                        alt="Show password image "
+                        class="w-20px"
+                        width="20"
+                        height="20"
+                      />
+                    </span>
+                    <div class="row">
+                      <div
+                        *ngFor="
+                          let validation of signupValidationMessage.password
+                        "
+                        class="text-danger col-12"
+                      >
+                        <span
+                          *ngIf="
+                            ctrlByName('password').hasError(validation.type) &&
+                            ctrlByName('password').dirty
+                          "
+                        >
+                          {{ validation.message }}
+                        </span>
+                      </div>
+                    </div>
+                    <!-- grey box -->
+                    <div
+                      class="bg-grey showOnlyOnFocus p-2 rightbottom position-absolute top-2rem"
+                    >
+                      <p class="font-weight-bold mb-2">Password must contain</p>
+                      <ul class="px-0 mb-0">
+                        <li
+                          class="mb-2 d-flex align-items-center fs-12px"
+                          [ngClass]="
+                            capSmallFlag ? 'text-success' : 'text-danger'
+                          "
+                          mat-button
+                        >
+                          <span
+                            class="material-icons fs-12px pe-1"
+                            [ngClass]="capSmallFlag ? 'd-block' : 'd-none'"
+                          >
+                            check
+                          </span>
+                          <span
+                            class="material-icons fs-12px pe-1"
+                            [ngClass]="capSmallFlag ? 'd-none' : 'd-block'"
+                          >
+                            clear
+                          </span>
+                          Atleast 1 upper case and 1 lower case
+                        </li>
+                        <li
+                          class="mb-2 d-flex align-items-center fs-12px"
+                          [ngClass]="
+                            specialCharFlag ? 'text-success' : 'text-danger'
+                          "
+                        >
+                          <span
+                            class="material-icons fs-12px pe-1"
+                            [ngClass]="specialCharFlag ? 'd-block' : 'd-none'"
+                          >
+                            check
+                          </span>
+                          <span
+                            class="material-icons fs-12px pe-1"
+                            [ngClass]="specialCharFlag ? 'd-none' : 'd-block'"
+                          >
+                            clear
+                          </span>
+                          Atleast 1 special character
+                        </li>
+                        <li
+                          class="d-flex align-items-center fs-12px"
+                          [ngClass]="
+                            numericFlag ? 'text-success' : 'text-danger'
+                          "
+                        >
+                          <span
+                            class="material-icons fs-12px pe-1"
+                            [ngClass]="numericFlag ? 'd-block' : 'd-none'"
+                          >
+                            check
+                          </span>
+                          <span
+                            class="material-icons show2 fs-12px pe-1"
+                            [ngClass]="numericFlag ? 'd-none' : 'd-block'"
+                          >
+                            clear
+                          </span>
+                          Atleast 1 numeric character
+                        </li>
+                      </ul>
+                    </div>
+                    <!-- grey box ends -->
+                  </div>
+                </div>
+
+                <div class="col-xs-12 my-2">
+                  <label for="mobileNumber" class="form-label">
+                    Mobile Number
+                  </label>
+                  <input
+                    type="number"
+                    id="mobileNumber"
+                    class="form-control hide-spinners"
+                    maxlength="10"
+                    aria-label="mobileNumber"
+                    formControlName="phone_number"
+                    autocomplete="nope"
+                    placeholder="Enter Mobile Number"
+                  />
+                </div>
+
+                <div
+                  class="checkbox col-12 form-group fs-10px mb-0 ml-1 mt-1 px-0 text-left position-relative"
+                >
+                  <label class="pl-2 col-12">
+                    <input
+                      class="form-check-input checkbox-outlined"
+                      type="checkbox"
+                      [ngModelOptions]="{ standalone: true }"
+                      [(ngModel)]="isTCVerified"
+                    />
+                    <!-- <input
+                    type="checkbox"
+                    class="d-none"
+                    rel="noopener"
+                    tabindex="1"
+                    [ngModelOptions]="{ standalone: true }"
+                    [(ngModel)]="isTCVerified"
+                  /> -->
+                    <span class="block-center ms-2 fs-10px">
+                      <span>
+                        By clicking Sign up for Free, you agree to Shiprocket's
+                      </span>
+                      <a
+                        href="https://www.shiprocket.in/merchant-agreement/"
+                        target="_blank"
+                        rel="noopener"
+                        class="text-blue ms-1"
+                        >Terms Of Service
+                      </a>
+                      and
+                      <a
+                        href="https://www.shiprocket.in/privacy-policy/"
+                        rel="noopener"
+                        target="_blank"
+                        class="text-blue ms-1"
+                        >Privacy Policy.</a
+                      >
+                    </span>
+                    <!-- <span class="customcheckbox"></span> -->
+                  </label>
+                </div>
+
+                <div class="d-grid gap-2 col-12 mt-4">
+                  <button
+                    type="submit"
+                    class="btn btn-solid"
+                    [disabled]="signupForm.status !== 'VALID' || !isTCVerified"
                   >
-                    Login
+                    Sign up for Free
+                  </button>
+                </div>
+
+                <div class="col-12 mt-2">
+                  <p class="tc-all fs-14px text-grey" style="color: #969696">
+                    Already have an account?
+                    <a
+                      routerLink="/login"
+                      class="a-link link-primary fs-12 pointer ml-2"
+                    >
+                      Login
+                    </a>
+                  </p>
+                </div>
+              </div>
+            </form>
+          </div>
+
+          <form
+            novalidate
+            (submit)="onOTPFormSubmit()"
+            [formGroup]="signupOTPForm"
+            *ngIf="!showSignupForm"
+            class="row g-3"
+          >
+            <div class="mx-auto mb-0 col-12">
+              <span class="fs-12px">
+                <a
+                  class="text-blue a-link"
+                  href="javascript:void(0);"
+                  (click)="backToSignUpForm()"
+                >
+                  <img
+                    class="w-12px"
+                    ngSrc="./assets/images/backbtn.png"
+                    width="12"
+                    height="12"
+                    alt="backimg"
+                  />
+                  Back
+                </a>
+              </span>
+
+              <h6 class="mt-md-3 mt-3 fs-20px fw-500">OTP Verification</h6>
+
+              <p class="mt-md-4 mb-1 lbl_st mt-3 fs-12px">
+                OTP sent to +91-
+                <span>
+                  {{ ctrlByName('phone_number').value }}
+                </span>
+              </p>
+              <input type="hidden" formControlName="otp" />
+              <app-otp-input
+                class="digit-group"
+                (isvalid)="getOtpState($event)"
+                (values)="getOtpInputs($event)"
+              >
+              </app-otp-input>
+
+              <div
+                class="mt-2 d-flex justify-content-between"
+                [ngClass]="timerflag ? 'float-end' : ''"
+              >
+                <p
+                  *ngIf="!timerflag"
+                  class="fs-12px mb-3"
+                  style="color: rgba(0, 0, 0, 0.6)"
+                >
+                  Didn't Received OTP?
+                  <a href="#" class="text-blue a-link" (click)="generateOTP()">
+                    Resend
                   </a>
                 </p>
+                <p *ngIf="timerflag" class="ml-auto fs-12px mb-3 float-end">
+                  <img
+                    ngSrc="./assets/images/timer.png"
+                    height="10"
+                    width="10"
+                    alt="Timer Logo"
+                  />
+                  00 :
+                  {{ countdown < 10 ? '0' + countdown : countdown.toString() }}
+                </p>
+              </div>
+
+              <div *ngIf="invalidOtpError" class="alert alert-danger">
+                {{ errorOtpMessage }}
+              </div>
+
+              <div class="d-grid gap-2 col-12 my-3">
+                <button
+                  class="btn btn-solid h-40px"
+                  type="submit"
+                  [disabled]="
+                    !ctrlByNameForOTP('otp').value ||
+                    !ctrlByNameForOTP('otp').valid
+                  "
+                >
+                  Verify Number
+                </button>
               </div>
             </div>
           </form>
@@ -252,38 +552,38 @@
             <ul class="list-style-type-none fs-16px mt-4 lh-35 px-0">
               <li>
                 <img
-                  src="./assets/images/tickright.png"
+                  ngSrc="./assets/images/tickright.png"
                   alt="checkCircle"
-                  width="20px"
-                  height="20px"
+                  width="20"
+                  height="20"
                   class="me-3 mb-1"
                 />
                 <span class="text-black">AI-Powered Courier Selection</span>
               </li>
               <li>
                 <img
-                  src="./assets/images/tickright.png"
+                  ngSrc="./assets/images/tickright.png"
                   alt="checkCircle"
-                  width="20px"
-                  height="20px"
+                  width="20"
+                  height="20"
                   class="me-3 mb-1"
                 /><span class="text-black">Branded Order Tracking Page</span>
               </li>
               <li>
                 <img
-                  src="./assets/images/tickright.png"
+                  ngSrc="./assets/images/tickright.png"
                   alt="checkCircle"
-                  width="20px"
-                  height="20px"
+                  width="20"
+                  height="20"
                   class="me-3 mb-1"
                 /><span class="text-black">Automated NDR Management</span>
               </li>
               <li>
                 <img
-                  src="./assets/images/tickright.png"
+                  ngSrc="./assets/images/tickright.png"
                   alt="checkCircle"
-                  width="20px"
-                  height="20px"
+                  width="20"
+                  height="20"
                   class="me-3"
                 /><span class="text-black">Up To 45% Lesser RTOs</span>
               </li>
@@ -299,28 +599,28 @@
             <div class="pb-3">
               <img
                 class="w-100px me-3"
-                src="/src/assets/images/samsung.png"
+                ngSrc="/src/assets/images/samsung.png"
                 alt="samsung"
                 width="100"
                 height="15"
               />
               <img
                 class="w-100px me-3"
-                src="/src/assets/images/relaxo.png"
+                ngSrc="/src/assets/images/relaxo.png"
                 alt="relaxo"
                 width="100"
                 height="18"
               />
               <img
                 class="w-70px me-3"
-                src="/src/assets/images/kellogs.png"
+                ngSrc="/src/assets/images/kellogs.png"
                 alt="kellogs"
                 width="70"
                 height="24"
               />
               <img
                 class="w-100px me-3"
-                src="/src/assets/images/mamaearth.png"
+                ngSrc="/src/assets/images/mamaearth.png"
                 alt="mamaearth"
                 width="100"
                 height="13"
@@ -365,7 +665,7 @@
     <div class="row setFlexDir mx-40">
       <div class="col d-md-block d-none">
         <img
-          src="https://sr-cdn-1.shiprocket.in/img/login/courier_guy@3x.webp"
+          ngSrc="https://sr-cdn-1.shiprocket.in/img/login/courier_guy@3x.webp"
           class="setimage"
           alt="courier-guy"
           width="480"
@@ -374,7 +674,7 @@
       </div>
       <div class="col">
         <img
-          src="https://sr-cdn-1.shiprocket.in/img/login/partners@3x.webp"
+          ngSrc="https://sr-cdn-1.shiprocket.in/img/login/partners@3x.webp"
           class="w-100 h-auto m-ipad setimage pull-right"
           alt="shiprocket-partner"
           width="500"
@@ -405,26 +705,30 @@
           [class.active]="tabactive === 'first'"
           (click)="changeclass('first')"
           (keyup.enter)="changeclass('first')"
-          tabindex="0"
+          tabindex="-1"
         >
           <img
             *ngIf="tabactive !== 'first'"
             class="float-end d-sm-none d-block"
             alt="firstImage"
-            src="/src/assets/svg/arrowdown.svg"
+            ngSrc="/src/assets/svg/arrowdown.svg"
+            width="20"
+            height="20"
           />
 
           <img
             *ngIf="tabactive === 'first'"
             class="float-end d-sm-none d-block"
             alt="image"
-            src="/src/assets/svg/arrowup.svg"
+            ngSrc="/src/assets/svg/arrowup.svg"
+            width="20"
+            height="20"
           />
           <h3>Promote Your Products</h3>
           <p>Cross-sell products through dedicated display banners</p>
           <img
             *ngIf="tabactive === 'first'"
-            src="https://sr-cdn-1.shiprocket.in/img/login/promote_projects.svg"
+            ngSrc="https://sr-cdn-1.shiprocket.in/img/login/promote_projects.svg"
             class="w-100 setimage d-block d-sm-none mt-2rem"
             alt="order-placement"
             width="700"
@@ -436,26 +740,30 @@
           [class.active]="tabactive === 'second'"
           (click)="changeclass('second')"
           (keyup.enter)="changeclass('second')"
-          tabindex="0"
+          tabindex="-1"
         >
           <img
             *ngIf="tabactive !== 'second'"
             class="float-end d-sm-none d-block"
-            tabindex="0"
+            tabindex="-1"
             alt="image"
-            src="/src/assets/svg/arrowdown.svg"
+            ngSrc="/src/assets/svg/arrowdown.svg"
+            width="20"
+            height="20"
           />
           <img
             *ngIf="tabactive === 'second'"
             class="float-end d-sm-none d-block"
             alt="secondArrow"
-            src="/src/assets/svg/arrowup.svg"
+            ngSrc="/src/assets/svg/arrowup.svg"
+            width="20"
+            height="20"
           />
           <h3>Bring Back Users</h3>
           <p>Add your own menu to navigate the users back to your website</p>
           <img
             *ngIf="tabactive === 'second'"
-            src="https://sr-cdn-1.shiprocket.in/img/login/bring_users.svg"
+            ngSrc="https://sr-cdn-1.shiprocket.in/img/login/bring_users.svg"
             class="w-100 setimage mt-2 d-block d-sm-none"
             alt="order-placement"
             width="540"
@@ -466,23 +774,27 @@
         <div
           class="product-detail"
           [class.active]="tabactive === 'third'"
-          tabindex="0"
+          tabindex="-1"
           (click)="changeclass('third')"
           (keyup.enter)="changeclass('third')"
         >
           <img
             *ngIf="tabactive !== 'third'"
             class="float-end d-sm-none d-block"
-            tabindex="0"
+            tabindex="-1"
             alt=""
-            src="/src/assets/svg/arrowdown.svg"
+            ngSrc="/src/assets/svg/arrowdown.svg"
+            width="20"
+            height="20"
           />
           <img
             *ngIf="tabactive === 'third'"
             class="float-end d-sm-none d-block"
-            tabindex="0"
+            tabindex="-1"
             alt=""
-            src="/src/assets/svg/arrowup.svg"
+            ngSrc="/src/assets/svg/arrowup.svg"
+            width="20"
+            height="20"
           />
           <h3>Collect Customer Feedback</h3>
           <p>
@@ -490,7 +802,7 @@
           </p>
           <img
             *ngIf="tabactive === 'third'"
-            src="https://sr-cdn-1.shiprocket.in/img/login/customerfeedback@3x.webp"
+            ngSrc="https://sr-cdn-1.shiprocket.in/img/login/customerfeedback@3x.webp"
             class="w-100 setimage mt-2 d-block d-sm-none"
             alt="order-placement"
             width="540"
@@ -501,7 +813,7 @@
       <div class="col-sm-6 d-sm-block d-none col-xs-12">
         <img
           *ngIf="tabactive === 'first'"
-          src="https://sr-cdn-1.shiprocket.in/img/login/promote_projects.svg"
+          ngSrc="https://sr-cdn-1.shiprocket.in/img/login/promote_projects.svg"
           class="w-100 m-ipad h-auto setimage mt-sm-5 mt-md-0"
           alt="order-placement"
           width="576.7"
@@ -509,7 +821,7 @@
         />
         <img
           *ngIf="tabactive === 'second'"
-          src="https://sr-cdn-1.shiprocket.in/img/login/bring_users.svg"
+          ngSrc="https://sr-cdn-1.shiprocket.in/img/login/bring_users.svg"
           class="w-100 m-ipad h-auto setimage mt-sm-5 mt-md-0"
           alt="order-placement"
           width="540"
@@ -517,7 +829,7 @@
         />
         <img
           *ngIf="tabactive === 'third'"
-          src="https://sr-cdn-1.shiprocket.in/img/login/customerfeedback@3x.webp"
+          ngSrc="https://sr-cdn-1.shiprocket.in/img/login/customerfeedback@3x.webp"
           class="w-100 m-ipad setimage mt-sm-5 mt-md-0"
           alt="order-placement"
           width="540"
@@ -542,7 +854,7 @@
     <div class="row mt-5">
       <div class="col-sm-6 col-xs-12 order-s-2 order-xs-1 order-m-2">
         <img
-          src="https://sr-cdn-1.shiprocket.in/img/login/courier_tracking.webp"
+          ngSrc="https://sr-cdn-1.shiprocket.in/img/login/courier_tracking.webp"
           class="w-90p setimage h-auto"
           alt="courier-tracking"
           width="486"
@@ -559,7 +871,7 @@
     <div class="row mt-5">
       <div class="col-sm-6 col-xs-12 order-s-1 order-xs-1 order-m-1">
         <img
-          src="https://sr-cdn-1.shiprocket.in/img/login/return_order.webp"
+          ngSrc="https://sr-cdn-1.shiprocket.in/img/login/return_order.webp"
           class="w-90p setimage h-auto"
           alt="return-order"
           width="486"
@@ -577,7 +889,7 @@
     <div class="row mt-5">
       <div class="col-sm-6 col-xs-12 order-s-2 order-xs-1 order-m-2">
         <img
-          src="https://sr-cdn-1.shiprocket.in/img/login/issue_tracking.webp"
+          ngSrc="https://sr-cdn-1.shiprocket.in/img/login/issue_tracking.webp"
           class="w-90p setimage h-auto"
           alt="issue-tracking"
           width="486"
@@ -610,7 +922,7 @@
     <div class="row mt-5 justify-content-center">
       <div class="col-sm-4 col finger_box setFlex">
         <img
-          src="/src/assets/svg/dashboard.svg"
+          ngSrc="/src/assets/svg/dashboard.svg"
           class="mb-4 tc-xs tl-s"
           width="56"
           height="56"
@@ -623,7 +935,7 @@
       </div>
       <div class="col-sm-4 col finger_box setFlex">
         <img
-          src="/src/assets/svg/calculator.svg"
+          ngSrc="/src/assets/svg/calculator.svg"
           class="mb-4"
           width="56"
           height="56"
@@ -637,7 +949,7 @@
       </div>
       <div class="col-sm-4 col finger_box setFlex">
         <img
-          src="/src/assets/svg/shippingrate.svg"
+          ngSrc="/src/assets/svg/shippingrate.svg"
           class="mb-4"
           width="56"
           height="56"
@@ -653,7 +965,7 @@
     <div class="row justify-content-center">
       <div class="col-sm-4 col finger_box setFlex">
         <img
-          src="/src/assets/svg/orderprocessing.svg"
+          ngSrc="/src/assets/svg/orderprocessing.svg"
           class="mb-4"
           width="56"
           height="56"
@@ -668,7 +980,7 @@
       </div>
       <div class="col-sm-4 col finger_box setFlex">
         <img
-          src="/src/assets/svg/locations.svg"
+          ngSrc="/src/assets/svg/locations.svg"
           class="mb-4"
           width="56"
           height="56"
@@ -681,7 +993,7 @@
       </div>
       <div class="col-sm-4 col finger_box setFlex">
         <img
-          src="/src/assets/svg/pincode.svg"
+          ngSrc="/src/assets/svg/pincode.svg"
           class="mb-4"
           width="56"
           height="56"
@@ -697,7 +1009,7 @@
     <div class="row justify-content-center">
       <div class="col-sm-4 col finger_box setFlex">
         <img
-          src="/src/assets/svg/insurancecover.svg"
+          ngSrc="/src/assets/svg/insurancecover.svg"
           class="mb-4"
           width="56"
           height="56"
@@ -710,7 +1022,7 @@
       </div>
       <div class="col-sm-4 col finger_box setFlex">
         <img
-          src="/src/assets/svg/codremittance.svg"
+          ngSrc="/src/assets/svg/codremittance.svg"
           class="mb-4"
           width="56"
           height="56"
@@ -724,7 +1036,7 @@
       </div>
       <div class="col-sm-4 col finger_box setFlex">
         <img
-          src="/src/assets/svg/bulkupload.svg"
+          ngSrc="/src/assets/svg/bulkupload.svg"
           class="mb-4"
           width="56"
           height="56"
@@ -756,7 +1068,7 @@
       </div>
       <div class="col-sm-8 col-xs-12 mt-5 order-1">
         <img
-          src="https://sr-cdn-1.shiprocket.in/img/login/channel-image.webp"
+          ngSrc="https://sr-cdn-1.shiprocket.in/img/login/channel-image.webp"
           class="w-90p h-auto setimage"
           alt="channels"
           width="657"

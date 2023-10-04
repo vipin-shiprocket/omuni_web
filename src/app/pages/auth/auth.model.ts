@@ -5,11 +5,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { RouterModule } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { RecaptchaV3Module } from 'ng-recaptcha';
-import { MatCheckboxModule } from '@angular/material/checkbox';
 import { FooterComponent } from './footer/footer.component';
 import { OtpInputComponent } from 'src/app/components/otp-input/otp-input.component';
 
-export const authModule1 = [
+export const preAuthorizationModules = [
   CommonModule,
   FormsModule,
   ReactiveFormsModule,
@@ -18,7 +17,6 @@ export const authModule1 = [
   RecaptchaV3Module,
   MatIconModule,
   MatButtonModule,
-  MatCheckboxModule,
   FooterComponent,
   OtpInputComponent,
 ];
@@ -78,6 +76,10 @@ export interface IErrorResp {
 export const PasswordPattern = new RegExp(
   '^(?=.*[A-Za-z])(?=.*\\d)(?=.*[$@$!%*#?&])[A-Za-z\\d$@$!%*#?&]{6}$',
 );
+export const emailPattern = new RegExp(
+  '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,4}$',
+);
+export const mobilePattern = new RegExp('^[0-9]{10}$');
 
 export const Endpoints = {
   LOGIN_VIA_EMAIL: 'auth/login',
@@ -85,4 +87,6 @@ export const Endpoints = {
   USER_RESET_OTP_CONFIRMATION: 'users/reset/otp/confirm',
   USER_PASSWORD_RESET: 'users/password/reset',
   AUTH_MOBILE: 'auth/validate/mobile',
+  REGISTER: 'register',
+  OTP_VERIFY: 'otp/verify',
 };

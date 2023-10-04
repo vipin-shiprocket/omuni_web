@@ -1,5 +1,11 @@
+@use '../../../../src/styles/utils/' as u;
+
 input.ng-invalid.ng-touched {
-  border: 1px solid red;
+  border: 1px solid u.$secondary2;
+}
+
+input:focus-visible {
+  outline: 1px solid u.$primary1;
 }
 
 input:ng-pristine {

@@ -170,19 +170,19 @@ label.required::after {
   }
 }
 
-@media screen and (min-width: 401px) {
-  .resposive-position {
-    top: u.rem(33);
-    left: 92%;
-  }
+// @media screen and (min-width: 480px) {
+.resposive-position {
+  top: u.rem(35);
+  right: 6%;
 }
+// }
 
-@media screen and (min-width: 0px) and (max-width: 400px) {
-  .resposive-position {
-    top: u.rem(30);
-    left: 88% !important;
-  }
-}
+// @media screen and (min-width: 0px) and (max-width: 479px) {
+//   .resposive-position {
+//     top: u.rem(35);
+//     right: 8%;
+//   }
+// }
 
 .position-absolute {
   position: absolute !important;

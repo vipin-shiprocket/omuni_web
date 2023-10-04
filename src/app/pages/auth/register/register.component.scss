@@ -24,15 +24,15 @@
 }
 
 .product-detail.active {
-  border: 1px solid #745be7;
-  box-shadow: 0 2px 26px 0 rgba(0, 0, 0, 0.06);
+  border: 1px solid u.$primary1;
+  box-shadow: 0 2px 26px 0 u.$color14;
 }
 
 .product-detail {
   margin: 10px 52px 24px 0;
   padding: 20px 35px;
   border-radius: 16px;
-  border: 1px solid #d3d3d3;
+  border: 1px solid u.$neutral3c;
   cursor: pointer;
 }
 
@@ -40,10 +40,10 @@
   font-size: 18px;
   font-weight: 500;
   // font-family: SFProDisplay-Semibold;
-  color: #191919;
+  color: u.$neutral1;
 }
 .product-detail.active h3 {
-  color: #745be7;
+  color: u.$primary1;
 }
 
 .orderSection {
@@ -106,9 +106,9 @@
   }
 
   & a {
-    background: #fff;
+    background: u.$neutral4;
     height: 50px;
-    color: #745be7;
+    color: u.$primary1;
     text-decoration: none;
     border-radius: 8px;
     padding: 10px 44px 13px;
@@ -138,12 +138,61 @@
 }
 
 .signupFooter {
-  background-color: #131e26;
-  color: #fff !important;
+  background-color: u.$color13;
+  color: u.$neutral4 !important;
   & p {
     padding-top: 10px !important;
     padding-bottom: 10px !important;
     margin-bottom: 0;
     color: u.$neutral5;
   }
+}
+
+.form-control.ng-invalid.ng-dirty {
+  border: 1px solid u.$secondary2;
+  // padding-right: calc(1.5em + 0.75rem) !important;
+  // background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='none' stroke='%23dc3545' viewBox='0 0 12 12'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23dc3545' stroke='none'/%3e%3c/svg%3e");
+  // background-repeat: no-repeat;
+  // background-position: right calc(0.375em + 0.1875rem) center;
+  // background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);
+  &:focus {
+    border-color: u.$primary1;
+  }
+}
+// .form-control.is-invalid,
+// .was-validated .form-control:invalid {
+//   border-color: #dc3545;
+//   padding-right: calc(1.5em + 0.75rem) !important;
+//   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='none' stroke='%23dc3545' viewBox='0 0 12 12'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23dc3545' stroke='none'/%3e%3c/svg%3e");
+//   background-repeat: no-repeat;
+//   background-position: right calc(0.375em + 0.1875rem) center;
+//   background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);
+// }
+
+.bg-grey {
+  background-color: #f6f6f6;
+  z-index: 1;
+  top: 14.4rem;
+  display: none;
+  text-decoration: none;
+}
+
+.parentElement:focus ~ .showOnlyOnFocus {
+  display: block;
+  transition: display 0.4s;
+}
+
+.rightbottom {
+  box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.1);
+  top: -(u.rem(100)) !important;
+  right: u.rem(15);
+  min-width: 55%;
+  max-width: 55%;
+}
+
+.min-height-700 {
+  min-height: u.rem(700);
+}
+.max-height-330 {
+  max-height: u.rem(330);
 }
