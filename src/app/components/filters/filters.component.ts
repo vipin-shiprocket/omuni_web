@@ -21,7 +21,7 @@ import { debounceTime } from 'rxjs';
   styleUrls: ['./filters.component.scss'],
 })
 export class FiltersComponent implements OnInit, OnDestroy {
-  @Input() saveNApply: string | undefined = undefined;
+  @Input() showSave = false;
   @Input() set filtersData(value: FilterDataType | null) {
     if (value) {
       this._filterData = value;
