@@ -37,10 +37,10 @@
                 >
                   <img
                     class=""
-                    src="./assets/images/google.png"
+                    ngSrc="./assets/images/google.png"
                     alt="google"
-                    width="20px"
-                    height="20px"
+                    width="20"
+                    height="20"
                   />
                 </button>
                 <br />
@@ -53,10 +53,10 @@
                 >
                   <img
                     class=""
-                    src="./assets/svg/shopify-sm.svg"
+                    ngSrc="./assets/svg/shopify-sm.svg"
                     alt="Shopify"
-                    width="20px"
-                    height="20px"
+                    width="20"
+                    height="20"
                   />
                 </button>
                 <br />
@@ -66,7 +66,7 @@
             <div class="socialMediaTabs">
               <div class="row d-none d-md-flex mt-15 justify-content-center">
                 <div
-                  tabindex="0"
+                  tabindex="-1"
                   class="col-md-6 col-xs-6 pr-sm col-6"
                   (click)="registerWithGoogle()"
                   (keyup.enter)="registerWithGoogle()"
@@ -74,17 +74,17 @@
                   <a class="btn btn-block btn-social btn-border">
                     <img
                       class="w-20px mx-2"
-                      src="./assets/images/google.png"
+                      ngSrc="./assets/images/google.png"
                       alt="google"
-                      width="20px"
-                      height="20px"
+                      width="20"
+                      height="20"
                     />
                     Google
                   </a>
                 </div>
 
                 <div
-                  tabindex="0"
+                  tabindex="-1"
                   class="col-md-6 col-xs-6 pr-sm col-6"
                   (click)="registerWithShopify()"
                   (keyup.enter)="registerWithShopify()"
@@ -92,10 +92,10 @@
                   <a class="btn btn-block btn-social btn-border">
                     <img
                       class="w-20px mx-2"
-                      src="./assets/svg/shopify-sm.svg"
+                      ngSrc="./assets/svg/shopify-sm.svg"
                       alt="Shopify"
-                      width="20px"
-                      height="20px"
+                      width="20"
+                      height="20"
                     />
                     Shopify
                   </a>
@@ -260,21 +260,26 @@
                       placeholder="Enter Password"
                     />
                     <span
-                      tabindex="0"
+                      tabindex="-1"
                       class="position-absolute pointer resposive-position"
                       (click)="toggle(pass)"
                       (keyup.enter)="toggle(pass)"
                     >
                       <img
-                        src="{{
-                          pass.type === 'text'
-                            ? './assets/images/eyeopen.png'
-                            : './assets/images/eyeclose.png'
-                        }}"
+                        *ngIf="pass.type === 'text'"
+                        ngSrc="./assets/images/eyeopen.png"
                         alt="Show password image "
                         class="w-20px"
-                        width="20px"
-                        height="20px"
+                        width="20"
+                        height="20"
+                      />
+                      <img
+                        *ngIf="pass.type !== 'text'"
+                        ngSrc="./assets/images/eyeopen.png"
+                        alt="Show password image "
+                        class="w-20px"
+                        width="20"
+                        height="20"
                       />
                     </span>
                     <div class="row">
@@ -466,7 +471,9 @@
                 >
                   <img
                     class="w-12px"
-                    src="./assets/images/backbtn.png"
+                    ngSrc="./assets/images/backbtn.png"
+                    width="12"
+                    height="12"
                     alt="backimg"
                   />
                   Back
@@ -505,7 +512,7 @@
                 </p>
                 <p *ngIf="timerflag" class="ml-auto fs-12px mb-3 float-end">
                   <img
-                    src="./assets/images/timer.png"
+                    ngSrc="./assets/images/timer.png"
                     height="10"
                     width="10"
                     alt="Timer Logo"
@@ -545,38 +552,38 @@
             <ul class="list-style-type-none fs-16px mt-4 lh-35 px-0">
               <li>
                 <img
-                  src="./assets/images/tickright.png"
+                  ngSrc="./assets/images/tickright.png"
                   alt="checkCircle"
-                  width="20px"
-                  height="20px"
+                  width="20"
+                  height="20"
                   class="me-3 mb-1"
                 />
                 <span class="text-black">AI-Powered Courier Selection</span>
               </li>
               <li>
                 <img
-                  src="./assets/images/tickright.png"
+                  ngSrc="./assets/images/tickright.png"
                   alt="checkCircle"
-                  width="20px"
-                  height="20px"
+                  width="20"
+                  height="20"
                   class="me-3 mb-1"
                 /><span class="text-black">Branded Order Tracking Page</span>
               </li>
               <li>
                 <img
-                  src="./assets/images/tickright.png"
+                  ngSrc="./assets/images/tickright.png"
                   alt="checkCircle"
-                  width="20px"
-                  height="20px"
+                  width="20"
+                  height="20"
                   class="me-3 mb-1"
                 /><span class="text-black">Automated NDR Management</span>
               </li>
               <li>
                 <img
-                  src="./assets/images/tickright.png"
+                  ngSrc="./assets/images/tickright.png"
                   alt="checkCircle"
-                  width="20px"
-                  height="20px"
+                  width="20"
+                  height="20"
                   class="me-3"
                 /><span class="text-black">Up To 45% Lesser RTOs</span>
               </li>
@@ -592,28 +599,28 @@
             <div class="pb-3">
               <img
                 class="w-100px me-3"
-                src="/src/assets/images/samsung.png"
+                ngSrc="/src/assets/images/samsung.png"
                 alt="samsung"
                 width="100"
                 height="15"
               />
               <img
                 class="w-100px me-3"
-                src="/src/assets/images/relaxo.png"
+                ngSrc="/src/assets/images/relaxo.png"
                 alt="relaxo"
                 width="100"
                 height="18"
               />
               <img
                 class="w-70px me-3"
-                src="/src/assets/images/kellogs.png"
+                ngSrc="/src/assets/images/kellogs.png"
                 alt="kellogs"
                 width="70"
                 height="24"
               />
               <img
                 class="w-100px me-3"
-                src="/src/assets/images/mamaearth.png"
+                ngSrc="/src/assets/images/mamaearth.png"
                 alt="mamaearth"
                 width="100"
                 height="13"
@@ -658,7 +665,7 @@
     <div class="row setFlexDir mx-40">
       <div class="col d-md-block d-none">
         <img
-          src="https://sr-cdn-1.shiprocket.in/img/login/courier_guy@3x.webp"
+          ngSrc="https://sr-cdn-1.shiprocket.in/img/login/courier_guy@3x.webp"
           class="setimage"
           alt="courier-guy"
           width="480"
@@ -667,7 +674,7 @@
       </div>
       <div class="col">
         <img
-          src="https://sr-cdn-1.shiprocket.in/img/login/partners@3x.webp"
+          ngSrc="https://sr-cdn-1.shiprocket.in/img/login/partners@3x.webp"
           class="w-100 h-auto m-ipad setimage pull-right"
           alt="shiprocket-partner"
           width="500"
@@ -698,26 +705,30 @@
           [class.active]="tabactive === 'first'"
           (click)="changeclass('first')"
           (keyup.enter)="changeclass('first')"
-          tabindex="0"
+          tabindex="-1"
         >
           <img
             *ngIf="tabactive !== 'first'"
             class="float-end d-sm-none d-block"
             alt="firstImage"
-            src="/src/assets/svg/arrowdown.svg"
+            ngSrc="/src/assets/svg/arrowdown.svg"
+            width="20"
+            height="20"
           />
 
           <img
             *ngIf="tabactive === 'first'"
             class="float-end d-sm-none d-block"
             alt="image"
-            src="/src/assets/svg/arrowup.svg"
+            ngSrc="/src/assets/svg/arrowup.svg"
+            width="20"
+            height="20"
           />
           <h3>Promote Your Products</h3>
           <p>Cross-sell products through dedicated display banners</p>
           <img
             *ngIf="tabactive === 'first'"
-            src="https://sr-cdn-1.shiprocket.in/img/login/promote_projects.svg"
+            ngSrc="https://sr-cdn-1.shiprocket.in/img/login/promote_projects.svg"
             class="w-100 setimage d-block d-sm-none mt-2rem"
             alt="order-placement"
             width="700"
@@ -729,26 +740,30 @@
           [class.active]="tabactive === 'second'"
           (click)="changeclass('second')"
           (keyup.enter)="changeclass('second')"
-          tabindex="0"
+          tabindex="-1"
         >
           <img
             *ngIf="tabactive !== 'second'"
             class="float-end d-sm-none d-block"
-            tabindex="0"
+            tabindex="-1"
             alt="image"
-            src="/src/assets/svg/arrowdown.svg"
+            ngSrc="/src/assets/svg/arrowdown.svg"
+            width="20"
+            height="20"
           />
           <img
             *ngIf="tabactive === 'second'"
             class="float-end d-sm-none d-block"
             alt="secondArrow"
-            src="/src/assets/svg/arrowup.svg"
+            ngSrc="/src/assets/svg/arrowup.svg"
+            width="20"
+            height="20"
           />
           <h3>Bring Back Users</h3>
           <p>Add your own menu to navigate the users back to your website</p>
           <img
             *ngIf="tabactive === 'second'"
-            src="https://sr-cdn-1.shiprocket.in/img/login/bring_users.svg"
+            ngSrc="https://sr-cdn-1.shiprocket.in/img/login/bring_users.svg"
             class="w-100 setimage mt-2 d-block d-sm-none"
             alt="order-placement"
             width="540"
@@ -759,23 +774,27 @@
         <div
           class="product-detail"
           [class.active]="tabactive === 'third'"
-          tabindex="0"
+          tabindex="-1"
           (click)="changeclass('third')"
           (keyup.enter)="changeclass('third')"
         >
           <img
             *ngIf="tabactive !== 'third'"
             class="float-end d-sm-none d-block"
-            tabindex="0"
+            tabindex="-1"
             alt=""
-            src="/src/assets/svg/arrowdown.svg"
+            ngSrc="/src/assets/svg/arrowdown.svg"
+            width="20"
+            height="20"
           />
           <img
             *ngIf="tabactive === 'third'"
             class="float-end d-sm-none d-block"
-            tabindex="0"
+            tabindex="-1"
             alt=""
-            src="/src/assets/svg/arrowup.svg"
+            ngSrc="/src/assets/svg/arrowup.svg"
+            width="20"
+            height="20"
           />
           <h3>Collect Customer Feedback</h3>
           <p>
@@ -783,7 +802,7 @@
           </p>
           <img
             *ngIf="tabactive === 'third'"
-            src="https://sr-cdn-1.shiprocket.in/img/login/customerfeedback@3x.webp"
+            ngSrc="https://sr-cdn-1.shiprocket.in/img/login/customerfeedback@3x.webp"
             class="w-100 setimage mt-2 d-block d-sm-none"
             alt="order-placement"
             width="540"
@@ -794,7 +813,7 @@
       <div class="col-sm-6 d-sm-block d-none col-xs-12">
         <img
           *ngIf="tabactive === 'first'"
-          src="https://sr-cdn-1.shiprocket.in/img/login/promote_projects.svg"
+          ngSrc="https://sr-cdn-1.shiprocket.in/img/login/promote_projects.svg"
           class="w-100 m-ipad h-auto setimage mt-sm-5 mt-md-0"
           alt="order-placement"
           width="576.7"
@@ -802,7 +821,7 @@
         />
         <img
           *ngIf="tabactive === 'second'"
-          src="https://sr-cdn-1.shiprocket.in/img/login/bring_users.svg"
+          ngSrc="https://sr-cdn-1.shiprocket.in/img/login/bring_users.svg"
           class="w-100 m-ipad h-auto setimage mt-sm-5 mt-md-0"
           alt="order-placement"
           width="540"
@@ -810,7 +829,7 @@
         />
         <img
           *ngIf="tabactive === 'third'"
-          src="https://sr-cdn-1.shiprocket.in/img/login/customerfeedback@3x.webp"
+          ngSrc="https://sr-cdn-1.shiprocket.in/img/login/customerfeedback@3x.webp"
           class="w-100 m-ipad setimage mt-sm-5 mt-md-0"
           alt="order-placement"
           width="540"
@@ -835,7 +854,7 @@
     <div class="row mt-5">
       <div class="col-sm-6 col-xs-12 order-s-2 order-xs-1 order-m-2">
         <img
-          src="https://sr-cdn-1.shiprocket.in/img/login/courier_tracking.webp"
+          ngSrc="https://sr-cdn-1.shiprocket.in/img/login/courier_tracking.webp"
           class="w-90p setimage h-auto"
           alt="courier-tracking"
           width="486"
@@ -852,7 +871,7 @@
     <div class="row mt-5">
       <div class="col-sm-6 col-xs-12 order-s-1 order-xs-1 order-m-1">
         <img
-          src="https://sr-cdn-1.shiprocket.in/img/login/return_order.webp"
+          ngSrc="https://sr-cdn-1.shiprocket.in/img/login/return_order.webp"
           class="w-90p setimage h-auto"
           alt="return-order"
           width="486"
@@ -870,7 +889,7 @@
     <div class="row mt-5">
       <div class="col-sm-6 col-xs-12 order-s-2 order-xs-1 order-m-2">
         <img
-          src="https://sr-cdn-1.shiprocket.in/img/login/issue_tracking.webp"
+          ngSrc="https://sr-cdn-1.shiprocket.in/img/login/issue_tracking.webp"
           class="w-90p setimage h-auto"
           alt="issue-tracking"
           width="486"
@@ -903,7 +922,7 @@
     <div class="row mt-5 justify-content-center">
       <div class="col-sm-4 col finger_box setFlex">
         <img
-          src="/src/assets/svg/dashboard.svg"
+          ngSrc="/src/assets/svg/dashboard.svg"
           class="mb-4 tc-xs tl-s"
           width="56"
           height="56"
@@ -916,7 +935,7 @@
       </div>
       <div class="col-sm-4 col finger_box setFlex">
         <img
-          src="/src/assets/svg/calculator.svg"
+          ngSrc="/src/assets/svg/calculator.svg"
           class="mb-4"
           width="56"
           height="56"
@@ -930,7 +949,7 @@
       </div>
       <div class="col-sm-4 col finger_box setFlex">
         <img
-          src="/src/assets/svg/shippingrate.svg"
+          ngSrc="/src/assets/svg/shippingrate.svg"
           class="mb-4"
           width="56"
           height="56"
@@ -946,7 +965,7 @@
     <div class="row justify-content-center">
       <div class="col-sm-4 col finger_box setFlex">
         <img
-          src="/src/assets/svg/orderprocessing.svg"
+          ngSrc="/src/assets/svg/orderprocessing.svg"
           class="mb-4"
           width="56"
           height="56"
@@ -961,7 +980,7 @@
       </div>
       <div class="col-sm-4 col finger_box setFlex">
         <img
-          src="/src/assets/svg/locations.svg"
+          ngSrc="/src/assets/svg/locations.svg"
           class="mb-4"
           width="56"
           height="56"
@@ -974,7 +993,7 @@
       </div>
       <div class="col-sm-4 col finger_box setFlex">
         <img
-          src="/src/assets/svg/pincode.svg"
+          ngSrc="/src/assets/svg/pincode.svg"
           class="mb-4"
           width="56"
           height="56"
@@ -990,7 +1009,7 @@
     <div class="row justify-content-center">
       <div class="col-sm-4 col finger_box setFlex">
         <img
-          src="/src/assets/svg/insurancecover.svg"
+          ngSrc="/src/assets/svg/insurancecover.svg"
           class="mb-4"
           width="56"
           height="56"
@@ -1003,7 +1022,7 @@
       </div>
       <div class="col-sm-4 col finger_box setFlex">
         <img
-          src="/src/assets/svg/codremittance.svg"
+          ngSrc="/src/assets/svg/codremittance.svg"
           class="mb-4"
           width="56"
           height="56"
@@ -1017,7 +1036,7 @@
       </div>
       <div class="col-sm-4 col finger_box setFlex">
         <img
-          src="/src/assets/svg/bulkupload.svg"
+          ngSrc="/src/assets/svg/bulkupload.svg"
           class="mb-4"
           width="56"
           height="56"
@@ -1049,7 +1068,7 @@
       </div>
       <div class="col-sm-8 col-xs-12 mt-5 order-1">
         <img
-          src="https://sr-cdn-1.shiprocket.in/img/login/channel-image.webp"
+          ngSrc="https://sr-cdn-1.shiprocket.in/img/login/channel-image.webp"
           class="w-90p h-auto setimage"
           alt="channels"
           width="657"
