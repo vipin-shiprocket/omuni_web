@@ -175,7 +175,12 @@ export class OrderDetailsComponent implements OnInit, OnDestroy {
 
     this.updateDump();
     const payload = this.soService.updatePayloadMapping();
-    console.log('🚀 ~ onSubmit ~ payload:', payload);
+    this.soService.addSingleOrder(payload).subscribe({
+      next: (resp) => {
+        console.log(resp);
+      },
+      error: console.error,
+    });
   }
 
   onUpdateTags(tags: string[]) {
