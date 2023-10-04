@@ -84,7 +84,12 @@
         </ul>
       </div>
     </span>
-    <app-filters [showSave]="activeTabIdx === 0" [filtersData]="filtersData" />
+    <app-filters
+      *ngIf="!isManifestTab"
+      [showSave]="activeTabIdx === 0"
+      [filtersData]="filtersData"
+    />
+    <app-filters *ngIf="isManifestTab" [filtersData]="filtersData" />
   </div>
 
   <div class="table-responsive mb-3">

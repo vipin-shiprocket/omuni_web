@@ -97,24 +97,21 @@ export class FiltersComponent implements OnInit, OnDestroy {
   }
 
   clearAll() {
-    Object.keys(this.filtersCtrl.controls).forEach((index) => {
-      const [key, val] = Object.entries(
-        this.filtersCtrl.controls[index as never].value,
-      )[0];
-      Array.isArray(val) ? val.splice(0, val.length) : null;
-      const filter: Record<string, unknown> = {};
-      filter[key] = val;
-      this.filtersCtrl.controls[index as never].setValue(filter);
+    this.filtersCtrl.controls.forEach((control) => {
+      const [key, val] = Object.entries(control.value)[0];
+      const newVal = Array.isArray(val) ? [] : '';
+      control.patchValue({ [key]: newVal });
     });
   }
 
   get showChipsSection() {
-    return Object.keys(this.filtersCtrl.controls).some((index) => {
-      const filter = Object.values(
-        this.filtersCtrl.controls[index as never].value,
-      )[0];
+    return this.filtersCtrl.controls.some((ctrl) => {
+      const [key, val] = Object.entries(ctrl.value)[0];
 
-      return Array.isArray(filter) ? filter.length > 0 : true;
+      if (this._filterData && this._filterData[key]?.chipVisible === false) {
+        return false;
+      }
+      return Array.isArray(val) ? val.length > 0 : val;
     });
   }
 

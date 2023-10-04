@@ -210,6 +210,46 @@ export const FiltersData: FilterDataType = {
   },
 };
 
+export const ManifestFilters: FilterDataType = {
+  date: {
+    chipVisible: false,
+    name: 'date',
+    label: '',
+    type: 'date',
+    placement: 'out',
+    value: ['2021-02-03', '2021-03-25'],
+    data: [],
+  },
+  couriers: {
+    name: 'couriers',
+    label: 'Couriers',
+    type: 'select',
+    multiple: true,
+    value: [],
+    data: [
+      { value: 1, display: 'Blue Dart' },
+      { value: 2, display: 'FedEx' },
+      { value: 3, display: 'ARAMEX' },
+      { value: 4, display: 'Amazon Shipping 5Kg' },
+      { value: 5, display: 'OTHER' },
+      { value: 6, display: 'DTDC Surface' },
+      { value: 7, display: 'FEDEX:Packaging' },
+    ],
+  },
+  status: {
+    name: 'status',
+    label: 'Status',
+    type: 'select',
+    multiple: true,
+    value: [],
+    data: [
+      { value: 1, display: 'Initiated' },
+      { value: 2, display: 'Handover' },
+      { value: 3, display: 'Complete' },
+    ],
+  },
+};
+
 export const RESP = {
   data: [
     {
