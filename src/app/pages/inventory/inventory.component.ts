@@ -80,7 +80,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
 
   getAnalyticsData() {
     this.analyticsData = undefined;
-    const params = { fcId: '' }; //TODO
+    const params = { locationId: '' }; //TODO
     this.subs.sink = this.inventoryService.getAnalytics(params).subscribe({
       next: (data: AnalyticsResponse) => {
         this.analyticsData = data.data;
@@ -102,7 +102,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
       sortField: this.sortBy[0],
       pageNum: this.pagination.currentPage,
       pageSize: this.pagination.pageSize,
-      fcId: 'FC_123', //TODO
+      locationId: 'FC_123', //TODO
       viewId: 'VIEW_123', //TODO
     };
 
@@ -180,7 +180,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
     const body: UpdateInventoryBody[] = [
       {
         sku: row.sku,
-        fcId: 'test123', //TODO
+        locationId: 'test123', //TODO
         quantity: val,
         transactionType: 'OVERWRITE',
         reason: row.reason[0],
