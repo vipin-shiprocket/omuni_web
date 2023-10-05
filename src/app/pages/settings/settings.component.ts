@@ -11,6 +11,6 @@ import { MatIconModule } from '@angular/material/icon';
   styleUrls: ['./settings.component.scss'],
 })
 export class SettingsComponent {
-  courierUrl = environment.sr_web + 'courierPriority';
-  kycUrl = environment.sr_web + 'seller/kyc';
+  courierUrl = environment.SR_CORE_WEB + 'courierPriority';
+  kycUrl = environment.SR_CORE_WEB + 'seller/kyc';
 }
