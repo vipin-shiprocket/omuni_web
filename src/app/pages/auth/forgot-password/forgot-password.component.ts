@@ -186,7 +186,7 @@ export class ForgotPasswordComponent implements OnDestroy, OnInit {
     const header = this.http.getHeaders();
     this.subs.sink = this.http
       .postToEndpint<forgotPasswordInterface>(
-        environment.API_VERSION_V1 + '/' + Endpoints.FORGET_PASSWORD,
+        'v1/' + Endpoints.FORGET_PASSWORD,
         body,
         {},
         header,
@@ -246,7 +246,7 @@ export class ForgotPasswordComponent implements OnDestroy, OnInit {
     const header = this.http.getHeaders();
     this.subs.sink = this.http
       .postToEndpint<unknown>(
-        environment.API_VERSION_V1 + '/' + Endpoints.FORGET_PASSWORD,
+        'v1/' + Endpoints.FORGET_PASSWORD,
         body,
         {},
         header,
@@ -306,9 +306,7 @@ export class ForgotPasswordComponent implements OnDestroy, OnInit {
     const header = this.http.getHeaders();
     this.subs.sink = this.http
       .postToEndpint<otpConfirmationInterface>(
-        environment.API_VERSION_V1 +
-          '/' +
-          Endpoints.USER_RESET_OTP_CONFIRMATION,
+        'v1/' + Endpoints.USER_RESET_OTP_CONFIRMATION,
         body,
         {},
         header,
@@ -365,7 +363,7 @@ export class ForgotPasswordComponent implements OnDestroy, OnInit {
     const header = this.http.getHeaders();
     this.subs.sink = this.http
       .postToEndpint<undefined>(
-        environment.API_VERSION_V1 + '/' + Endpoints.USER_PASSWORD_RESET,
+        'v1/' + Endpoints.USER_PASSWORD_RESET,
         body,
         {},
         header,

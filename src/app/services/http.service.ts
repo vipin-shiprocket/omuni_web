@@ -37,7 +37,7 @@ export class HttpService {
 
   requestToEndpoint<T>(endpoint: string, params = {}, headers?: HttpHeaders) {
     params = this.getQueryParam(params);
-    const url = `${environment.API_SUBDOMAIN}/${endpoint}`;
+    const url = `${environment.API_URL}/${endpoint}`;
     return this.httpClient.get(url, { params, headers }) as Observable<T>;
   }
 
@@ -47,7 +47,7 @@ export class HttpService {
     params = {},
     headers?: HttpHeaders,
   ) {
-    const url = `${environment.API_SUBDOMAIN}/${endpoint}`;
+    const url = `${environment.API_URL}/${endpoint}`;
     // const url = `${window.location.origin}/api/auth${endpoint}`;
 
     params = this.getQueryParam(params);
@@ -64,7 +64,7 @@ export class HttpService {
     headers?: HttpHeaders,
     observe: 'body' | undefined = 'body',
   ) {
-    const url = `${environment.API_SUBDOMAIN}/${endpoint}`;
+    const url = `${environment.API_URL}/${endpoint}`;
 
     params = this.getQueryParam(params);
     return this.httpClient.put(url, body, {

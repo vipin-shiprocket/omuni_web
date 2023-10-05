@@ -177,7 +177,7 @@ export class LoginComponent implements OnDestroy, OnInit {
       return;
     }
 
-    const endpoint = environment.API_VERSION_V1 + '/' + 'auth/login/mobile';
+    const endpoint = 'v1/' + 'auth/login/mobile';
     const body: Record<string, number> = { mobile: mobileNumber.value };
 
     const header = this.http.getHeaders();
@@ -302,7 +302,7 @@ export class LoginComponent implements OnDestroy, OnInit {
 
     this.subs.sink = this.http
       .postToEndpint<LoginEmailAPIResponse>(
-        environment.API_VERSION_V1 + '/' + Endpoints.LOGIN_VIA_EMAIL,
+        'v1/' + Endpoints.LOGIN_VIA_EMAIL,
         body,
         {},
         header,
@@ -360,7 +360,7 @@ export class LoginComponent implements OnDestroy, OnInit {
 
     this.subs.sink = this.http
       .postToEndpint<LoginEmailAPIResponse>(
-        environment.API_VERSION_V1 + '/' + Endpoints.AUTH_MOBILE,
+        'v1/' + Endpoints.AUTH_MOBILE,
         body,
         {},
         header,
