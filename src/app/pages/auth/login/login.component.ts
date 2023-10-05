@@ -1,4 +1,4 @@
-import { Component, OnDestroy, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 
 import {
   AbstractControl,
@@ -10,10 +10,10 @@ import { SubSink } from 'subsink';
 import { HttpService } from 'src/app/services/http.service';
 import { environment } from 'src/environments/environment';
 import { ToastrService } from 'ngx-toastr';
-// import { ReCaptchaV3Service } from 'ng-recaptcha';
+import { ReCaptchaV3Service } from 'ng-recaptcha';
 import { focusOnFirstDigitInOTP, toggleEye } from 'src/app/utils/utils';
 
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import {
   IUserForm,
@@ -29,6 +29,8 @@ import {
   mobilePattern,
   preAuthorizationModules,
 } from '../auth.model';
+import { firstValueFrom } from 'rxjs';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -37,7 +39,7 @@ import {
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
 })
-export class LoginComponent implements OnDestroy {
+export class LoginComponent implements OnDestroy, OnInit {
   private subs = new SubSink();
   userForm: FormGroup<IUserForm>;
   phoneLoginForm: FormGroup;
@@ -56,11 +58,16 @@ export class LoginComponent implements OnDestroy {
   errorShow = '';
   isOtpValid = false;
   interval: number | undefined;
+
+  loadSocial = false;
   constructor(
     private http: HttpService,
     private toastr: ToastrService,
     private _router: Router,
     private cookie: CookieService,
+    private recaptchaService: ReCaptchaV3Service,
+    private auth: AuthService,
+    private activated_route: ActivatedRoute,
   ) {
     this.userForm = new FormGroup({
       email: new FormControl('', [Validators.required, Validators.email]),
@@ -83,6 +90,16 @@ export class LoginComponent implements OnDestroy {
     this.changeFormSubmitTo(false);
     this.loginOTPForm = new FormGroup({
       otp: new FormControl('', [Validators.required]),
+    });
+  }
+  ngOnInit() {
+    this.activated_route.queryParams.subscribe((params) => {
+      params;
+      // this.allparams = params;
+      // this.company_id = params['company_id'];
+      // this.rcode = params['rcode'];
+
+      params['state'] ? (this.loadSocial = true) : (this.loadSocial = false);
     });
   }
 
@@ -127,6 +144,7 @@ export class LoginComponent implements OnDestroy {
 
   signInWithGoogle() {
     // signInWithGoogle
+    this.auth.googleAuth();
   }
 
   onClickLoginViaPhoneNumber() {
@@ -152,7 +170,7 @@ export class LoginComponent implements OnDestroy {
     this.showEmailLoginForm = !this.showEmailLoginForm;
   }
 
-  generateOTP() {
+  async generateOTP() {
     this.submitted = true;
     const mobileNumber = this.ctrlByNameForMobile('mobile');
     if (mobileNumber.errors) {
@@ -254,7 +272,11 @@ export class LoginComponent implements OnDestroy {
     this.ctrlByNameForOTP('otp').setValue(val);
   }
 
-  onSubmit() {
+  async onSubmit() {
+    const recaptcha$ = this.recaptchaService.execute('verify_email');
+    const recaptchaToken = await firstValueFrom(recaptcha$);
+    console.log('Recaptcha tocken is ' + recaptchaToken);
+    // params.token = recaptchaToken;
     this.changeFormSubmitTo(true);
     this.userForm.markAllAsTouched();
     this.userForm.markAsDirty();
