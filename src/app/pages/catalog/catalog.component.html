@@ -3,11 +3,20 @@
   <div class="d-flex align-items-center flex-wrap">
     <h1 class="h2 fw-bold my-4">Catalog</h1>
     <button
+      *ngIf="showButtonOnTab('addProduct')"
       mat-button
       class="ms-auto me-2 btn rounded fs-12 bg-primary-subtle text-primary d-flex align-items-center"
     >
       <mat-icon class="me-2">add</mat-icon>
       Add Product
+    </button>
+    <button
+      *ngIf="showButtonOnTab('addCombo')"
+      mat-button
+      class="ms-auto me-2 btn rounded fs-12 bg-primary-subtle text-primary d-flex align-items-center"
+    >
+      <mat-icon class="me-2">add</mat-icon>
+      Add Combo
     </button>
   </div>
 

@@ -95,6 +95,21 @@ export class CatalogComponent implements OnDestroy, OnInit {
     this.getCatalogData();
   }
 
+  showButtonOnTab(buttonType: string) {
+    const tab = this.tabs[this.activeTabIdx];
+    switch (buttonType) {
+      case 'addProduct':
+        if (tab.name === 'All') return true;
+        break;
+      case 'addCombo':
+        if (tab.name === 'Combos') return true;
+        break;
+      default:
+        return false;
+    }
+    return false;
+  }
+
   updateStatus(checkBox: HTMLInputElement, ean: string) {
     const params = {
       activate: checkBox.checked,

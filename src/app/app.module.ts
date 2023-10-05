@@ -8,10 +8,12 @@ import {
 } from '@angular/platform-browser/animations';
 import { provideToastr } from 'ngx-toastr';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
-// import { RECAPTCHA_V3_SITE_KEY, ReCaptchaV3Service } from 'ng-recaptcha';
+import { RECAPTCHA_V3_SITE_KEY, ReCaptchaV3Service } from 'ng-recaptcha';
 // import { environment } from 'src/environments/environment';
 import { MatDialogModule } from '@angular/material/dialog';
 import { HttpconfigInterceptor } from './core/api.interceptor';
+import { environment } from 'src/environments/environment';
+
 // import { OnlyNumbersDirective } from './utils/only-numbers.directive'
 
 @NgModule({
@@ -26,11 +28,11 @@ import { HttpconfigInterceptor } from './core/api.interceptor';
   providers: [
     provideAnimations(), // required animations providers
     provideToastr(),
-    // {
-    //   provide: RECAPTCHA_V3_SITE_KEY,
-    //   useValue: environment.RECAPTCHA_SITE_KEY,
-    // },
-    // ReCaptchaV3Service,
+    {
+      provide: RECAPTCHA_V3_SITE_KEY,
+      useValue: environment.RECAPTCHA_SITE_KEY,
+    },
+    ReCaptchaV3Service,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: HttpconfigInterceptor,

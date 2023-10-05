@@ -90,7 +90,7 @@ type UpdateReasons =
   | 'THEFT_LOSS';
 
 export type UpdateInventoryBody = {
-  fcId: string;
+  locationId: string;
   sku: string;
   quantity: string;
   transactionType: 'CREDIT' | 'DEBIT' | 'OVERWRITE';
