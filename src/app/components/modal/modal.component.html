@@ -15,10 +15,9 @@
   <ng-container *ngFor="let button of data.buttons">
     <button
       cdkFocusInitial
-      mat-stroked-button
       class="me-3 {{ button.class }}"
       [routerLink]="button.url"
-      mat-dialog-close
+      [mat-dialog-close]="button.name"
     >
       {{ button.name }}
     </button>

@@ -180,6 +180,12 @@
     <button class="dropdown-item" type="button">Complete</button>
   </li>
   <li>
-    <button class="dropdown-item text-danger" type="button">Delete</button>
+    <button
+      class="dropdown-item text-danger"
+      type="button"
+      (click)="deleteManifestBulk()"
+    >
+      Delete
+    </button>
   </li>
 </ng-template>

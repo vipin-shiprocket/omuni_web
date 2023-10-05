@@ -27,6 +27,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { OrdersService } from './orders.service';
+import { ModalComponent } from 'src/app/components/modal/modal.component';
 
 @Component({
   selector: 'app-orders',
@@ -197,6 +198,48 @@ export class OrdersComponent implements OnInit, AfterViewInit, OnDestroy {
 
         afterClosedSubs.unsubscribe();
       });
+  }
+
+  isSelectionEmpty(): boolean {
+    if (this.odService.selection.isEmpty()) {
+      this.toastr.error('Please select orders before proceeding', 'Error');
+      return true;
+    }
+
+    return false;
+  }
+
+  deleteManifestBulk() {
+    if (this.isSelectionEmpty()) return;
+
+    const dialog = this.dialog.open(ModalComponent, {
+      data: {
+        title: 'Delete Manifest',
+        subheading: 'We cannot undo this action. Do you really want to proceed',
+        buttons: [
+          { name: 'Proceed', class: 'btn btn-solid' },
+          { name: 'Cancel', class: 'btn btn-solid text-bg-danger' },
+        ],
+      },
+    });
+
+    const afterClose = dialog.afterClosed().subscribe((result) => {
+      if (result?.toLowerCase() === 'proceed') {
+        const ids = this.odService.selection.selected.map(
+          (od) => (od as never)['id'],
+        );
+
+        this.subs.sink = this.odService.deleteManifest(ids).subscribe({
+          next: () => {
+            this.odService.selection.clear();
+            this.getOrderData();
+          },
+          error: console.error,
+        });
+      }
+
+      afterClose.unsubscribe();
+    });
   }
 
   ngOnDestroy(): void {
