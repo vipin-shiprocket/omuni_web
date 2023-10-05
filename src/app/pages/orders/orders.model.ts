@@ -11,6 +11,7 @@ import { NgOptimizedImage } from '@angular/common';
 import { MatDialogModule } from '@angular/material/dialog';
 import { RouterModule } from '@angular/router';
 import { GenericTabComponent } from './generic-tab/generic-tab.component';
+import { ManifestTabComponent } from './manifest-tab/manifest-tab.component';
 
 export const OrdersModules = [
   RouterModule,
@@ -20,12 +21,17 @@ export const OrdersModules = [
   FiltersComponent,
   MatButtonModule,
   MatMenuModule,
-  NgOptimizedImage,
   MatDialogModule,
   GenericTabComponent,
+  ManifestTabComponent,
 ];
 
-export const GenericTabModules = [CdkTableModule, MatSortModule, MatIconModule];
+export const GenericTabModules = [
+  CdkTableModule,
+  MatSortModule,
+  MatIconModule,
+  NgOptimizedImage,
+];
 
 export const OrderColumns = [
   { name: 'select', canHide: false, visible: true },
@@ -36,6 +42,15 @@ export const OrderColumns = [
   { name: 'Order Statuses', canHide: true, visible: true },
   { name: 'Fulfilled By', canHide: true, visible: true },
   { name: 'Fulfillment Center', canHide: true, visible: true },
+  { name: 'Actions', canHide: true, visible: true },
+];
+
+export const ManifestColumns = [
+  { name: 'select', canHide: false, visible: true },
+  { name: 'Manifest ID', canHide: false, visible: true },
+  { name: 'Courier', canHide: true, visible: true },
+  { name: 'Order Count', canHide: true, visible: true },
+  { name: 'Created Time', canHide: true, visible: true },
   { name: 'Actions', canHide: true, visible: true },
 ];
 
@@ -191,6 +206,46 @@ export const FiltersData: FilterDataType = {
         value: 4095491,
         display: 'Shopify_4',
       },
+    ],
+  },
+};
+
+export const ManifestFilters: FilterDataType = {
+  date: {
+    chipVisible: false,
+    name: 'date',
+    label: '',
+    type: 'date',
+    placement: 'out',
+    value: ['2021-02-03', '2021-03-25'],
+    data: [],
+  },
+  couriers: {
+    name: 'couriers',
+    label: 'Couriers',
+    type: 'select',
+    multiple: true,
+    value: [],
+    data: [
+      { value: 1, display: 'Blue Dart' },
+      { value: 2, display: 'FedEx' },
+      { value: 3, display: 'ARAMEX' },
+      { value: 4, display: 'Amazon Shipping 5Kg' },
+      { value: 5, display: 'OTHER' },
+      { value: 6, display: 'DTDC Surface' },
+      { value: 7, display: 'FEDEX:Packaging' },
+    ],
+  },
+  status: {
+    name: 'status',
+    label: 'Status',
+    type: 'select',
+    multiple: true,
+    value: [],
+    data: [
+      { value: 1, display: 'Initiated' },
+      { value: 2, display: 'Handover' },
+      { value: 3, display: 'Complete' },
     ],
   },
 };

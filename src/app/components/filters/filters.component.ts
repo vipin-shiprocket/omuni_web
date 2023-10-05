@@ -21,13 +21,14 @@ import { debounceTime } from 'rxjs';
   styleUrls: ['./filters.component.scss'],
 })
 export class FiltersComponent implements OnInit, OnDestroy {
-  @Input() saveNApply: string | undefined = undefined;
+  @Input() showSave = false;
   @Input() set filtersData(value: FilterDataType | null) {
     if (value) {
       this._filterData = value;
     }
   }
   @Output() filterChanged = new EventEmitter<Record<string, unknown>[]>();
+  @Output() saveView = new EventEmitter();
   _filterData: FilterDataType | undefined;
   filterForm: FormGroup;
   objectvalues = Object.values;
@@ -90,31 +91,26 @@ export class FiltersComponent implements OnInit, OnDestroy {
     const [key, val] = Object.entries(
       this.filtersCtrl.controls[index].value,
     )[0];
-    Array.isArray(val) ? val.splice(val.indexOf(item), 1) : null;
-    const filter: Record<string, unknown> = {};
-    filter[key] = val;
-    this.filtersCtrl.controls[index].setValue(filter);
+    const newVal = Array.isArray(val) ? val.splice(val.indexOf(item), 1) : '';
+    this.filtersCtrl.controls[index].patchValue({ [key]: newVal });
   }
 
   clearAll() {
-    Object.keys(this.filtersCtrl.controls).forEach((index) => {
-      const [key, val] = Object.entries(
-        this.filtersCtrl.controls[index as never].value,
-      )[0];
-      Array.isArray(val) ? val.splice(0, val.length) : null;
-      const filter: Record<string, unknown> = {};
-      filter[key] = val;
-      this.filtersCtrl.controls[index as never].setValue(filter);
+    this.filtersCtrl.controls.forEach((control) => {
+      const [key, val] = Object.entries(control.value)[0];
+      const newVal = Array.isArray(val) ? [] : '';
+      control.patchValue({ [key]: newVal });
     });
   }
 
   get showChipsSection() {
-    return Object.keys(this.filtersCtrl.controls).some((index) => {
-      const filter = Object.values(
-        this.filtersCtrl.controls[index as never].value,
-      )[0];
+    return this.filtersCtrl.controls.some((ctrl) => {
+      const [key, val] = Object.entries(ctrl.value)[0];
 
-      return Array.isArray(filter) ? filter.length > 0 : true;
+      if (this._filterData && this._filterData[key]?.chipVisible === false) {
+        return false;
+      }
+      return Array.isArray(val) ? val.length > 0 : val;
     });
   }
 

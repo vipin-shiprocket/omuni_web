@@ -1,24 +1,27 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
-import { GenericTabModules, OrderColumns } from '../orders.model';
+import { GenericTabModules, ManifestColumns } from '../orders.model';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
-import { DropdownRendererDirective } from 'src/app/directives/dropdown.directive';
+import { Expand } from 'src/app/utils/animation';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
-  selector: 'app-generic-tab',
+  selector: 'app-manifest-tab',
   standalone: true,
-  imports: [CommonModule, GenericTabModules, DropdownRendererDirective],
-  templateUrl: './generic-tab.component.html',
-  styleUrls: ['./generic-tab.component.scss', '../orders.component.scss'],
+  imports: [CommonModule, GenericTabModules],
+  templateUrl: './manifest-tab.component.html',
+  styleUrls: ['./manifest-tab.component.scss', '../orders.component.scss'],
+  animations: [Expand],
 })
-export class GenericTabComponent {
+export class ManifestTabComponent {
   @Input() dataSource: MatTableDataSource<never[]> = new MatTableDataSource(
     undefined,
   );
-  columns = OrderColumns;
+  columns = ManifestColumns;
   disableSort = true;
   selection = new SelectionModel<never[]>(true, []);
+  expandedElement: never | null = null;
   displayedColumns = this.getColumnArrangement();
   columnsToDisplayWithExpand = [...this.displayedColumns];
 

@@ -6,7 +6,7 @@
     [disabled]="disabled"
     readonly
     (click)="toggleDropd()"
-    [value]="formatValue(selectedValues)"
+    [value]="formatValue(selectedValues) | titlecase"
     #trigger
   />
   <mat-icon

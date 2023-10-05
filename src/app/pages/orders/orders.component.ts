@@ -12,6 +12,7 @@ import { CommonModule } from '@angular/common';
 import {
   FiltersData,
   ITab,
+  ManifestFilters,
   OrderTabs,
   OrdersModules,
   RESP,
@@ -61,6 +62,10 @@ export class OrdersComponent implements OnInit, AfterViewInit, OnDestroy {
     return this.tabs.filter((t) => t.isCustom).length;
   }
 
+  get isManifestTab(): boolean {
+    return this.tabs[this.activeTabIdx]?.name?.toLowerCase() === 'manifested';
+  }
+
   ngOnInit(): void {
     this.getOrderFilters();
     this.getOrderData();
@@ -81,7 +86,7 @@ export class OrdersComponent implements OnInit, AfterViewInit, OnDestroy {
     this.subs.sink = of('filters are coming').subscribe(() => {
       FiltersData['paymentTypes'].data = [
         {
-          value: 'all',
+          value: '',
           display: 'All',
         },
         {
@@ -116,7 +121,16 @@ export class OrdersComponent implements OnInit, AfterViewInit, OnDestroy {
       });
     }
     this.activeTabIdx = tabIdx;
+    this.updateFilters();
     this.getOrderData();
+  }
+
+  updateFilters() {
+    if (this.isManifestTab) {
+      this.filtersData = ManifestFilters;
+    } else {
+      this.getOrderFilters();
+    }
   }
 
   handlePageEvent(evt: PageEvent) {

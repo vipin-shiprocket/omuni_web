@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "maven_web": {
+    "o2_web": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -18,7 +18,7 @@
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "baseHref": "/",
-            "outputPath": "dist/maven_web",
+            "outputPath": "dist/o2_web",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": ["zone.js"],
@@ -26,6 +26,7 @@
             "inlineStyleLanguage": "scss",
             "assets": ["src/favicon.ico", "src/assets"],
             "styles": ["src/styles.scss"],
+            "allowedCommonJsDependencies": ["dayjs"],
             "scripts": [
               "node_modules/@popperjs/core/dist/umd/popper.min.js",
               "node_modules/bootstrap/dist/js/bootstrap.min.js"
@@ -80,10 +81,10 @@
           },
           "configurations": {
             "production": {
-              "browserTarget": "maven_web:build:production"
+              "browserTarget": "o2_web:build:production"
             },
             "development": {
-              "browserTarget": "maven_web:build:development"
+              "browserTarget": "o2_web:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -91,7 +92,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "maven_web:build"
+            "browserTarget": "o2_web:build"
           }
         },
         "test": {
