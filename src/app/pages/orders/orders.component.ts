@@ -26,6 +26,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
+import { OrdersService } from './orders.service';
 
 @Component({
   selector: 'app-orders',
@@ -56,6 +57,7 @@ export class OrdersComponent implements OnInit, AfterViewInit, OnDestroy {
   constructor(
     public dialog: MatDialog,
     private toastr: ToastrService,
+    public odService: OrdersService,
   ) {}
 
   get tabLen(): number {
@@ -123,6 +125,7 @@ export class OrdersComponent implements OnInit, AfterViewInit, OnDestroy {
     this.activeTabIdx = tabIdx;
     this.updateFilters();
     this.getOrderData();
+    this.odService.selection.clear();
   }
 
   updateFilters() {

@@ -50,6 +50,7 @@ export const ManifestColumns = [
   { name: 'Manifest ID', canHide: false, visible: true },
   { name: 'Courier', canHide: true, visible: true },
   { name: 'Order Count', canHide: true, visible: true },
+  { name: 'Status', canHide: true, visible: true },
   { name: 'Created Time', canHide: true, visible: true },
   { name: 'Actions', canHide: true, visible: true },
 ];

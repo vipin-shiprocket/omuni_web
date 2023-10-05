@@ -12,8 +12,8 @@
         class="form-check-input"
         type="checkbox"
         (change)="$event ? toggleAllRows() : null"
-        [checked]="selection.hasValue() && isAllSelected()"
-        [indeterminate]="selection.hasValue() && !isAllSelected()"
+        [checked]="odService.selection.hasValue() && isAllSelected()"
+        [indeterminate]="odService.selection.hasValue() && !isAllSelected()"
         [attr.aria-label]="checkboxLabel()"
         checked
       />
@@ -24,8 +24,8 @@
         class="form-check-input"
         (click)="$event.stopPropagation()"
         [attr.aria-label]="checkboxLabel(row)"
-        (change)="$event ? selection.toggle(row) : null"
-        [checked]="selection.isSelected(row)"
+        (change)="$event ? odService.selection.toggle(row) : null"
+        [checked]="odService.selection.isSelected(row)"
       />
     </cdk-cell>
   </ng-container>

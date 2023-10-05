@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnDestroy } from '@angular/core';
 import { GenericTabModules, OrderColumns } from '../orders.model';
 import { MatTableDataSource } from '@angular/material/table';
-import { SelectionModel } from '@angular/cdk/collections';
 import { DropdownRendererDirective } from 'src/app/directives/dropdown.directive';
+import { OrdersService } from '../orders.service';
 
 @Component({
   selector: 'app-generic-tab',
@@ -12,29 +12,30 @@ import { DropdownRendererDirective } from 'src/app/directives/dropdown.directive
   templateUrl: './generic-tab.component.html',
   styleUrls: ['./generic-tab.component.scss', '../orders.component.scss'],
 })
-export class GenericTabComponent {
+export class GenericTabComponent implements OnDestroy {
   @Input() dataSource: MatTableDataSource<never[]> = new MatTableDataSource(
     undefined,
   );
   columns = OrderColumns;
   disableSort = true;
-  selection = new SelectionModel<never[]>(true, []);
   displayedColumns = this.getColumnArrangement();
   columnsToDisplayWithExpand = [...this.displayedColumns];
 
+  constructor(public odService: OrdersService) {}
+
   isAllSelected() {
-    const numSelected = this.selection?.selected?.length;
+    const numSelected = this.odService.selection?.selected?.length;
     const numRows = this.dataSource?.data?.length;
     return numSelected === numRows;
   }
 
   toggleAllRows() {
     if (this.isAllSelected()) {
-      this.selection.clear();
+      this.odService.selection.clear();
       return;
     }
 
-    this.selection.select(...this.dataSource.data);
+    this.odService.selection.select(...this.dataSource.data);
   }
 
   checkboxLabel(row?: never): string {
@@ -42,7 +43,7 @@ export class GenericTabComponent {
       return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
     }
 
-    return `${this.selection.isSelected(row) ? 'deselect' : 'select'}
+    return `${this.odService.selection.isSelected(row) ? 'deselect' : 'select'}
     row ${row['position'] + 1}`;
   }
 
@@ -51,5 +52,9 @@ export class GenericTabComponent {
       .filter((d) => d.visible)
       .map((d) => d.name)
       .slice();
+  }
+
+  ngOnDestroy(): void {
+    this.odService.selection.clear();
   }
 }
