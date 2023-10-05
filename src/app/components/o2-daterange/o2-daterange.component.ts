@@ -1,9 +1,7 @@
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  ComponentFactoryResolver,
   ElementRef,
   EventEmitter,
   Input,
@@ -34,7 +32,6 @@ import {
   NG_VALUE_ACCESSOR,
 } from '@angular/forms';
 import { SubSink } from 'subsink';
-import { IOption } from '../chip-selectbox/chip-selectbox.model';
 import { O2DaterangeService } from './o2-daterange.service';
 import dayjs from 'dayjs';
 import {

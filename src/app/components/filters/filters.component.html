@@ -146,6 +146,7 @@
         <div *ngIf="showSave" class="ms-2 vr"></div>
         <button
           *ngIf="showSave"
+          (click)="saveView.emit()"
           class="btn btn-outline-primary btn-sm fs-12 border-0 ms-2"
         >
           Save View
@@ -199,11 +200,7 @@
           <span class="text-primary">
             {{ getData(filter.key, filter.value)?.display }}
           </span>
-          <button
-            matChipRemove
-            [attr.aria-label]="'remove ' + filter.value"
-            *ngIf="_filterData[filter.key].type === 'select'"
-          >
+          <button matChipRemove [attr.aria-label]="'remove ' + filter.value">
             <mat-icon class="text-primary bold">close</mat-icon>
           </button>
         </mat-chip>

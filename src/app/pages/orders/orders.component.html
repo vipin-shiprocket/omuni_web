@@ -87,6 +87,7 @@
     <app-filters
       *ngIf="!isManifestTab"
       [showSave]="activeTabIdx === 0"
+      (saveView)="openUpdateTabDialog('add')"
       [filtersData]="filtersData"
     />
     <app-filters *ngIf="isManifestTab" [filtersData]="filtersData" />

@@ -28,6 +28,7 @@ export class FiltersComponent implements OnInit, OnDestroy {
     }
   }
   @Output() filterChanged = new EventEmitter<Record<string, unknown>[]>();
+  @Output() saveView = new EventEmitter();
   _filterData: FilterDataType | undefined;
   filterForm: FormGroup;
   objectvalues = Object.values;
@@ -90,10 +91,8 @@ export class FiltersComponent implements OnInit, OnDestroy {
     const [key, val] = Object.entries(
       this.filtersCtrl.controls[index].value,
     )[0];
-    Array.isArray(val) ? val.splice(val.indexOf(item), 1) : null;
-    const filter: Record<string, unknown> = {};
-    filter[key] = val;
-    this.filtersCtrl.controls[index].setValue(filter);
+    const newVal = Array.isArray(val) ? val.splice(val.indexOf(item), 1) : '';
+    this.filtersCtrl.controls[index].patchValue({ [key]: newVal });
   }
 
   clearAll() {
